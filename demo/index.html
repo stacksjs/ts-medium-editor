@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ts-medium-editor Demo</title>
-    <link rel="stylesheet" href="../src/css/medium-editor.css">
+    <!-- <link rel="stylesheet" href="../src/css/medium-editor.css"> -->
+    <link rel="stylesheet" href="../src/css/medium-editor-compiled.css">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -203,19 +204,18 @@ const editor = new MediumEditor('.editable', {
         </div>
     </div>
 
-    <script type="module" src="medium-editor-wrapper.js"></script>
-    <script>
-        // Function to initialize everything after MediumEditor is loaded
-        function initDemo() {
-            // Access MediumEditor from the global object
-            const { MediumEditor } = window
+    <script type="module">
+        // Import MediumEditor from the TypeScript source
+        import { MediumEditor } from '../src/index.ts'
 
-            if (!MediumEditor) {
-                setTimeout(initDemo, 100)
-                return
-            }
+        // Make it globally available for debugging
+        window.MediumEditor = MediumEditor
 
+        // Initialize demo when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
             try {
+                console.log('Initializing MediumEditor demo...')
+
                 // Initialize demo editors with full toolbar functionality
                 const basicEditor = new MediumEditor('.editable-basic', {
                     toolbar: {
@@ -272,13 +272,12 @@ const editor = new MediumEditor('.editable', {
                         outputElement.textContent = realtimeElement.innerHTML
                     })
                 }
+
+                console.log('MediumEditor demo initialized successfully!')
             } catch (error) {
                 console.error('Error initializing demo:', error)
             }
-        }
-
-        // Start initialization when DOM is ready
-        window.addEventListener('load', initDemo)
+        })
     </script>
 </body>
 </html>

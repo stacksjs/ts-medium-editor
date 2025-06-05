@@ -99,7 +99,7 @@ function handleTabKeydown(this: MediumEditor, event: KeyboardEvent): void {
     util.insertHTMLCommand(this.options.ownerDocument!, '    ')
   }
 
-  if (util.isListItem(node!)) {
+  if (node && util.isListItem(node)) {
     event.preventDefault()
 
     if (event.shiftKey) {

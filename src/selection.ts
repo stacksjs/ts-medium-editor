@@ -264,7 +264,7 @@ export const selection = {
     // and the block the cursor is in
     const closestBlock = util.getClosestBlockContainer(cursorContainer)
 
-    const treeWalker = doc.createTreeWalker(root, NodeFilter.SHOW_ELEMENT, filterOnlyParentElements, false)
+    const treeWalker = doc.createTreeWalker(root, NodeFilter.SHOW_ELEMENT, filterOnlyParentElements)
     let emptyBlocksCount = 0
     while (treeWalker.nextNode()) {
       const blockIsEmpty = treeWalker.currentNode.textContent === ''
@@ -303,7 +303,6 @@ export const selection = {
           return NodeFilter.FILTER_SKIP
         },
       },
-      false,
     )
 
     walker.currentNode = range.startContainer

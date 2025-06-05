@@ -10,10 +10,7 @@ const config: ESLintConfig = stacks({
   typescript: true,
   jsonc: true,
   yaml: true,
-  ignores: [
-    'src/wrappers/start.js',
-    'src/wrappers/end.js',
-  ],
+  ignores: [],
 })
 
 export default config

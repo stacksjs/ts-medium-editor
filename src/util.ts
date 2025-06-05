@@ -1,8 +1,8 @@
 import type { DOMMatch, KeyCodes } from './types'
 
 // Browser detection utilities
-const isIE = ((navigator.appName === 'Microsoft Internet Explorer')
-  || ((navigator.appName === 'Netscape') && (new RegExp('Trident/.*rv:(\\d[.0-9]*)').exec(navigator.userAgent) !== null)))
+// eslint-disable-next-line prefer-regex-literals
+const isIE = ((navigator.appName === 'Microsoft Internet Explorer') || ((navigator.appName === 'Netscape') && (new RegExp('Trident/.*rv:(\\d[.0-9]*)').exec(navigator.userAgent) !== null)))
 
 const isEdge = (/Edge\/\d+/).exec(navigator.userAgent) !== null
 const isFF = navigator.userAgent.toLowerCase().includes('firefox')
@@ -196,7 +196,7 @@ function htmlEntities(str: string): string {
 }
 
 function insertHTMLCommand(doc: Document, html: string): void {
-  let hasVisualSelection = false
+  let _hasVisualSelection = false
   let selection: globalThis.Selection | null = null
   let range: Range | null = null
 
@@ -206,7 +206,7 @@ function insertHTMLCommand(doc: Document, html: string): void {
       const firstRange = selection.getRangeAt(0)
       const isCollapsed = firstRange.collapsed
       range = firstRange.cloneRange()
-      hasVisualSelection = !isCollapsed
+      _hasVisualSelection = !isCollapsed
     }
   }
 
@@ -428,7 +428,6 @@ function getFirstSelectableLeafNode(element: HTMLElement): Node | null {
         return NodeFilter.FILTER_SKIP
       },
     },
-    false,
   )
 
   return walker.nextNode()
@@ -439,7 +438,6 @@ function getFirstTextNode(element: HTMLElement): Text | null {
     element,
     NodeFilter.SHOW_TEXT,
     null,
-    false,
   )
 
   return walker.nextNode() as Text | null
@@ -496,7 +494,7 @@ function unwrapTags(el: HTMLElement, tags: string[]): void {
 function getClosestTag(el: HTMLElement, tag: string): HTMLElement | false {
   return traverseUp(el, (node) => {
     const element = node as HTMLElement
-    return element.tagName && element.tagName.toLowerCase() === tag.toLowerCase()
+    return !!(element.tagName && element.tagName.toLowerCase() === tag.toLowerCase())
   }) as HTMLElement | false
 }
 
@@ -556,16 +554,14 @@ function findOrCreateMatchingTextNodes(document: Document, element: HTMLElement,
     element,
     NodeFilter.SHOW_TEXT,
     null,
-    false,
   )
 
   const matchedNodes: Text[] = []
   let currentTextIndex = 0
   let startReached = false
-  let currentNode: Text | null = null
+  let currentNode: Text | null = treeWalker.nextNode() as Text | null
 
-  // eslint-disable-next-line no-cond-assign
-  while ((currentNode = treeWalker.nextNode() as Text)) {
+  while (currentNode) {
     const nextTextIndex = currentTextIndex + currentNode.textContent!.length
 
     if (!startReached && match.start >= currentTextIndex && match.start < nextTextIndex) {
@@ -590,6 +586,7 @@ function findOrCreateMatchingTextNodes(document: Document, element: HTMLElement,
     }
 
     currentTextIndex = nextTextIndex
+    currentNode = treeWalker.nextNode() as Text | null
   }
 
   return matchedNodes
@@ -609,18 +606,18 @@ function splitByBlockElements(element: HTMLElement): HTMLElement[] {
         return NodeFilter.FILTER_SKIP
       },
     },
-    false,
   )
 
-  let node: HTMLElement | null
-  while ((node = walker.nextNode() as HTMLElement)) {
+  let node: HTMLElement | null = walker.nextNode() as HTMLElement | null
+  while (node) {
     blocks.push(node)
+    node = walker.nextNode() as HTMLElement | null
   }
 
   return blocks
 }
 
-function findAdjacentTextNodeWithContent(rootNode: HTMLElement, targetNode: Node, ownerDocument: Document): Text | null {
+function findAdjacentTextNodeWithContent(rootNode: HTMLElement, targetNode: Node, _ownerDocument: Document): Text | null {
   const walker = document.createTreeWalker(
     rootNode,
     NodeFilter.SHOW_TEXT,
@@ -633,15 +630,14 @@ function findAdjacentTextNodeWithContent(rootNode: HTMLElement, targetNode: Node
         return NodeFilter.FILTER_SKIP
       },
     },
-    false,
   )
 
-  let node: Text | null
-  // eslint-disable-next-line no-cond-assign
-  while ((node = walker.nextNode() as Text)) {
+  let node: Text | null = walker.nextNode() as Text | null
+  while (node) {
     if (node === targetNode || isDescendant(targetNode, node)) {
       return walker.nextNode() as Text | null
     }
+    node = walker.nextNode() as Text | null
   }
 
   return null
@@ -727,7 +723,7 @@ function depthOfNode(inNode: Node): number {
 }
 
 // Export all utility functions
-export const util = {
+export const util: import('./types').Util = {
   // Browser detection
   isIE,
   isEdge,

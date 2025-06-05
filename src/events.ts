@@ -66,7 +66,7 @@ export class Events {
       targetArray = Array.from(targets) as EventTarget[]
     }
     else {
-      targetArray = [targets]
+      targetArray = [targets as EventTarget]
     }
 
     targetArray.forEach((target) => {
@@ -85,7 +85,7 @@ export class Events {
       targetArray = Array.from(targets) as EventTarget[]
     }
     else {
-      targetArray = [targets]
+      targetArray = [targets as EventTarget]
     }
 
     targetArray.forEach((target) => {
@@ -459,7 +459,7 @@ export class Events {
       return result
     }
 
-    wrapper.listeners = []
+    wrapper.listeners = [] as any[]
     wrapper.original = originalExecCommand
     doc.execCommand = wrapper
   }

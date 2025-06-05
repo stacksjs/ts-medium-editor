@@ -1,8 +1,3 @@
-export interface BinaryConfig {
-  from: string
-  verbose: boolean
-}
-
 /// <reference lib="dom" />
 
 // Core interfaces for MediumEditor
@@ -358,12 +353,12 @@ export interface Events {
 // Global declaration for the library
 declare global {
   interface Window {
-    MediumEditor: typeof MediumEditor & {
+    MediumEditor: MediumEditor & {
       new (elements: string | HTMLElement | HTMLElement[] | NodeList, options?: MediumEditorOptions): MediumEditor
       version: VersionInfo
       util: Util
       selection: Selection
-      parseVersionString(release: string): VersionInfo
+      parseVersionString: (release: string) => VersionInfo
       extensions: Record<string, any>
     }
   }

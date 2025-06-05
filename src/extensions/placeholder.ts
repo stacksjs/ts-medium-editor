@@ -51,7 +51,9 @@ export class Placeholder implements MediumEditorExtension {
     this.editor.elements.forEach((el: HTMLElement) => this.cleanupElement(el))
   }
 
-  handleRemoveElement(_event: Event, editable: HTMLElement): void {
+  handleRemoveElement(_event: Event, editable?: HTMLElement): void {
+    if (!editable)
+      return
     this.cleanupElement(editable)
   }
 
@@ -113,7 +115,10 @@ export class Placeholder implements MediumEditorExtension {
     this.editor.subscribe('removeElement', this.handleRemoveElement.bind(this))
   }
 
-  handleInput(_event: Event, element: HTMLElement): void {
+  handleInput(_event: Event, element?: HTMLElement): void {
+    if (!element)
+      return
+
     // If the placeholder should be hidden on focus and the element has focus, don't show the placeholder
     const dontShow = this.hideOnFocus && (element === this.editor.getFocusedElement())
 
@@ -121,14 +126,20 @@ export class Placeholder implements MediumEditorExtension {
     this.updatePlaceholder(element, dontShow)
   }
 
-  handleFocus(_event: Event, element: HTMLElement): void {
+  handleFocus(_event: Event, element?: HTMLElement): void {
+    if (!element)
+      return
+
     // Editor has focus, hide the placeholder if hideOnFocus is enabled
     if (this.hideOnFocus) {
       this.hidePlaceholder(element)
     }
   }
 
-  handleBlur(_event: Event, element: HTMLElement): void {
+  handleBlur(_event: Event, element?: HTMLElement): void {
+    if (!element)
+      return
+
     // Editor has lost focus, check if the placeholder should be shown
     this.updatePlaceholder(element)
   }
