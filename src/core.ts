@@ -111,6 +111,142 @@ function handleTabKeydown(this: MediumEditor, event: KeyboardEvent): void {
   }
 }
 
+function handleAutoLink(this: MediumEditor, element: HTMLElement): void {
+  if (!this.options.autoLink) {
+    return
+  }
+
+  // Get current selection
+  const selection = this.options.contentWindow!.getSelection()
+  if (!selection || selection.rangeCount === 0) {
+    return
+  }
+
+  const range = selection.getRangeAt(0)
+  const textNode = range.startContainer
+
+  // Only process if cursor is in a text node
+  if (textNode.nodeType !== Node.TEXT_NODE) {
+    return
+  }
+
+  const textContent = textNode.textContent || ''
+  const caretPosition = range.startOffset
+
+  // eslint-disable-next-line no-console
+  console.log('AutoLink check:', {
+    textContent: JSON.stringify(textContent),
+    caretPosition,
+    lastChar: JSON.stringify(textContent[caretPosition - 1]),
+  })
+
+  // Only trigger after space (regular space or non-breaking space) or period
+  const lastChar = textContent[caretPosition - 1]
+  const isSpace = lastChar === ' ' || lastChar === '\u00A0' // regular space or &nbsp;
+  const isPeriod = lastChar === '.'
+  const shouldTrigger = isSpace || isPeriod
+
+  // eslint-disable-next-line no-console
+  console.log('Character check:', {
+    lastChar: JSON.stringify(lastChar),
+    charCode: lastChar ? lastChar.charCodeAt(0) : 'undefined',
+    isSpace,
+    isPeriod,
+    shouldTrigger,
+    isRegularSpace: lastChar === ' ',
+    isNbsp: lastChar === '\u00A0',
+  })
+
+  if (!shouldTrigger) {
+    // eslint-disable-next-line no-console
+    console.log('Not triggering - last char is not a space or period:', JSON.stringify(lastChar))
+    return
+  }
+
+  // eslint-disable-next-line no-console
+  console.log('Trigger character detected (space or period), looking for URLs...')
+
+  // Look for complete URLs that come BEFORE the trigger character (space or period)
+  // The URL should end right before the trigger character we just typed
+  const urlRegex = /https?:\/\/[a-zA-Z0-9.-]+\.(com|org|net|edu|gov|info|tech|app|dev|co|uk|ly|me|tv|ai|biz|ca|de|fr|jp|au|br|in|ru|cn|it|es|nl|se|no|dk|fi|be|at|ch|pl|cz|hu|ro|bg|hr|si|sk|lt|lv|ee|is|ie|pt|gr|cy|mt|lu|li|ad|sm|va|mc|gg|je|im|fo|gl|ax|sj|bv|hm|tf|aq|gs|cc|tk|ml|ga|cf)(?:\/\S*)?/g
+  const matches = Array.from(textContent.matchAll(urlRegex))
+
+  // eslint-disable-next-line no-console
+  console.log('Found matches:', matches.map(m => ({ url: m[0], start: m.index, end: m.index! + m[0].length })))
+
+  for (const match of matches) {
+    const url = match[0]
+    const startPos = match.index!
+    const endPos = startPos + url.length
+
+    // eslint-disable-next-line no-console
+    console.log('Checking match:', { url, startPos, endPos, caretPosition, endPos_eq_caretPos_minus_1: endPos === caretPosition - 1 })
+
+    // Only process if the URL ends exactly where the trigger character was typed (one position before cursor)
+    if (endPos === caretPosition - 1) {
+      // Check if already linked
+      let currentParent = textNode.parentNode
+      while (currentParent && currentParent !== element) {
+        if (currentParent.nodeName.toLowerCase() === 'a') {
+          return
+        }
+        currentParent = currentParent.parentNode
+      }
+
+      // Create the link using DOM manipulation
+      const beforeText = textContent.substring(0, startPos)
+      const afterText = textContent.substring(endPos)
+
+      const beforeNode = beforeText ? this.options.ownerDocument!.createTextNode(beforeText) : null
+      const afterNode = afterText ? this.options.ownerDocument!.createTextNode(afterText) : null
+
+      const linkElement = this.options.ownerDocument!.createElement('a')
+      linkElement.href = url
+      linkElement.textContent = url
+
+      if (this.options.targetBlank) {
+        linkElement.target = '_blank'
+        linkElement.rel = 'noopener noreferrer'
+      }
+
+      const parent = textNode.parentNode!
+
+      if (beforeNode) {
+        parent.insertBefore(beforeNode, textNode)
+      }
+
+      parent.insertBefore(linkElement, textNode)
+
+      if (afterNode) {
+        parent.insertBefore(afterNode, textNode)
+      }
+
+      parent.removeChild(textNode)
+
+      // Position cursor after the link
+      const newRange = this.options.ownerDocument!.createRange()
+      if (afterNode) {
+        // If triggered by period, position cursor after the period (offset 1)
+        // If triggered by space, position cursor at the space (offset 0)
+        const offset = isPeriod ? 1 : 0
+        newRange.setStart(afterNode, offset)
+      }
+      else {
+        newRange.setStartAfter(linkElement)
+      }
+      newRange.collapse(true)
+
+      selection.removeAllRanges()
+      selection.addRange(newRange)
+
+      // Trigger content change
+      this.checkContentChanged(element)
+
+      return
+    }
+  }
+}
+
 function createElementsArray(
   selector: string | HTMLElement | HTMLElement[] | NodeList,
   doc: Document,
@@ -649,6 +785,16 @@ export class MediumEditor {
         setTimeout(() => {
           this.checkSelection()
         }, 10) // Slightly longer delay to ensure selection is processed
+      })
+
+      // Add auto-link detection on input only
+      this.on(element, 'input', () => {
+        if (this.options.autoLink) {
+          // Small delay to ensure DOM is updated
+          setTimeout(() => {
+            handleAutoLink.call(this, element)
+          }, 100) // Slightly longer delay to ensure all DOM changes are complete
+        }
       })
     })
   }

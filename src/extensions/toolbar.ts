@@ -325,6 +325,7 @@ export class Toolbar implements MediumEditorExtension {
     if (this.toolbar) {
       this.toolbar.style.display = 'block'
       this.toolbar.style.visibility = 'visible'
+      this.toolbar.classList.add('medium-editor-toolbar-active')
 
       // Preserve static position for static toolbars
       if (this.options.static && this.toolbar.style.position !== 'static') {
@@ -361,6 +362,7 @@ export class Toolbar implements MediumEditorExtension {
 
       this.toolbar.style.display = 'none'
       this.toolbar.style.visibility = 'hidden'
+      this.toolbar.classList.remove('medium-editor-toolbar-active')
 
       // Trigger hideToolbar event
       if (this.editor && typeof this.editor.trigger === 'function') {

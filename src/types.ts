@@ -207,7 +207,7 @@ export interface MediumEditor {
 
   // Content methods
   serialize: () => Record<string, string>
-  getContent: (index?: number) => string
+  getContent: (index?: number) => string | null
   setContent: (html: string, index?: number) => void
   resetContent: (element?: HTMLElement) => void
   checkContentChanged: (editable?: HTMLElement) => void
@@ -311,7 +311,7 @@ export interface Util {
 }
 
 export interface Selection {
-  findMatchingSelectionParent: (testElementFunction: (el: HTMLElement) => boolean, contentWindow: Window) => HTMLElement | false
+  findMatchingSelectionParent: (testElementFunction: (node: Node) => boolean, contentWindow: Window) => HTMLElement | false
   getSelectionElement: (contentWindow: Window) => HTMLElement | false
   exportSelection: (root: HTMLElement, doc: Document) => SelectionState | null
   importSelection: (selectionState: SelectionState, root: HTMLElement, doc: Document, favorLaterSelectionAnchor?: boolean) => void
