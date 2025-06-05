@@ -12,6 +12,7 @@
 
 ## Features
 
+- 📝 **Medium-like Editor** - A modern TypeScript port of the popular Medium.com-style WYSIWYG editor.
 - 🔧 **Extensible Architecture** - Plugin system for custom functionality
 - 📱 **Mobile Friendly** - Touch and mobile device support
 - 🎨 **Customizable** - Extensive theming and styling options
