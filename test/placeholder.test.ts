@@ -160,7 +160,7 @@ describe('Placeholder Extension', () => {
 
   function validatePlaceholderContent(element: HTMLElement, expectedValue: string): void {
     const placeholder = window.getComputedStyle(element, ':after').getPropertyValue('content')
-    const regex = /^attr\(([^)]+)\)$/g
+    const regex = /^attr\(([^)]+)\)$/
     const match = regex.exec(placeholder)
     if (match) {
       // In firefox, getComputedStyle().getPropertyValue('content') can return attr() instead of what attr() evaluates to

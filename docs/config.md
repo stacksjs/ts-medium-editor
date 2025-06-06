@@ -290,7 +290,7 @@ const editor2 = new MediumEditor('.editable', {
   extensions: {
     customExtension: new MyCustomExtension()
   }
-});
+})
 ```
 
 ## Complete Example
