@@ -8,10 +8,5 @@ await Bun.build({
   plugins: [dts()],
 })
 
-// Build demo files
-await Bun.build({
-  entrypoints: ['demo/ts/button-example.ts'],
-  target: 'browser',
-  outdir: './demo/js',
-  naming: '[dir]/[name].js',
-})
+// Demo files are served directly as TypeScript - no build needed
+// Bun auto-transpiles .ts files when served

@@ -75,7 +75,9 @@ export class Toolbar implements MediumEditorExtension {
       }
 
       const buttonName = typeof buttonConfig === 'string' ? buttonConfig : buttonConfig.name
-      const button = this.createButton(buttonName)
+      const button = typeof buttonConfig === 'string'
+        ? this.createButton(buttonName)
+        : this.createCustomButton(buttonConfig)
 
       if (button) {
         // Add first/last button classes
@@ -97,22 +99,33 @@ export class Toolbar implements MediumEditorExtension {
     button.className = `medium-editor-action medium-editor-action-${name}`
     button.setAttribute('data-action', name)
 
+    // Check if FontAwesome icons should be used
+    const useFontAwesome = this.editor?.options?.buttonLabels === 'fontawesome'
+
     switch (name) {
       case 'bold':
-        button.innerHTML = '<b>B</b>'
+        button.innerHTML = useFontAwesome ? '<i class="fa fa-bold"></i>' : '<b>B</b>'
         button.title = 'Bold'
         break
       case 'italic':
-        button.innerHTML = '<i>I</i>'
+        button.innerHTML = useFontAwesome ? '<i class="fa fa-italic"></i>' : '<i>I</i>'
         button.title = 'Italic'
         break
       case 'underline':
-        button.innerHTML = '<u>U</u>'
+        button.innerHTML = useFontAwesome ? '<i class="fa fa-underline"></i>' : '<u>U</u>'
         button.title = 'Underline'
         break
+      case 'strikethrough':
+        button.innerHTML = useFontAwesome ? '<i class="fa fa-strikethrough"></i>' : '<s>S</s>'
+        button.title = 'Strikethrough'
+        break
       case 'anchor':
-        button.innerHTML = '🔗'
+        button.innerHTML = useFontAwesome ? '<i class="fa fa-link"></i>' : '🔗'
         button.title = 'Link'
+        break
+      case 'image':
+        button.innerHTML = useFontAwesome ? '<i class="fa fa-picture-o"></i>' : '📷'
+        button.title = 'Image'
         break
       case 'h2':
         button.innerHTML = 'H2'
@@ -123,11 +136,96 @@ export class Toolbar implements MediumEditorExtension {
         button.title = 'Heading 3'
         break
       case 'quote':
-        button.innerHTML = '""'
+        button.innerHTML = useFontAwesome ? '<i class="fa fa-quote-left"></i>' : '""'
         button.title = 'Quote'
+        break
+      case 'orderedlist':
+        button.innerHTML = useFontAwesome ? '<i class="fa fa-list-ol"></i>' : '1.'
+        button.title = 'Numbered List'
+        break
+      case 'unorderedlist':
+        button.innerHTML = useFontAwesome ? '<i class="fa fa-list-ul"></i>' : '•'
+        button.title = 'Bullet List'
+        break
+      case 'pre':
+        button.innerHTML = useFontAwesome ? '<i class="fa fa-code"></i>' : '&lt;/&gt;'
+        button.title = 'Code'
+        break
+      case 'justifyLeft':
+        button.innerHTML = useFontAwesome ? '<i class="fa fa-align-left"></i>' : '⬅'
+        button.title = 'Align Left'
+        break
+      case 'justifyCenter':
+        button.innerHTML = useFontAwesome ? '<i class="fa fa-align-center"></i>' : '↔'
+        button.title = 'Align Center'
+        break
+      case 'justifyRight':
+        button.innerHTML = useFontAwesome ? '<i class="fa fa-align-right"></i>' : '➡'
+        button.title = 'Align Right'
+        break
+      case 'justifyFull':
+        button.innerHTML = useFontAwesome ? '<i class="fa fa-align-justify"></i>' : '↕'
+        button.title = 'Justify'
+        break
+      case 'superscript':
+        button.innerHTML = useFontAwesome ? '<i class="fa fa-superscript"></i>' : 'x²'
+        button.title = 'Superscript'
+        break
+      case 'subscript':
+        button.innerHTML = useFontAwesome ? '<i class="fa fa-subscript"></i>' : 'x₂'
+        button.title = 'Subscript'
+        break
+      case 'removeFormat':
+        button.innerHTML = useFontAwesome ? '<i class="fa fa-eraser"></i>' : '⌫'
+        button.title = 'Remove Format'
+        break
+      case 'outdent':
+        button.innerHTML = useFontAwesome ? '<i class="fa fa-outdent"></i>' : '⬅'
+        button.title = 'Outdent'
+        break
+      case 'indent':
+        button.innerHTML = useFontAwesome ? '<i class="fa fa-indent"></i>' : '➡'
+        button.title = 'Indent'
+        break
+      case 'html':
+        button.innerHTML = useFontAwesome ? '<i class="fa fa-code"></i>' : '&lt;HTML&gt;'
+        button.title = 'Edit HTML'
         break
       default:
         return null
+    }
+
+    return button
+  }
+
+  createCustomButton(buttonConfig: any): HTMLElement | null {
+    const button = document.createElement('button')
+    button.className = `medium-editor-action medium-editor-action-${buttonConfig.name}`
+    button.setAttribute('data-action', buttonConfig.name)
+
+    // Set custom content
+    if (buttonConfig.contentDefault) {
+      button.innerHTML = buttonConfig.contentDefault
+    }
+
+    // Set title/aria label
+    if (buttonConfig.aria) {
+      button.title = buttonConfig.aria
+      button.setAttribute('aria-label', buttonConfig.aria)
+    }
+
+    // Add custom classes
+    if (buttonConfig.classList) {
+      buttonConfig.classList.forEach((className: string) => {
+        button.classList.add(className)
+      })
+    }
+
+    // Add custom attributes
+    if (buttonConfig.attrs) {
+      Object.entries(buttonConfig.attrs).forEach(([key, value]) => {
+        button.setAttribute(key, value as string)
+      })
     }
 
     return button
@@ -404,11 +502,43 @@ export class Toolbar implements MediumEditorExtension {
       return
     }
 
+    // Check if the selection is within this editor's elements
+    if (!this.isSelectionInEditor(selection)) {
+      // Selection is not in this editor, hide the toolbar (but not for static toolbars)
+      if (!this.options.static) {
+        this.hideToolbar()
+      }
+      return
+    }
+
+    // Show the toolbar since we have a valid selection in this editor
+    this.showToolbar()
+
     // This method will be called by the core editor to update button states
     this.updateButtonStates()
 
     // Position the toolbar based on current selection
     this.positionToolbar()
+  }
+
+  private isSelectionInEditor(selection: Selection): boolean {
+    if (!this.editor || !this.editor.elements || this.editor.elements.length === 0) {
+      return false
+    }
+
+    const range = selection.getRangeAt(0)
+    const container = range.commonAncestorContainer
+    let element = container.nodeType === Node.TEXT_NODE ? container.parentElement : container as HTMLElement
+
+    // Walk up the DOM tree to see if we're inside one of this editor's elements
+    while (element) {
+      if (this.editor.elements.includes(element)) {
+        return true
+      }
+      element = element.parentElement
+    }
+
+    return false
   }
 
   positionToolbar(): void {
