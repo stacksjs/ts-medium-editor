@@ -88,6 +88,24 @@
             font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
             font-size: 12px;
             overflow-x: auto;
+            line-height: 1.5;
+        }
+        .code-example.shiki-highlighted {
+            background: transparent;
+            padding: 0;
+        }
+        .code-example.shiki-highlighted code {
+            display: block;
+            padding: 1rem;
+            border-radius: 4px;
+            font-size: 12px;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+        .shiki {
+            background: #f8f9fa !important;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
         }
         /* Custom button styles for advanced example */
         .custom-btn-bold { font-weight: bold; color: #dc3545; }
@@ -106,7 +124,7 @@
     </style>
 </head>
 <body>
-    <a href="https://github.com/yabwe/medium-editor" aria-label="Fork me on GitHub">
+    <a href="https://github.com/stacksjs/ts-medium-editor" aria-label="Fork me on GitHub">
         <img style="position: absolute; top: 0; right: 0; border: 0;"
              src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
              alt="Fork me on GitHub">
@@ -145,7 +163,7 @@
                 <h4>FontAwesome Toolbar</h4>
                 <p>This editor uses <strong>FontAwesome icons</strong> for all toolbar buttons. Try selecting text to see the full range of formatting options including <em>italic</em>, <u>underline</u>, lists, alignment, and more!</p>
             </div>
-            <div class="code-example">buttonLabels: 'fontawesome'</div>
+            <div class="code-example" data-lang="javascript">buttonLabels: 'fontawesome'</div>
         </section>
 
         <section class="demo-section">
@@ -158,7 +176,7 @@
                 <h4>Custom Text Labels</h4>
                 <p>This toolbar uses <strong>custom text labels</strong> instead of icons. Notice how the buttons show descriptive text like "Bold", "Italic", and even emojis like 🔗 for links!</p>
             </div>
-            <div class="code-example">{
+            <div class="code-example" data-lang="javascript">{
   name: 'bold',
   contentDefault: '&lt;strong&gt;Bold&lt;/strong&gt;'
 },
@@ -178,7 +196,7 @@
                 <h4>Mixed Button Styles</h4>
                 <p>This toolbar <strong>mixes different styles</strong> - some buttons use FontAwesome icons (like bold and italic), while others use custom text and emojis like 📝 Underline and 1️⃣ List.</p>
             </div>
-            <div class="code-example">buttons: [
+            <div class="code-example" data-lang="javascript">buttons: [
   'bold',  // FontAwesome icon
   'italic', // FontAwesome icon
   {
@@ -198,7 +216,7 @@
                 <h4>Minimal Toolbar</h4>
                 <p>This editor has a <strong>minimal toolbar</strong> with just the basics: Bold, Italic, and Link. Perfect for simple editing scenarios where you don't need all the formatting options.</p>
             </div>
-            <div class="code-example">buttons: [
+            <div class="code-example" data-lang="javascript">buttons: [
   { name: 'bold', contentDefault: 'B' },
   { name: 'italic', contentDefault: 'I' },
   { name: 'anchor', contentDefault: 'Link' }
@@ -215,7 +233,7 @@
                 <h4>Advanced Custom Styling</h4>
                 <p>This toolbar uses <strong>advanced custom styling</strong> with special Unicode characters like 𝐁 for bold and 𝐼 for italic, plus custom CSS classes for unique colors and effects!</p>
             </div>
-            <div class="code-example">{
+            <div class="code-example" data-lang="javascript">{
   name: 'bold',
   contentDefault: '&lt;span class="custom-btn-bold"&gt;𝐁&lt;/span&gt;'
 },

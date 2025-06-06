@@ -201,7 +201,7 @@ describe('Selection', () => {
       }
     })
 
-    // https://github.com/yabwe/medium-editor/issues/738
+    // https://github.com/stacksjs/ts-medium-editor/issues/738
     it.skip('should import an exported non-collapsed selection after an empty paragraph', () => {
       el.innerHTML = '<p>This is <a href=\"#\">a link</a></p><p><br/></p><p>not a link</p>'
       const lastTextNode = el.childNodes[2]?.firstChild

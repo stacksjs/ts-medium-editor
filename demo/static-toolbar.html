@@ -1,99 +1,317 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>medium editor | demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medium Editor - Static Toolbar Demo</title>
     <link rel="stylesheet" href="css/demo.css">
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css" rel="stylesheet">
     <link rel="stylesheet" href="../src/css/medium-editor-compiled.css">
     <link rel="stylesheet" href="../src/css/themes/default.css">
+    <style>
+        .demo-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-section h3 {
+            margin-top: 0;
+            color: #495057;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .demo-description {
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .editable {
+            min-height: 150px;
+            border: 2px dashed #dee2e6;
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            transition: border-color 0.2s ease;
+            line-height: 1.6;
+        }
+        .editable:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        .demo-instructions {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .demo-instructions h4 {
+            margin-top: 0;
+            color: #856404;
+        }
+        #columns {
+            margin: 2rem 0;
+        }
+        .column-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .column {
+            border: 2px dashed #dee2e6;
+            border-radius: 6px;
+            padding: 1rem;
+            min-height: 200px;
+            transition: border-color 0.2s ease;
+        }
+        .column:focus-within {
+            border-color: #007bff;
+        }
+        .column h3 {
+            margin-top: 0;
+            color: #495057;
+            text-align: center;
+            background: #e9ecef;
+            padding: 0.5rem;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        #column-one {
+            border-color: #28a745;
+            background: #f8fff9;
+        }
+        #column-two {
+            border-color: #ffc107;
+            background: #fffef5;
+        }
+        #column-three {
+            border-color: #dc3545;
+            background: #fff5f5;
+        }
+        .feature-highlight {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .feature-highlight h4 {
+            margin-top: 0;
+            color: #0c5460;
+        }
+        /* Shiki syntax highlighting styles */
+        .code-example {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 12px;
+            overflow-x: auto;
+            line-height: 1.5;
+        }
+        .code-example.shiki-highlighted {
+            background: transparent;
+            padding: 0;
+        }
+        .code-example.shiki-highlighted code {
+            display: block;
+            padding: 1rem;
+            border-radius: 4px;
+            font-size: 12px;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+        .shiki {
+            background: #f8f9fa !important;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+        }
+        .source-attribution {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 12px;
+            color: #6c757d;
+        }
+        @media (max-width: 992px) {
+            .column-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <a href="https://github.com/yabwe/medium-editor" class="github-link"><img style="z-index: 100;position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+    <a href="https://github.com/yabwe/medium-editor" class="github-link" aria-label="Fork me on GitHub">
+        <img style="z-index: 100;position: absolute; top: 0; right: 0; border: 0;"
+             src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
+             alt="Fork me on GitHub">
+    </a>
+
     <div id="container">
-        <h1>Medium Editor</h1>
-        <div class="editable">
-            <h3>Font Awesome</h3>
-            <p>My father’s family name being <a href="https://en.wikipedia.org/wiki/Pip_(Great_Expectations)">Pirrip</a>, and my Christian name Philip, my infant tongue could make of both names nothing longer or more explicit than Pip. So, I called myself Pip, and came to be called Pip.</p>
+        <header>
+            <h1>Medium Editor - Static Toolbar Demo</h1>
+            <p>This demo shows how to create static toolbars that remain visible and can be positioned in different alignments.</p>
+        </header>
 
+        <section class="demo-section">
+            <h3>📌 Main Static Toolbar</h3>
+            <div class="demo-description">
+                A static toolbar stays visible at all times, making formatting tools easily accessible.
+                The toolbar is "sticky", meaning it will stay in position as you scroll.
+            </div>
+
+            <div class="demo-instructions">
+                <h4>🧪 Try This</h4>
+                <ol>
+                    <li>Notice how the toolbar is visible even without selecting text</li>
+                    <li>Click anywhere in the editor to start editing</li>
+                    <li>The toolbar remains available for immediate formatting</li>
+                    <li>Scroll the page - the toolbar follows (sticky behavior)</li>
+                </ol>
+            </div>
+
+            <div class="editable">
+                <h3>Static Toolbar Demo</h3>
+                <p>My father's family name being <a href="https://en.wikipedia.org/wiki/Pip_(Great_Expectations)">Pirrip</a>, and my Christian name Philip, my infant tongue could make of both names nothing longer or more explicit than Pip. So, I called myself Pip, and came to be called Pip.</p>
+
+                <ul>
+                    <li>List Item One</li>
+                    <li>List Item Two</li>
+                    <li>List Item Three</li>
+                </ul>
+                <p>I give Pirrip as my father's family name, on the authority of his tombstone and my sister,—Mrs. Joe Gargery, who married the blacksmith. As I never saw my father or my mother, and never saw any likeness of either of them (for their days were long before the days of photographs), my first fancies regarding what they were like were unreasonably derived from their tombstones...</p>
+            </div>
+
+            <div class="feature-highlight">
+                <h4>✨ Static Toolbar Benefits</h4>
+                <ul>
+                    <li><strong>Always Visible:</strong> No need to select text to access formatting</li>
+                    <li><strong>Improved UX:</strong> Faster formatting workflow</li>
+                    <li><strong>Sticky Positioning:</strong> Follows scroll for constant access</li>
+                    <li><strong>Customizable Alignment:</strong> Left, center, or right positioning</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="demo-section">
+            <h3>📐 Multi-Column Layout with Aligned Toolbars</h3>
+            <div class="demo-description">
+                This demonstrates how static toolbars can be aligned differently for multiple editors in a column layout.
+            </div>
+
+            <div id="columns">
+                <div class="column-container">
+                    <div class="column" id="column-one">
+                        <h3>← Left Aligned Toolbar</h3>
+                        <p>My father's family name being <a href="https://en.wikipedia.org/wiki/Pip_(Great_Expectations)">Pirrip</a>, and my Christian name Philip, my infant tongue could make of both names nothing longer or more explicit than Pip. So, I called myself Pip, and came to be called Pip.</p>
+                        <p>I give Pirrip as my father's family name, on the authority of his tombstone and my sister,—Mrs. Joe Gargery, who married the blacksmith.</p>
+                    </div>
+                    <div class="column" id="column-two">
+                        <h3>↕ Center Aligned Toolbar</h3>
+                        <p>Ours was the marsh country, down by the river, within, as the river wound, twenty miles of the sea. My first most vivid and broad impression of the identity of things seems to me to have been gained on a memorable raw afternoon towards evening.</p>
+                        <p>At such a time I found out for certain that this bleak place overgrown with nettles was the churchyard.</p>
+                    </div>
+                    <div class="column" id="column-three">
+                        <h3>→ Right Aligned Toolbar</h3>
+                        <p>"Hold your noise!" cried a terrible voice, as a man started up from among the graves at the side of the church porch. "Keep still, you little devil, or I'll cut your throat!"</p>
+                        <p>A fearful man, all in coarse gray, with a great iron on his leg. A man with no hat, and with broken shoes, and with an old rag tied round his head.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="demo-section">
+            <h3>💻 Code Implementation</h3>
+            <div class="demo-description">
+                Here's how to configure static toolbars with different alignments:
+            </div>
+
+            <h4>1. Basic Static Toolbar</h4>
+            <div class="code-example" data-lang="typescript">const editor = new MediumEditor('.editable', {
+  toolbar: {
+    buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote'],
+    static: true,  // Keep toolbar visible
+    sticky: true,  // Follow scroll position
+  },
+  buttonLabels: 'fontawesome',
+})</div>
+
+            <h4>2. Left-Aligned Static Toolbar</h4>
+            <div class="code-example" data-lang="typescript">const leftEditor = new MediumEditor('#column-one', {
+  toolbar: {
+    buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote'],
+    sticky: true,
+    static: true,
+    align: 'left',                    // Align to left
+    updateOnEmptySelection: true,     // Show even without selection
+  },
+  buttonLabels: 'fontawesome',
+})</div>
+
+            <h4>3. Center-Aligned Static Toolbar</h4>
+            <div class="code-example" data-lang="typescript">const centerEditor = new MediumEditor('#column-two', {
+  toolbar: {
+    buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote'],
+    sticky: true,
+    static: true,
+    align: 'center',                  // Align to center
+    updateOnEmptySelection: true,
+  },
+  buttonLabels: 'fontawesome',
+})</div>
+
+            <h4>4. Right-Aligned Static Toolbar</h4>
+            <div class="code-example" data-lang="typescript">const rightEditor = new MediumEditor('#column-three', {
+  toolbar: {
+    buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote'],
+    sticky: true,
+    static: true,
+    align: 'right',                   // Align to right
+    updateOnEmptySelection: true,
+  },
+  buttonLabels: 'fontawesome',
+})</div>
+
+            <h4>Key Configuration Options</h4>
             <ul>
-                <li>List Item One</li>
-                <li>List Item Two</li>
-                <li>List Item Three</li>
+                <li><strong><code>static: true</code></strong> - Makes toolbar always visible</li>
+                <li><strong><code>sticky: true</code></strong> - Toolbar follows page scroll</li>
+                <li><strong><code>align: 'left'|'center'|'right'</code></strong> - Toolbar alignment</li>
+                <li><strong><code>updateOnEmptySelection: true</code></strong> - Show toolbar without text selection</li>
+                <li><strong><code>buttonLabels: 'fontawesome'</code></strong> - Use FontAwesome icons</li>
             </ul>
-            <p>I give Pirrip as my father’s family name, on the authority of his tombstone and my sister,—Mrs. Joe Gargery, who married the blacksmith. As I never saw my father or my mother, and never saw any likeness of either of them (for their days were long before the days of photographs), my first fancies regarding what they were like were unreasonably derived from their tombstones...</p>
-        </div>
+
+            <h4>Use Cases</h4>
+            <div class="demo-description">
+                Static toolbars are perfect for:
+                <ul>
+                    <li><strong>Document Editors:</strong> Word processor-like interfaces</li>
+                    <li><strong>CMS Dashboards:</strong> Content management systems</li>
+                    <li><strong>Blog Platforms:</strong> Post creation interfaces</li>
+                    <li><strong>Email Composers:</strong> Rich text email editing</li>
+                    <li><strong>Multi-Column Layouts:</strong> Side-by-side editing areas</li>
+                </ul>
+            </div>
+        </section>
     </div>
-    <div id="columns">
-        <div class="column-container">
-            <div class="column" id="column-one">
-                <h3>Left Align</h3>
-                <p>My father’s family name being <a href="https://en.wikipedia.org/wiki/Pip_(Great_Expectations)">Pirrip</a>, and my Christian name Philip, my infant tongue could make of both names nothing longer or more explicit than Pip. So, I called myself Pip, and came to be called Pip.</p>
-                <p>I give Pirrip as my father’s family name, on the authority of his tombstone and my sister,—Mrs. Joe Gargery, who married the blacksmith. As I never saw my father or my mother, and never saw any likeness of either of them (for their days were long before the days of photographs), my first fancies regarding what they were like were unreasonably derived from their tombstones...</p>
-            </div>
-            <div class="column" id="column-two">
-                <h3>Center Align</h3>
-                <p>... Ours was the marsh country, down by the river, within, as the river wound, twenty miles of the sea. My first most vivid and broad impression of the identity of things seems to me to have been gained on a memorable raw afternoon towards evening. At such a time I found out for certain that this bleak place overgrown with nettles was the churchyard; and that Philip Pirrip, late of this parish, and also Georgiana wife of the above, were dead and buried; and that Alexander, Bartholomew, Abraham, Tobias, and Roger, infant children of the aforesaid, were also dead and buried; and that the dark flat wilderness beyond the churchyard, intersected with dikes and mounds and gates, with scattered cattle feeding on it, was the marshes; and that the low leaden line beyond was the river; and that the distant savage lair from which the wind was rushing was the sea; and that the small bundle of shivers growing afraid of it all and beginning to cry, was Pip.</p>
-            </div>
-            <div class="column" id="column-three">
-                <h3>Right Align</h3>
-                <p>"Hold your noise!" cried a terrible voice, as a man started up from among the graves at the side of the church porch.  "Keep still, you little devil, or I’ll cut your throat!”</p>
-                <p>A fearful man, all in coarse gray, with a great iron on his leg. A man with no hat, and with broken shoes, and with an old rag tied round his head. A man who had been soaked in water, and smothered in mud, and lamed by stones, and cut by flints, and stung by nettles, and torn by briars; who limped, and shivered, and glared, and growled; and whose teeth chattered in his head as he seized me by the chin.</p>
-            </div>
-        </div>
+
+    <div class="source-attribution">
+        <small>
+            <a style="color: #6c757d;" target="_blank" href="http://www.goodreads.com/reader/475-great-expectations">
+                Sample text from "Great Expectations" by Charles Dickens
+            </a>
+        </small>
     </div>
-    <p style="text-align: center;"><small><a style="color: #333;" target="_blank" href="http://www.goodreads.com/reader/475-great-expectations">Source</a></small></p>
-    <script type="module">
-        // Import MediumEditor from the TypeScript source
-        import { MediumEditor } from '../src/index.ts'
 
-        // Initialize when DOM is ready
-        document.addEventListener('DOMContentLoaded', () => {
-            var editor = new MediumEditor('.editable', {
-                toolbar: {
-                    buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote'],
-                    static: true,
-                    sticky: true
-                }
-            });
-
-            var editorColOne = new MediumEditor('#column-one', {
-                toolbar: {
-                    buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote'],
-                    sticky: true,
-                    static: true,
-                    align: 'left',
-                    updateOnEmptySelection: true
-                },
-                buttonLabels: 'fontawesome'
-            });
-
-            var editorColTwo = new MediumEditor('#column-two', {
-                toolbar: {
-                    buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote'],
-                    sticky: true,
-                    static: true,
-                    align: 'center',
-                    updateOnEmptySelection: true
-                },
-                buttonLabels: 'fontawesome'
-            });
-
-            var editorColThree = new MediumEditor('#column-three', {
-                toolbar: {
-                    buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote'],
-                    sticky: true,
-                    static: true,
-                    align: 'right',
-                    updateOnEmptySelection: true
-                },
-                buttonLabels: 'fontawesome'
-            });
-
-            // Make it globally available for debugging
-            window.MediumEditor = MediumEditor;
-            window.editor = editor;
-        });
-    </script>
+    <script type="module" src="ts/static-toolbar.ts"></script>
 </body>
 </html>

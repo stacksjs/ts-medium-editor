@@ -1,57 +1,333 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>MediumEditor - Extension Example</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medium Editor - Extension Examples</title>
     <link rel="stylesheet" href="css/demo.css">
-    <link rel="stylesheet" href="../dist/css/medium-editor.css">
-    <link rel="stylesheet" href="../dist/css/themes/default.css">
+    <link rel="stylesheet" href="../src/css/medium-editor.css">
+    <link rel="stylesheet" href="../src/css/themes/default.css">
+    <style>
+        .demo-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-section h3 {
+            margin-top: 0;
+            color: #495057;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .demo-description {
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .demo-description code {
+            background: #e9ecef;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Menlo', monospace;
+        }
+        .editable {
+            min-height: 200px;
+            border: 2px dashed #dee2e6;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+            transition: border-color 0.2s ease;
+        }
+        .editable:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        .extension-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .extension-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 1rem;
+        }
+        .extension-card h4 {
+            margin-top: 0;
+            color: #495057;
+        }
+        .extension-card .status {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .status.active {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status.interactive {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        .code-example {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 12px;
+            overflow-x: auto;
+            line-height: 1.5;
+        }
+        .code-example.shiki-highlighted {
+            background: transparent;
+            padding: 0;
+        }
+        .code-example.shiki-highlighted code {
+            display: block;
+            padding: 1rem;
+            border-radius: 4px;
+            font-size: 12px;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+        /* Shiki theme overrides */
+        .shiki {
+            background: #f8f9fa !important;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+        }
+        .instructions {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .instructions h4 {
+            margin-top: 0;
+            color: #856404;
+        }
+        .source-attribution {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 12px;
+            color: #6c757d;
+        }
+    </style>
 </head>
 <body>
+    <a href="https://github.com/stacksjs/ts-medium-editor" aria-label="Fork me on GitHub">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
+             alt="Fork me on GitHub">
+    </a>
+
     <div id="container">
-        <h1>Medium Editor</h1>
-        <div class="editable">
-            <h2>Font Awesome</h2>
-            <p>My father’s family name being <a href="https://en.wikipedia.org/wiki/Pip_(Great_Expectations)">Pirrip</a>, and my Christian name Philip, my infant tongue could make of both names nothing longer or more explicit than Pip. So, I called myself Pip, and came to be called Pip.</p>
-            <p>I give Pirrip as my father’s family name, on the authority of his tombstone and my sister,—Mrs. Joe Gargery, who married the blacksmith. As I never saw my father or my mother, and never saw any likeness of either of them (for their days were long before the days of photographs), my first fancies regarding what they were like were unreasonably derived from their tombstones...</p>
-        </div>
+        <header>
+            <h1>Medium Editor - Extension Examples</h1>
+            <p>This demo showcases how to create custom extensions to extend the editor's functionality.</p>
+        </header>
+
+        <section class="demo-section">
+            <h3>🔌 Active Extensions</h3>
+            <div class="extension-list">
+                <div class="extension-card">
+                    <h4>🚫 Disable Context Menu</h4>
+                    <span class="status interactive">Interactive</span>
+                    <p>Prevents right-click context menu. Press <kbd>ESC</kbd> to toggle on/off.</p>
+                </div>
+                <div class="extension-card">
+                    <h4>📊 Word Count</h4>
+                    <span class="status active">Active</span>
+                    <p>Real-time word and character count displayed in bottom-right corner.</p>
+                </div>
+                <div class="extension-card">
+                    <h4>💾 Auto-Save</h4>
+                    <span class="status active">Active</span>
+                    <p>Automatically saves content to localStorage after 2 seconds of inactivity.</p>
+                </div>
+                <div class="extension-card">
+                    <h4>😀 Emoji Picker</h4>
+                    <span class="status interactive">Interactive</span>
+                    <p>Click the emoji button in the toolbar to insert emojis.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="demo-section">
+            <h3>✨ Try the Extensions</h3>
+            <div class="instructions">
+                <h4>🧪 How to Test</h4>
+                <ul>
+                    <li><strong>Type some text</strong> → Watch the word count update in real-time</li>
+                    <li><strong>Right-click</strong> → Context menu is disabled by default</li>
+                    <li><strong>Press ESC</strong> → Toggle context menu on/off (see notification)</li>
+                    <li><strong>Stop typing</strong> → Content auto-saves after 2 seconds</li>
+                    <li><strong>Select text and click 😀</strong> → Open emoji picker</li>
+                    <li><strong>Click an emoji</strong> → Insert it at cursor position</li>
+                </ul>
+            </div>
+
+            <div class="editable">
+                <h2>Extension Demo Editor</h2>
+                <p>This editor demonstrates multiple custom extensions working together. Try typing some text to see the <strong>word count</strong> update in the bottom-right corner.</p>
+                <p>Right-click anywhere in this editor - the <strong>context menu is disabled</strong> by default. Press the <kbd>ESC</kbd> key to toggle it on and off.</p>
+                <p>Stop typing for 2 seconds and watch the <strong>auto-save</strong> notification appear. Your content is automatically saved to localStorage.</p>
+                <p>Select some text and click the <strong>😀 emoji button</strong> in the toolbar to insert emojis! 🎉</p>
+            </div>
+        </section>
+
+        <section class="demo-section">
+            <h3>💻 Extension Code Examples</h3>
+            <div id="syntax-loading" style="text-align: center; padding: 1rem; color: #6c757d; font-style: italic;">
+                🎨 Loading beautiful syntax highlighting...
+            </div>
+
+            <h4>1. Disable Context Menu Extension</h4>
+            <div class="code-example" data-lang="typescript">class DisableContextMenuExtension {
+  name = 'disable-context-menu'
+
+  init(): void {
+    this.base.elements.forEach((element: HTMLElement) => {
+      this.base.on(element, 'contextmenu', this.handleContextmenu.bind(this))
+    })
+    this.base.subscribe('editableKeydown', this.handleKeydown.bind(this))
+  }
+
+  handleContextmenu(event: Event): void {
+    const target = event.currentTarget as HTMLElement
+    if (!target.getAttribute('data-allow-context-menu')) {
+      event.preventDefault()
+    }
+  }
+
+  handleKeydown(event: KeyboardEvent, editable: HTMLElement): void {
+    if (event.key === 'Escape') {
+      // Toggle context menu permission
+      if (editable.hasAttribute('data-allow-context-menu')) {
+        editable.removeAttribute('data-allow-context-menu')
+      } else {
+        editable.setAttribute('data-allow-context-menu', 'true')
+      }
+    }
+  }
+}</div>
+
+            <h4>2. Word Count Extension</h4>
+            <div class="code-example" data-lang="typescript">class WordCountExtension {
+  name = 'word-count'
+  private countElement?: HTMLElement
+
+  init(): void {
+    this.createWordCountDisplay()
+    this.base.subscribe('editableInput', this.updateWordCount.bind(this))
+    this.updateWordCount()
+  }
+
+  private updateWordCount(): void {
+    let totalWords = 0
+    let totalChars = 0
+
+    this.base.elements.forEach((element: HTMLElement) => {
+      const text = element.textContent || ''
+      const words = text.trim().split(/\s+/).filter(word => word.length > 0)
+      totalWords += words.length
+      totalChars += text.length
+    })
+
+    this.countElement.textContent = `${totalWords} words, ${totalChars} chars`
+  }
+}</div>
+
+            <h4>3. Auto-Save Extension</h4>
+            <div class="code-example" data-lang="typescript">class AutoSaveExtension {
+  name = 'auto-save'
+  private saveTimeout?: number
+
+  init(): void {
+    this.base.subscribe('editableInput', this.scheduleAutoSave.bind(this))
+    this.createSaveIndicator()
+  }
+
+  private scheduleAutoSave(): void {
+    if (this.saveTimeout) clearTimeout(this.saveTimeout)
+
+    this.saveTimeout = window.setTimeout(() => {
+      this.performAutoSave()
+    }, 2000) // Auto-save after 2 seconds of inactivity
+  }
+
+  private performAutoSave(): void {
+    const content = this.base.serialize()
+    localStorage.setItem('medium-editor-autosave', JSON.stringify({
+      content,
+      timestamp: new Date().toISOString()
+    }))
+    showNotification('Content auto-saved!', 'success')
+  }
+}</div>
+
+            <h4>4. Emoji Picker Extension</h4>
+            <div class="code-example" data-lang="typescript">class EmojiPickerExtension {
+  name = 'emoji-picker'
+
+  init(): void {
+    this.createEmojiButton()
+  }
+
+  private createEmojiButton(): void {
+    setTimeout(() => {
+      const toolbar = this.base?.getExtensionByName('toolbar')
+      if (toolbar && toolbar.toolbar) {
+        const button = document.createElement('button')
+        button.className = 'medium-editor-action medium-editor-action-emoji'
+        button.innerHTML = '😀'
+        button.title = 'Insert Emoji'
+        button.addEventListener('click', this.toggleEmojiPicker.bind(this))
+
+        toolbar.toolbar.appendChild(button)
+        toolbar.buttons.push(button)
+      }
+    }, 100)
+  }
+}</div>
+        </section>
+
+        <section class="demo-section">
+            <h3>🛠️ Creating Your Own Extensions</h3>
+            <div class="demo-description">
+                Extensions allow you to add custom functionality to Medium Editor. Each extension should:
+                <ul>
+                    <li>Have a unique <code>name</code> property</li>
+                    <li>Implement an <code>init()</code> method</li>
+                    <li>Use <code>this.base</code> to access the editor instance</li>
+                    <li>Subscribe to editor events using <code>this.base.subscribe()</code></li>
+                    <li>Optionally implement a <code>destroy()</code> method for cleanup</li>
+                </ul>
+            </div>
+        </section>
     </div>
-    <p style="text-align: center;"><small><a style="color: #333;" target="_blank" href="http://www.goodreads.com/reader/475-great-expectations">Source</a></small></p>
-    <script src="../dist/js/medium-editor.js"></script>
-    <script>
-        var DisableContextMenuExtension = MediumEditor.Extension.extend({
-            name: 'disable-context-menu',
 
-            init: function () {
-                this.getEditorElements().forEach(function (element) {
-                    this.on(element, 'contextmenu', this.handleContextmenu.bind(this));
-                }, this);
-                this.subscribe('editableKeydown', this.handleKeydown.bind(this));
-            },
+    <div class="source-attribution">
+        <small>
+            <a style="color: #6c757d;" target="_blank" href="http://www.goodreads.com/reader/475-great-expectations">
+                Sample text from "Great Expectations" by Charles Dickens
+            </a>
+        </small>
+    </div>
 
-            handleContextmenu: function (event) {
-                if (!event.currentTarget.getAttribute('data-allow-context-menu')) {
-                    event.preventDefault();
-                }
-            },
-
-            handleKeydown: function (event, editable) {
-                // If the user hits escape, toggle the data-allow-context-menu attribute
-                if (MediumEditor.util.isKey(event, MediumEditor.util.keyCode.ESCAPE)) {
-                    if (editable.hasAttribute('data-allow-context-menu')) {
-                        editable.removeAttribute('data-allow-context-menu');
-                    } else {
-                        editable.setAttribute('data-allow-context-menu', true);
-                    }
-                }
-                
-            }
-        });
-        var editor = new MediumEditor('.editable', {
-                extensions: {
-                    'disable-context-menu': new DisableContextMenuExtension()
-                }
-            });
-    </script>
+    <script type="module" src="ts/extension-example.ts"></script>
 </body>
 </html>

@@ -1,7 +1,8 @@
 import { MediumEditor } from '../../src/index.ts'
+import { highlightAllCodeBlocks } from './syntax-highlighter.ts'
 
 // Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   try {
     // Get comparison display elements
     const rawHtmlDisplay = document.getElementById('raw-html')
@@ -65,6 +66,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Make editor globally available for debugging
     window.editor = editor
+
+    // Apply syntax highlighting to any code examples
+    await highlightAllCodeBlocks()
   }
   catch (error) {
     console.error('Error initializing clean paste demo:', error)

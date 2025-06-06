@@ -1,42 +1,206 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>medium editor | demo multi paragraph</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medium Editor - Multi-Paragraph Selection Demo</title>
     <link rel="stylesheet" href="css/demo.css">
-    <link rel="stylesheet" href="../dist/css/medium-editor.css">
-    <link rel="stylesheet" href="../dist/css/themes/default.css">
+    <link rel="stylesheet" href="../src/css/medium-editor.css">
+    <link rel="stylesheet" href="../src/css/themes/default.css">
+    <style>
+        .demo-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-section h3 {
+            margin-top: 0;
+            color: #495057;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .demo-description {
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .demo-instructions {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .demo-instructions h4 {
+            margin-top: 0;
+            color: #856404;
+        }
+        .editable {
+            min-height: 300px;
+            border: 2px dashed #dee2e6;
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            transition: border-color 0.2s ease;
+            line-height: 1.6;
+        }
+        .editable:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        .editable h2 {
+            color: #495057;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .editable blockquote {
+            border-left: 4px solid #007bff;
+            padding-left: 1rem;
+            margin: 1rem 0;
+            font-style: italic;
+            color: #6c757d;
+        }
+        /* Shiki syntax highlighting styles */
+        .code-example {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 12px;
+            overflow-x: auto;
+            line-height: 1.5;
+        }
+        .code-example.shiki-highlighted {
+            background: transparent;
+            padding: 0;
+        }
+        .code-example.shiki-highlighted code {
+            display: block;
+            padding: 1rem;
+            border-radius: 4px;
+            font-size: 12px;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+        .shiki {
+            background: #f8f9fa !important;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+        }
+        .source-attribution {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 12px;
+            color: #6c757d;
+        }
+    </style>
 </head>
 <body>
-    <a href="https://github.com/yabwe/medium-editor"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+    <a href="https://github.com/stacksjs/ts-medium-editor" aria-label="Fork me on GitHub">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
+             alt="Fork me on GitHub">
+    </a>
+
     <div id="container">
-        <h1>Medium Editor Demo</h1>
-        <div class="editable" data-placeholder="Type some text" spellcheck="false">
-        <p><b>In this demo the toolbar will not appear if you select several paragraphs or block quotes.</b></p>
-        <p><h2>First Paragraph</h2> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ultrices ullamcorper nibh, ut imperdiet arcu rutrum et. Vestibulum vitae orci metus. Praesent dapibus interdum purus, vitae mattis urna pharetra a. Praesent sodales volutpat mi et rhoncus. Phasellus quis tortor nulla. Pellentesque dapibus lorem et eros lobortis, et iaculis est accumsan. Nunc et ligula laoreet, egestas est id, placerat dolor. Praesent sed gravida tortor, non elementum enim. Integer et nulla sit amet orci suscipit sagittis pellentesque a est. Maecenas vitae purus odio. Aenean tincidunt varius arcu a vehicula. Quisque vestibulum venenatis vestibulum. Nullam pellentesque purus non dui adipiscing tempus.</p>
+        <header>
+            <h1>Medium Editor - Multi-Paragraph Selection Demo</h1>
+            <p>This demo shows how the toolbar behaves when <code>allowMultiParagraphSelection</code> is disabled.</p>
+        </header>
 
-        <p><h2>Second Paragraph </h2>Pellentesque sit amet turpis a felis ornare euismod id vitae ante. Vivamus nec orci interdum, blandit dui id, gravida orci. Aliquam malesuada tristique imperdiet. Mauris lobortis, mi vel dictum feugiat, sem nibh hendrerit mi, eu pellentesque mauris quam et lorem. Integer ante ligula, placerat id pharetra ut, lacinia sit amet ante. Donec luctus, orci eu vestibulum suscipit, nisl lorem dignissim mauris, et auctor dolor odio nec mauris. Maecenas velit justo, lobortis a accumsan et, adipiscing sit amet leo. Vestibulum pharetra nisi erat, vitae dictum eros vestibulum eget. Ut aliquet lorem eu dui auctor aliquam. Nunc mollis elementum justo non ultricies. Nam dictum egestas augue sit amet ullamcorper. Praesent laoreet lectus ut velit porta varius. Vestibulum eget gravida sapien. Mauris viverra, metus vel varius posuere, augue metus aliquam sem, in pellentesque ipsum mauris non enim.</p>
+        <section class="demo-section">
+            <h3>🚫 Multi-Paragraph Selection Disabled</h3>
+            <div class="demo-description">
+                In this demo, the toolbar will <strong>not appear</strong> if you select text across multiple paragraphs or block quotes.
+                This is controlled by the <code>allowMultiParagraphSelection: false</code> setting.
+            </div>
 
-        <blockquote>This is a block quote. Suspendisse potenti. Vestibulum semper felis vitae sapien ultricies venenatis. Aliquam mollis dui dolor, in auctor urna iaculis dapibus. Nam condimentum mollis sapien, non bibendum lacus feugiat eu. Phasellus feugiat erat ut varius tincidunt. Quisque suscipit ornare lacus, nec dapibus lacus vulputate at. Morbi at ipsum sollicitudin, suscipit elit sed, ultrices ligula. Suspendisse tincidunt libero iaculis velit iaculis, ac congue enim euismod. Nam molestie ligula at mattis tincidunt. Praesent porttitor nisi lectus, nec suscipit lectus porttitor nec.</blockquote>
+            <div class="demo-instructions">
+                <h4>🧪 Try These Tests</h4>
+                <ol>
+                    <li><strong>Single Paragraph:</strong> Select text within one paragraph → Toolbar appears</li>
+                    <li><strong>Multiple Paragraphs:</strong> Select text across two paragraphs → No toolbar</li>
+                    <li><strong>Across Block Quote:</strong> Select from paragraph into block quote → No toolbar</li>
+                    <li><strong>Within Block Quote:</strong> Select text only within the block quote → Toolbar appears</li>
+                </ol>
+            </div>
 
-        <p>Another paragrph. Suspendisse potenti. Vestibulum semper felis vitae sapien ultricies venenatis. Aliquam mollis dui dolor, in auctor urna iaculis dapibus. Nam condimentum mollis sapien, non bibendum lacus feugiat eu. Phasellus feugiat erat ut varius tincidunt. Quisque suscipit ornare lacus, nec dapibus lacus vulputate at. Morbi at ipsum sollicitudin, suscipit elit sed, ultrices ligula. Suspendisse tincidunt libero iaculis velit iaculis, ac congue enim euismod. Nam molestie ligula at mattis tincidunt. Praesent porttitor nisi lectus, nec suscipit lectus porttitor nec.</p>
-        </div>
+            <div class="editable" data-placeholder="Type some text" spellcheck="false">
+                <p><b>In this demo the toolbar will not appear if you select several paragraphs or block quotes.</b></p>
 
+                <h2>First Paragraph</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ultrices ullamcorper nibh, ut imperdiet arcu rutrum et. Vestibulum vitae orci metus. Praesent dapibus interdum purus, vitae mattis urna pharetra a. Praesent sodales volutpat mi et rhoncus. Phasellus quis tortor nulla. Pellentesque dapibus lorem et eros lobortis, et iaculis est accumsan.</p>
 
+                <h2>Second Paragraph</h2>
+                <p>Pellentesque sit amet turpis a felis ornare euismod id vitae ante. Vivamus nec orci interdum, blandit dui id, gravida orci. Aliquam malesuada tristique imperdiet. Mauris lobortis, mi vel dictum feugiat, sem nibh hendrerit mi, eu pellentesque mauris quam et lorem. Integer ante ligula, placerat id pharetra ut, lacinia sit amet ante.</p>
+
+                <blockquote>This is a block quote. Suspendisse potenti. Vestibulum semper felis vitae sapien ultricies venenatis. Aliquam mollis dui dolor, in auctor urna iaculis dapibus. Nam condimentum mollis sapien, non bibendum lacus feugiat eu. Phasellus feugiat erat ut varius tincidunt.</blockquote>
+
+                <p>Another paragraph. Suspendisse potenti. Vestibulum semper felis vitae sapien ultricies venenatis. Aliquam mollis dui dolor, in auctor urna iaculis dapibus. Nam condimentum mollis sapien, non bibendum lacus feugiat eu. Phasellus feugiat erat ut varius tincidunt. Quisque suscipit ornare lacus, nec dapibus lacus vulputate at.</p>
+            </div>
+        </section>
+
+        <section class="demo-section">
+            <h3>💻 Code Implementation</h3>
+            <div class="demo-description">
+                Here's how to configure the editor to disable multi-paragraph selection:
+            </div>
+
+            <h4>Editor Configuration</h4>
+            <div class="code-example" data-lang="typescript">const editor = new MediumEditor('.editable', {
+  delay: 0,
+  toolbar: {
+    diffTop: -12,
+    allowMultiParagraphSelection: false, // Key setting!
+    buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote'],
+  },
+  anchor: {
+    placeholderText: 'Type a link',
+  },
+  placeholder: {
+    text: 'Type some text and try selecting across multiple paragraphs...',
+  },
+  buttonLabels: 'fontawesome',
+})</div>
+
+            <h4>Key Configuration Options</h4>
+            <ul>
+                <li><strong><code>allowMultiParagraphSelection: false</code></strong> - Disables toolbar for multi-paragraph selections</li>
+                <li><strong><code>delay: 0</code></strong> - No delay before showing toolbar (immediate response)</li>
+                <li><strong><code>diffTop: -12</code></strong> - Adjusts toolbar vertical position relative to selection</li>
+                <li><strong><code>placeholderText</code></strong> - Custom placeholder for anchor (link) input</li>
+            </ul>
+
+            <h4>Use Cases</h4>
+            <div class="demo-description">
+                This setting is useful when you want to:
+                <ul>
+                    <li>Prevent accidental formatting of large text blocks</li>
+                    <li>Encourage users to format text paragraph by paragraph</li>
+                    <li>Maintain consistent formatting within document sections</li>
+                    <li>Reduce toolbar clutter in complex document layouts</li>
+                </ul>
+            </div>
+        </section>
     </div>
-    <script src="../dist/js/medium-editor.js"></script>
-    <script>
-        var editor = new MediumEditor('.editable', {
-            delay: 0,
-            toolbar: {
-                diffTop: -12,
-                allowMultiParagraphSelection: false
-            },
-            anchor: {
-                placeholderText: 'Type a link'
-            }
-        });
 
-    </script>
+    <div class="source-attribution">
+        <small>
+            <a style="color: #6c757d;" target="_blank" href="http://www.goodreads.com/reader/475-great-expectations">
+                Sample text from "Great Expectations" by Charles Dickens
+            </a>
+        </small>
+    </div>
+
+    <script type="module" src="ts/multi-paragraph.ts"></script>
 </body>
 </html>

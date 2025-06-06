@@ -1,7 +1,8 @@
 import { MediumEditor } from '../../src/index.ts'
+import { highlightAllCodeBlocks } from './syntax-highlighter.ts'
 
 // Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   try {
     // 1. FontAwesome Icons Editor
     const fontAwesomeEditor = new MediumEditor('.editable-fontawesome', {
@@ -202,6 +203,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       })
     }
+
+    // Apply syntax highlighting to code examples
+    await highlightAllCodeBlocks()
   }
   catch (error) {
     console.error('Error initializing custom toolbar demo:', error)

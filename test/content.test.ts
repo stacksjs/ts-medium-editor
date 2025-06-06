@@ -259,7 +259,7 @@ describe('Content', () => {
       }
     })
 
-    // This test case replicates https://github.com/yabwe/medium-editor/issues/982
+    // This test case replicates https://github.com/stacksjs/ts-medium-editor/issues/982
     it('should prevent more spaces from being inserted when a space already exists and disableExtraSpaces options is true', () => {
       el.innerHTML = '<p>lorem<span> ipsum</span></p>'
 

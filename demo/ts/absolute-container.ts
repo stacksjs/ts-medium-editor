@@ -1,5 +1,6 @@
 // Import MediumEditor from the TypeScript source
 import { MediumEditor } from '../../src/index.ts'
+import { highlightAllCodeBlocks } from './syntax-highlighter.ts'
 
 // Declare editor for debugging
 declare global {
@@ -9,7 +10,7 @@ declare global {
 }
 
 // Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   try {
     const container = document.getElementById('container')
     const editor = new MediumEditor('.editable', {
@@ -31,6 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Make it globally available for debugging
     window.editor = editor
+
+    // Apply syntax highlighting to any code examples
+    await highlightAllCodeBlocks()
   }
   catch (error) {
     console.error('Error initializing editor:', error)

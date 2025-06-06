@@ -1,10 +1,11 @@
 import rangy from 'rangy'
 import { MediumEditor } from '../../src/index.ts'
+import { highlightAllCodeBlocks } from './syntax-highlighter.ts'
 
 // Highlighter styles are now in the core CSS files
 
 // Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   // Initialize rangy
   rangy.init()
 
@@ -20,6 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     addHighlighterButton(editor)
   }, 200)
+
+  // Apply syntax highlighting to code examples
+  await highlightAllCodeBlocks()
 })
 
 function addHighlighterButton(editor: any) {
@@ -38,7 +42,7 @@ function addHighlighterButton(editor: any) {
   button.title = 'Highlight'
 
   // Initialize rangy class applier
-  const classApplier = rangy.createClassApplier('highlight', {
+  const classApplier = (rangy as any).createClassApplier('highlight', {
     elementTagName: 'mark',
     normalize: true,
   })

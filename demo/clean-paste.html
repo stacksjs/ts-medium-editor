@@ -120,10 +120,39 @@
                 grid-template-columns: 1fr;
             }
         }
+        /* Shiki syntax highlighting styles */
+        .code-example {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 12px;
+            overflow-x: auto;
+            line-height: 1.5;
+        }
+        .code-example.shiki-highlighted {
+            background: transparent;
+            padding: 0;
+        }
+        .code-example.shiki-highlighted code {
+            display: block;
+            padding: 1rem;
+            border-radius: 4px;
+            font-size: 12px;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+        .shiki {
+            background: #f8f9fa !important;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
-    <a href="https://github.com/yabwe/medium-editor" aria-label="Fork me on GitHub">
+    <a href="https://github.com/stacksjs/ts-medium-editor" aria-label="Fork me on GitHub">
         <img style="position: absolute; top: 0; right: 0; border: 0;"
              src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
              alt="Fork me on GitHub">

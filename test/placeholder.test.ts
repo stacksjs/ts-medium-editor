@@ -147,7 +147,7 @@ describe('Placeholder Extension', () => {
     }
   })
 
-  // https://github.com/yabwe/medium-editor/issues/768
+  // https://github.com/stacksjs/ts-medium-editor/issues/768
   it('should remove the placeholder when the content is updated manually', () => {
     const editor = helpers.newMediumEditor('.editor')
     const firstElement = editor.elements[0]

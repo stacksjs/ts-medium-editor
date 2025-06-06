@@ -296,7 +296,7 @@ We would like to extend our thanks to the following sponsors for funding Stacks 
 ## Credits
 
 - [Medium](https://medium.com) _for the pretty editor_
-- [`medium-editor`](https://github.com/yabwe/medium-editor) _many thanks for the original JavaScript implementation_
+- [`medium-editor`](https://github.com/stacksjs/ts-medium-editor) _many thanks for the original JavaScript implementation_
 - [Chris Breuer](https://github.com/chrisbbreuer)
 - [All Contributors](../../contributors)
 

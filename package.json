@@ -61,5 +61,8 @@
   },
   "lint-staged": {
     "*.{js,ts}": "bunx --bun eslint . --fix"
+  },
+  "dependencies": {
+    "shiki": "^3.6.0"
   }
 }
