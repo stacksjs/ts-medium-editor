@@ -678,4 +678,4 @@ editor.startSelectionUpdates()
 - Explore [Toolbar](/features/toolbar) for detailed toolbar functionality
 - Check out [Events](/features/events) for comprehensive event handling
 - See [Extensions](/extensions) for creating custom functionality
-- Review [Custom Extensions](/advanced/custom-extensions) for advanced scenarios
+- Review [Extensions](/extensions) for advanced scenarios

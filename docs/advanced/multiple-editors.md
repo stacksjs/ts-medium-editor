@@ -667,7 +667,7 @@ describe('Multiple Editors', () => {
 
 ## Next Steps
 
-- Learn about [Real-time Collaboration](/advanced/collaboration) for multi-user editing
-- Explore [Performance Optimization](/advanced/performance) for large-scale deployments
-- Check out [Testing](/advanced/testing) for comprehensive testing strategies
+- Explore [Extensions](/extensions) for adding custom functionality
+- Check out [Configuration](/config) for detailed setup options
 - See [API Reference](/api) for complete multi-editor APIs
+- Review [Events](/features/events) for inter-editor communication

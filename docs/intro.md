@@ -93,15 +93,16 @@ Now that you understand what TypeScript Medium Editor offers, you're ready to di
 4. **[Toolbar Features](/features/toolbar)** - Learn about toolbar customization
 5. **[Events](/features/events)** - Handle editor events and interactions
 6. **[Extensions](/extensions)** - Extend functionality with custom plugins
+7. **[Multiple Editors](/advanced/multiple-editors)** - Manage multiple editor instances
 
 ## Examples and Demos
 
 Explore our comprehensive demo collection to see the editor in action:
 
-- **[Basic Editor](../demo/index.html)** - Simple setup with essential toolbar
-- **[Custom Toolbars](../demo/custom-toolbar.html)** - Multiple toolbar configurations
-- **[Extension Examples](../demo/extension-example.html)** - Custom extensions and plugins
-- **[Multi-Editor Setup](../demo/multi-editor.html)** - Multiple editor instances
+- **[Basic Editor](https://github.com/stacksjs/ts-medium-editor/blob/main/demo/index.html)** - Simple setup with essential toolbar
+- **[Custom Toolbars](https://github.com/stacksjs/ts-medium-editor/blob/main/demo/custom-toolbar.html)** - Multiple toolbar configurations
+- **[Extension Examples](https://github.com/stacksjs/ts-medium-editor/blob/main/demo/extension-example.html)** - Custom extensions and plugins
+- **[Multi-Editor Setup](https://github.com/stacksjs/ts-medium-editor/blob/main/demo/multi-editor.html)** - Multiple editor instances
 
 ## Need Help?
 

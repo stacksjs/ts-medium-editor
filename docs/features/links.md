@@ -596,6 +596,6 @@ const editor = new MediumEditor('.editable', {
 ## Next Steps
 
 - Learn about [Events](/features/events) for link interaction handling
-- Explore [Custom Extensions](/advanced/custom-extensions) for advanced link features
+- Explore [Extensions](/extensions) for advanced link features
 - Check out [Text Formatting](/features/formatting) for link appearance customization
 - See [API Reference](/api) for complete link methods

@@ -42,6 +42,9 @@
     "preview:docs": "bun --bun vitepress preview docs",
     "typecheck": "bun --bun tsc --noEmit"
   },
+  "dependencies": {
+    "shiki": "^3.6.0"
+  },
   "devDependencies": {
     "@happy-dom/global-registrator": "^17.6.3",
     "@stacksjs/docs": "^0.70.23",
@@ -61,8 +64,5 @@
   },
   "lint-staged": {
     "*.{js,ts}": "bunx --bun eslint . --fix"
-  },
-  "dependencies": {
-    "shiki": "^3.6.0"
   }
 }

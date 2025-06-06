@@ -403,5 +403,5 @@ export class EditorComponent implements OnInit, OnDestroy {
 
 - Learn about [Toolbar](/features/toolbar) for advanced customization
 - Explore [Text Formatting](/features/formatting) for detailed functionality guides
-- Check out [Custom Extensions](/advanced/custom-extensions) for complex scenarios
+- Check out [Extensions](/extensions) for custom functionality
 - See [Extensions](/extensions) for creating custom functionality

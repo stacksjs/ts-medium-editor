@@ -818,7 +818,7 @@ my-medium-editor-extension/
 
 ## Next Steps
 
-- Check out [Custom Extensions](/advanced/custom-extensions) for complex scenarios
+- Check out [Multiple Editors](/advanced/multiple-editors) for managing multiple instances
 - See [API Reference](/api) for complete method documentation
 - Review [Usage Guide](/usage) for all available options
 - Explore [Multiple Editors](/advanced/multiple-editors) for practical implementations

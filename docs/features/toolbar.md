@@ -510,5 +510,5 @@ const editor = new MediumEditor('.editable', {
 
 - Learn about [Placeholder](/features/placeholder) functionality
 - Explore [Links and Anchors](/features/links) for hyperlink creation
-- Check out [Custom Extensions](/advanced/custom-extensions) for advanced toolbar customization
+- Check out [Extensions](/extensions) for advanced toolbar customization
 - See [API Reference](/api) for complete toolbar methods

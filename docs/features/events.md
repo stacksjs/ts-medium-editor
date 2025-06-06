@@ -924,5 +924,5 @@ class EventPerformanceMonitor {
 
 - Learn about [Text Formatting](/features/formatting) for applying styles
 - Explore [Custom Extensions](/extensions) for creating event-driven functionality
-- Check out [Custom Extensions](/advanced/custom-extensions) for complex event scenarios
+- Check out [Extensions](/extensions) for complex event scenarios
 - See [API Reference](/api) for complete event methods

@@ -45,11 +45,7 @@ const sidebar = [
   {
     text: 'Advanced Usage',
     items: [
-      { text: 'Custom Extensions', link: '/advanced/custom-extensions' },
       { text: 'Multiple Editors', link: '/advanced/multiple-editors' },
-      { text: 'Real-time Collaboration', link: '/advanced/collaboration' },
-      { text: 'Performance Optimization', link: '/advanced/performance' },
-      { text: 'Testing', link: '/advanced/testing' },
     ],
   },
   {
