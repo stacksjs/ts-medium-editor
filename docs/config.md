@@ -1,67 +1,387 @@
 # Configuration
 
-_This is just an example of the ts-medium-editor docs._
+The TypeScript Medium Editor can be extensively configured to match your needs. This guide covers all available configuration options.
 
-The Reverse Proxy can be configured using a `reverse-proxy.config.ts` _(or `reverse-proxy.config.js`)_ file and it will be automatically loaded when running the `reverse-proxy` command.
+## Basic Configuration
 
-```ts
-// reverse-proxy.config.{ts,js}
-import type { ReverseProxyOptions } from '@stacksjs/rpx'
-import os from 'node:os'
-import path from 'node:path'
+```typescript
+import { MediumEditor } from 'ts-medium-editor'
 
-const config: ReverseProxyOptions = {
-  /**
-   * The from URL to proxy from.
-   * Default: localhost:5173
-   */
-  from: 'localhost:5173',
+const editor = new MediumEditor('.editable', {
+  // Core settings
+  activeButtonClass: 'medium-editor-button-active',
+  delay: 0,
+  disableReturn: false,
+  disableDoubleReturn: false,
+  disableExtraSpaces: false,
+  disableEditing: false,
+  spellcheck: true,
 
-  /**
-   * The to URL to proxy to.
-   * Default: stacks.localhost
-   */
-  to: 'stacks.localhost',
+  // Auto-features
+  autoLink: true,
+  targetBlank: false,
+  imageDragging: true,
+  fileDragging: true,
 
-  /**
-   * The HTTPS settings.
-   * Default: true
-   * If set to false, the proxy will use HTTP.
-   * If set to true, the proxy will use HTTPS.
-   * If set to an object, the proxy will use HTTPS with the provided settings.
-   */
-  https: {
-    domain: 'stacks.localhost',
-    hostCertCN: 'stacks.localhost',
-    caCertPath: path.join(os.homedir(), '.stacks', 'ssl', `stacks.localhost.ca.crt`),
-    certPath: path.join(os.homedir(), '.stacks', 'ssl', `stacks.localhost.crt`),
-    keyPath: path.join(os.homedir(), '.stacks', 'ssl', `stacks.localhost.crt.key`),
-    altNameIPs: ['127.0.0.1'],
-    altNameURIs: ['localhost'],
-    organizationName: 'stacksjs.org',
-    countryName: 'US',
-    stateName: 'California',
-    localityName: 'Playa Vista',
-    commonName: 'stacks.localhost',
-    validityDays: 180,
-    verbose: false,
+  // Button labels
+  buttonLabels: false, // or 'fontawesome' or custom object
+
+  // Extensions
+  toolbar: {
+    buttons: ['bold', 'italic', 'underline']
+  },
+  placeholder: {
+    text: 'Type your text...'
+  }
+})
+```
+
+## Core Options
+
+### Basic Settings
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `activeButtonClass` | `string` | `'medium-editor-button-active'` | CSS class for active toolbar buttons |
+| `delay` | `number` | `0` | Delay in milliseconds before showing toolbar |
+| `disableReturn` | `boolean` | `false` | Disable the return key (no line breaks) |
+| `disableDoubleReturn` | `boolean` | `false` | Disable double return key behavior |
+| `disableExtraSpaces` | `boolean` | `false` | Prevent multiple consecutive spaces |
+| `disableEditing` | `boolean` | `false` | Make editor read-only |
+| `spellcheck` | `boolean` | `true` | Enable browser spellcheck |
+
+### Auto-Features
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `autoLink` | `boolean` | `false` | Automatically convert URLs to links |
+| `targetBlank` | `boolean` | `false` | Open links in new tab/window |
+| `imageDragging` | `boolean` | `true` | Enable image drag and drop |
+| `fileDragging` | `boolean` | `true` | Enable file drag and drop |
+
+### DOM Configuration
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `elementsContainer` | `HTMLElement` | `null` | Container for editor elements |
+| `contentWindow` | `Window` | `window` | Window context for the editor |
+| `ownerDocument` | `Document` | `document` | Document context for the editor |
+
+## Button Labels
+
+Configure button labels and icons:
+
+```typescript
+// Boolean values
+buttonLabels: false // No labels (icons only)
+buttonLabels: true  // Text labels
+
+// FontAwesome icons
+buttonLabels: 'fontawesome'
+
+// Custom labels
+buttonLabels: {
+  bold: '<b>B</b>',
+  italic: '<i>I</i>',
+  underline: '<u>U</u>',
+  anchor: '🔗',
+  h2: 'H2',
+  h3: 'H3',
+  quote: '"',
+  orderedlist: '1.',
+  unorderedlist: '•'
+}
+```
+
+## Toolbar Configuration
+
+The toolbar is highly configurable:
+
+```typescript
+toolbar: {
+  // Available buttons
+  buttons: [
+    'bold', 'italic', 'underline', 'strikethrough',
+    'subscript', 'superscript', 'anchor', 'image',
+    'quote', 'pre', 'orderedlist', 'unorderedlist',
+    'indent', 'outdent', 'justifyLeft', 'justifyCenter',
+    'justifyRight', 'justifyFull', 'h1', 'h2', 'h3',
+    'h4', 'h5', 'h6', 'removeFormat'
+  ],
+
+  // Positioning
+  static: false,           // Always visible toolbar
+  sticky: false,           // Stick to top when scrolling
+  align: 'center',         // 'left', 'center', 'right'
+  relativeContainer: null, // Container to position relative to
+
+  // Selection behavior
+  allowMultiParagraphSelection: true,
+  standardizeSelectionStart: false,
+  updateOnEmptySelection: false,
+
+  // Styling
+  firstButtonClass: 'medium-editor-button-first',
+  lastButtonClass: 'medium-editor-button-last',
+  diffLeft: 0,    // Horizontal offset
+  diffTop: -10    // Vertical offset
+}
+```
+
+### Custom Buttons
+
+Create custom toolbar buttons:
+
+```typescript
+toolbar: {
+  buttons: [
+    'bold',
+    'italic',
+    {
+      name: 'highlight',
+      action: 'highlight',
+      aria: 'Highlight text',
+      contentDefault: '🖍️',
+      classList: ['custom-highlight-button'],
+      attrs: {
+        'data-action': 'highlight'
+      }
+    }
+  ]
+}
+```
+
+## Placeholder Configuration
+
+```typescript
+placeholder: {
+  text: 'Tell your story...',
+  hideOnClick: true,
+  hideOnFocus: false
+}
+```
+
+## Anchor (Link) Configuration
+
+```typescript
+anchor: {
+  customClassOption: 'custom-link',
+  customClassOptionText: 'Make it special',
+  linkValidation: true,
+  placeholderText: 'Paste or type a link',
+  targetCheckbox: true,
+  targetCheckboxText: 'Open in new window'
+}
+```
+
+## Paste Configuration
+
+Control how pasted content is handled:
+
+```typescript
+paste: {
+  forcePlainText: false,
+  cleanPastedHTML: true,
+
+  // Pre-clean replacements (before HTML parsing)
+  preCleanReplacements: [
+    [/\u00a0/gi, ' '] // Replace non-breaking spaces
+  ],
+
+  // Clean replacements (after HTML parsing)
+  cleanReplacements: [
+    [/\s*style\s*=\s*["'][^"']*["']/gi, ''], // Remove inline styles
+    [/<o:p\s*\/?>|<\/o:p>/gi, ''],           // Remove Word tags
+    [/<xml>[\s\S]*?<\/xml>/gi, ''],          // Remove XML
+    [/<!--[\s\S]*?-->/g, '']                 // Remove comments
+  ],
+
+  // Attributes to remove
+  cleanAttrs: ['class', 'style', 'dir', 'id'],
+
+  // Tags to remove completely
+  cleanTags: ['meta', 'style', 'script', 'object', 'embed', 'title'],
+
+  // Tags to unwrap (remove tag, keep content)
+  unwrapTags: ['div', 'span']
+}
+```
+
+## Keyboard Commands
+
+Configure keyboard shortcuts:
+
+```typescript
+keyboardCommands: {
+  commands: [
+    {
+      command: 'bold',
+      key: 'b',
+      meta: true
+    },
+    {
+      command: 'italic',
+      key: 'i',
+      meta: true
+    },
+    {
+      command: 'underline',
+      key: 'u',
+      meta: true
+    }
+  ]
+}
+```
+
+## Extensions
+
+Disable built-in extensions or add custom ones:
+
+```typescript
+// Disable extensions
+toolbar: false,
+placeholder: false,
+anchorPreview: false,
+
+// Configure extensions
+extensions: {
+  customExtension: new MyCustomExtension()
+}
+```
+
+## Complete Example
+
+```typescript
+const editor = new MediumEditor('.editable', {
+  // Core settings
+  activeButtonClass: 'active-button',
+  delay: 500,
+  disableReturn: false,
+  disableDoubleReturn: true,
+  disableExtraSpaces: true,
+  autoLink: true,
+  targetBlank: true,
+  spellcheck: true,
+
+  // Button labels
+  buttonLabels: 'fontawesome',
+
+  // Toolbar
+  toolbar: {
+    buttons: [
+      'bold',
+      'italic',
+      'underline',
+      'strikethrough',
+      'anchor',
+      'h2',
+      'h3',
+      'quote',
+      'orderedlist',
+      'unorderedlist',
+      'justifyLeft',
+      'justifyCenter',
+      'justifyRight'
+    ],
+    static: true,
+    sticky: true,
+    align: 'center'
   },
 
-  /**
-   * The verbose setting.
-   * Default: false
-   * If set to true, the proxy will log more information.
-   */
-  verbose: false,
+  // Placeholder
+  placeholder: {
+    text: 'Write something amazing...',
+    hideOnClick: true
+  },
+
+  // Anchor configuration
+  anchor: {
+    linkValidation: true,
+    placeholderText: 'Enter URL',
+    targetCheckbox: true,
+    targetCheckboxText: 'Open in new tab'
+  },
+
+  // Paste handling
+  paste: {
+    cleanPastedHTML: true,
+    cleanAttrs: ['class', 'style', 'id'],
+    cleanTags: ['script', 'style', 'meta']
+  },
+
+  // Keyboard shortcuts
+  keyboardCommands: {
+    commands: [
+      { command: 'bold', key: 'b', meta: true },
+      { command: 'italic', key: 'i', meta: true }
+    ]
+  }
+})
+```
+
+## Environment-Specific Configuration
+
+### Development
+
+```typescript
+const isDev = process.env.NODE_ENV === 'development'
+
+const editor = new MediumEditor('.editable', {
+  // Enable debugging in development
+  spellcheck: isDev,
+
+  // More verbose toolbar in development
+  toolbar: {
+    buttons: isDev
+      ? ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote', 'pre', 'html']
+      : ['bold', 'italic', 'anchor']
+  }
+})
+```
+
+### Mobile Optimization
+
+```typescript
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+
+const editor = new MediumEditor('.editable', {
+  toolbar: {
+    // Simplified toolbar for mobile
+    buttons: isMobile
+      ? ['bold', 'italic', 'anchor']
+      : ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote'],
+
+    // Static toolbar on mobile for better UX
+    static: isMobile,
+    sticky: isMobile
+  },
+
+  // Disable some features on mobile
+  imageDragging: !isMobile,
+  fileDragging: !isMobile
+})
+```
+
+## TypeScript Configuration
+
+For optimal TypeScript support in your project:
+
+```json
+{
+  "compilerOptions": {
+    "lib": ["esnext", "dom", "dom.iterable"],
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true
+  }
 }
-
-export default config
 ```
 
-_Then run:_
+## Next Steps
 
-```bash
-./rpx start
-```
-
-To learn more, head over to the [documentation](https://reverse-proxy.sh/).
+- [Toolbar Features](./features/toolbar.md) - Detailed toolbar configuration
+- [Events](./features/events.md) - Event handling and custom events
+- [Extensions](./extensions.md) - Creating custom extensions
+- [API Reference](./api.md) - Complete API documentation

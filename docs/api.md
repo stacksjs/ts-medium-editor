@@ -1,17 +1,17 @@
 # API Reference
 
-This page provides a complete reference for all TypeScript Medium Editor APIs, including classes, methods, properties, and interfaces.
+This page provides a complete reference for all TypeScript Medium Editor APIs, including classes, methods, properties, and interfaces based on the actual implementation.
 
 ## MediumEditor Class
 
 ### Constructor
 
 ```typescript
-new MediumEditor(elements: ElementsType, options?: MediumEditorOptions)
+new MediumEditor(elements?: string | HTMLElement | HTMLElement[] | NodeList, options?: MediumEditorOptions)
 ```
 
 **Parameters:**
-- `elements`: CSS selector string, DOM element, NodeList, or array of elements
+- `elements`: CSS selector string, DOM element, NodeList, or array of elements (optional)
 - `options`: Configuration options (optional)
 
 **Example:**
@@ -25,24 +25,50 @@ const editor = new MediumEditor('.editable', {
 
 ### Properties
 
+#### `id: number`
+Unique identifier for the editor instance.
+
 #### `elements: HTMLElement[]`
 Array of DOM elements that the editor is attached to.
 
 #### `options: MediumEditorOptions`
 Current configuration options for the editor.
 
-#### `id: string`
-Unique identifier for the editor instance.
+#### `events: Events`
+Event handling system instance.
+
+#### `selection: typeof selection`
+Selection utility functions.
+
+#### `util: typeof util`
+Utility functions.
+
+#### `version: VersionInfo`
+Version information object.
+
+#### `extensions: Record<string, MediumEditorExtension>`
+Map of loaded extensions.
+
+### Initialization Methods
+
+#### `init(elements: string | HTMLElement | HTMLElement[] | NodeList, options?: MediumEditorOptions): MediumEditor`
+Initialize the editor with elements and options.
+
+#### `setup(): MediumEditor`
+Set up the editor (initializes extensions and event handlers).
+
+#### `destroy(): void`
+Destroy the editor and clean up all resources.
 
 ### Content Methods
 
-#### `getContent(index?: number): string`
+#### `getContent(index?: number): string | null`
 Get HTML content from editor elements.
 
 **Parameters:**
 - `index`: Optional index of specific element (returns all if omitted)
 
-**Returns:** HTML string content
+**Returns:** HTML string content or null
 
 **Example:**
 ```typescript
@@ -63,19 +89,22 @@ editor.setContent('<p>New content</p>')
 editor.setContent('<p>Specific content</p>', 0)
 ```
 
-#### `checkContentChanged(editable?: HTMLElement): boolean`
-Check if content has changed since initialization.
+#### `serialize(): Record<string, string>`
+Serialize all editor elements to a key-value object.
 
-**Parameters:**
-- `editable`: Optional specific element to check
+**Returns:** Object with element indices as keys and HTML content as values
 
-**Returns:** Boolean indicating if content changed
-
-#### `resetContent(editable?: HTMLElement): void`
+#### `resetContent(element?: HTMLElement): void`
 Reset content to original state.
 
 **Parameters:**
-- `editable`: Optional specific element to reset
+- `element`: Optional specific element to reset
+
+#### `checkContentChanged(editable?: HTMLElement): void`
+Check if content has changed since initialization and trigger events.
+
+**Parameters:**
+- `editable`: Optional specific element to check
 
 ### Selection Methods
 
@@ -97,11 +126,6 @@ Restore a previously exported selection.
 - `selectionState`: Previously exported selection state
 - `favorLaterSelectionAnchor`: Optional preference for anchor position
 
-**Example:**
-```typescript
-editor.importSelection(savedSelection)
-```
-
 #### `saveSelection(): void`
 Save current selection to internal state.
 
@@ -109,13 +133,19 @@ Save current selection to internal state.
 Restore previously saved selection.
 
 #### `selectAllContents(): void`
-Select all content in the focused element.
+Select all content in the currently focused element.
 
 #### `selectElement(element: HTMLElement): void`
 Select a specific element.
 
 **Parameters:**
 - `element`: Element to select
+
+#### `getFocusedElement(): HTMLElement | null`
+Get the currently focused editor element.
+
+#### `getSelectedParentElement(range?: Range): HTMLElement`
+Get the parent element of the current selection.
 
 #### `stopSelectionUpdates(): void`
 Temporarily stop selection update events.
@@ -126,7 +156,7 @@ Resume selection update events.
 #### `checkSelection(): void`
 Manually trigger selection checking and toolbar updates.
 
-### Formatting Methods
+### Action Methods
 
 #### `execAction(action: string, opts?: any): boolean`
 Execute a formatting action.
@@ -137,10 +167,17 @@ Execute a formatting action.
 
 **Returns:** Boolean indicating success
 
+**Available Actions:**
+- `bold`, `italic`, `underline`
+- `h2`, `h3`
+- `quote`
+- `createLink`
+- `unlink`
+
 **Example:**
 ```typescript
 editor.execAction('bold')
-editor.execAction('createLink', { url: 'https://example.com' })
+editor.execAction('createLink', { value: 'https://example.com' })
 ```
 
 #### `queryCommandState(action: string): boolean`
@@ -153,50 +190,54 @@ Check if a formatting command is currently active.
 
 ### Event Methods
 
-#### `subscribe(name: string, listener: EventListener): void`
+#### `subscribe(event: string, listener: (data?: any, editable?: HTMLElement) => void): MediumEditor`
 Subscribe to editor events.
 
 **Parameters:**
-- `name`: Event name
+- `event`: Event name
 - `listener`: Event handler function
 
 **Example:**
 ```typescript
-editor.subscribe('editableInput', (event, editable) => {
+editor.subscribe('editableInput', (data, editable) => {
   console.log('Content changed:', editable.innerHTML)
 })
 ```
 
-#### `unsubscribe(name: string, listener: EventListener): void`
+#### `unsubscribe(event: string, listener: (data?: any, editable?: HTMLElement) => void): MediumEditor`
 Unsubscribe from editor events.
 
-**Parameters:**
-- `name`: Event name
-- `listener`: Event handler function to remove
-
-#### `trigger(name: string, data?: any, editable?: HTMLElement): void`
+#### `trigger(name: string, data?: any, editable?: HTMLElement): MediumEditor`
 Trigger a custom event.
 
-**Parameters:**
-- `name`: Event name
-- `data`: Optional event data
-- `editable`: Optional target element
+#### `on(target: HTMLElement | Document | Window, event: string, listener: EventListener, useCapture?: boolean): MediumEditor`
+Attach DOM event listener (for internal use).
+
+#### `off(target: HTMLElement | Document | Window, event: string, listener: EventListener, useCapture?: boolean): MediumEditor`
+Detach DOM event listener (for internal use).
+
+### Element Management
+
+#### `addElements(selector: string | HTMLElement | HTMLElement[] | NodeList): MediumEditor`
+Add elements to the editor.
+
+#### `removeElements(selector: string | HTMLElement | HTMLElement[] | NodeList): MediumEditor`
+Remove elements from the editor.
 
 ### State Methods
 
-#### `setup(): MediumEditor`
-Initialize or re-initialize the editor.
+#### `activate(): MediumEditor`
+Activate the editor.
 
-**Returns:** The editor instance for chaining
+#### `deactivate(): MediumEditor`
+Deactivate the editor.
 
-#### `destroy(): void`
-Destroy the editor and clean up resources.
-
-**Note**: The `activate()`, `deactivate()`, and `isActive()` methods are not implemented in the current version.
+#### `isActive(): boolean`
+Check if the editor is currently active.
 
 ### Extension Methods
 
-#### `getExtensionByName(name: string): Extension | undefined`
+#### `getExtensionByName(name: string): MediumEditorExtension | undefined`
 Get an extension instance by name.
 
 **Parameters:**
@@ -209,77 +250,51 @@ Get an extension instance by name.
 const toolbar = editor.getExtensionByName('toolbar')
 ```
 
+### Utility Methods
+
+#### `delay(fn: () => void): void`
+Execute a function with a delay (using the configured delay option).
+
+#### `createLink(opts: { value: string, target?: string, buttonClass?: string }): void`
+Create a link from the current selection.
+
+#### `cleanPaste(text: string): string`
+Clean pasted text content.
+
+#### `pasteHTML(html: string, options?: { cleanAttrs?: string[], cleanTags?: string[], unwrapTags?: string[] }): void`
+Paste HTML content into the editor.
+
 ## Events
 
 ### Content Events
 
-#### `editableInput`
-Fired when content changes.
-
-**Handler signature:**
-```typescript
-(event: Event, editable: HTMLElement) => void
-```
-
-#### `editableKeydown`
-Fired on keydown in editor.
-
-**Handler signature:**
-```typescript
-(event: KeyboardEvent, editable: HTMLElement) => void
-```
-
-#### `editableKeyup`
-Fired on keyup in editor.
-
-**Handler signature:**
-```typescript
-(event: KeyboardEvent, editable: HTMLElement) => void
-```
+| Event | Parameters | Description |
+|-------|------------|-------------|
+| `editableInput` | `(data: any, editable: HTMLElement)` | Content changed |
+| `editableKeydown` | `(data: KeyboardEvent, editable: HTMLElement)` | Key pressed down |
+| `editableKeyup` | `(data: KeyboardEvent, editable: HTMLElement)` | Key released |
+| `editableKeypress` | `(data: KeyboardEvent, editable: HTMLElement)` | Key pressed |
+| `editableClick` | `(data: Event, editable: HTMLElement)` | Editor clicked |
+| `editableBlur` | `(data: FocusEvent, editable: HTMLElement)` | Editor lost focus |
+| `editablePaste` | `(data: ClipboardEvent, editable: HTMLElement)` | Content pasted |
+| `editableDrag` | `(data: DragEvent, editable: HTMLElement)` | Content dragged |
+| `editableDrop` | `(data: DragEvent, editable: HTMLElement)` | Content dropped |
 
 ### Focus Events
 
-#### `focus`
-Fired when editor gains focus.
-
-**Handler signature:**
-```typescript
-(event: FocusEvent, editable: HTMLElement) => void
-```
-
-#### `blur`
-Fired when editor loses focus.
-
-**Handler signature:**
-```typescript
-(event: FocusEvent, editable: HTMLElement) => void
-```
+| Event | Parameters | Description |
+|-------|------------|-------------|
+| `focus` | `(data: FocusEvent, editable: HTMLElement)` | Editor gained focus |
+| `blur` | `(data: FocusEvent, editable: HTMLElement)` | Editor lost focus |
+| `externalInteraction` | `(data: Event)` | User interacted outside editor |
 
 ### Toolbar Events
 
-#### `showToolbar`
-Fired when toolbar becomes visible.
-
-**Handler signature:**
-```typescript
-(event: Event, editable: HTMLElement) => void
-```
-
-#### `hideToolbar`
-Fired when toolbar becomes hidden.
-
-**Handler signature:**
-```typescript
-(event: Event, editable: HTMLElement) => void
-```
-
-#### `positionToolbar`
-Fired when toolbar position changes.
-
-**Handler signature:**
-```typescript
-(event: Event, editable: HTMLElement) => void
-```
+| Event | Parameters | Description |
+|-------|------------|-------------|
+| `showToolbar` | `(data: any, editable: HTMLElement)` | Toolbar shown |
+| `hideToolbar` | `(data: any, editable: HTMLElement)` | Toolbar hidden |
+| `positionToolbar` | `(data: any, editable: HTMLElement)` | Toolbar repositioned |
 
 ## Configuration Interfaces
 
@@ -287,21 +302,37 @@ Fired when toolbar position changes.
 
 ```typescript
 interface MediumEditorOptions {
-  toolbar?: ToolbarOptions | false
-  placeholder?: PlaceholderOptions
-  anchor?: AnchorOptions
-  paste?: PasteOptions
-  keyboardCommands?: KeyboardCommandsOptions
-  autoLink?: boolean
-  imageDragging?: boolean
-  disableReturn?: boolean
-  disableDoubleReturn?: boolean
-  disableExtraSpaces?: boolean
-  disableEditing?: boolean
-  elementsContainer?: HTMLElement
-  spellcheck?: boolean
-  targetBlank?: boolean
-  extensions?: { [key: string]: Extension }
+  // Core Settings
+  activeButtonClass?: string // CSS class for active buttons
+  buttonLabels?: boolean | string | Record<string, string> // Button label configuration
+  delay?: number // Toolbar show delay (ms)
+  disableReturn?: boolean // Disable return key
+  disableDoubleReturn?: boolean // Disable double return
+  disableExtraSpaces?: boolean // Prevent extra spaces
+  disableEditing?: boolean // Make editor read-only
+  spellcheck?: boolean // Enable spellcheck
+
+  // Auto-features
+  autoLink?: boolean // Auto-convert URLs to links
+  targetBlank?: boolean // Open links in new tab
+  imageDragging?: boolean // Enable image drag-and-drop
+  fileDragging?: boolean // Enable file drag-and-drop
+
+  // DOM Configuration
+  elementsContainer?: HTMLElement // Container for editor elements
+  contentWindow?: Window // Window context
+  ownerDocument?: Document // Document context
+
+  // Extensions
+  extensions?: Record<string, MediumEditorExtension> // Custom extensions
+
+  // Built-in Features
+  toolbar?: ToolbarOptions | false // Toolbar configuration
+  anchorPreview?: AnchorPreviewOptions | false // Link preview
+  placeholder?: PlaceholderOptions | false // Placeholder text
+  anchor?: AnchorOptions | false // Link creation
+  paste?: PasteOptions | false // Paste handling
+  keyboardCommands?: KeyboardCommandsOptions | false // Keyboard shortcuts
 }
 ```
 
@@ -309,11 +340,40 @@ interface MediumEditorOptions {
 
 ```typescript
 interface ToolbarOptions {
-  buttons?: string[] // Available buttons: 'bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote'
-  static?: boolean // Show toolbar always (default: false)
-  sticky?: boolean // Stick to top when scrolling (default: false)
-  updateOnEmptySelection?: boolean // Update on empty selection (default: false)
-  align?: 'left' | 'center' | 'right' // Toolbar alignment (default: 'center')
+  // Button Configuration
+  buttons?: Array<string | ToolbarButton> // Button list
+  firstButtonClass?: string // CSS class for first button
+  lastButtonClass?: string // CSS class for last button
+
+  // Positioning
+  static?: boolean // Always visible toolbar
+  align?: 'left' | 'center' | 'right' // Toolbar alignment
+  sticky?: boolean // Stick to viewport when scrolling
+  relativeContainer?: HTMLElement | null // Position relative to container
+  diffLeft?: number // Horizontal offset
+  diffTop?: number // Vertical offset
+
+  // Behavior
+  allowMultiParagraphSelection?: boolean // Show for multi-paragraph selections
+  standardizeSelectionStart?: boolean // Normalize selection start
+  updateOnEmptySelection?: boolean // Update on empty selection
+}
+```
+
+### ToolbarButton
+
+```typescript
+interface ToolbarButton {
+  name: string // Button identifier
+  action?: string // Command action
+  aria?: string // Accessibility label
+  tagNames?: string[] // Associated HTML tags
+  style?: { prop: string, value: string } // Inline style detection
+  useQueryState?: boolean // Use queryCommandState
+  contentDefault?: string // Button content (HTML)
+  contentFA?: string // FontAwesome content
+  classList?: string[] // CSS classes
+  attrs?: Record<string, string> // HTML attributes
 }
 ```
 
@@ -321,9 +381,9 @@ interface ToolbarOptions {
 
 ```typescript
 interface PlaceholderOptions {
-  text?: string
-  hideOnClick?: boolean
-  hideOnFocus?: boolean
+  text?: string // Placeholder text
+  hideOnClick?: boolean // Hide when clicked
+  hideOnFocus?: boolean // Hide when focused
 }
 ```
 
@@ -331,13 +391,12 @@ interface PlaceholderOptions {
 
 ```typescript
 interface AnchorOptions {
-  linkValidation?: boolean
-  placeholderText?: string
-  targetCheckbox?: boolean
-  targetCheckboxText?: string
-  customClassOption?: string | null
-  customClassOptionText?: string
-  urlValidation?: boolean
+  customClassOption?: string // Custom CSS class
+  customClassOptionText?: string // Custom class label
+  linkValidation?: boolean // Validate URLs
+  placeholderText?: string // Input placeholder
+  targetCheckbox?: boolean // Show target checkbox
+  targetCheckboxText?: string // Target checkbox label
 }
 ```
 
@@ -345,11 +404,13 @@ interface AnchorOptions {
 
 ```typescript
 interface PasteOptions {
-  forcePlainText?: boolean
-  cleanPastedHTML?: boolean
-  cleanReplacements?: Array<[RegExp, string]>
-  cleanAttrs?: string[]
-  cleanTags?: string[]
+  forcePlainText?: boolean // Force plain text paste
+  cleanPastedHTML?: boolean // Clean HTML content
+  preCleanReplacements?: Array<[RegExp, string]> // Pre-clean replacements
+  cleanReplacements?: Array<[RegExp, string]> // Clean replacements
+  cleanAttrs?: string[] // Attributes to clean
+  cleanTags?: string[] // Tags to clean
+  unwrapTags?: string[] // Tags to unwrap
 }
 ```
 
@@ -357,15 +418,15 @@ interface PasteOptions {
 
 ```typescript
 interface KeyboardCommandsOptions {
-  commands?: KeyboardCommand[]
+  commands?: KeyboardCommand[] // Keyboard command list
 }
 
 interface KeyboardCommand {
-  command: string
-  key: string
-  meta: boolean
-  shift: boolean
-  alt: boolean
+  command: string // Command name
+  key: string // Key identifier
+  meta?: boolean // Meta/Cmd key
+  shift?: boolean // Shift key
+  alt?: boolean // Alt key
 }
 ```
 
@@ -373,205 +434,185 @@ interface KeyboardCommand {
 
 ```typescript
 interface SelectionState {
-  start: number
-  end: number
-  emptyBlocksIndex?: number
+  start: number // Selection start offset
+  end: number // Selection end offset
+  startsWithImage?: boolean // Selection starts with image
+  trailingImageCount?: number // Images at selection end
+  emptyBlocksIndex?: number // Empty block position
 }
 ```
 
-## Extension Base Class
+## Extension Interfaces
 
-### Extension
+### MediumEditorExtension
 
 ```typescript
-abstract class Extension {
-  abstract name: string
-  base?: MediumEditor
-  options: any
-
-  constructor(options?: any)
-  abstract init(): void
-  destroy?(): void
-  getDefaults?(): any
-
-  // Event methods
-  subscribe(name: string, listener: EventListener): void
-  unsubscribe(name: string, listener: EventListener): void
-  trigger(name: string, data?: any): void
+interface MediumEditorExtension {
+  name?: string // Extension identifier
+  init?: () => void // Initialize extension
+  destroy?: () => void // Cleanup extension
+  checkState?: (node: Node) => void // Check state
+  isActive?: () => boolean // Check if active
+  isAlreadyApplied?: (node: Node) => boolean // Check if applied
+  setActive?: () => void // Set active state
+  setInactive?: () => void // Set inactive state
+  queryCommandState?: () => boolean // Query command state
+  handleClick?: (event: Event) => void // Handle click
+  handleKeydown?: (event: KeyboardEvent) => void // Handle keydown
+  getInteractionElements?: () => HTMLElement | HTMLElement[] // Get elements
 }
 ```
 
-### Extension Lifecycle
-
-1. **Constructor**: Initialize with options
-2. **init()**: Called when editor initializes
-3. **destroy()**: Called when editor is destroyed (optional)
-
-### Creating Custom Extensions
+### ButtonExtension
 
 ```typescript
-class MyExtension extends Extension {
-  name = 'myExtension'
-
-  getDefaults() {
-    return {
-      option1: 'default value',
-      option2: true
-    }
-  }
-
-  init() {
-    // Extension initialization
-    this.base?.subscribe('editableInput', this.handleInput.bind(this))
-  }
-
-  destroy() {
-    // Cleanup
-    this.base?.unsubscribe('editableInput', this.handleInput)
-  }
-
-  private handleInput(event: Event, editable: HTMLElement) {
-    // Handle input events
-  }
+interface ButtonExtension extends MediumEditorExtension {
+  button?: HTMLElement // Button element
+  action?: string // Button action
+  aria?: string // Accessibility label
+  tagNames?: string[] // Associated tags
+  style?: { prop: string, value: string } // Style detection
+  useQueryState?: boolean // Use query state
+  contentDefault?: string // Default content
+  contentFA?: string // FontAwesome content
+  classList?: string[] // CSS classes
+  attrs?: Record<string, string> // HTML attributes
 }
 ```
 
 ## Toolbar Extension API
 
-### Toolbar Class
+The toolbar extension provides additional methods beyond the base extension interface:
 
-The toolbar extension provides additional methods:
+### Toolbar Class Methods
 
-#### `addButton(buttonOptions: ButtonOptions): void`
-Add a custom button to the toolbar.
+#### `createToolbar(): void`
+Create the toolbar DOM element.
 
-**Parameters:**
-- `buttonOptions`: Button configuration object
+#### `createButtons(): void`
+Create all toolbar buttons.
 
-```typescript
-interface ButtonOptions {
-  name: string
-  aria: string
-  tagNames?: string[]
-  contentDefault: string
-  contentFA?: string
-  action: (event: Event) => void
-}
-```
-
-**Example:**
-```typescript
-const toolbar = editor.getExtensionByName('toolbar')
-toolbar?.addButton({
-  name: 'custom',
-  aria: 'Custom Action',
-  contentDefault: '<b>C</b>',
-  action: (event) => {
-    // Custom button action
-  }
-})
-```
-
-#### `removeButton(name: string): void`
-Remove a button from the toolbar.
-
-**Parameters:**
-- `name`: Button name to remove
-
-#### `updateButtonStates(): void`
-Update the active state of all toolbar buttons.
+#### `createButton(name: string): HTMLElement | null`
+Create a specific button by name.
 
 #### `showToolbar(): void`
-Manually show the toolbar.
+Show the toolbar.
 
 #### `hideToolbar(): void`
-Manually hide the toolbar.
+Hide the toolbar.
 
 #### `positionToolbar(): void`
-Recalculate and update toolbar position.
+Position the toolbar relative to selection.
+
+#### `updateButtonStates(): void`
+Update active states of all buttons.
+
+#### `checkState(): void`
+Check and update toolbar state.
+
+#### `getToolbarElement(): HTMLElement | null`
+Get the toolbar DOM element.
+
+#### `getInteractionElements(): HTMLElement[]`
+Get elements that should prevent external interaction events.
 
 ## Utility Functions
 
-### DOM Utilities
-
-#### `getSelectionElement(selection?: Selection): HTMLElement | null`
-Get the element containing the current selection.
-
-#### `getSelectionStart(selection?: Selection): HTMLElement | null`
-Get the start element of the selection.
-
-#### `isDescendant(parent: HTMLElement, child: Node): boolean`
-Check if a node is a descendant of another element.
-
-#### `isElement(node: Node): node is HTMLElement`
-Type guard to check if a node is an HTMLElement.
-
 ### Selection Utilities
 
-#### `getCaretOffsets(element: HTMLElement, range?: Range): { start: number; end: number }`
-Get caret position offsets within an element.
+#### `selection.exportSelection(root: HTMLElement, doc: Document): SelectionState | null`
+Export selection state from a root element.
 
-#### `moveToSelectionEnd(selection: Selection): void`
-Move selection to the end of the current range.
+#### `selection.importSelection(selectionState: SelectionState, root: HTMLElement, doc: Document, favorLaterSelectionAnchor?: boolean): void`
+Import selection state to a root element.
 
-#### `selectNode(node: Node, selection?: Selection): void`
-Select a specific node.
+#### `selection.getSelectionElement(contentWindow: Window): HTMLElement | false`
+Get the editor element containing the current selection.
 
-### Content Utilities
+#### `selection.getCaretOffsets(element: HTMLElement, range?: Range): CaretOffsets`
+Get caret position within an element.
 
-#### `getContentEditableContainer(element: HTMLElement): HTMLElement | null`
-Find the contenteditable container for an element.
+### DOM Utilities
 
-#### `isBlockContainer(element: HTMLElement): boolean`
-Check if an element is a block-level container.
+#### `util.isElement(obj: any): obj is Element`
+Check if object is a DOM element.
 
-#### `unwrap(element: HTMLElement): void`
-Remove an element while preserving its contents.
+#### `util.isDescendant(parent: Node, child: Node, checkEquality?: boolean): boolean`
+Check if node is descendant of another.
 
-#### `insertHTMLCommand(html: string): boolean`
-Insert HTML at the current selection.
+#### `util.traverseUp(current: Node, testElementFunction: (node: Node) => boolean): Node | false`
+Traverse up DOM tree with test function.
 
-## Type Definitions
+#### `util.getClosestBlockContainer(node: Node): HTMLElement | null`
+Get closest block container element.
 
-### ElementsType
+#### `util.insertHTMLCommand(doc: Document, html: string): void`
+Insert HTML at current selection.
+
+### String Utilities
+
+#### `util.htmlEntities(str: string): string`
+Encode HTML entities in string.
+
+#### `util.ensureUrlHasProtocol(url: string): string`
+Ensure URL has protocol prefix.
+
+### Browser Detection
+
+#### `util.isIE: boolean`
+True if Internet Explorer.
+
+#### `util.isEdge: boolean`
+True if Microsoft Edge.
+
+#### `util.isFF: boolean`
+True if Firefox.
+
+#### `util.isMac: boolean`
+True if macOS.
+
+## Version Information
+
+### VersionInfo Interface
 
 ```typescript
-type ElementsType =
-  | string
-  | HTMLElement
-  | HTMLElement[]
-  | NodeList
-  | HTMLCollection
+interface VersionInfo {
+  major: number
+  minor: number
+  revision: number
+  preRelease: string
+  toString: () => string
+}
 ```
 
-### EventListener
+Access version information:
 
 ```typescript
-type EventListener = (event: Event, ...args: any[]) => void
-```
-
-### ButtonAction
-
-```typescript
-type ButtonAction = (event: Event) => void
+console.log(MediumEditor.version.toString()) // "1.0.0"
+console.log(editor.version.major) // 1
 ```
 
 ## Error Handling
 
-### Common Errors
+### Common Error Scenarios
 
-#### `EditorNotInitializedError`
-Thrown when attempting to use editor methods before initialization.
+1. **Invalid Elements**: When constructor receives invalid elements
+2. **Extension Not Found**: When accessing non-existent extension
+3. **Selection Issues**: When selection operations fail
 
-#### `InvalidElementError`
-Thrown when invalid elements are passed to the constructor.
+### Best Practices
 
-#### `ExtensionNotFoundError`
-Thrown when attempting to access a non-existent extension.
+Always check for extension existence:
 
-### Error Prevention
+```typescript
+const toolbar = editor.getExtensionByName('toolbar')
+if (toolbar) {
+  // Safe to use toolbar methods
+  toolbar.showToolbar()
+}
+```
 
-Always check if the editor is initialized:
+Check editor state before operations:
 
 ```typescript
 if (editor.isActive()) {
@@ -579,48 +620,28 @@ if (editor.isActive()) {
 }
 ```
 
-Check for extension existence:
-
-```typescript
-const toolbar = editor.getExtensionByName('toolbar')
-if (toolbar) {
-  toolbar.showToolbar()
-}
-```
-
 ## Browser Compatibility
 
 ### Supported Features
 
-- **ES6 Modules**: Full support
-- **TypeScript**: Native support
 - **Modern DOM APIs**: Selection, Range, MutationObserver
-- **CSS Custom Properties**: For theming
+- **ES6+ Features**: Classes, arrow functions, template literals
+- **TypeScript**: Full type safety and IntelliSense
 
-### Polyfills
+### Browser Support
 
-For older browser support, include these polyfills:
-
-```html
-<!-- For IE11 support -->
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-```
+- **Chrome**: 60+
+- **Firefox**: 55+
+- **Safari**: 12+
+- **Edge**: 79+ (Chromium-based)
 
 ### Feature Detection
 
-The editor includes built-in feature detection:
+The editor includes built-in feature detection for:
 
-```typescript
-// Check for contenteditable support
-if (!document.queryCommandSupported('contentEditable')) {
-  console.warn('contentEditable not supported')
-}
-
-// Check for Selection API
-if (!window.getSelection) {
-  console.warn('Selection API not supported')
-}
-```
+- contentEditable support
+- Input event support
+- Selection API availability
 
 ## Performance Considerations
 
@@ -635,39 +656,26 @@ editor.destroy()
 
 ### Event Optimization
 
-Use event delegation for better performance:
+The editor uses efficient event handling:
 
-```typescript
-// Good: Single event listener
-document.addEventListener('click', (event) => {
-  if (event.target.matches('.editor-button')) {
-    // Handle click
-  }
-})
-
-// Avoid: Multiple event listeners
-buttons.forEach((button) => {
-  button.addEventListener('click', handler)
-})
-```
+- Event delegation where possible
+- Debounced expensive operations
+- Proper cleanup on destroy
 
 ### DOM Optimization
 
-Batch DOM updates when possible:
+Use selection update controls for batch operations:
 
 ```typescript
-// Good: Batch updates
+// Batch DOM updates
 editor.stopSelectionUpdates()
 // Multiple DOM changes
 editor.startSelectionUpdates()
-
-// Avoid: Individual updates
-// Multiple separate DOM modifications
 ```
 
 ## Next Steps
 
-- Explore [Toolbar](/features/toolbar) for detailed functionality guides
-- Check out [Extensions](/extensions) for creating custom functionality
-- See [Custom Extensions](/advanced/custom-extensions) for complex scenarios
-- Review [Usage Guide](/usage) for practical implementations
+- Explore [Toolbar](/features/toolbar) for detailed toolbar functionality
+- Check out [Events](/features/events) for comprehensive event handling
+- See [Extensions](/extensions) for creating custom functionality
+- Review [Custom Extensions](/advanced/custom-extensions) for advanced scenarios

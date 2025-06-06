@@ -83,90 +83,29 @@ Ready to start using TypeScript Medium Editor? Head over to the [Installation Gu
 
 TypeScript Medium Editor is released under the [MIT License](/license), making it free for both personal and commercial use.
 
-# ts-medium-editor
+## Next Steps
 
-This is an opinionated TypeScript Starter kit to help kick-start development of your next Bun package.
+Now that you understand what TypeScript Medium Editor offers, you're ready to dive in:
 
-## Get Started
+1. **[Installation](/install)** - Get the editor installed in your project
+2. **[Quick Start](/usage)** - Create your first editor instance
+3. **[Configuration](/config)** - Customize the editor to your needs
+4. **[Toolbar Features](/features/toolbar)** - Learn about toolbar customization
+5. **[Events](/features/events)** - Handle editor events and interactions
+6. **[Extensions](/extensions)** - Extend functionality with custom plugins
 
-It's rather simple to get your package development started:
+## Examples and Demos
 
-```bash
-# you may use this GitHub template or the following command:
-bunx degit stacksjs/ts-medium-editor my-pkg
-cd my-pkg
+Explore our comprehensive demo collection to see the editor in action:
 
- # if you don't have pnpm installed, run `npm i -g pnpm`
-bun i # install all deps
-bun run build # builds the library for production-ready use
+- **[Basic Editor](../demo/index.html)** - Simple setup with essential toolbar
+- **[Custom Toolbars](../demo/custom-toolbar.html)** - Multiple toolbar configurations
+- **[Extension Examples](../demo/extension-example.html)** - Custom extensions and plugins
+- **[Multi-Editor Setup](../demo/multi-editor.html)** - Multiple editor instances
 
-# after you have successfully committed, you may create a "release"
-bun run release # automates git commits, versioning, and changelog generations
-```
+## Need Help?
 
-_Check out the package.json scripts for more commands._
-
-### Developer Experience (DX)
-
-This Starter Kit comes pre-configured with the following:
-
-- [Powerful Build Process](https://github.com/oven-sh/bun) - via Bun
-- [Fully Typed APIs](https://www.typescriptlang.org/) - via TypeScript
-- [Documentation-ready](https://vitepress.dev/) - via VitePress
-- [CLI & Binary](https://www.npmjs.com/package/bunx) - via Bun & CAC
-- [Be a Good Commitizen](https://www.npmjs.com/package/git-cz) - pre-configured Commitizen & git-cz setup to simplify semantic git commits, versioning, and changelog generations
-- [Built With Testing In Mind](https://bun.sh/docs/cli/test) - pre-configured unit-testing powered by [Bun](https://bun.sh/docs/cli/test)
-- [Renovate](https://renovatebot.com/) - optimized & automated PR dependency updates
-- [ESLint](https://eslint.org/) - for code linting _(and formatting)_
-- [GitHub Actions](https://github.com/features/actions) - runs your CI _(fixes code style issues, tags releases & creates its changelogs, runs the test suite, etc.)_
-
-## Changelog
-
-Please see our [releases](https://github.com/stacksjs/stacks/releases) page for more information on what has changed recently.
-
-## Stargazers
-
-[![Stargazers](https://starchart.cc/stacksjs/ts-medium-editor.svg?variant=adaptive)](https://starchart.cc/stacksjs/ts-medium-editor)
-
-## Contributing
-
-Please review the [Contributing Guide](https://github.com/stacksjs/contributing) for details.
-
-## Community
-
-For help, discussion about best practices, or any other conversation that would benefit from being searchable:
-
-[Discussions on GitHub](https://github.com/stacksjs/stacks/discussions)
-
-For casual chit-chat with others using this package:
-
-[Join the Stacks Discord Server](https://discord.gg/stacksjs)
-
-## Postcardware
-
-Two things are true: Stacks OSS will always stay open-source, and we do love to receive postcards from wherever Stacks is used! 🌍 _We also publish them on our website. And thank you, Spatie_
-
-Our address: Stacks.js, 12665 Village Ln #2306, Playa Vista, CA 90094
-
-## Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Stacks development. If you are interested in becoming a sponsor, please reach out to us.
-
-- [JetBrains](https://www.jetbrains.com/)
-- [The Solana Foundation](https://solana.com/)
-
-## Credits
-
-- [Chris Breuer](https://github.com/chrisbbreuer)
-- [All Contributors](https://github.com/stacksjs/rpx/graphs/contributors)
-
-## License
-
-The MIT License (MIT). Please see [LICENSE](https://github.com/stacksjs/ts-medium-editor/tree/main/LICENSE.md) for more information.
-
-Made with 💙
-
-<!-- Badges -->
-
-<!-- [codecov-src]: https://img.shields.io/codecov/c/gh/stacksjs/rpx/main?style=flat-square
-[codecov-href]: https://codecov.io/gh/stacksjs/rpx -->
+- **[API Reference](/api)** - Complete API documentation
+- **[GitHub Issues](https://github.com/stacksjs/ts-medium-editor/issues)** - Report bugs or request features
+- **[Discussions](https://github.com/stacksjs/stacks/discussions)** - Ask questions and share ideas
+- **[Discord](https://discord.gg/stacksjs)** - Chat with the community

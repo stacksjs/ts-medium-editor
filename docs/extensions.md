@@ -141,9 +141,16 @@ class MyExtension implements MediumEditorExtension {
 Create an extension that counts words and characters:
 
 ```typescript
-class WordCounter extends Extension {
+class WordCounter implements MediumEditorExtension {
   name = 'wordCounter'
+  private editor: MediumEditor
+  private options: any
   private counterElement: HTMLElement | null = null
+
+  constructor(editor: MediumEditor, options: any = {}) {
+    this.editor = editor
+    this.options = { ...this.getDefaults(), ...options }
+  }
 
   getDefaults() {
     return {
@@ -155,7 +162,7 @@ class WordCounter extends Extension {
 
   init() {
     this.createCounterElement()
-    this.base.subscribe('editableInput', this.updateCount.bind(this))
+    this.editor.subscribe('editableInput', this.updateCount.bind(this))
     this.updateCount()
   }
 
@@ -188,7 +195,7 @@ class WordCounter extends Extension {
     if (!this.counterElement)
       return
 
-    const content = this.base.getContent()
+    const content = this.editor.getContent()
     const text = this.stripHtml(content)
 
     const words = text.trim() ? text.trim().split(/\s+/).length : 0
@@ -213,14 +220,16 @@ class WordCounter extends Extension {
 }
 
 // Usage
-const editor = new MediumEditor('.editable', {
-  extensions: {
-    wordCounter: new WordCounter({
-      displayWords: true,
-      displayCharacters: true
-    })
-  }
+const editor = new MediumEditor('.editable')
+const wordCounter = new WordCounter(editor, {
+  displayWords: true,
+  displayCharacters: true
 })
+
+// Add to extensions after creation
+editor.options.extensions = {
+  wordCounter
+}
 ```
 
 ### Auto-Save Extension
@@ -228,10 +237,17 @@ const editor = new MediumEditor('.editable', {
 Create an extension that automatically saves content:
 
 ```typescript
-class AutoSave extends Extension {
+class AutoSave implements MediumEditorExtension {
   name = 'autoSave'
+  private editor: MediumEditor
+  private options: any
   private saveTimeout: number | null = null
   private isDirty = false
+
+  constructor(editor: MediumEditor, options: any = {}) {
+    this.editor = editor
+    this.options = { ...this.getDefaults(), ...options }
+  }
 
   getDefaults() {
     return {
@@ -242,8 +258,8 @@ class AutoSave extends Extension {
   }
 
   init() {
-    this.base.subscribe('editableInput', this.handleInput.bind(this))
-    this.base.subscribe('blur', this.handleBlur.bind(this))
+    this.editor.subscribe('editableInput', this.handleInput.bind(this))
+    this.editor.subscribe('blur', this.handleBlur.bind(this))
 
     if (this.options.indicator) {
       this.createSaveIndicator()
@@ -283,7 +299,7 @@ class AutoSave extends Extension {
 
     try {
       this.showSaveStatus('saving')
-      const content = this.base.getContent()
+      const content = this.editor.getContent()
       await this.options.saveCallback(content)
       this.isDirty = false
       this.showSaveStatus('saved')
@@ -305,20 +321,22 @@ class AutoSave extends Extension {
 }
 
 // Usage
-const editor = new MediumEditor('.editable', {
-  extensions: {
-    autoSave: new AutoSave({
-      delay: 3000,
-      saveCallback: async (content) => {
-        await fetch('/api/save', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ content })
-        })
-      }
+const editor = new MediumEditor('.editable')
+const autoSave = new AutoSave(editor, {
+  delay: 3000,
+  saveCallback: async (content) => {
+    await fetch('/api/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content })
     })
   }
 })
+
+// Add to extensions after creation
+editor.options.extensions = {
+  autoSave
+}
 ```
 
 ### Custom Toolbar Button Extension
@@ -326,61 +344,31 @@ const editor = new MediumEditor('.editable', {
 Create custom toolbar buttons:
 
 ```typescript
-class CustomButtons extends Extension {
+class CustomButtons implements MediumEditorExtension {
   name = 'customButtons'
+  private editor: MediumEditor
+
+  constructor(editor: MediumEditor) {
+    this.editor = editor
+  }
 
   init() {
-    this.addStrikethroughButton()
-    this.addCodeButton()
-    this.addHighlightButton()
+    // Note: Custom buttons are typically added through toolbar configuration
+    // This example shows how you might extend functionality
+    this.setupCustomActions()
   }
 
-  private addStrikethroughButton() {
-    const toolbar = this.base.getExtensionByName('toolbar')
-    if (!toolbar)
-      return
-
-    toolbar.addButton({
-      name: 'strikethrough',
-      aria: 'Strikethrough',
-      tagNames: ['s', 'strike'],
-      contentDefault: '<b>S</b>',
-      action: (event: Event) => {
-        this.base.execAction('strikethrough')
-      }
-    })
+  private setupCustomActions() {
+    // Add custom event handlers
+    this.editor.subscribe('editableKeydown', this.handleKeydown.bind(this))
   }
 
-  private addCodeButton() {
-    const toolbar = this.base.getExtensionByName('toolbar')
-    if (!toolbar)
-      return
-
-    toolbar.addButton({
-      name: 'code',
-      aria: 'Code',
-      tagNames: ['code'],
-      contentDefault: '<b>&lt;/&gt;</b>',
-      action: (event: Event) => {
-        this.wrapSelection('code')
-      }
-    })
-  }
-
-  private addHighlightButton() {
-    const toolbar = this.base.getExtensionByName('toolbar')
-    if (!toolbar)
-      return
-
-    toolbar.addButton({
-      name: 'highlight',
-      aria: 'Highlight',
-      tagNames: ['mark'],
-      contentDefault: '<b>H</b>',
-      action: (event: Event) => {
-        this.wrapSelection('mark')
-      }
-    })
+  private handleKeydown(event: KeyboardEvent, editable: HTMLElement) {
+    // Ctrl/Cmd + Shift + H for highlight
+    if (event.key === 'H' && (event.ctrlKey || event.metaKey) && event.shiftKey) {
+      event.preventDefault()
+      this.wrapSelection('mark')
+    }
   }
 
   private wrapSelection(tagName: string) {
@@ -407,11 +395,13 @@ class CustomButtons extends Extension {
 const editor = new MediumEditor('.editable', {
   toolbar: {
     buttons: ['bold', 'italic', 'underline', 'strikethrough', 'code', 'highlight']
-  },
-  extensions: {
-    customButtons: new CustomButtons()
   }
 })
+
+const customButtons = new CustomButtons(editor)
+editor.options.extensions = {
+  customButtons
+}
 ```
 
 ### Markdown Support Extension
@@ -419,11 +409,16 @@ const editor = new MediumEditor('.editable', {
 Add markdown shortcuts:
 
 ```typescript
-class MarkdownShortcuts extends Extension {
+class MarkdownShortcuts implements MediumEditorExtension {
   name = 'markdownShortcuts'
+  private editor: MediumEditor
+
+  constructor(editor: MediumEditor) {
+    this.editor = editor
+  }
 
   init() {
-    this.base.subscribe('editableKeyup', this.handleKeyup.bind(this))
+    this.editor.subscribe('editableKeyup', this.handleKeyup.bind(this))
   }
 
   private handleKeyup(event: KeyboardEvent, editable: HTMLElement) {
@@ -530,11 +525,12 @@ class MarkdownShortcuts extends Extension {
 }
 
 // Usage
-const editor = new MediumEditor('.editable', {
-  extensions: {
-    markdownShortcuts: new MarkdownShortcuts()
-  }
-})
+const editor = new MediumEditor('.editable')
+const markdownShortcuts = new MarkdownShortcuts(editor)
+
+editor.options.extensions = {
+  markdownShortcuts
+}
 ```
 
 ## Extension Communication
@@ -544,12 +540,17 @@ const editor = new MediumEditor('.editable', {
 Extensions can communicate with each other through the editor instance:
 
 ```typescript
-class ExtensionA extends Extension {
+class ExtensionA implements MediumEditorExtension {
   name = 'extensionA'
+  private editor: MediumEditor
+
+  constructor(editor: MediumEditor) {
+    this.editor = editor
+  }
 
   init() {
     // Trigger custom event
-    this.base.trigger('extensionA:ready', { data: 'hello' })
+    this.editor.trigger('extensionA:ready', { data: 'hello' })
   }
 
   public doSomething() {
@@ -557,19 +558,24 @@ class ExtensionA extends Extension {
   }
 }
 
-class ExtensionB extends Extension {
+class ExtensionB implements MediumEditorExtension {
   name = 'extensionB'
+  private editor: MediumEditor
+
+  constructor(editor: MediumEditor) {
+    this.editor = editor
+  }
 
   init() {
     // Listen for custom event
-    this.base.subscribe('extensionA:ready', this.handleExtensionAReady.bind(this))
+    this.editor.subscribe('extensionA:ready', this.handleExtensionAReady.bind(this))
   }
 
-  private handleExtensionAReady(event: Event, data: any) {
+  private handleExtensionAReady(data: any, editable: HTMLElement) {
     console.log('Extension A is ready:', data)
 
     // Access other extension
-    const extensionA = this.base.getExtensionByName('extensionA')
+    const extensionA = this.editor.getExtensionByName('extensionA')
     if (extensionA) {
       const result = extensionA.doSomething()
       console.log(result)
@@ -583,18 +589,23 @@ class ExtensionB extends Extension {
 Extensions can share state through the editor instance:
 
 ```typescript
-class StateManager extends Extension {
+class StateManager implements MediumEditorExtension {
   name = 'stateManager'
+  private editor: MediumEditor
   private sharedState: Map<string, any> = new Map()
+
+  constructor(editor: MediumEditor) {
+    this.editor = editor
+  }
 
   init() {
     // Make state manager available globally
-    this.base.stateManager = this
+    (this.editor as any).stateManager = this
   }
 
   setState(key: string, value: any) {
     this.sharedState.set(key, value)
-    this.base.trigger('stateChanged', { key, value })
+    this.editor.trigger('stateChanged', { key, value })
   }
 
   getState(key: string) {
@@ -602,19 +613,24 @@ class StateManager extends Extension {
   }
 }
 
-class ConsumerExtension extends Extension {
+class ConsumerExtension implements MediumEditorExtension {
   name = 'consumer'
+  private editor: MediumEditor
 
-  init() {
-    this.base.subscribe('stateChanged', this.handleStateChange.bind(this))
+  constructor(editor: MediumEditor) {
+    this.editor = editor
   }
 
-  private handleStateChange(event: Event, data: { key: string, value: any }) {
+  init() {
+    this.editor.subscribe('stateChanged', this.handleStateChange.bind(this))
+  }
+
+  private handleStateChange(data: { key: string, value: any }, editable: HTMLElement) {
     console.log(`State changed: ${data.key} = ${data.value}`)
   }
 
   private updateState() {
-    const stateManager = this.base.stateManager
+    const stateManager = (this.editor as any).stateManager
     if (stateManager) {
       stateManager.setState('myKey', 'myValue')
     }
@@ -628,8 +644,18 @@ class ConsumerExtension extends Extension {
 
 1. **Debounce expensive operations**:
 ```typescript
-class PerformantExtension extends Extension {
+class PerformantExtension implements MediumEditorExtension {
+  name = 'performantExtension'
+  private editor: MediumEditor
   private debounceTimeout: number | null = null
+
+  constructor(editor: MediumEditor) {
+    this.editor = editor
+  }
+
+  init() {
+    this.editor.subscribe('editableInput', this.handleInput.bind(this))
+  }
 
   private handleInput() {
     if (this.debounceTimeout) {
@@ -649,8 +675,14 @@ class PerformantExtension extends Extension {
 
 2. **Clean up resources**:
 ```typescript
-class CleanExtension extends Extension {
+class CleanExtension implements MediumEditorExtension {
+  name = 'cleanExtension'
+  private editor: MediumEditor
   private eventListeners: Array<() => void> = []
+
+  constructor(editor: MediumEditor) {
+    this.editor = editor
+  }
 
   init() {
     const handler = this.handleEvent.bind(this)
@@ -665,6 +697,10 @@ class CleanExtension extends Extension {
     this.eventListeners.forEach(cleanup => cleanup())
     this.eventListeners = []
   }
+
+  private handleEvent(event: Event) {
+    // Handle the event
+  }
 }
 ```
 
@@ -673,7 +709,14 @@ class CleanExtension extends Extension {
 Always handle errors gracefully in extensions:
 
 ```typescript
-class RobustExtension extends Extension {
+class RobustExtension implements MediumEditorExtension {
+  name = 'robustExtension'
+  private editor: MediumEditor
+
+  constructor(editor: MediumEditor) {
+    this.editor = editor
+  }
+
   init() {
     try {
       this.setupFeature()
@@ -701,9 +744,15 @@ interface MyExtensionOptions {
   callback?: (data: any) => void
 }
 
-class TypedExtension extends Extension {
+class TypedExtension implements MediumEditorExtension {
   name = 'typedExtension'
-  declare options: MyExtensionOptions
+  private editor: MediumEditor
+  private options: MyExtensionOptions
+
+  constructor(editor: MediumEditor, options: Partial<MyExtensionOptions> = {}) {
+    this.editor = editor
+    this.options = { ...this.getDefaults(), ...options }
+  }
 
   getDefaults(): MyExtensionOptions {
     return {

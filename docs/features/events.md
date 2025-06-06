@@ -16,7 +16,7 @@ import { MediumEditor } from 'ts-medium-editor'
 const editor = new MediumEditor('.editable')
 
 // Subscribe to content changes
-editor.subscribe('editableInput', (event, editable) => {
+editor.subscribe('editableInput', (data, editable) => {
   console.log('Content changed in:', editable)
   console.log('New content:', editable.innerHTML)
 })
@@ -26,7 +26,7 @@ editor.subscribe('editableInput', (event, editable) => {
 
 ```typescript
 // Define handler function
-function handleContentChange(event: Event, editable: HTMLElement) {
+function handleContentChange(data: any, editable: HTMLElement) {
   console.log('Content changed')
 }
 
@@ -44,7 +44,7 @@ editor.unsubscribe('editableInput', handleContentChange)
 editor.trigger('customEvent', { data: 'custom data' })
 
 // Listen for custom events
-editor.subscribe('customEvent', (event, data) => {
+editor.subscribe('customEvent', (data) => {
   console.log('Custom event triggered with:', data)
 })
 ```
@@ -56,7 +56,7 @@ editor.subscribe('customEvent', (event, data) => {
 Fired when the content of the editor changes.
 
 ```typescript
-editor.subscribe('editableInput', (event, editable) => {
+editor.subscribe('editableInput', (data, editable) => {
   console.log('Content changed')
   console.log('Element:', editable)
   console.log('New content:', editable.innerHTML)
@@ -77,14 +77,14 @@ editor.subscribe('editableInput', (event, editable) => {
 Fired when a key is pressed down in the editor.
 
 ```typescript
-editor.subscribe('editableKeydown', (event, editable) => {
-  const keyEvent = event as KeyboardEvent
+editor.subscribe('editableKeydown', (data, editable) => {
+  const keyEvent = data as KeyboardEvent
   console.log('Key pressed:', keyEvent.key)
   console.log('Key code:', keyEvent.keyCode)
 
   // Example: Custom keyboard shortcuts
   if (keyEvent.ctrlKey && keyEvent.key === 's') {
-    event.preventDefault()
+    keyEvent.preventDefault()
     saveContent()
   }
 })
@@ -101,8 +101,8 @@ editor.subscribe('editableKeydown', (event, editable) => {
 Fired when a key is released in the editor.
 
 ```typescript
-editor.subscribe('editableKeyup', (event, editable) => {
-  const keyEvent = event as KeyboardEvent
+editor.subscribe('editableKeyup', (data, editable) => {
+  const keyEvent = data as KeyboardEvent
 
   // Example: Format detection after typing
   if (keyEvent.key === ' ') {
@@ -122,8 +122,8 @@ editor.subscribe('editableKeyup', (event, editable) => {
 Fired when a key is pressed in the editor.
 
 ```typescript
-editor.subscribe('editableKeypress', (event, editable) => {
-  const keyEvent = event as KeyboardEvent
+editor.subscribe('editableKeypress', (data, editable) => {
+  const keyEvent = data as KeyboardEvent
   console.log('Key pressed:', keyEvent.key)
 })
 ```
@@ -133,7 +133,7 @@ editor.subscribe('editableKeypress', (event, editable) => {
 Fired when the editor is clicked.
 
 ```typescript
-editor.subscribe('editableClick', (event, editable) => {
+editor.subscribe('editableClick', (data, editable) => {
   console.log('Editor clicked')
 })
 ```
@@ -143,7 +143,7 @@ editor.subscribe('editableClick', (event, editable) => {
 Fired when the editor loses focus (element-specific).
 
 ```typescript
-editor.subscribe('editableBlur', (event, editable) => {
+editor.subscribe('editableBlur', (data, editable) => {
   console.log('Editor element blurred:', editable)
 })
 ```
@@ -153,7 +153,7 @@ editor.subscribe('editableBlur', (event, editable) => {
 Fired when content is pasted into the editor.
 
 ```typescript
-editor.subscribe('editablePaste', (event, editable) => {
+editor.subscribe('editablePaste', (data, editable) => {
   console.log('Content pasted into:', editable)
 })
 ```
@@ -163,7 +163,7 @@ editor.subscribe('editablePaste', (event, editable) => {
 Fired when content is dragged in the editor.
 
 ```typescript
-editor.subscribe('editableDrag', (event, editable) => {
+editor.subscribe('editableDrag', (data, editable) => {
   console.log('Content dragged in:', editable)
 })
 ```
@@ -173,7 +173,7 @@ editor.subscribe('editableDrag', (event, editable) => {
 Fired when content is dropped into the editor.
 
 ```typescript
-editor.subscribe('editableDrop', (event, editable) => {
+editor.subscribe('editableDrop', (data, editable) => {
   console.log('Content dropped into:', editable)
 })
 ```
@@ -185,7 +185,7 @@ editor.subscribe('editableDrop', (event, editable) => {
 Fired when the editor gains focus.
 
 ```typescript
-editor.subscribe('focus', (event, editable) => {
+editor.subscribe('focus', (data, editable) => {
   console.log('Editor focused')
 
   // Example: Show editing hints
@@ -207,7 +207,7 @@ editor.subscribe('focus', (event, editable) => {
 Fired when the editor loses focus.
 
 ```typescript
-editor.subscribe('blur', (event, editable) => {
+editor.subscribe('blur', (data, editable) => {
   console.log('Editor blurred')
 
   // Example: Auto-save on blur
@@ -231,7 +231,7 @@ editor.subscribe('blur', (event, editable) => {
 Fired when the user interacts with elements outside the editor.
 
 ```typescript
-editor.subscribe('externalInteraction', (event) => {
+editor.subscribe('externalInteraction', (data) => {
   console.log('User clicked outside editor')
 
   // Example: Hide toolbar or save content
@@ -252,7 +252,7 @@ editor.subscribe('externalInteraction', (event) => {
 Fired when the toolbar becomes visible.
 
 ```typescript
-editor.subscribe('showToolbar', (event, editable) => {
+editor.subscribe('showToolbar', (data, editable) => {
   console.log('Toolbar shown for element:', editable)
 
   // Example: Analytics tracking
@@ -268,7 +268,7 @@ editor.subscribe('showToolbar', (event, editable) => {
 Fired when the toolbar becomes hidden.
 
 ```typescript
-editor.subscribe('hideToolbar', (event, editable) => {
+editor.subscribe('hideToolbar', (data, editable) => {
   console.log('Toolbar hidden for element:', editable)
 
   // Example: Cleanup custom UI
@@ -281,7 +281,7 @@ editor.subscribe('hideToolbar', (event, editable) => {
 Fired when the toolbar position changes.
 
 ```typescript
-editor.subscribe('positionToolbar', (event, editable) => {
+editor.subscribe('positionToolbar', (data, editable) => {
   console.log('Toolbar repositioned for element:', editable)
 
   // Example: Adjust custom UI positioning
@@ -294,68 +294,73 @@ editor.subscribe('positionToolbar', (event, editable) => {
 ### Event Delegation
 
 ```typescript
-class EventManager extends Extension {
-  name = 'eventManager'
-  private eventHandlers = new Map<string, Function[]>()
+interface EventHandlerMap {
+  [key: string]: ((data: any) => void)[]
+}
 
-  init() {
-    // Set up centralized event handling
+class EventManager {
+  name = 'eventManager'
+  private eventHandlers: EventHandlerMap = {}
+  private editor: MediumEditor
+
+  constructor(editor: MediumEditor) {
+    this.editor = editor
     this.setupEventDelegation()
   }
 
   private setupEventDelegation() {
     // Content events
-    this.base.subscribe('editableInput', this.handleContentChange.bind(this))
-    this.base.subscribe('editableKeydown', this.handleKeydown.bind(this))
-    this.base.subscribe('editableKeyup', this.handleKeyup.bind(this))
+    this.editor.subscribe('editableInput', this.handleContentChange.bind(this))
+    this.editor.subscribe('editableKeydown', this.handleKeydown.bind(this))
+    this.editor.subscribe('editableKeyup', this.handleKeyup.bind(this))
 
     // Focus events
-    this.base.subscribe('focus', this.handleFocus.bind(this))
-    this.base.subscribe('blur', this.handleBlur.bind(this))
+    this.editor.subscribe('focus', this.handleFocus.bind(this))
+    this.editor.subscribe('blur', this.handleBlur.bind(this))
 
     // Toolbar events
-    this.base.subscribe('showToolbar', this.handleToolbarShow.bind(this))
-    this.base.subscribe('hideToolbar', this.handleToolbarHide.bind(this))
+    this.editor.subscribe('showToolbar', this.handleToolbarShow.bind(this))
+    this.editor.subscribe('hideToolbar', this.handleToolbarHide.bind(this))
   }
 
-  private handleContentChange(event: Event, editable: HTMLElement) {
-    this.notifyHandlers('content:change', { event, editable })
+  private handleContentChange(data: any, editable: HTMLElement) {
+    this.notifyHandlers('content:change', { data, editable })
   }
 
-  private handleKeydown(event: KeyboardEvent, editable: HTMLElement) {
-    this.notifyHandlers('key:down', { event, editable })
+  private handleKeydown(data: KeyboardEvent, editable: HTMLElement) {
+    this.notifyHandlers('key:down', { data, editable })
   }
 
-  private handleKeyup(event: KeyboardEvent, editable: HTMLElement) {
-    this.notifyHandlers('key:up', { event, editable })
+  private handleKeyup(data: KeyboardEvent, editable: HTMLElement) {
+    this.notifyHandlers('key:up', { data, editable })
   }
 
-  private handleFocus(event: FocusEvent, editable: HTMLElement) {
-    this.notifyHandlers('editor:focus', { event, editable })
+  private handleFocus(data: FocusEvent, editable: HTMLElement) {
+    this.notifyHandlers('editor:focus', { data, editable })
   }
 
-  private handleBlur(event: FocusEvent, editable: HTMLElement) {
-    this.notifyHandlers('editor:blur', { event, editable })
+  private handleBlur(data: FocusEvent, editable: HTMLElement) {
+    this.notifyHandlers('editor:blur', { data, editable })
   }
 
-  private handleToolbarShow(event: Event, editable: HTMLElement) {
-    this.notifyHandlers('toolbar:show', { event, editable })
+  private handleToolbarShow(data: any, editable: HTMLElement) {
+    this.notifyHandlers('toolbar:show', { data, editable })
   }
 
-  private handleToolbarHide(event: Event, editable: HTMLElement) {
-    this.notifyHandlers('toolbar:hide', { event, editable })
+  private handleToolbarHide(data: any, editable: HTMLElement) {
+    this.notifyHandlers('toolbar:hide', { data, editable })
   }
 
   // Public API for registering handlers
-  on(eventType: string, handler: Function) {
-    if (!this.eventHandlers.has(eventType)) {
-      this.eventHandlers.set(eventType, [])
+  on(eventType: string, handler: (data: any) => void) {
+    if (!this.eventHandlers[eventType]) {
+      this.eventHandlers[eventType] = []
     }
-    this.eventHandlers.get(eventType)!.push(handler)
+    this.eventHandlers[eventType].push(handler)
   }
 
-  off(eventType: string, handler: Function) {
-    const handlers = this.eventHandlers.get(eventType)
+  off(eventType: string, handler: (data: any) => void) {
+    const handlers = this.eventHandlers[eventType]
     if (handlers) {
       const index = handlers.indexOf(handler)
       if (index > -1) {
@@ -365,7 +370,7 @@ class EventManager extends Extension {
   }
 
   private notifyHandlers(eventType: string, data: any) {
-    const handlers = this.eventHandlers.get(eventType)
+    const handlers = this.eventHandlers[eventType]
     if (handlers) {
       handlers.forEach(handler => handler(data))
     }
@@ -373,14 +378,10 @@ class EventManager extends Extension {
 }
 
 // Usage
-const editor = new MediumEditor('.editable', {
-  extensions: {
-    eventManager: new EventManager()
-  }
-})
+const editor = new MediumEditor('.editable')
+const eventManager = new EventManager(editor)
 
-const eventManager = editor.getExtensionByName('eventManager')
-eventManager.on('content:change', ({ event, editable }) => {
+eventManager.on('content:change', ({ data, editable }) => {
   console.log('Content changed via event manager')
 })
 ```
@@ -388,28 +389,30 @@ eventManager.on('content:change', ({ event, editable }) => {
 ### Debounced Event Handling
 
 ```typescript
-class DebouncedEventHandler extends Extension {
+class DebouncedEventHandler {
   name = 'debouncedEventHandler'
   private debounceTimeouts = new Map<string, number>()
+  private editor: MediumEditor
 
-  init() {
-    this.base.subscribe('editableInput', this.debouncedContentChange.bind(this))
-    this.base.subscribe('editableKeyup', this.debouncedKeyup.bind(this))
+  constructor(editor: MediumEditor) {
+    this.editor = editor
+    this.editor.subscribe('editableInput', this.debouncedContentChange.bind(this))
+    this.editor.subscribe('editableKeyup', this.debouncedKeyup.bind(this))
   }
 
-  private debouncedContentChange(event: Event, editable: HTMLElement) {
+  private debouncedContentChange(data: any, editable: HTMLElement) {
     this.debounce('contentChange', () => {
-      this.handleContentChange(event, editable)
+      this.handleContentChange(data, editable)
     }, 300)
   }
 
-  private debouncedKeyup(event: KeyboardEvent, editable: HTMLElement) {
+  private debouncedKeyup(data: KeyboardEvent, editable: HTMLElement) {
     this.debounce('keyup', () => {
-      this.handleKeyup(event, editable)
+      this.handleKeyup(data, editable)
     }, 150)
   }
 
-  private debounce(key: string, func: Function, delay: number) {
+  private debounce(key: string, func: () => void, delay: number) {
     const existingTimeout = this.debounceTimeouts.get(key)
     if (existingTimeout) {
       clearTimeout(existingTimeout)
@@ -423,12 +426,12 @@ class DebouncedEventHandler extends Extension {
     this.debounceTimeouts.set(key, timeout)
   }
 
-  private handleContentChange(event: Event, editable: HTMLElement) {
+  private handleContentChange(data: any, editable: HTMLElement) {
     // Debounced content change handling
     console.log('Debounced content change')
   }
 
-  private handleKeyup(event: KeyboardEvent, editable: HTMLElement) {
+  private handleKeyup(data: KeyboardEvent, editable: HTMLElement) {
     // Debounced keyup handling
     console.log('Debounced keyup')
   }
@@ -446,26 +449,45 @@ class DebouncedEventHandler extends Extension {
 ### Auto-Save Implementation
 
 ```typescript
-class AutoSave extends Extension {
+interface AutoSaveOptions {
+  delay: number
+  saveCallback: (content: string) => Promise<void>
+  showStatus: boolean
+}
+
+class AutoSave {
   name = 'autoSave'
+  private options: AutoSaveOptions
   private saveTimeout: number | null = null
   private isDirty = false
   private lastSavedContent = ''
+  private statusElement: HTMLElement | null = null
+  private editor: MediumEditor
 
-  init() {
-    this.base.subscribe('editableInput', this.handleContentChange.bind(this))
-    this.base.subscribe('blur', this.handleBlur.bind(this))
-
-    // Save initial content
-    this.lastSavedContent = this.base.getContent()
+  constructor(editor: MediumEditor, options: AutoSaveOptions) {
+    this.editor = editor
+    this.options = options
+    this.init()
   }
 
-  private handleContentChange(event: Event, editable: HTMLElement) {
+  init() {
+    this.editor.subscribe('editableInput', this.handleContentChange.bind(this))
+    this.editor.subscribe('blur', this.handleBlur.bind(this))
+
+    // Save initial content
+    this.lastSavedContent = this.editor.getContent() || ''
+
+    if (this.options.showStatus) {
+      this.createStatusElement()
+    }
+  }
+
+  private handleContentChange(data: any, editable: HTMLElement) {
     this.isDirty = true
     this.scheduleAutoSave()
   }
 
-  private handleBlur(event: FocusEvent, editable: HTMLElement) {
+  private handleBlur(data: FocusEvent, editable: HTMLElement) {
     if (this.isDirty) {
       this.saveNow()
     }
@@ -478,11 +500,11 @@ class AutoSave extends Extension {
 
     this.saveTimeout = window.setTimeout(() => {
       this.saveNow()
-    }, 2000) // Save after 2 seconds of inactivity
+    }, this.options.delay)
   }
 
   private async saveNow() {
-    const currentContent = this.base.getContent()
+    const currentContent = this.editor.getContent() || ''
 
     if (currentContent === this.lastSavedContent) {
       this.isDirty = false
@@ -490,7 +512,8 @@ class AutoSave extends Extension {
     }
 
     try {
-      await this.saveToServer(currentContent)
+      this.showSaveStatus('saving')
+      await this.options.saveCallback(currentContent)
       this.lastSavedContent = currentContent
       this.isDirty = false
       this.showSaveStatus('saved')
@@ -501,32 +524,82 @@ class AutoSave extends Extension {
     }
   }
 
-  private async saveToServer(content: string) {
-    // Implement server save logic
-    return fetch('/api/save', {
+  private createStatusElement() {
+    this.statusElement = document.createElement('div')
+    this.statusElement.className = 'auto-save-status'
+    this.statusElement.style.cssText = `
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      z-index: 1000;
+      transition: opacity 0.3s ease;
+      opacity: 0;
+    `
+    document.body.appendChild(this.statusElement)
+  }
+
+  private showSaveStatus(status: 'saving' | 'saved' | 'error') {
+    if (!this.statusElement)
+      return
+
+    const statusConfig = {
+      saving: { text: 'Saving...', color: '#f39c12', opacity: '1' },
+      saved: { text: 'Saved', color: '#27ae60', opacity: '1' },
+      error: { text: 'Save failed', color: '#e74c3c', opacity: '1' }
+    }
+
+    const config = statusConfig[status]
+    this.statusElement.textContent = config.text
+    this.statusElement.style.backgroundColor = config.color
+    this.statusElement.style.color = 'white'
+    this.statusElement.style.opacity = config.opacity
+
+    if (status === 'saved') {
+      setTimeout(() => {
+        if (this.statusElement) {
+          this.statusElement.style.opacity = '0'
+        }
+      }, 2000)
+    }
+  }
+}
+
+// Usage
+const editor = new MediumEditor('.editable')
+const autoSave = new AutoSave(editor, {
+  delay: 3000,
+  saveCallback: async (content) => {
+    const response = await fetch('/api/save', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ content })
     })
-  }
-
-  private showSaveStatus(status: 'saving' | 'saved' | 'error') {
-    // Update UI to show save status
-    this.base.trigger('autoSave:status', status)
-  }
-}
+    if (!response.ok)
+      throw new Error('Save failed')
+  },
+  showStatus: true
+})
 ```
 
 ### Word Counter
 
 ```typescript
-class WordCounter extends Extension {
+class WordCounter {
   name = 'wordCounter'
   private counterElement: HTMLElement | null = null
+  private editor: MediumEditor
+
+  constructor(editor: MediumEditor) {
+    this.editor = editor
+    this.init()
+  }
 
   init() {
     this.createCounterElement()
-    this.base.subscribe('editableInput', this.updateCount.bind(this))
+    this.editor.subscribe('editableInput', this.updateCount.bind(this))
     this.updateCount() // Initial count
   }
 
@@ -551,7 +624,7 @@ class WordCounter extends Extension {
     if (!this.counterElement)
       return
 
-    const content = this.base.getContent()
+    const content = this.editor.getContent() || ''
     const text = this.stripHtml(content)
     const words = text.trim() ? text.trim().split(/\s+/).length : 0
     const characters = text.length
@@ -559,13 +632,13 @@ class WordCounter extends Extension {
     this.counterElement.textContent = `${words} words • ${characters} chars`
 
     // Trigger custom event
-    this.base.trigger('wordCount:updated', { words, characters })
+    this.editor.trigger('wordCount:updated', { words, characters })
   }
 
   private stripHtml(html: string): string {
     const div = document.createElement('div')
     div.innerHTML = html
-    return div.textContent || div.innerText || ''
+    return div.textContent || ''
   }
 
   destroy() {
@@ -579,13 +652,25 @@ class WordCounter extends Extension {
 ### Content Validation
 
 ```typescript
-class ContentValidator extends Extension {
+interface ValidationRule {
+  name: string
+  validate: (content: string) => boolean
+  message: string
+}
+
+class ContentValidator {
   name = 'contentValidator'
   private validationRules: ValidationRule[] = []
+  private editor: MediumEditor
+
+  constructor(editor: MediumEditor) {
+    this.editor = editor
+    this.init()
+  }
 
   init() {
-    this.base.subscribe('editableInput', this.validateContent.bind(this))
-    this.base.subscribe('blur', this.validateContent.bind(this))
+    this.editor.subscribe('editableInput', this.validateContent.bind(this))
+    this.editor.subscribe('blur', this.validateContent.bind(this))
 
     // Set up default validation rules
     this.addValidationRule({
@@ -601,7 +686,7 @@ class ContentValidator extends Extension {
     })
   }
 
-  private validateContent(event: Event, editable: HTMLElement) {
+  private validateContent(data: any, editable: HTMLElement) {
     const content = this.stripHtml(editable.innerHTML)
     const errors: string[] = []
 
@@ -613,11 +698,11 @@ class ContentValidator extends Extension {
 
     if (errors.length > 0) {
       this.showValidationErrors(errors)
-      this.base.trigger('validation:failed', { errors, content })
+      this.editor.trigger('validation:failed', { errors, content })
     }
     else {
       this.clearValidationErrors()
-      this.base.trigger('validation:passed', { content })
+      this.editor.trigger('validation:passed', { content })
     }
   }
 
@@ -637,14 +722,8 @@ class ContentValidator extends Extension {
   private stripHtml(html: string): string {
     const div = document.createElement('div')
     div.innerHTML = html
-    return div.textContent || div.innerText || ''
+    return div.textContent || ''
   }
-}
-
-interface ValidationRule {
-  name: string
-  validate: (content: string) => boolean
-  message: string
 }
 ```
 
@@ -653,21 +732,23 @@ interface ValidationRule {
 ### Event Throttling
 
 ```typescript
-class ThrottledEventHandler extends Extension {
+class ThrottledEventHandler {
   name = 'throttledEventHandler'
   private lastExecuted = new Map<string, number>()
+  private editor: MediumEditor
 
-  init() {
-    this.base.subscribe('editableInput', this.throttledContentChange.bind(this))
+  constructor(editor: MediumEditor) {
+    this.editor = editor
+    this.editor.subscribe('editableInput', this.throttledContentChange.bind(this))
   }
 
-  private throttledContentChange(event: Event, editable: HTMLElement) {
+  private throttledContentChange(data: any, editable: HTMLElement) {
     this.throttle('contentChange', () => {
-      this.handleContentChange(event, editable)
+      this.handleContentChange(data, editable)
     }, 100) // Throttle to once per 100ms
   }
 
-  private throttle(key: string, func: Function, limit: number) {
+  private throttle(key: string, func: () => void, limit: number) {
     const now = Date.now()
     const lastExec = this.lastExecuted.get(key) || 0
 
@@ -677,7 +758,7 @@ class ThrottledEventHandler extends Extension {
     }
   }
 
-  private handleContentChange(event: Event, editable: HTMLElement) {
+  private handleContentChange(data: any, editable: HTMLElement) {
     // Throttled content change handling
     console.log('Throttled content change')
   }
@@ -687,36 +768,42 @@ class ThrottledEventHandler extends Extension {
 ### Memory-Efficient Event Handling
 
 ```typescript
-class MemoryEfficientEvents extends Extension {
+class MemoryEfficientEvents {
   name = 'memoryEfficientEvents'
   private eventListeners: Array<() => void> = []
+  private editor: MediumEditor
+
+  constructor(editor: MediumEditor) {
+    this.editor = editor
+    this.init()
+  }
 
   init() {
     // Use arrow functions to avoid binding issues
-    const contentHandler = (event: Event, editable: HTMLElement) => {
-      this.handleContentChange(event, editable)
+    const contentHandler = (data: any, editable: HTMLElement) => {
+      this.handleContentChange(data, editable)
     }
 
-    const focusHandler = (event: FocusEvent, editable: HTMLElement) => {
-      this.handleFocus(event, editable)
+    const focusHandler = (data: FocusEvent, editable: HTMLElement) => {
+      this.handleFocus(data, editable)
     }
 
     // Subscribe to events
-    this.base.subscribe('editableInput', contentHandler)
-    this.base.subscribe('focus', focusHandler)
+    this.editor.subscribe('editableInput', contentHandler)
+    this.editor.subscribe('focus', focusHandler)
 
     // Store cleanup functions
     this.eventListeners.push(
-      () => this.base.unsubscribe('editableInput', contentHandler),
-      () => this.base.unsubscribe('focus', focusHandler)
+      () => this.editor.unsubscribe('editableInput', contentHandler),
+      () => this.editor.unsubscribe('focus', focusHandler)
     )
   }
 
-  private handleContentChange(event: Event, editable: HTMLElement) {
+  private handleContentChange(data: any, editable: HTMLElement) {
     // Handle content change
   }
 
-  private handleFocus(event: FocusEvent, editable: HTMLElement) {
+  private handleFocus(data: FocusEvent, editable: HTMLElement) {
     // Handle focus
   }
 
@@ -733,8 +820,14 @@ class MemoryEfficientEvents extends Extension {
 ### Event Logger
 
 ```typescript
-class EventLogger extends Extension {
+class EventLogger {
   name = 'eventLogger'
+  private editor: MediumEditor
+
+  constructor(editor: MediumEditor) {
+    this.editor = editor
+    this.init()
+  }
 
   init() {
     // Log all events
@@ -750,9 +843,9 @@ class EventLogger extends Extension {
     ]
 
     events.forEach((eventName) => {
-      this.base.subscribe(eventName, (event, ...args) => {
+      this.editor.subscribe(eventName, (data, ...args) => {
         console.log(`Event: ${eventName}`, {
-          event,
+          data,
           args,
           timestamp: new Date().toISOString()
         })
@@ -762,20 +855,23 @@ class EventLogger extends Extension {
 }
 
 // Enable event logging
-const editor = new MediumEditor('.editable', {
-  extensions: {
-    eventLogger: new EventLogger()
-  }
-})
+const editor = new MediumEditor('.editable')
+const eventLogger = new EventLogger(editor)
 ```
 
 ### Event Performance Monitor
 
 ```typescript
-class EventPerformanceMonitor extends Extension {
+class EventPerformanceMonitor {
   name = 'eventPerformanceMonitor'
   private eventCounts = new Map<string, number>()
   private eventTimes = new Map<string, number[]>()
+  private editor: MediumEditor
+
+  constructor(editor: MediumEditor) {
+    this.editor = editor
+    this.init()
+  }
 
   init() {
     this.monitorEvent('editableInput')
@@ -789,7 +885,7 @@ class EventPerformanceMonitor extends Extension {
   }
 
   private monitorEvent(eventName: string) {
-    this.base.subscribe(eventName, (event, ...args) => {
+    this.editor.subscribe(eventName, (data, ...args) => {
       const startTime = performance.now()
 
       // Count the event

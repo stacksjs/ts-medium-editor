@@ -24,15 +24,39 @@ const editor = new MediumEditor('.editable', {
 
 The toolbar supports the following built-in buttons (as implemented in the source code):
 
-- **`bold`**: Bold text formatting (`<b>`)
-- **`italic`**: Italic text formatting (`<i>`)
-- **`underline`**: Underline text formatting (`<u>`)
-- **`anchor`**: Link creation and editing (`<a>`)
-- **`h2`**: Heading 2 formatting (`<h2>`)
-- **`h3`**: Heading 3 formatting (`<h3>`)
-- **`quote`**: Blockquote formatting (`<blockquote>`)
+#### Text Formatting
+- **`bold`**: Bold text formatting
+- **`italic`**: Italic text formatting
+- **`underline`**: Underline text formatting
+- **`strikethrough`**: Strikethrough text formatting
 
-**Note**: These are the only buttons currently implemented in the core toolbar extension. Additional buttons would need to be implemented as custom extensions.
+#### Structure and Layout
+- **`h2`**: Heading 2 formatting
+- **`h3`**: Heading 3 formatting
+- **`quote`**: Blockquote formatting
+- **`anchor`**: Link creation and editing
+
+#### Lists and Layout
+- **`orderedlist`**: Numbered list
+- **`unorderedlist`**: Bullet list
+- **`indent`**: Increase indentation
+- **`outdent`**: Decrease indentation
+
+#### Alignment
+- **`justifyLeft`**: Align text left
+- **`justifyCenter`**: Center text
+- **`justifyRight`**: Align text right
+- **`justifyFull`**: Justify text
+
+#### Script and Code
+- **`superscript`**: Superscript formatting
+- **`subscript`**: Subscript formatting
+- **`pre`**: Code block formatting
+- **`html`**: HTML editing
+
+#### Media and Utilities
+- **`image`**: Image insertion
+- **`removeFormat`**: Remove all formatting
 
 ### Button Configuration
 
@@ -48,29 +72,59 @@ const editor = new MediumEditor('.editable', {
 })
 ```
 
-### Toolbar Behavior
+### FontAwesome Icon Support
+
+The toolbar automatically detects if you want to use FontAwesome icons:
+
+```typescript
+const editor = new MediumEditor('.editable', {
+  buttonLabels: 'fontawesome', // Use FontAwesome icons
+  toolbar: {
+    buttons: ['bold', 'italic', 'underline', 'anchor']
+  }
+})
+```
+
+When `buttonLabels` is set to `'fontawesome'`, the toolbar will use FontAwesome CSS classes instead of text labels.
+
+### Toolbar Positioning and Behavior
 
 ```typescript
 const editor = new MediumEditor('.editable', {
   toolbar: {
     buttons: ['bold', 'italic', 'underline'],
 
-    // Show toolbar only when text is selected (default: false)
-    static: false,
+    // Static toolbar (always visible)
+    static: false, // Default: false (floating toolbar)
 
-    // Toolbar alignment (default: 'center')
-    align: 'center', // 'left', 'center', 'right'
+    // Toolbar alignment
+    align: 'center', // 'left', 'center', 'right' - Default: 'center'
 
-    // Don't stick toolbar to top when scrolling (default: false)
-    sticky: false,
+    // Sticky toolbar behavior
+    sticky: false, // Default: false
 
-    // Hide toolbar when selection is empty (default: false)
-    updateOnEmptySelection: false
+    // Update toolbar for empty selections
+    updateOnEmptySelection: false, // Default: false
+
+    // Multi-paragraph selection handling
+    allowMultiParagraphSelection: true, // Default: true
+
+    // Selection standardization
+    standardizeSelectionStart: false, // Default: false
+
+    // Container for relative positioning
+    relativeContainer: null, // Default: null (document.body)
+
+    // Position offsets
+    diffLeft: 0, // Horizontal offset in pixels
+    diffTop: 0, // Vertical offset in pixels
+
+    // Button styling classes
+    firstButtonClass: 'medium-editor-button-first',
+    lastButtonClass: 'medium-editor-button-last'
   }
 })
 ```
-
-The toolbar extension supports advanced selection handling through the `allowMultiParagraphSelection` option which controls whether the toolbar appears for selections spanning multiple paragraphs.
 
 ## Static Toolbar
 
@@ -91,45 +145,52 @@ const editor = new MediumEditor('.editable', {
 - Better for mobile interfaces
 - Familiar word processor experience
 
-## Toolbar Positioning
+## Custom Button Creation
 
-### Alignment Options
+### Adding Custom Buttons
+
+You can add custom buttons through the toolbar's `createCustomButton` method:
 
 ```typescript
 const editor = new MediumEditor('.editable', {
   toolbar: {
-    buttons: ['bold', 'italic', 'underline'],
-
-    // Toolbar alignment relative to selection
-    align: 'center', // 'left', 'center', 'right'
-
-    // Container for relative positioning
-    relativeContainer: document.getElementById('editor-container')
+    buttons: [
+      'bold',
+      'italic',
+      {
+        name: 'highlight',
+        aria: 'Highlight text',
+        tagNames: ['mark'],
+        contentDefault: '<b>H</b>',
+        contentFA: '<i class="fa fa-paint-brush"></i>',
+        classList: ['custom-highlight-button'],
+        attrs: {
+          'data-action': 'highlight'
+        }
+      }
+    ]
   }
 })
 ```
 
-### Advanced Positioning
+### Custom Button Interface
 
 ```typescript
-const editor = new MediumEditor('.editable', {
-  toolbar: {
-    buttons: ['bold', 'italic', 'underline'],
-
-    // Toolbar alignment
-    align: 'center', // 'left', 'center', 'right'
-
-    // Static positioning (toolbar always visible)
-    static: true,
-
-    // Advanced selection and positioning options
-    allowMultiParagraphSelection: false, // Hide toolbar for multi-paragraph selections
-    standardizeSelectionStart: true, // Snap selection to word boundaries
-    relativeContainer: document.querySelector('.editor-container'), // Position relative to container
-    diffLeft: 10, // Horizontal offset in pixels
-    diffTop: -5 // Vertical offset in pixels
+interface ToolbarButton {
+  name: string
+  action?: string
+  aria?: string
+  tagNames?: string[]
+  style?: {
+    prop: string
+    value: string
   }
-})
+  useQueryState?: boolean
+  contentDefault?: string
+  contentFA?: string
+  classList?: string[]
+  attrs?: Record<string, string>
+}
 ```
 
 ## Disabling the Toolbar
@@ -148,7 +209,7 @@ const editor = new MediumEditor('.editable', {
 
 ```typescript
 const editor = new MediumEditor('.editable')
-const toolbar = editor.getExtensionByName('toolbar')
+const toolbar = editor.getExtensionByName('toolbar') as Toolbar
 
 if (toolbar) {
   // Manually show toolbar
@@ -166,12 +227,13 @@ if (toolbar) {
   // Get toolbar element
   const toolbarElement = toolbar.getToolbarElement()
 
-  // Check toolbar state
+  // Check state
   toolbar.checkState()
+
+  // Get interaction elements
+  const elements = toolbar.getInteractionElements()
 }
 ```
-
-**Note**: These methods are available in the current toolbar implementation as verified in the source code.
 
 ### Toolbar Events
 
@@ -181,106 +243,82 @@ Listen for toolbar-related events:
 const editor = new MediumEditor('.editable')
 
 // Toolbar becomes visible
-editor.subscribe('showToolbar', (event, editable) => {
+editor.subscribe('showToolbar', (data, editable) => {
   console.log('Toolbar shown for element:', editable)
 })
 
 // Toolbar becomes hidden
-editor.subscribe('hideToolbar', (event, editable) => {
+editor.subscribe('hideToolbar', (data, editable) => {
   console.log('Toolbar hidden for element:', editable)
 })
 
 // Toolbar position changes
-editor.subscribe('positionToolbar', (event, editable) => {
+editor.subscribe('positionToolbar', (data, editable) => {
   console.log('Toolbar repositioned for element:', editable)
 })
 ```
 
-## Custom Buttons
+## Advanced Features
 
-### Adding Custom Buttons
+### Selection Handling
+
+The toolbar includes sophisticated selection handling:
 
 ```typescript
-import { Extension } from 'ts-medium-editor'
-
-class CustomToolbarButtons extends Extension {
-  name = 'customToolbarButtons'
-
-  init() {
-    const toolbar = this.base.getExtensionByName('toolbar')
-    if (!toolbar)
-      return
-
-    // Add strikethrough button
-    toolbar.addButton({
-      name: 'strikethrough',
-      aria: 'Strikethrough',
-      tagNames: ['s', 'strike'],
-      contentDefault: '<b>S</b>',
-      action: (event) => {
-        this.base.execAction('strikethrough')
-      }
-    })
-
-    // Add code button
-    toolbar.addButton({
-      name: 'code',
-      aria: 'Code',
-      tagNames: ['code'],
-      contentDefault: '<b>&lt;/&gt;</b>',
-      action: (event) => {
-        this.wrapSelection('code')
-      }
-    })
-  }
-
-  private wrapSelection(tagName: string) {
-    const selection = window.getSelection()
-    if (!selection || selection.rangeCount === 0)
-      return
-
-    const range = selection.getRangeAt(0)
-    const selectedText = range.toString()
-
-    if (selectedText) {
-      const wrapper = document.createElement(tagName)
-      wrapper.textContent = selectedText
-      range.deleteContents()
-      range.insertNode(wrapper)
-      selection.removeAllRanges()
-    }
-  }
-}
-
-// Use the extension
 const editor = new MediumEditor('.editable', {
   toolbar: {
-    buttons: ['bold', 'italic', 'strikethrough', 'code']
-  },
-  extensions: {
-    customToolbarButtons: new CustomToolbarButtons()
+    // Allow toolbar for multi-paragraph selections
+    allowMultiParagraphSelection: true,
+
+    // Standardize selection to word boundaries
+    standardizeSelectionStart: false,
+
+    // Update toolbar even when selection is empty
+    updateOnEmptySelection: false
   }
 })
 ```
 
-### Button Configuration Interface
+### Relative Container Positioning
+
+Position the toolbar relative to a specific container:
 
 ```typescript
-interface ButtonOptions {
-  name: string // Unique button identifier
-  aria: string // Accessibility label
-  tagNames?: string[] // HTML tags this button creates
-  contentDefault: string // Button content (HTML)
-  contentFA?: string // FontAwesome icon (optional)
-  action: (event: Event) => void // Click handler
-}
+const container = document.getElementById('editor-container')
+const editor = new MediumEditor('.editable', {
+  toolbar: {
+    buttons: ['bold', 'italic', 'underline'],
+    relativeContainer: container,
+    diffLeft: 10, // 10px offset from left
+    diffTop: -5 // 5px offset up
+  }
+})
+```
+
+## Button State Management
+
+### Automatic State Updates
+
+The toolbar automatically updates button states based on the current selection:
+
+```typescript
+// Bold button will appear active when cursor is in bold text
+// Italic button will appear active when cursor is in italic text
+// etc.
+```
+
+### Manual State Updates
+
+```typescript
+const toolbar = editor.getExtensionByName('toolbar') as Toolbar
+toolbar.updateButtonStates()
 ```
 
 ## Styling the Toolbar
 
 ### CSS Classes
 
-The toolbar uses these CSS classes for styling:
+The toolbar uses these CSS classes:
 
 ```css
 /* Main toolbar container */
@@ -289,10 +327,18 @@ The toolbar uses these CSS classes for styling:
   border: 1px solid #000;
   border-radius: 5px;
   box-shadow: 0 0 3px #ccc;
+  position: absolute;
+  z-index: 1000;
+}
+
+/* Static toolbar */
+.medium-editor-toolbar[data-static-toolbar="true"] {
+  position: static;
+  display: block;
 }
 
 /* Individual buttons */
-.medium-editor-button {
+.medium-editor-action {
   background-color: transparent;
   border: 0;
   color: #fff;
@@ -305,7 +351,7 @@ The toolbar uses these CSS classes for styling:
 }
 
 /* Button hover state */
-.medium-editor-button:hover {
+.medium-editor-action:hover {
   background-color: #57ad68;
   color: #fff;
 }
@@ -316,53 +362,47 @@ The toolbar uses these CSS classes for styling:
   color: #fff;
 }
 
-/* Toolbar arrow */
-.medium-toolbar-arrow-under:after {
-  border-color: #242424 transparent transparent transparent;
-  border-style: solid;
-  border-width: 8px 8px 0 8px;
-  content: "";
-  display: block;
-  height: 0;
-  left: 50%;
-  margin-left: -8px;
-  position: absolute;
-  top: 50px;
-  width: 0;
+/* First and last button styling */
+.medium-editor-button-first {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.medium-editor-button-last {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 ```
 
 ### Custom Themes
 
-Create custom toolbar themes:
-
 ```css
 /* Dark theme */
-.medium-editor-toolbar.dark-theme {
+.dark-theme .medium-editor-toolbar {
   background: #1a1a1a;
   border-color: #333;
 }
 
-.medium-editor-toolbar.dark-theme .medium-editor-button {
+.dark-theme .medium-editor-action {
   color: #fff;
 }
 
-.medium-editor-toolbar.dark-theme .medium-editor-button:hover {
+.dark-theme .medium-editor-action:hover {
   background-color: #0066cc;
 }
 
 /* Light theme */
-.medium-editor-toolbar.light-theme {
+.light-theme .medium-editor-toolbar {
   background: #ffffff;
   border-color: #ddd;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-.medium-editor-toolbar.light-theme .medium-editor-button {
+.light-theme .medium-editor-action {
   color: #333;
 }
 
-.medium-editor-toolbar.light-theme .medium-editor-button:hover {
+.light-theme .medium-editor-action:hover {
   background-color: #f5f5f5;
 }
 ```
@@ -375,11 +415,7 @@ Create custom toolbar themes:
 const editor = new MediumEditor('.editable', {
   toolbar: {
     buttons: ['bold', 'italic', 'underline'],
-
-    // Better for mobile devices
-    static: true,
-
-    // Larger touch targets
+    static: true, // Better for mobile devices
     allowMultiParagraphSelection: false
   }
 })
@@ -388,7 +424,6 @@ const editor = new MediumEditor('.editable', {
 ### Responsive Toolbar
 
 ```css
-/* Mobile-specific toolbar styles */
 @media (max-width: 768px) {
   .medium-editor-toolbar {
     position: fixed;
@@ -401,7 +436,7 @@ const editor = new MediumEditor('.editable', {
     border-bottom: none;
   }
 
-  .medium-editor-button {
+  .medium-editor-action {
     padding: 20px;
     font-size: 18px;
   }
@@ -416,14 +451,8 @@ The toolbar includes built-in accessibility features:
 
 ```typescript
 // Buttons automatically include ARIA attributes
-toolbar.addButton({
-  name: 'custom',
-  aria: 'Apply custom formatting', // Screen reader label
-  contentDefault: '<b>C</b>',
-  action: (event) => {
-    // Button action
-  }
-})
+// Title attributes for screen readers
+// Proper button semantics
 ```
 
 ### Keyboard Navigation
@@ -432,58 +461,29 @@ toolbar.addButton({
 - **Enter/Space**: Activate focused button
 - **Escape**: Close toolbar and return focus to editor
 
-## Performance Considerations
-
-### Efficient Button Updates
-
-```typescript
-// Debounce button state updates for better performance
-class OptimizedToolbar extends Extension {
-  name = 'optimizedToolbar'
-  private updateTimeout: number | null = null
-
-  init() {
-    this.base.subscribe('editableInput', this.scheduleUpdate.bind(this))
-  }
-
-  private scheduleUpdate() {
-    if (this.updateTimeout) {
-      clearTimeout(this.updateTimeout)
-    }
-
-    this.updateTimeout = window.setTimeout(() => {
-      const toolbar = this.base.getExtensionByName('toolbar')
-      toolbar?.updateButtonStates()
-    }, 100)
-  }
-}
-```
-
 ## Troubleshooting
 
 ### Common Issues
 
 **Toolbar not appearing:**
 ```typescript
-// Ensure toolbar is enabled
+// Ensure toolbar is enabled and has buttons
 const editor = new MediumEditor('.editable', {
   toolbar: {
     buttons: ['bold', 'italic'] // Must have at least one button
   }
 })
-
-// Check for text selection
-editor.subscribe('editableInput', () => {
-  console.log('Selection:', window.getSelection()?.toString())
-})
 ```
 
 **Buttons not working:**
 ```typescript
-// Verify button configuration
+// Verify toolbar extension is loaded
 const toolbar = editor.getExtensionByName('toolbar')
 if (toolbar) {
-  console.log('Toolbar buttons:', toolbar.getButtons())
+  console.log('Toolbar loaded successfully')
+}
+else {
+  console.log('Toolbar extension not found')
 }
 ```
 
@@ -498,9 +498,17 @@ const editor = new MediumEditor('.editable', {
 })
 ```
 
+## Best Practices
+
+1. **Keep button sets focused**: Don't overwhelm users with too many options
+2. **Use consistent button ordering**: Group related functions together
+3. **Consider your audience**: Use FontAwesome icons for familiar interfaces
+4. **Test on mobile**: Ensure touch targets are appropriately sized
+5. **Provide feedback**: Use active states to show current formatting
+
 ## Next Steps
 
 - Learn about [Placeholder](/features/placeholder) functionality
-- Explore [Custom Extensions](/extensions) for advanced toolbar customization
-- Check out [Custom Extensions](/advanced/custom-extensions) for complex toolbar scenarios
+- Explore [Links and Anchors](/features/links) for hyperlink creation
+- Check out [Custom Extensions](/advanced/custom-extensions) for advanced toolbar customization
 - See [API Reference](/api) for complete toolbar methods
