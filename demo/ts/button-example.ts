@@ -1,93 +1,102 @@
+import rangy from 'rangy'
 import { MediumEditor } from '../../src/index.ts'
 
-// Define CSS for highlighting
-const highlightCSS = `
-  .highlight {
-    background-color: #ffff99;
-    padding: 2px 4px;
-    border-radius: 2px;
-  }
-`
+// Highlighter styles are now in the core CSS files
 
-// Add the CSS to the document
-const style = document.createElement('style')
-style.textContent = highlightCSS
-document.head.appendChild(style)
-
-// Create a custom highlighter button extension
-function createHighlighterExtension() {
-  return {
-    name: 'highlighter',
-    action: 'highlight',
-    aria: 'Highlight text',
-    tagNames: ['mark'],
-    contentDefault: '<b>H</b>',
-    contentFA: '<i class="fa fa-paint-brush"></i>',
-    classList: ['medium-editor-action'],
-    attrs: {
-      'data-action': 'highlight',
-    },
-
-    init() {
-      // Initialize rangy if available
-      if (window.rangy) {
-        this.classApplier = window.rangy.createClassApplier('highlight', {
-          elementTagName: 'mark',
-          normalize: true,
-        })
-      }
-    },
-
-    handleClick(_event: Event) {
-      if (this.classApplier) {
-        this.classApplier.toggleSelection()
-      }
-      else {
-        // Fallback without rangy
-        document.execCommand('hiliteColor', false, '#ffff99')
-      }
-
-      // Notify editor of content change
-      if (this.base && typeof this.base.checkContentChanged === 'function') {
-        this.base.checkContentChanged()
-      }
-    },
-
-    destroy() {
-      if (this.classApplier) {
-        this.classApplier = null
-      }
-    },
-  }
-}
-
-// Initialize the editor when DOM is ready
+// Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-  // Initialize rangy if available
-  if (window.rangy) {
-    window.rangy.init()
-  }
+  // Initialize rangy
+  rangy.init()
 
-  // Create the editor with custom highlighter button
-  const _editor = new MediumEditor('.editable', {
+  // Create the editor first
+  const editor = new MediumEditor('.editable', {
     toolbar: {
-      buttons: ['bold', 'italic', 'underline', 'highlighter'],
+      buttons: ['bold', 'italic', 'underline'],
     },
     buttonLabels: 'fontawesome',
-    extensions: {
-      highlighter: createHighlighterExtension(),
-    },
   })
 
-  // Editor initialized successfully
+  // Add the highlighter button after a short delay to ensure toolbar is ready
+  setTimeout(() => {
+    addHighlighterButton(editor)
+  }, 200)
 })
 
-// Type declarations for rangy
-declare global {
-  interface Window {
-    rangy?: {
-      init(): void
-      createClassApplier(className: string, options: any): any
+function addHighlighterButton(editor: any) {
+  const toolbar = editor.getExtensionByName('toolbar')
+
+  if (!toolbar || !toolbar.toolbar) {
+    console.error('Toolbar not found')
+    return
+  }
+
+  // Create the highlighter button
+  const button = document.createElement('button')
+  button.className = 'medium-editor-action medium-editor-action-highlighter'
+  button.setAttribute('data-action', 'highlighter')
+  button.innerHTML = '<b>H</b>'
+  button.title = 'Highlight'
+
+  // Initialize rangy class applier
+  const classApplier = rangy.createClassApplier('highlight', {
+    elementTagName: 'mark',
+    normalize: true,
+  })
+
+  // Add click handler
+  button.addEventListener('click', (event) => {
+    event.preventDefault()
+    // Highlighter button clicked
+
+    classApplier.toggleSelection()
+
+    // Notify editor of content change
+    if (editor && editor.checkContentChanged) {
+      editor.checkContentChanged()
     }
+
+    // Update button state
+    updateButtonState(button)
+  })
+
+  // Add the button to the toolbar
+  toolbar.toolbar.appendChild(button)
+  toolbar.buttons.push(button)
+
+  // Highlighter button added successfully
+
+  // Set up selection change listener to update button state
+  document.addEventListener('selectionchange', () => {
+    updateButtonState(button)
+  })
+}
+
+function updateButtonState(button: HTMLElement) {
+  const selection = window.getSelection()
+  if (selection && selection.rangeCount > 0) {
+    const range = selection.getRangeAt(0)
+    const container = range.commonAncestorContainer
+
+    // Check if selection is within a highlight
+    let element = container.nodeType === Node.TEXT_NODE ? container.parentElement : container as Element
+    let isHighlighted = false
+
+    while (element && element !== document.body) {
+      if (element.tagName === 'MARK' && element.classList.contains('highlight')) {
+        isHighlighted = true
+        break
+      }
+      element = element.parentElement
+    }
+
+    if (isHighlighted) {
+      button.classList.add('medium-editor-button-active')
+    }
+    else {
+      button.classList.remove('medium-editor-button-active')
+    }
+  }
+  else {
+    button.classList.remove('medium-editor-button-active')
   }
 }

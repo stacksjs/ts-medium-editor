@@ -67,6 +67,13 @@
   text-decoration: underline;
 }
 
+.medium-editor-element mark.highlight {
+  background-color: #ffff99;
+  padding: 2px 4px;
+  border-radius: 2px;
+  color: inherit;
+}
+
 /* Toolbar Styles */
 .medium-editor-toolbar {
   position: absolute;

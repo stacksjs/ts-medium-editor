@@ -1,9 +1,6 @@
 // Import MediumEditor from the TypeScript source
 import { MediumEditor } from '../../src/index.ts'
 
-// Make it globally available for debugging
-window.MediumEditor = MediumEditor
-
 // Initialize demo when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
   try {
@@ -27,8 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     // Multi-element editor
-    const titleElement = document.querySelector('.editable-title')
-    const contentElement = document.querySelector('.editable-content')
+    const titleElement = document.querySelector('.editable-title') as HTMLElement
+    const contentElement = document.querySelector('.editable-content') as HTMLElement
 
     if (titleElement && contentElement) {
       const _multiEditor = new MediumEditor([titleElement, contentElement], {

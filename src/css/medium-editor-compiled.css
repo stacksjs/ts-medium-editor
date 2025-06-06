@@ -211,6 +211,23 @@
     font-style: italic;
 }
 
+.medium-editor-action-highlighter {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    color: inherit;
+}
+
+.medium-editor-action-highlighter:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.medium-editor-action-highlighter.medium-editor-button-active {
+    background-color: #333;
+    color: #fff;
+}
+
 /* Toolbar Form */
 .medium-editor-toolbar-form {
     display: none;
@@ -283,6 +300,13 @@
 
 .medium-editor-element sup {
     vertical-align: super;
+}
+
+.medium-editor-element mark.highlight {
+    background-color: #ffff99;
+    padding: 2px 4px;
+    border-radius: 2px;
+    color: inherit;
 }
 
 .medium-editor-hidden {

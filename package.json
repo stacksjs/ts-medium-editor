@@ -2,7 +2,7 @@
   "name": "ts-medium-editor",
   "type": "module",
   "version": "0.0.0",
-  "description": "A simple TypeScript starter kit using Bun.",
+  "description": "A modern, minimal & performant Medium-like rich text editor.",
   "author": "Chris Breuer <chris@stacksjs.org>",
   "license": "MIT",
   "homepage": "https://github.com/stacksjs/ts-medium-editor#readme",
@@ -25,9 +25,6 @@
   },
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "bin": {
-    "bin-name": "./dist/bin/cli.js"
-  },
   "files": ["README.md", "dist"],
   "scripts": {
     "build": "bun --bun build.ts",
@@ -50,10 +47,12 @@
     "@stacksjs/docs": "^0.70.23",
     "@stacksjs/eslint-config": "^4.14.0-beta.3",
     "@types/bun": "^1.2.15",
+    "@types/rangy": "^1.3.0",
     "bumpp": "^10.1.1",
     "bun-plugin-dtsx": "^0.21.12",
     "changelogen": "^0.6.1",
     "lint-staged": "^16.1.0",
+    "rangy": "^1.3.2",
     "simple-git-hooks": "^2.13.0",
     "typescript": "^5.8.3"
   },

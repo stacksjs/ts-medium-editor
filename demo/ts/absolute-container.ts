@@ -1,15 +1,12 @@
 // Import MediumEditor from the TypeScript source
 import { MediumEditor } from '../../src/index.ts'
 
-// Make it globally available for debugging
+// Declare editor for debugging
 declare global {
   interface Window {
-    MediumEditor: typeof MediumEditor
     editor: any
   }
 }
-
-window.MediumEditor = MediumEditor
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
