@@ -211,7 +211,7 @@ export const selection = {
     let currIndex = 0
     let node: HTMLElement | null
 
-    // eslint-disable-next-line no-cond-assign
+    // eslint-disable-next-line no-cond-assign, no-unmodified-loop-condition
     while ((node = walker.nextNode() as HTMLElement)) {
       if (node.textContent!.trim() === '') {
         if (currIndex === index) {

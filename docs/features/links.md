@@ -243,6 +243,7 @@ class AutoLinker extends Extension {
     let match
     const links: Array<{ url: string, start: number, end: number }> = []
 
+    // eslint-disable-next-line no-cond-assign
     while ((match = urlRegex.exec(text))) {
       links.push({
         url: match[0],

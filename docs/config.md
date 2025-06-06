@@ -73,24 +73,33 @@ Configure button labels and icons:
 
 ```typescript
 // Boolean values
-buttonLabels: false; // No labels (icons only)
-buttonLabels: true;  // Text labels
+const editor1 = new MediumEditor('.editable', {
+  buttonLabels: false // No labels (icons only)
+})
+
+const editor2 = new MediumEditor('.editable', {
+  buttonLabels: true // Text labels
+})
 
 // FontAwesome icons
-buttonLabels: 'fontawesome';
+const editor3 = new MediumEditor('.editable', {
+  buttonLabels: 'fontawesome'
+})
 
 // Custom labels
-buttonLabels: {
-  bold: '<b>B</b>',
-  italic: '<i>I</i>',
-  underline: '<u>U</u>',
-  anchor: '🔗',
-  h2: 'H2',
-  h3: 'H3',
-  quote: '"',
-  orderedlist: '1.',
-  unorderedlist: '•'
-};
+const editor4 = new MediumEditor('.editable', {
+  buttonLabels: {
+    bold: '<b>B</b>',
+    italic: '<i>I</i>',
+    underline: '<u>U</u>',
+    anchor: '🔗',
+    h2: 'H2',
+    h3: 'H3',
+    quote: '"',
+    orderedlist: '1.',
+    unorderedlist: '•'
+  }
+})
 ```
 
 ## Toolbar Configuration
@@ -98,34 +107,55 @@ buttonLabels: {
 The toolbar is highly configurable:
 
 ```typescript
-toolbar: {
-  // Available buttons
-  buttons: [
-    'bold', 'italic', 'underline', 'strikethrough',
-    'subscript', 'superscript', 'anchor', 'image',
-    'quote', 'pre', 'orderedlist', 'unorderedlist',
-    'indent', 'outdent', 'justifyLeft', 'justifyCenter',
-    'justifyRight', 'justifyFull', 'h1', 'h2', 'h3',
-    'h4', 'h5', 'h6', 'removeFormat'
-  ],
+const editor = new MediumEditor('.editable', {
+  toolbar: {
+    // Available buttons
+    buttons: [
+      'bold',
+      'italic',
+      'underline',
+      'strikethrough',
+      'subscript',
+      'superscript',
+      'anchor',
+      'image',
+      'quote',
+      'pre',
+      'orderedlist',
+      'unorderedlist',
+      'indent',
+      'outdent',
+      'justifyLeft',
+      'justifyCenter',
+      'justifyRight',
+      'justifyFull',
+      'h1',
+      'h2',
+      'h3',
+      'h4',
+      'h5',
+      'h6',
+      'removeFormat'
+    ],
 
-  // Positioning
-  static: false,           // Always visible toolbar
-  sticky: false,           // Stick to top when scrolling
-  align: 'center',         // 'left', 'center', 'right'
-  relativeContainer: null, // Container to position relative to
+    // Positioning
+    static: false, // Always visible toolbar
+    sticky: false, // Stick to top when scrolling
+    align: 'center', // 'left', 'center', 'right'
+    relativeContainer: null, // Container to position relative to
 
-  // Selection behavior
-  allowMultiParagraphSelection: true,
-  standardizeSelectionStart: false,
-  updateOnEmptySelection: false,
+    // Selection behavior
+    allowMultiParagraphSelection: true,
+    standardizeSelectionStart: false,
+    updateOnEmptySelection: false,
 
-  // Styling
-  firstButtonClass: 'medium-editor-button-first',
-  lastButtonClass: 'medium-editor-button-last',
-  diffLeft: 0,    // Horizontal offset
-  diffTop: -10    // Vertical offset
-};
+    // Styling
+    firstButtonClass: 'medium-editor-button-first',
+    lastButtonClass: 'medium-editor-button-last',
+    diffLeft: 0, // Horizontal offset
+    diffTop: -10 // Vertical offset
+  }
+})
 ```
 
 ### Custom Buttons
@@ -133,45 +163,51 @@ toolbar: {
 Create custom toolbar buttons:
 
 ```typescript
-toolbar: {
-  buttons: [
-    'bold',
-    'italic',
-    {
-      name: 'highlight',
-      action: 'highlight',
-      aria: 'Highlight text',
-      contentDefault: '🖍️',
-      classList: ['custom-highlight-button'],
-      attrs: {
-        'data-action': 'highlight'
+const editor = new MediumEditor('.editable', {
+  toolbar: {
+    buttons: [
+      'bold',
+      'italic',
+      {
+        name: 'highlight',
+        action: 'highlight',
+        aria: 'Highlight text',
+        contentDefault: '🖍️',
+        classList: ['custom-highlight-button'],
+        attrs: {
+          'data-action': 'highlight'
+        }
       }
-    }
-  ]
-};
+    ]
+  }
+})
 ```
 
 ## Placeholder Configuration
 
 ```typescript
-placeholder: {
-  text: 'Tell your story...',
-  hideOnClick: true,
-  hideOnFocus: false
-};
+const editor = new MediumEditor('.editable', {
+  placeholder: {
+    text: 'Tell your story...',
+    hideOnClick: true,
+    hideOnFocus: false
+  }
+})
 ```
 
 ## Anchor (Link) Configuration
 
 ```typescript
-anchor: {
-  customClassOption: 'custom-link',
-  customClassOptionText: 'Make it special',
-  linkValidation: true,
-  placeholderText: 'Paste or type a link',
-  targetCheckbox: true,
-  targetCheckboxText: 'Open in new window'
-};
+const editor = new MediumEditor('.editable', {
+  anchor: {
+    customClassOption: 'custom-link',
+    customClassOptionText: 'Make it special',
+    linkValidation: true,
+    placeholderText: 'Paste or type a link',
+    targetCheckbox: true,
+    targetCheckboxText: 'Open in new window'
+  }
+})
 ```
 
 ## Paste Configuration
@@ -179,32 +215,34 @@ anchor: {
 Control how pasted content is handled:
 
 ```typescript
-paste: {
-  forcePlainText: false,
-  cleanPastedHTML: true,
+const editor = new MediumEditor('.editable', {
+  paste: {
+    forcePlainText: false,
+    cleanPastedHTML: true,
 
-  // Pre-clean replacements (before HTML parsing)
-  preCleanReplacements: [
-    [/\u00a0/gi, ' '] // Replace non-breaking spaces
-  ],
+    // Pre-clean replacements (before HTML parsing)
+    preCleanReplacements: [
+      [/\u00A0/g, ' '] // Replace non-breaking spaces
+    ],
 
-  // Clean replacements (after HTML parsing)
-  cleanReplacements: [
-    [/\s*style\s*=\s*["'][^"']*["']/gi, ''], // Remove inline styles
-    [/<o:p\s*\/?>|<\/o:p>/gi, ''],           // Remove Word tags
-    [/<xml>[\s\S]*?<\/xml>/gi, ''],          // Remove XML
-    [/<!--[\s\S]*?-->/g, '']                 // Remove comments
-  ],
+    // Clean replacements (after HTML parsing)
+    cleanReplacements: [
+      [/\s*style\s*=\s*["'][^"']*["']/gi, ''], // Remove inline styles
+      [/<o:p\s*\/?>|<\/o:p>/gi, ''], // Remove Word tags
+      [/<xml>[\s\S]*?<\/xml>/gi, ''], // Remove XML
+      [/<!--[\s\S]*?-->/g, ''] // Remove comments
+    ],
 
-  // Attributes to remove
-  cleanAttrs: ['class', 'style', 'dir', 'id'],
+    // Attributes to remove
+    cleanAttrs: ['class', 'style', 'dir', 'id'],
 
-  // Tags to remove completely
-  cleanTags: ['meta', 'style', 'script', 'object', 'embed', 'title'],
+    // Tags to remove completely
+    cleanTags: ['meta', 'style', 'script', 'object', 'embed', 'title'],
 
-  // Tags to unwrap (remove tag, keep content)
-  unwrapTags: ['div', 'span']
-};
+    // Tags to unwrap (remove tag, keep content)
+    unwrapTags: ['div', 'span']
+  }
+})
 ```
 
 ## Keyboard Commands
@@ -212,25 +250,27 @@ paste: {
 Configure keyboard shortcuts:
 
 ```typescript
-keyboardCommands: {
-  commands: [
-    {
-      command: 'bold',
-      key: 'b',
-      meta: true
-    },
-    {
-      command: 'italic',
-      key: 'i',
-      meta: true
-    },
-    {
-      command: 'underline',
-      key: 'u',
-      meta: true
-    }
-  ]
-};
+const editor = new MediumEditor('.editable', {
+  keyboardCommands: {
+    commands: [
+      {
+        command: 'bold',
+        key: 'b',
+        meta: true
+      },
+      {
+        command: 'italic',
+        key: 'i',
+        meta: true
+      },
+      {
+        command: 'underline',
+        key: 'u',
+        meta: true
+      }
+    ]
+  }
+})
 ```
 
 ## Extensions
@@ -239,14 +279,18 @@ Disable built-in extensions or add custom ones:
 
 ```typescript
 // Disable extensions
-toolbar: false,
-placeholder: false,
-anchorPreview: false,
+const editor1 = new MediumEditor('.editable', {
+  toolbar: false,
+  placeholder: false,
+  anchorPreview: false
+})
 
 // Configure extensions
-extensions: {
-  customExtension: new MyCustomExtension()
-}
+const editor2 = new MediumEditor('.editable', {
+  extensions: {
+    customExtension: new MyCustomExtension()
+  }
+});
 ```
 
 ## Complete Example
