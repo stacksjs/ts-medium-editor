@@ -73,7 +73,7 @@ describe('Selection', () => {
       const targetSpan = el.querySelector('span.target')
       if (targetSpan) {
         // Before the 'e' in whatever
-        placeCursorInsideElement(targetSpan, 0)
+        placeCursorInsideElement(targetSpan as HTMLElement, 0)
         const exportedSelection = (MediumEditor as any).selection?.exportSelection(el, document)
         expect(exportedSelection?.emptyBlocksIndex).toBeUndefined()
       }

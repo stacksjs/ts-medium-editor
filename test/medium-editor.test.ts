@@ -233,7 +233,7 @@ describe('MediumEditor Core', () => {
 
       const extension = editor.getExtensionByName('testExtension')
       expect(extension).toBeDefined()
-      expect(extension.initialized).toBe(true)
+      expect((extension as any)?.initialized).toBe(true)
     })
 
     it('should get toolbar extension by default', () => {

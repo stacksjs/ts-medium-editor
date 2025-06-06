@@ -190,16 +190,16 @@ export const selection = {
       && range.startOffset === (range.startContainer as Text).nodeValue!.length) {
       const nodeInsideAnchorTag = util.traverseUp(range.startContainer, nodeInsideAnchorTagFunction)
       if (nodeInsideAnchorTag) {
-        let nextNode = nodeInsideAnchorTag.nextSibling
+        const nextNode = nodeInsideAnchorTag.nextSibling
         if (nextNode && nextNode.nodeType === 3) {
           range.setStart(nextNode, 0)
           range.setEnd(nextNode, 0)
         }
         else if (nodeInsideAnchorTag.parentNode) {
-          nextNode = nodeInsideAnchorTag.parentNode
-          const nodeIndex = Array.prototype.indexOf.call(nextNode.childNodes, nodeInsideAnchorTag)
-          range.setStart(nextNode, nodeIndex + 1)
-          range.setEnd(nextNode, nodeIndex + 1)
+          const parentNode = nodeInsideAnchorTag.parentNode
+          const nodeIndex = Array.prototype.indexOf.call(parentNode.childNodes, nodeInsideAnchorTag)
+          range.setStart(parentNode as Node, nodeIndex + 1)
+          range.setEnd(parentNode as Node, nodeIndex + 1)
         }
       }
     }
