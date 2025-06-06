@@ -1,60 +1,252 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>medium editor | demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medium Editor - Custom Toolbar Demo</title>
     <link rel="stylesheet" href="css/demo.css">
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css" rel="stylesheet">
-    <link rel="stylesheet" href="../dist/css/medium-editor.css">
-    <link rel="stylesheet" href="../dist/css/themes/flat.css">
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="../src/css/medium-editor.css">
+    <link rel="stylesheet" href="../src/css/themes/flat.css" id="theme-css">
+    <style>
+        .demo-section {
+            margin-bottom: 3rem;
+            padding: 1.5rem;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .demo-section h3 {
+            margin-top: 0;
+            color: #495057;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .demo-description {
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .demo-description code {
+            background: #e9ecef;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Menlo', monospace;
+        }
+        .editable-fontawesome,
+        .editable-custom-labels,
+        .editable-mixed,
+        .editable-minimal,
+        .editable-advanced {
+            min-height: 150px;
+            border: 2px dashed #dee2e6;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+            transition: border-color 0.2s ease;
+        }
+        .editable-fontawesome:focus,
+        .editable-custom-labels:focus,
+        .editable-mixed:focus,
+        .editable-minimal:focus,
+        .editable-advanced:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        .controls-section {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+        .controls-section h3 {
+            margin-top: 0;
+        }
+        .theme-selector {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        .theme-selector select {
+            padding: 0.5rem;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .code-example {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 12px;
+            overflow-x: auto;
+        }
+        /* Custom button styles for advanced example */
+        .custom-btn-bold { font-weight: bold; color: #dc3545; }
+        .custom-btn-italic { font-style: italic; color: #28a745; }
+        .custom-btn-underline { text-decoration: underline; color: #007bff; }
+        .custom-btn-link { color: #6f42c1; }
+        .custom-btn-quote { color: #fd7e14; }
+        .custom-btn-heading { font-weight: bold; color: #20c997; }
+
+        .source-attribution {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 12px;
+            color: #6c757d;
+        }
+    </style>
 </head>
 <body>
-    <a href="https://github.com/yabwe/medium-editor"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+    <a href="https://github.com/yabwe/medium-editor" aria-label="Fork me on GitHub">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
+             alt="Fork me on GitHub">
+    </a>
+
     <div id="container">
-        <h1>Medium Editor</h1>
-        <div class="editable">
-            <h2>Font Awesome</h2>
-            <p>My father’s family name being <a href="https://en.wikipedia.org/wiki/Pip_(Great_Expectations)">Pirrip</a>, and my Christian name Philip, my infant tongue could make of both names nothing longer or more explicit than Pip. So, I called myself Pip, and came to be called Pip.</p>
-            <p>I give Pirrip as my father’s family name, on the authority of his tombstone and my sister,—Mrs. Joe Gargery, who married the blacksmith. As I never saw my father or my mother, and never saw any likeness of either of them (for their days were long before the days of photographs), my first fancies regarding what they were like were unreasonably derived from their tombstones...</p>
+        <header>
+            <h1>Medium Editor - Custom Toolbar Demo</h1>
+            <p>This demo showcases various ways to customize the toolbar appearance and button labels.</p>
+        </header>
+
+        <div class="controls-section">
+            <h3>🎨 Global Controls</h3>
+            <div class="theme-selector">
+                <label for="theme-selector">Choose Theme:</label>
+                <select id="theme-selector">
+                    <option value="default">Default</option>
+                    <option value="flat" selected>Flat</option>
+                    <option value="beagle">Beagle</option>
+                    <option value="bootstrap">Bootstrap</option>
+                    <option value="mani">Mani</option>
+                    <option value="roman">Roman</option>
+                    <option value="tim">Tim</option>
+                </select>
+            </div>
+            <p><em>Try different themes to see how they affect the custom toolbar buttons!</em></p>
         </div>
-        <div class="secondEditable" id="c">
-            <h2>Custom Labels </h2>
-            <p>... Ours was the marsh country, down by the river, within, as the river wound, twenty miles of the sea. My first most vivid and broad impression of the identity of things seems to me to have been gained on a memorable raw afternoon towards evening. At such a time I found out for certain that this bleak place overgrown with nettles was the churchyard; and that Philip Pirrip, late of this parish, and also Georgiana wife of the above, were dead and buried; and that Alexander, Bartholomew, Abraham, Tobias, and Roger, infant children of the aforesaid, were also dead and buried; and that the dark flat wilderness beyond the churchyard, intersected with dikes and mounds and gates, with scattered cattle feeding on it, was the marshes; and that the low leaden line beyond was the river; and that the distant savage lair from which the wind was rushing was the sea; and that the small bundle of shivers growing afraid of it all and beginning to cry, was Pip.</p>
-        </div>
+
+        <section class="demo-section">
+            <h3>🎯 FontAwesome Icons</h3>
+            <div class="demo-description">
+                Using <code>buttonLabels: 'fontawesome'</code> provides a complete toolbar with professional icons.
+                This includes all available formatting options with FontAwesome icon styling.
+            </div>
+            <div class="editable-fontawesome">
+                <h4>FontAwesome Toolbar</h4>
+                <p>This editor uses <strong>FontAwesome icons</strong> for all toolbar buttons. Try selecting text to see the full range of formatting options including <em>italic</em>, <u>underline</u>, lists, alignment, and more!</p>
+            </div>
+            <div class="code-example">buttonLabels: 'fontawesome'</div>
+        </section>
+
+        <section class="demo-section">
+            <h3>📝 Custom Text Labels</h3>
+            <div class="demo-description">
+                Define custom button content using the <code>contentDefault</code> property.
+                You can use plain text, HTML, or even emojis for button labels.
+            </div>
+            <div class="editable-custom-labels">
+                <h4>Custom Text Labels</h4>
+                <p>This toolbar uses <strong>custom text labels</strong> instead of icons. Notice how the buttons show descriptive text like "Bold", "Italic", and even emojis like 🔗 for links!</p>
+            </div>
+            <div class="code-example">{
+  name: 'bold',
+  contentDefault: '&lt;strong&gt;Bold&lt;/strong&gt;'
+},
+{
+  name: 'anchor',
+  contentDefault: '🔗 Link'
+}</div>
+        </section>
+
+        <section class="demo-section">
+            <h3>🎭 Mixed Styles</h3>
+            <div class="demo-description">
+                Combine default FontAwesome icons with custom labels in the same toolbar.
+                Some buttons use icons while others use custom text or emojis.
+            </div>
+            <div class="editable-mixed">
+                <h4>Mixed Button Styles</h4>
+                <p>This toolbar <strong>mixes different styles</strong> - some buttons use FontAwesome icons (like bold and italic), while others use custom text and emojis like 📝 Underline and 1️⃣ List.</p>
+            </div>
+            <div class="code-example">buttons: [
+  'bold',  // FontAwesome icon
+  'italic', // FontAwesome icon
+  {
+    name: 'underline',
+    contentDefault: '📝 Underline'
+  }
+]</div>
+        </section>
+
+        <section class="demo-section">
+            <h3>⚡ Minimal Toolbar</h3>
+            <div class="demo-description">
+                Sometimes less is more! Create a simple toolbar with just the essential formatting options.
+                Perfect for comment systems or simple text editing.
+            </div>
+            <div class="editable-minimal">
+                <h4>Minimal Toolbar</h4>
+                <p>This editor has a <strong>minimal toolbar</strong> with just the basics: Bold, Italic, and Link. Perfect for simple editing scenarios where you don't need all the formatting options.</p>
+            </div>
+            <div class="code-example">buttons: [
+  { name: 'bold', contentDefault: 'B' },
+  { name: 'italic', contentDefault: 'I' },
+  { name: 'anchor', contentDefault: 'Link' }
+]</div>
+        </section>
+
+        <section class="demo-section">
+            <h3>🎨 Advanced Styling</h3>
+            <div class="demo-description">
+                Use custom CSS classes and special Unicode characters to create unique button appearances.
+                This example uses mathematical Unicode characters and custom colors.
+            </div>
+            <div class="editable-advanced">
+                <h4>Advanced Custom Styling</h4>
+                <p>This toolbar uses <strong>advanced custom styling</strong> with special Unicode characters like 𝐁 for bold and 𝐼 for italic, plus custom CSS classes for unique colors and effects!</p>
+            </div>
+            <div class="code-example">{
+  name: 'bold',
+  contentDefault: '&lt;span class="custom-btn-bold"&gt;𝐁&lt;/span&gt;'
+},
+{
+  name: 'italic',
+  contentDefault: '&lt;span class="custom-btn-italic"&gt;𝐼&lt;/span&gt;'
+}</div>
+        </section>
+
+        <section class="demo-section">
+            <h3>💡 Key Features Demonstrated</h3>
+            <ul>
+                <li><strong>FontAwesome Integration:</strong> Professional icon set for all buttons</li>
+                <li><strong>Custom Text Labels:</strong> Use any text, HTML, or emojis</li>
+                <li><strong>Mixed Configurations:</strong> Combine different button styles</li>
+                <li><strong>Minimal Setups:</strong> Simple toolbars for basic editing</li>
+                <li><strong>Advanced Styling:</strong> Custom CSS classes and Unicode characters</li>
+                <li><strong>Theme Compatibility:</strong> All configurations work with different themes</li>
+                <li><strong>Responsive Design:</strong> Toolbars adapt to different screen sizes</li>
+            </ul>
+        </section>
     </div>
-    <p style="text-align: center;"><small><a style="color: #333;" target="_blank" href="http://www.goodreads.com/reader/475-great-expectations">Source</a></small></p>
-    <script src="../dist/js/medium-editor.js"></script>
-    <script>
-        var editor = new MediumEditor('.editable', {
-                toolbar: {
-                    buttons: ['bold', 'italic', 'underline', 'strikethrough', 'quote', 'anchor', 'image', 'justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull', 'superscript', 'subscript', 'orderedlist', 'unorderedlist', 'pre', 'removeFormat', 'outdent', 'indent', 'h2', 'h3', 'html'],
-                },
-                buttonLabels: 'fontawesome',
-                anchor: {
-                    targetCheckbox: true
-                }
-            });
-        var editor2 = new MediumEditor('.secondEditable', {
-                toolbar: {
-                    buttons: [{
-                            name: 'bold',
-                            contentDefault: 'bold'
-                        },
-                        {
-                            name: 'italic',
-                            contentDefault: '<i>italic</i>'
-                        },
-                        {
-                            name: 'underline',
-                            contentDefault: '<u>underline</u>'
-                        },
-                        {
-                            name: 'anchor',
-                            contentDefault: 'link'
-                        }
-                    ]
-                }
-            });
-    </script>
+
+    <div class="source-attribution">
+        <small>
+            <a style="color: #6c757d;" target="_blank" href="http://www.goodreads.com/reader/475-great-expectations">
+                Sample text from "Great Expectations" by Charles Dickens
+            </a>
+        </small>
+    </div>
+
+    <script type="module" src="js/custom-toolbar.js"></script>
 </body>
 </html>
