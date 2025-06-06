@@ -10,6 +10,7 @@ export class Toolbar implements MediumEditorExtension {
   private customActions: Map<string, () => void> = new Map() // Store function actions
   private lastClickTime = 0 // Debouncing mechanism
   private minClickInterval = 100 // Reduced from 300ms to 100ms for better responsiveness
+  private isFormattingInProgress = false // Flag to prevent flickering during formatting
 
   constructor(options: ToolbarOptions = {}, container: HTMLElement = document.body, editor?: any) {
     this.options = {
@@ -440,6 +441,9 @@ export class Toolbar implements MediumEditorExtension {
     console.log(`🔄 Attempting execCommand for action: ${action}`)
     editorElement.focus()
 
+    // Set flag to prevent button state flickering during formatting
+    this.isFormattingInProgress = true
+
     // Small delay to ensure focus is properly set
     setTimeout(() => {
       const commandSuccess = document.execCommand(action, false, undefined)
@@ -466,7 +470,7 @@ export class Toolbar implements MediumEditorExtension {
         console.log(`Selection parent elements:`, this.getParentElements(range))
       }
 
-            if (commandSuccess && wasActuallyFormatted) {
+      if (commandSuccess && wasActuallyFormatted) {
         console.log(`✅ execCommand successful for ${action}`)
         success = true
       } else if (!wasActuallyFormatted) {
@@ -533,9 +537,11 @@ export class Toolbar implements MediumEditorExtension {
           this.restoreSelectionOnFormattedText(editorElement, selectedText, action)
         }
 
+        // Clear the formatting flag and update button states
+        this.isFormattingInProgress = false
         this.updateButtonStates()
         console.log('✅ Button states updated after formatting operation')
-      }, 50)
+      }, 10) // Reduced from 50ms to 10ms for faster visual feedback
 
       console.log('---')
     }, 10)
@@ -1112,6 +1118,12 @@ export class Toolbar implements MediumEditorExtension {
 
   updateButtonStates(): void {
     if (!this.toolbar) {
+      return
+    }
+
+    // Skip button state updates during active formatting to prevent flickering
+    if (this.isFormattingInProgress) {
+      console.log('🔄 Skipping button state update - formatting in progress')
       return
     }
 
