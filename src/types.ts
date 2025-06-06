@@ -43,7 +43,7 @@ export interface ToolbarOptions {
 
 export interface ToolbarButton {
   name: string
-  action?: string
+  action?: string | (() => void)
   aria?: string
   tagNames?: string[]
   style?: {

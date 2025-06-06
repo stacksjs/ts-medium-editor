@@ -64,7 +64,8 @@ describe('Toolbar', () => {
       // Manually trigger checkSelection to ensure toolbar positioning
       editor.checkSelection()
 
-      const toolbar = document.querySelector('.medium-editor-toolbar') as HTMLElement
+      const toolbarExtension = editor.getExtensionByName('toolbar') as any
+      const toolbar = toolbarExtension?.getToolbarElement() as HTMLElement
       expect(toolbar?.style.display).not.toBe('none')
     })
 
@@ -80,7 +81,8 @@ describe('Toolbar', () => {
       // Manually trigger checkSelection to ensure toolbar positioning
       editor.checkSelection()
 
-      const toolbar = document.querySelector('.medium-editor-toolbar') as HTMLElement
+      const toolbarExtension = editor.getExtensionByName('toolbar') as any
+      const toolbar = toolbarExtension?.getToolbarElement() as HTMLElement
       if (toolbar) {
         // Check that the toolbar is positioned absolutely
         expect(toolbar.style.position).toBe('absolute')

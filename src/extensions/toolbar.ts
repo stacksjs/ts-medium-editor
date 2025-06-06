@@ -7,6 +7,7 @@ export class Toolbar implements MediumEditorExtension {
   buttons: HTMLElement[] = []
   container: HTMLElement
   editor?: any // Reference to the MediumEditor instance
+  private customActions: Map<string, () => void> = new Map() // Store function actions
 
   constructor(options: ToolbarOptions = {}, container: HTMLElement = document.body, editor?: any) {
     this.options = {
@@ -203,6 +204,11 @@ export class Toolbar implements MediumEditorExtension {
     button.className = `medium-editor-action medium-editor-action-${buttonConfig.name}`
     button.setAttribute('data-action', buttonConfig.name)
 
+    // Store function action if provided
+    if (typeof buttonConfig.action === 'function') {
+      this.customActions.set(buttonConfig.name, buttonConfig.action)
+    }
+
     // Set custom content
     if (buttonConfig.contentDefault) {
       button.innerHTML = buttonConfig.contentDefault
@@ -251,6 +257,13 @@ export class Toolbar implements MediumEditorExtension {
 
   handleButtonClick(action: string, event: Event): void {
     event.preventDefault()
+
+    // Check for custom function action first
+    const customAction = this.customActions.get(action)
+    if (customAction) {
+      customAction()
+      return
+    }
 
     // Call the editor's execAction method if available
     if (this.editor && typeof this.editor.execAction === 'function') {
