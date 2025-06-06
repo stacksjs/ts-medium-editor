@@ -215,7 +215,7 @@ class WordCounter implements MediumEditorExtension {
   private stripHtml(html: string): string {
     const div = document.createElement('div')
     div.innerHTML = html
-    return div.textContent || div.innerText || ''
+    return div.textContent || ''
   }
 }
 

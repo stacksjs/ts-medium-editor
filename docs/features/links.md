@@ -45,7 +45,9 @@ editor.createLink({
 
 **Note**: The `createLink` method signature in the actual implementation is:
 ```typescript
-createLink(opts: { value: string, target?: string, buttonClass?: string }): void
+function createLink(opts: { value: string, target?: string, buttonClass?: string }): void {
+  // Implementation details
+}
 ```
 
 ## Link Configuration
@@ -241,7 +243,7 @@ class AutoLinker extends Extension {
     let match
     const links: Array<{ url: string, start: number, end: number }> = []
 
-    while ((match = urlRegex.exec(text)) !== null) {
+    while ((match = urlRegex.exec(text))) {
       links.push({
         url: match[0],
         start: match.index,

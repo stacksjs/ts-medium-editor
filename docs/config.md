@@ -73,11 +73,11 @@ Configure button labels and icons:
 
 ```typescript
 // Boolean values
-buttonLabels: false // No labels (icons only)
-buttonLabels: true  // Text labels
+buttonLabels: false; // No labels (icons only)
+buttonLabels: true;  // Text labels
 
 // FontAwesome icons
-buttonLabels: 'fontawesome'
+buttonLabels: 'fontawesome';
 
 // Custom labels
 buttonLabels: {
@@ -90,7 +90,7 @@ buttonLabels: {
   quote: '"',
   orderedlist: '1.',
   unorderedlist: '•'
-}
+};
 ```
 
 ## Toolbar Configuration
@@ -125,7 +125,7 @@ toolbar: {
   lastButtonClass: 'medium-editor-button-last',
   diffLeft: 0,    // Horizontal offset
   diffTop: -10    // Vertical offset
-}
+};
 ```
 
 ### Custom Buttons
@@ -148,7 +148,7 @@ toolbar: {
       }
     }
   ]
-}
+};
 ```
 
 ## Placeholder Configuration
@@ -158,7 +158,7 @@ placeholder: {
   text: 'Tell your story...',
   hideOnClick: true,
   hideOnFocus: false
-}
+};
 ```
 
 ## Anchor (Link) Configuration
@@ -171,7 +171,7 @@ anchor: {
   placeholderText: 'Paste or type a link',
   targetCheckbox: true,
   targetCheckboxText: 'Open in new window'
-}
+};
 ```
 
 ## Paste Configuration
@@ -204,7 +204,7 @@ paste: {
 
   // Tags to unwrap (remove tag, keep content)
   unwrapTags: ['div', 'span']
-}
+};
 ```
 
 ## Keyboard Commands
@@ -230,7 +230,7 @@ keyboardCommands: {
       meta: true
     }
   ]
-}
+};
 ```
 
 ## Extensions

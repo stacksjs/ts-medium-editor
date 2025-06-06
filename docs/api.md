@@ -7,7 +7,7 @@ This page provides a complete reference for all TypeScript Medium Editor APIs, i
 ### Constructor
 
 ```typescript
-new MediumEditor(elements?: string | HTMLElement | HTMLElement[] | NodeList, options?: MediumEditorOptions)
+constructor(elements?: string | HTMLElement | HTMLElement[] | NodeList, options?: MediumEditorOptions)
 ```
 
 **Parameters:**

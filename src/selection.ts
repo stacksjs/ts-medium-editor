@@ -266,6 +266,7 @@ export const selection = {
 
     const treeWalker = doc.createTreeWalker(root, NodeFilter.SHOW_ELEMENT, filterOnlyParentElements)
     let emptyBlocksCount = 0
+
     while (treeWalker.nextNode()) {
       const blockIsEmpty = treeWalker.currentNode.textContent === ''
       if (blockIsEmpty || emptyBlocksCount > 0) {

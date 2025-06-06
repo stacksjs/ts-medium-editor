@@ -30,7 +30,7 @@ That's it! You now have a fully functional rich text editor.
 The `MediumEditor` constructor accepts two parameters:
 
 ```typescript
-new MediumEditor(elements, options)
+const editor = new MediumEditor(elements, options)
 ```
 
 ### Elements Parameter
