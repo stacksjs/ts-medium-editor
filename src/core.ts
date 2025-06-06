@@ -567,17 +567,67 @@ export class MediumEditor {
 
   // Action methods
   execAction(action: string, opts?: any): boolean {
+    // Ensure we have a valid selection before attempting any formatting
+    const selection = window.getSelection()
+    if (!selection || selection.rangeCount === 0) {
+      return false
+    }
+
     // Handle case where ownerDocument doesn't have execCommand (e.g., in test environments)
     if (!this.options.ownerDocument || typeof this.options.ownerDocument.execCommand !== 'function') {
       // Fallback for test environments - delegate to toolbar if available
       const toolbar = this.getExtensionByName('toolbar') as any
       if (toolbar && typeof toolbar.applyFormattingFallback === 'function') {
-        toolbar.applyFormattingFallback(action)
-        return true
+        try {
+          toolbar.applyFormattingFallback(action)
+          return true
+        } catch (error) {
+          console.warn('Fallback formatting failed:', error)
+          return false
+        }
       }
       return false
     }
-    return this.options.ownerDocument.execCommand(action, false, opts)
+
+    try {
+      // Use execCommand with proper error handling
+      let success = false
+
+      switch (action) {
+        case 'bold':
+        case 'italic':
+        case 'underline':
+        case 'strikethrough':
+          success = this.options.ownerDocument.execCommand(action, false)
+          break
+        case 'h2':
+          success = this.options.ownerDocument.execCommand('formatBlock', false, 'h2')
+          break
+        case 'h3':
+          success = this.options.ownerDocument.execCommand('formatBlock', false, 'h3')
+          break
+        case 'quote':
+          success = this.options.ownerDocument.execCommand('formatBlock', false, 'blockquote')
+          break
+        default:
+          // For other actions, use the provided opts parameter
+          success = this.options.ownerDocument.execCommand(action, false, opts)
+          break
+      }
+
+      // Trigger a content change check after successful formatting
+      if (success) {
+        setTimeout(() => {
+          this.checkContentChanged()
+          this.checkSelection()
+        }, 10)
+      }
+
+      return success
+    } catch (error) {
+      console.warn('execCommand failed:', error)
+      return false
+    }
   }
 
   queryCommandState(action: string): boolean {
@@ -755,10 +805,10 @@ export class MediumEditor {
 
     // Add global mouseup handler to catch selection changes anywhere in the document
     this.on(this.options.ownerDocument!, 'mouseup', () => {
-      // Use setTimeout to ensure selection is finalized
+      // Use consistent timeout to ensure selection is finalized
       setTimeout(() => {
         this.checkSelection()
-      }, 0)
+      }, 10)
     })
 
     // Attach core event handlers
@@ -779,12 +829,20 @@ export class MediumEditor {
         }
       })
 
-      // Add mouseup handler to trigger selection updates
+      // Add mouseup handler to trigger selection updates with consistent timing
       this.on(element, 'mouseup', () => {
-        // Use setTimeout to ensure selection is finalized
+        // Use consistent timeout to ensure selection is finalized
         setTimeout(() => {
           this.checkSelection()
-        }, 10) // Slightly longer delay to ensure selection is processed
+        }, 10)
+      })
+
+      // Add mousedown handler to prepare for selection changes
+      this.on(element, 'mousedown', () => {
+        // Clear any pending selection updates and prepare for new selection
+        setTimeout(() => {
+          this.checkSelection()
+        }, 15) // Slightly longer delay to ensure mouseup has been processed
       })
 
       // Add auto-link detection on input only

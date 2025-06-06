@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medium Editor - Custom Extension Demo</title>
+    <title>Medium Editor - Custom Extension Demo (Standalone)</title>
     <link rel="stylesheet" href="css/demo.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="../src/css/medium-editor.css">
@@ -74,7 +74,6 @@
             margin-top: 0;
             color: #856404;
         }
-        /* Shiki syntax highlighting styles */
         .code-example {
             background: #f8f9fa;
             border: 1px solid #e9ecef;
@@ -85,23 +84,6 @@
             font-size: 12px;
             overflow-x: auto;
             line-height: 1.5;
-        }
-        .code-example.shiki-highlighted {
-            background: transparent;
-            padding: 0;
-        }
-        .code-example.shiki-highlighted code {
-            display: block;
-            padding: 1rem;
-            border-radius: 4px;
-            font-size: 12px;
-            line-height: 1.5;
-            overflow-x: auto;
-        }
-        .shiki {
-            background: #f8f9fa !important;
-            border: 1px solid #e9ecef;
-            border-radius: 4px;
         }
         .source-attribution {
             text-align: center;
@@ -203,10 +185,10 @@
             </div>
 
             <h4>1. Custom Extension Class</h4>
-            <div class="code-example" data-lang="typescript">class CustomExtension {
+            <div class="code-example">class CustomExtension {
   name = 'customExtension'
-  private button: HTMLButtonElement
-  private base: any
+  button = null
+  base = null
 
   constructor() {
     this.button = document.createElement('button')
@@ -236,10 +218,11 @@
 }</div>
 
             <h4>2. Create Editor Instances with Extensions</h4>
-            <div class="code-example" data-lang="typescript">// First editor instance
+            <div class="code-example">// First editor instance
 const editorOne = new MediumEditor('.one', {
+  buttonLabels: 'fontawesome',
   toolbar: {
-    buttons: ['bold', 'italic', 'customExtension'], // Include standard + custom buttons
+    buttons: ['bold', 'italic', 'customExtension'],
   },
   extensions: {
     customExtension: new CustomExtension(),
@@ -248,8 +231,9 @@ const editorOne = new MediumEditor('.one', {
 
 // Second editor instance
 const editorTwo = new MediumEditor('.two', {
+  buttonLabels: 'fontawesome',
   toolbar: {
-    buttons: ['bold', 'italic', 'customExtension'], // Include standard + custom buttons
+    buttons: ['bold', 'italic', 'customExtension'],
   },
   extensions: {
     customExtension: new CustomExtension(),
@@ -281,18 +265,6 @@ const editorTwo = new MediumEditor('.two', {
                     <li><code>this.base.selection</code> - Access selection utilities</li>
                 </ul>
             </div>
-
-            <h4>Advanced Extension Features</h4>
-            <div class="demo-description">
-                Extensions can also implement:
-                <ul>
-                    <li><strong><code>init()</code></strong> - Called when extension is first initialized</li>
-                    <li><strong><code>destroy()</code></strong> - Called when extension is destroyed</li>
-                    <li><strong><code>checkState()</code></strong> - Called to update button state based on selection</li>
-                    <li><strong><code>isActive()</code></strong> - Return true if extension should be active for current selection</li>
-                    <li><strong><code>setActive()</code> / <code>setInactive()</code></strong> - Visual state management</li>
-                </ul>
-            </div>
         </section>
     </div>
 
@@ -304,22 +276,168 @@ const editorTwo = new MediumEditor('.two', {
         </small>
     </div>
 
-    <script type="module" src="ts/pass-instance.ts"></script>
+    <!-- Load the built library (UMD version for global window access) -->
+    <script src="../dist/medium-editor.umd.js"></script>
+    <script>
+        // Custom Extension Class
+        class CustomExtension {
+            constructor() {
+                this.name = 'customExtension';
+                this.button = document.createElement('button');
+                this.button.className = 'medium-editor-action custom-extension';
+                this.button.innerHTML = '🎯';
+                this.button.title = 'Custom Extension Action - Click to see editor info';
+                this.button.setAttribute('data-action', 'customExtension');
+                this.base = null;
 
-    <!-- Error fallback for browsers that don't support ES modules -->
-    <script nomodule>
+                // Use mousedown instead of click to avoid conflicts with selection handling
+                this.button.addEventListener('mousedown', (event) => {
+                    event.preventDefault(); // Prevent focus loss
+                    event.stopPropagation(); // Prevent event bubbling
+
+                    // Use setTimeout to ensure selection is stable
+                    setTimeout(() => {
+                        this.onClick();
+                    }, 10);
+                });
+            }
+
+            init() {
+                console.log('Custom extension initialized for editor #' + (this.base ? this.base.id : 'unknown'));
+            }
+
+            getButton() {
+                return this.button;
+            }
+
+            onClick() {
+                if (!this.base) {
+                    alert('Extension not properly initialized!');
+                    return;
+                }
+
+                // Store current selection before showing alert
+                var savedSelection = null;
+                try {
+                    savedSelection = this.base.exportSelection();
+                } catch (error) {
+                    console.warn('Could not save selection:', error);
+                }
+
+                var editorInfo = {
+                    id: this.base.id,
+                    elements: this.base.elements.length,
+                    content: (this.base.getContent(0) || '').substring(0, 80) + '...',
+                    isActive: this.base.isActive(),
+                    version: this.base.version ? this.base.version.toString() : 'Unknown'
+                };
+
+                var message = '🎯 Custom Extension Info:\n\n' +
+                    'Editor Instance ID: #' + editorInfo.id + '\n' +
+                    'Number of Elements: ' + editorInfo.elements + '\n' +
+                    'Is Active: ' + editorInfo.isActive + '\n' +
+                    'Version: ' + editorInfo.version + '\n\n' +
+                    'Current Content Preview:\n' +
+                    '"' + editorInfo.content + '"\n\n' +
+                    'Click OK to see more details in console.';
+
+                alert(message);
+
+                // Restore selection after alert
+                if (savedSelection) {
+                    try {
+                        this.base.importSelection(savedSelection);
+                    } catch (error) {
+                        console.warn('Could not restore selection:', error);
+                    }
+                }
+
+                console.log('Full Editor Instance Details:', {
+                    id: this.base.id,
+                    elements: this.base.elements,
+                    options: this.base.options,
+                    extensions: Object.keys(this.base.extensions),
+                    isActive: this.base.isActive(),
+                    version: this.base.version,
+                    fullContent: this.base.getContent(0)
+                });
+            }
+
+            isActive() {
+                return true;
+            }
+
+            destroy() {
+                console.log('Custom extension destroyed for editor #' + (this.base ? this.base.id : 'unknown'));
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
-            const container = document.getElementById('container');
-            if (container) {
-                const errorDiv = document.createElement('div');
-                errorDiv.innerHTML = `
-                    <div style="background: #f8d7da; color: #721c24; padding: 1rem; margin: 1rem 0; border-radius: 4px; border: 1px solid #f5c6cb;">
-                        <strong>Browser Compatibility Issue:</strong> This demo requires a modern browser with ES module support.
-                        <br><br>
-                        Please use a recent version of Chrome, Firefox, Safari, or Edge.
+            const statusIndicator = document.getElementById('status-indicator');
+
+            function showStatus(message, isError = false) {
+                statusIndicator.innerHTML = `
+                    <div class="status-indicator ${isError ? 'status-error' : 'status-success'}">
+                        ${message}
                     </div>
                 `;
-                container.insertBefore(errorDiv, container.firstChild);
+            }
+
+            try {
+                // Check if MediumEditor is available
+                if (typeof window.MediumEditor === 'undefined') {
+                    throw new Error('MediumEditor not found. Please ensure the library is built and available.');
+                }
+
+                // Create first editor instance with custom extension
+                const editorOne = new window.MediumEditor('.one', {
+                    buttonLabels: 'fontawesome',
+                    toolbar: {
+                        buttons: ['bold', 'italic', 'underline', 'customExtension'],
+                        // Ensure toolbar updates properly
+                        updateOnEmptySelection: false,
+                        standardizeSelectionStart: false
+                    },
+                    extensions: {
+                        customExtension: new CustomExtension(),
+                    },
+                    placeholder: {
+                        text: 'Click here to edit the first editor...'
+                    },
+                    // Improve selection handling
+                    delay: 50
+                });
+
+                // Create second editor instance with custom extension
+                const editorTwo = new window.MediumEditor('.two', {
+                    buttonLabels: 'fontawesome',
+                    toolbar: {
+                        buttons: ['bold', 'italic', 'underline', 'customExtension'],
+                        // Ensure toolbar updates properly
+                        updateOnEmptySelection: false,
+                        standardizeSelectionStart: false
+                    },
+                    extensions: {
+                        customExtension: new CustomExtension(),
+                    },
+                    placeholder: {
+                        text: 'Click here to edit the second editor...'
+                    },
+                    // Improve selection handling
+                    delay: 50
+                });
+
+                showStatus('✅ Custom Extension Demo initialized successfully! Select text in either editor and click the green 🎯 button to see extension functionality.');
+
+                // Store editors globally for debugging
+                window.passInstanceEditors = {
+                    one: editorOne,
+                    two: editorTwo,
+                };
+
+            } catch (error) {
+                console.error('Error initializing pass-instance demo:', error);
+                showStatus(`❌ Error: ${error.message}`, true);
             }
         });
     </script>

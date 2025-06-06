@@ -8,6 +8,8 @@ export class Toolbar implements MediumEditorExtension {
   container: HTMLElement
   editor?: any // Reference to the MediumEditor instance
   private customActions: Map<string, () => void> = new Map() // Store function actions
+  private lastClickTime = 0 // Debouncing mechanism
+  private minClickInterval = 100 // Reduced from 300ms to 100ms for better responsiveness
 
   constructor(options: ToolbarOptions = {}, container: HTMLElement = document.body, editor?: any) {
     this.options = {
@@ -42,6 +44,8 @@ export class Toolbar implements MediumEditorExtension {
   }
 
   createToolbar(): void {
+    console.log('Creating toolbar with options:', this.options)
+
     this.toolbar = document.createElement('div')
     this.toolbar.className = 'medium-editor-toolbar'
     this.toolbar.setAttribute('data-static-toolbar', this.options.static ? 'true' : 'false')
@@ -60,27 +64,46 @@ export class Toolbar implements MediumEditorExtension {
       this.toolbar.style.zIndex = '1000'
     }
 
+    console.log('Toolbar element created:', this.toolbar)
+
     this.createButtons()
     this.container.appendChild(this.toolbar)
+
+    console.log('Toolbar appended to container:', this.container)
+    console.log('Final toolbar HTML:', this.toolbar.outerHTML)
   }
 
   createButtons(): void {
     if (!this.options.buttons || !this.toolbar) {
+      console.warn('Cannot create buttons: missing options.buttons or toolbar')
       return
     }
+
+    console.log('Creating buttons for:', this.options.buttons)
 
     this.options.buttons.forEach((buttonConfig, index) => {
       // Skip null or undefined button configurations
       if (!buttonConfig) {
+        console.warn(`Skipping null/undefined button config at index ${index}`)
         return
       }
 
       const buttonName = typeof buttonConfig === 'string' ? buttonConfig : buttonConfig.name
+      console.log(`Creating button ${index}: "${buttonName}"`)
+
       const button = typeof buttonConfig === 'string'
         ? this.createButton(buttonName)
         : this.createCustomButton(buttonConfig)
 
       if (button) {
+        console.log(`Button created successfully:`, {
+          name: buttonName,
+          tagName: button.tagName,
+          className: button.className,
+          dataAction: button.getAttribute('data-action'),
+          innerHTML: button.innerHTML
+        })
+
         // Add first/last button classes
         if (index === 0 && this.options.firstButtonClass) {
           button.classList.add(this.options.firstButtonClass)
@@ -91,8 +114,13 @@ export class Toolbar implements MediumEditorExtension {
 
         this.toolbar!.appendChild(button)
         this.buttons.push(button)
+        console.log(`Button "${buttonName}" added to toolbar`)
+      } else {
+        console.warn(`Failed to create button for: "${buttonName}"`)
       }
     })
+
+    console.log(`Total buttons created: ${this.buttons.length}`)
   }
 
   createButton(name: string): HTMLElement | null {
@@ -239,78 +267,411 @@ export class Toolbar implements MediumEditorExtension {
 
   attachEventListeners(): void {
     if (!this.toolbar) {
+      console.warn('No toolbar found when attaching event listeners')
       return
     }
 
+    console.log('Attaching event listeners to toolbar:', this.toolbar)
+    console.log('Toolbar buttons found:', this.buttons.length)
+
     this.toolbar.addEventListener('click', (event) => {
-      const target = event.target as HTMLElement
-      if (!target)
-        return
-
-      const action = target.getAttribute('data-action')
-
-      if (action) {
-        this.handleButtonClick(action, event)
-      }
+      this.handleToolbarClick(event)
     })
+
+    console.log('✓ Event listeners attached to toolbar')
+  }
+
+  handleToolbarClick(event: Event): void {
+    event.preventDefault()
+    event.stopImmediatePropagation()
+
+    const target = event.target as HTMLElement
+    console.log('🎯 Toolbar click event received:', {
+      target,
+      tagName: target.tagName,
+      className: target.className,
+      dataAction: target.getAttribute('data-action')
+    })
+
+    // Find the actual button element (in case user clicked on icon inside button)
+    let buttonElement: HTMLElement | null = target
+    let action: string | null = null
+
+    // Traverse up the DOM to find the button with data-action
+    let attempts = 0
+    const maxAttempts = 5 // Prevent infinite loops
+
+    while (buttonElement && !action && attempts < maxAttempts) {
+      console.log(`🔍 Checking element ${attempts + 1}:`, {
+        tagName: buttonElement.tagName,
+        className: buttonElement.className,
+        dataAction: buttonElement.getAttribute('data-action'),
+        isButton: buttonElement.tagName === 'BUTTON'
+      })
+
+      action = buttonElement.getAttribute('data-action')
+      if (!action) {
+        buttonElement = buttonElement.parentElement
+      }
+      attempts++
+    }
+
+    console.log('Final results:', {
+      action,
+      buttonElement: buttonElement?.tagName,
+      buttonClass: buttonElement?.className,
+      attempts
+    })
+
+    if (!action || !buttonElement) {
+      console.warn('No valid action found for click target after DOM traversal')
+      return
+    }
+
+    console.log(`✅ Successfully found action "${action}", calling handleButtonClick`)
+
+    // Call the button click handler with the correct action
+    this.handleButtonClick(action, event)
   }
 
   handleButtonClick(action: string, event: Event): void {
     event.preventDefault()
+    event.stopPropagation()
+
+    // Debouncing: prevent rapid successive clicks
+    const currentTime = Date.now()
+    if (currentTime - this.lastClickTime < this.minClickInterval) {
+      console.log(`🚫 Click debounced for action "${action}" (too soon after last click)`)
+      return
+    }
+    this.lastClickTime = currentTime
+
+    console.log(`🔘 Button click started:`, action)
+    console.log(`Button event details:`, {
+      target: event.target,
+      currentTarget: event.currentTarget,
+      timeStamp: event.timeStamp,
+      type: event.type
+    })
+
+    // Log current toolbar state
+    console.log(`Toolbar state:`, {
+      activeButtons: this.buttons.filter(btn => btn.classList.contains('medium-editor-button-active')).map(btn => btn.getAttribute('data-action')),
+      totalButtons: this.buttons.length,
+      toolbarVisible: this.toolbar?.style.display !== 'none'
+    })
 
     // Check for custom function action first
     const customAction = this.customActions.get(action)
     if (customAction) {
+      console.log(`Executing custom action for: ${action}`)
       customAction()
       return
     }
 
-    // Call the editor's execAction method if available
-    if (this.editor && typeof this.editor.execAction === 'function') {
-      this.editor.execAction(action)
+    // Get current selection and validate it
+    const selection = window.getSelection()
+    if (!selection || selection.rangeCount === 0) {
+      console.warn('No selection available')
+      return
     }
-    else {
-      // Fallback: handle the action directly
-      if (typeof document.execCommand !== 'function') {
-        // Fallback for test environments - manually apply formatting
-        this.applyFormattingFallback(action)
-      }
-      else {
-        switch (action) {
-          case 'bold':
-            document.execCommand('bold', false)
-            break
-          case 'italic':
-            document.execCommand('italic', false)
-            break
-          case 'underline':
-            document.execCommand('underline', false)
-            break
-          case 'h2':
-            document.execCommand('formatBlock', false, 'h2')
-            break
-          case 'h3':
-            document.execCommand('formatBlock', false, 'h3')
-            break
-          case 'quote':
-            document.execCommand('formatBlock', false, 'blockquote')
-            break
-          case 'anchor':
-            this.createLink()
-            break
+
+    const range = selection.getRangeAt(0)
+    const selectedText = range.toString().trim()
+
+    if (!selectedText) {
+      console.warn('No text selected')
+      return
+    }
+
+    // Ensure the selection is within our editor
+    if (!this.isSelectionInEditor(selection)) {
+      console.warn('Selection not in editor')
+      return
+    }
+
+    console.log(`✓ Valid selection found: "${selectedText}"`)
+
+    // Check if this button is currently active/pressed
+    const buttonElement = event.target as HTMLElement
+    const isButtonActive = buttonElement.classList.contains('medium-editor-button-active')
+    console.log(`Button "${action}" current state - active: ${isButtonActive}`)
+
+    // Find the editor element that contains this selection
+    let editorElement: HTMLElement | null = null
+    if (this.editor && this.editor.elements) {
+      for (const element of this.editor.elements) {
+        if (element.contains(range.commonAncestorContainer)) {
+          editorElement = element
+          break
         }
       }
     }
 
-    // After performing the action, trigger checkSelection to update button states
+    if (!editorElement) {
+      console.warn('Could not find editor element')
+      return
+    }
+
+    console.log(`Editor element found:`, editorElement)
+    console.log(`Editor element HTML before formatting:`, editorElement.innerHTML)
+
+    // Capture detailed selection information
+    const selectionInfo = {
+      text: selectedText,
+      startOffset: range.startOffset,
+      endOffset: range.endOffset,
+      startContainer: range.startContainer,
+      endContainer: range.endContainer,
+      commonAncestor: range.commonAncestorContainer
+    }
+
+    console.log('Selection info:', selectionInfo)
+
+    // Apply formatting using multiple strategies
+    let success = false
+    const htmlBefore = editorElement.innerHTML
+
+    // Check if we're dealing with overlapping formatting (e.g., Bold after Italic)
+    const hasExistingFormatting = this.hasExistingFormatting(range)
+    console.log(`Existing formatting detected:`, hasExistingFormatting)
+
+    // Strategy 1: Try standard execCommand
+    console.log(`🔄 Attempting execCommand for action: ${action}`)
+    editorElement.focus()
+
+    // Small delay to ensure focus is properly set
     setTimeout(() => {
-      if (this.editor && typeof this.editor.checkSelection === 'function') {
-        this.editor.checkSelection()
+      const commandSuccess = document.execCommand(action, false, undefined)
+      console.log(`execCommand result: ${commandSuccess}`)
+
+      // Verify if the formatting was actually applied
+      const newHtml = editorElement.innerHTML
+             const wasActuallyFormatted = this.isTextActuallyFormatted(range, action)
+
+      console.log(`HTML before: ${htmlBefore}`)
+      console.log(`HTML after:  ${newHtml}`)
+      console.log(`HTML changed: ${htmlBefore !== newHtml}`)
+      console.log(`Text actually formatted: ${wasActuallyFormatted}`)
+
+      // Special case: Check for Bold after Italic issues
+      if (action === 'bold' && hasExistingFormatting.italic) {
+        console.log(`🔍 Special case: Bold attempted on text that already has Italic formatting`)
+        console.log(`Selection parent elements:`, this.getParentElements(range))
       }
-      else {
+
+      // Special case: Check for Italic after Bold issues
+      if (action === 'italic' && hasExistingFormatting.bold) {
+        console.log(`🔍 Special case: Italic attempted on text that already has Bold formatting`)
+        console.log(`Selection parent elements:`, this.getParentElements(range))
+      }
+
+            if (commandSuccess && wasActuallyFormatted) {
+        console.log(`✅ execCommand successful for ${action}`)
+        success = true
+      } else if (!wasActuallyFormatted) {
+        console.log(`❌ execCommand returned ${commandSuccess} but formatting verification failed`)
+
+        // Before falling back to DOM manipulation, check if execCommand actually did something useful
+        const htmlAfterExecCommand = editorElement.innerHTML
+        const execCommandChangedHTML = htmlBefore !== htmlAfterExecCommand
+
+        if (execCommandChangedHTML) {
+          console.log(`✅ execCommand did change HTML, checking if it achieved the desired result`)
+
+          // Create a fresh range at the same location to check current state
+          const selection = window.getSelection()
+          if (selection && selection.rangeCount > 0) {
+            const currentRange = selection.getRangeAt(0)
+            const currentFormatting = this.hasExistingFormatting(currentRange)
+            const currentlyHasFormatting = currentFormatting[action as keyof typeof currentFormatting]
+
+            console.log(`Current formatting state after execCommand:`, currentFormatting)
+            console.log(`Currently has ${action}: ${currentlyHasFormatting}`)
+
+            // If we were trying to toggle and the formatting state changed appropriately, consider it success
+            if (hasExistingFormatting[action as keyof typeof hasExistingFormatting] !== currentlyHasFormatting) {
+              console.log(`✅ execCommand successfully toggled ${action} formatting`)
+              success = true
+            } else {
+              console.log(`🔄 execCommand changed HTML but didn't achieve desired formatting toggle`)
+              // Proceed with DOM manipulation fallback
+              const manipulationSuccess = this.applyFormattingDirectly(action, currentRange, selectedText, editorElement)
+              if (manipulationSuccess) {
+                console.log(`✅ DOM manipulation successful for ${action}`)
+                success = true
+              } else {
+                console.log(`❌ DOM manipulation also failed for ${action}`)
+              }
+            }
+          } else {
+            console.log(`No selection available to verify current formatting state`)
+            success = true // Assume execCommand worked since it changed the HTML
+          }
+        } else {
+          console.log(`🔄 execCommand didn't change HTML, falling back to DOM manipulation`)
+          // Standard DOM manipulation fallback
+          const manipulationSuccess = this.applyFormattingDirectly(action, range, selectedText, editorElement)
+          if (manipulationSuccess) {
+            console.log(`✅ DOM manipulation successful for ${action}`)
+            success = true
+          } else {
+            console.log(`❌ DOM manipulation also failed for ${action}`)
+          }
+        }
+      }
+
+      console.log(`🏁 Final result for ${action}: ${success ? 'SUCCESS' : 'FAILED'}`)
+      console.log(`Final HTML:`, editorElement.innerHTML)
+
+      // Always update button states after any formatting operation
+      setTimeout(() => {
+        // Try to restore a selection on the formatted content if no selection exists
+        const currentSelection = window.getSelection()
+        if (!currentSelection || currentSelection.rangeCount === 0) {
+          console.log('No selection after formatting - attempting to restore selection on formatted content')
+          this.restoreSelectionOnFormattedText(editorElement, selectedText, action)
+        }
+
         this.updateButtonStates()
+        console.log('✅ Button states updated after formatting operation')
+      }, 50)
+
+      console.log('---')
+    }, 10)
+  }
+
+  private applyFormattingDirectly(action: string, range: Range, selectedText: string, editorElement: HTMLElement): boolean {
+    try {
+      console.log(`🔧 Starting direct DOM manipulation for "${action}"`)
+
+      // First, check if we should be removing formatting instead of adding it
+      const hasExistingFormatting = this.hasExistingFormatting(range)
+      const shouldRemove = hasExistingFormatting[action as keyof typeof hasExistingFormatting]
+
+      console.log(`Formatting state check:`, {
+        action,
+        hasExisting: shouldRemove,
+        allFormatting: hasExistingFormatting
+      })
+
+      if (shouldRemove) {
+        console.log(`🔄 Text already has ${action} formatting - attempting to remove it`)
+        return this.removeFormattingFromRange(range, action)
+      } else {
+        console.log(`🔄 Text does not have ${action} formatting - adding it`)
+
+        // Extract the selected content
+        const contents = range.extractContents()
+
+        // Create the appropriate formatting element
+        let formattingElement: HTMLElement
+
+        switch (action) {
+          case 'bold':
+            formattingElement = document.createElement('strong')
+            break
+          case 'italic':
+            formattingElement = document.createElement('em')
+            break
+          case 'underline':
+            formattingElement = document.createElement('u')
+            break
+          default:
+            console.warn(`Unsupported direct formatting action: ${action}`)
+            return false
+        }
+
+        // Put the contents inside the formatting element
+        formattingElement.appendChild(contents)
+
+        // Insert the formatted element back into the range
+        range.insertNode(formattingElement)
+
+        // Clear the selection
+        const selection = window.getSelection()
+        if (selection) {
+          selection.removeAllRanges()
+        }
+
+        console.log(`✅ Direct DOM manipulation completed for "${action}" - formatting added`)
+        return true
       }
-    }, 0)
+
+    } catch (error) {
+      console.error(`❌ Direct DOM manipulation failed for "${action}":`, error)
+      return false
+    }
+  }
+
+  private checkIfTextAlreadyFormatted(element: HTMLElement, text: string, action: string): boolean {
+    const html = element.innerHTML
+    console.log(`Checking if text "${text}" is already formatted with action "${action}" in HTML:`, html)
+
+    let isFormatted = false
+
+    switch (action) {
+      case 'bold':
+        isFormatted = html.includes(`<strong>${text}</strong>`) || html.includes(`<b>${text}</b>`)
+        break
+      case 'italic':
+        isFormatted = html.includes(`<em>${text}</em>`) || html.includes(`<i>${text}</i>`)
+        break
+      case 'underline':
+        isFormatted = html.includes(`<u>${text}</u>`)
+        break
+      default:
+        isFormatted = false
+    }
+
+    console.log(`Text "${text}" with action "${action}" is already formatted:`, isFormatted)
+    return isFormatted
+  }
+
+  private removeTextFormatting(element: HTMLElement, text: string, action: string): void {
+    let html = element.innerHTML
+    switch (action) {
+      case 'bold':
+        html = html.replace(`<strong>${text}</strong>`, text)
+        html = html.replace(`<b>${text}</b>`, text)
+        break
+      case 'italic':
+        html = html.replace(`<em>${text}</em>`, text)
+        html = html.replace(`<i>${text}</i>`, text)
+        break
+      case 'underline':
+        html = html.replace(`<u>${text}</u>`, text)
+        break
+    }
+    element.innerHTML = html
+  }
+
+  private selectFormattedTextContent(element: HTMLElement, formattedHTML: string, originalText: string): void {
+    try {
+      // Find the formatted element and select it
+      const walker = document.createTreeWalker(
+        element,
+        NodeFilter.SHOW_ELEMENT,
+        null
+      )
+
+      let node: Node | null = walker.nextNode()
+      while (node) {
+        if (node.textContent === originalText) {
+          const range = document.createRange()
+          range.selectNodeContents(node)
+          const selection = window.getSelection()
+          if (selection) {
+            selection.removeAllRanges()
+            selection.addRange(range)
+          }
+          break
+        }
+        node = walker.nextNode()
+      }
+    } catch (error) {
+      console.warn('Could not restore selection:', error)
+    }
   }
 
   applyFormattingFallback(action: string): void {
@@ -754,37 +1115,143 @@ export class Toolbar implements MediumEditorExtension {
       return
     }
 
+    console.log('🔄 Updating button states...')
+
     const selection = window.getSelection()
     if (!selection || selection.rangeCount === 0) {
-      // If no selection, check if the entire editor content has formatting
+      console.log('No selection - clearing all button states')
+      // If no selection, clear all active states
       this.buttons.forEach((button) => {
-        const action = button.getAttribute('data-action')
-        if (action) {
-          const isActive = this.isEditorContentFormatted(action)
-          if (isActive) {
-            button.classList.add('medium-editor-button-active')
-          }
-          else {
-            button.classList.remove('medium-editor-button-active')
-          }
-        }
+        button.classList.remove('medium-editor-button-active')
       })
       return
     }
 
-    // Check each button and update its active state
+    const range = selection.getRangeAt(0)
+    console.log('Current selection for button state check:', {
+      text: range.toString(),
+      collapsed: range.collapsed
+    })
+
+    // Check each button and update its active state based on current selection
     this.buttons.forEach((button) => {
       const action = button.getAttribute('data-action')
       if (action) {
-        const isActive = this.isCommandActive(action)
+        const isActive = this.isSelectionFormatted(range, action)
+        console.log(`Button "${action}" should be active: ${isActive}`)
+
         if (isActive) {
           button.classList.add('medium-editor-button-active')
-        }
-        else {
+        } else {
           button.classList.remove('medium-editor-button-active')
         }
       }
     })
+  }
+
+  private isSelectionFormatted(range: Range, action: string): boolean {
+    // Check if the current selection is within a formatting element
+    // We need to check multiple nodes since the selection might span across elements
+
+    const nodesToCheck = [
+      range.commonAncestorContainer,
+      range.startContainer,
+      range.endContainer
+    ]
+
+    console.log(`Checking formatting for "${action}" across ${nodesToCheck.length} nodes:`)
+
+    // Track all formatting found in the hierarchy
+    const foundFormatting = {
+      bold: false,
+      italic: false,
+      underline: false
+    }
+
+    for (let i = 0; i < nodesToCheck.length; i++) {
+      let currentNode: Node | null = nodesToCheck[i]
+
+      console.log(`  Node ${i + 1}:`, {
+        nodeType: currentNode.nodeType,
+        nodeName: currentNode.nodeName,
+        textContent: currentNode.textContent?.substring(0, 50) + '...'
+      })
+
+      // If it's a text node, start from its parent
+      if (currentNode.nodeType === Node.TEXT_NODE) {
+        currentNode = currentNode.parentNode
+        console.log(`    Text node parent:`, currentNode?.nodeName)
+      }
+
+      // Walk up the DOM tree to find all formatting elements
+      let depth = 0
+      while (currentNode && currentNode !== document.body && currentNode.nodeType === Node.ELEMENT_NODE && depth < 10) {
+        const element = currentNode as HTMLElement
+
+        console.log(`    Checking element at depth ${depth}:`, {
+          tagName: element.tagName,
+          className: element.className
+        })
+
+        // Check for all formatting types in the hierarchy
+        if (element.tagName === 'STRONG' || element.tagName === 'B') {
+          foundFormatting.bold = true
+          console.log(`    🔸 Found Bold formatting at depth ${depth}`)
+        }
+
+        if (element.tagName === 'EM' || element.tagName === 'I') {
+          foundFormatting.italic = true
+          console.log(`    🔸 Found Italic formatting at depth ${depth}`)
+        }
+
+        if (element.tagName === 'U') {
+          foundFormatting.underline = true
+          console.log(`    🔸 Found Underline formatting at depth ${depth}`)
+        }
+
+        currentNode = currentNode.parentNode
+        depth++
+      }
+    }
+
+    // Additional check: if the selection contains formatted content, check the selected text
+    if (!range.collapsed) {
+      const selectedContent = range.cloneContents()
+      const tempDiv = document.createElement('div')
+      tempDiv.appendChild(selectedContent)
+      const html = tempDiv.innerHTML
+
+      console.log('Selected content HTML:', html)
+
+      if (html.includes('<strong>') || html.includes('<b>')) {
+        foundFormatting.bold = true
+        console.log('🔸 Found Bold formatting in selected content')
+      }
+
+      if (html.includes('<em>') || html.includes('<i>')) {
+        foundFormatting.italic = true
+        console.log('🔸 Found Italic formatting in selected content')
+      }
+
+      if (html.includes('<u>')) {
+        foundFormatting.underline = true
+        console.log('🔸 Found Underline formatting in selected content')
+      }
+    }
+
+    // Log all found formatting
+    console.log('All formatting found:', foundFormatting)
+
+    // Return result for the specific action being checked
+    const result = foundFormatting[action as keyof typeof foundFormatting] || false
+
+    if (result) {
+      console.log(`✅ Selection HAS ${action} formatting`)
+    } else {
+      console.log(`❌ Selection does NOT have ${action} formatting`)
+    }
+
+    return result
   }
 
   private isEditorContentFormatted(action: string): boolean {
@@ -915,4 +1382,239 @@ export class Toolbar implements MediumEditorExtension {
 
     return false
   }
+
+  private isTextActuallyFormatted(range: Range, action: string): boolean {
+    // Check if the selection is actually inside a formatting element by walking up the DOM
+    let currentNode: Node | null = range.commonAncestorContainer
+
+    // If it's a text node, start from its parent
+    if (currentNode.nodeType === Node.TEXT_NODE) {
+      currentNode = currentNode.parentNode
+    }
+
+    while (currentNode && currentNode.nodeType === Node.ELEMENT_NODE) {
+      const element = currentNode as HTMLElement
+
+      switch (action) {
+        case 'bold':
+          if (element.tagName === 'STRONG' || element.tagName === 'B') {
+            console.log(`Found ${element.tagName} element containing selection`)
+            return true
+          }
+          break
+        case 'italic':
+          if (element.tagName === 'EM' || element.tagName === 'I') {
+            console.log(`Found ${element.tagName} element containing selection`)
+            return true
+          }
+          break
+        case 'underline':
+          if (element.tagName === 'U') {
+            console.log(`Found ${element.tagName} element containing selection`)
+            return true
+          }
+          break
+      }
+
+      // Move up to the parent, but stop at the editor boundary
+      if (this.editor && this.editor.elements && this.editor.elements.includes(element)) {
+        break
+      }
+      currentNode = currentNode.parentNode
+    }
+
+    console.log(`No formatting element found for action "${action}"`)
+    return false
+  }
+
+  private removeFormattingFromRange(range: Range, action: string): boolean {
+    // Find the formatting element that contains this range
+    let currentNode: Node | null = range.commonAncestorContainer
+
+    // If it's a text node, start from its parent
+    if (currentNode.nodeType === Node.TEXT_NODE) {
+      currentNode = currentNode.parentNode
+    }
+
+    while (currentNode && currentNode.nodeType === Node.ELEMENT_NODE) {
+      const element = currentNode as HTMLElement
+      let shouldRemove = false
+
+      switch (action) {
+        case 'bold':
+          shouldRemove = element.tagName === 'STRONG' || element.tagName === 'B'
+          break
+        case 'italic':
+          shouldRemove = element.tagName === 'EM' || element.tagName === 'I'
+          break
+        case 'underline':
+          shouldRemove = element.tagName === 'U'
+          break
+      }
+
+      if (shouldRemove) {
+        console.log(`Removing ${element.tagName} formatting element`)
+
+        // Replace the formatting element with its contents
+        const parent = element.parentNode
+        if (parent) {
+          while (element.firstChild) {
+            parent.insertBefore(element.firstChild, element)
+          }
+          parent.removeChild(element)
+        }
+
+        return true
+      }
+
+      // Move up to the parent, but stop at the editor boundary
+      if (this.editor && this.editor.elements && this.editor.elements.includes(element)) {
+        break
+      }
+      currentNode = currentNode.parentNode
+    }
+
+    console.log(`No formatting element found to remove for action "${action}"`)
+    return false
+  }
+
+  // Add helper methods for better formatting detection
+  private hasExistingFormatting(range: Range): { bold: boolean; italic: boolean; underline: boolean } {
+    const result = { bold: false, italic: false, underline: false }
+
+    // Check all ancestor elements of the selection
+    let node: Node | null = range.commonAncestorContainer
+    while (node && node.nodeType !== Node.DOCUMENT_NODE) {
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        const element = node as Element
+        const tagName = element.tagName?.toLowerCase()
+        const fontWeight = window.getComputedStyle(element).fontWeight
+        const fontStyle = window.getComputedStyle(element).fontStyle
+
+        if (tagName === 'b' || tagName === 'strong' || fontWeight === 'bold' || fontWeight === '700') {
+          result.bold = true
+        }
+
+        if (tagName === 'i' || tagName === 'em' || fontStyle === 'italic') {
+          result.italic = true
+        }
+
+        if (tagName === 'u') {
+          result.underline = true
+        }
+      }
+      node = node.parentNode
+    }
+
+    return result
+  }
+
+  private getParentElements(range: Range): string[] {
+    const parents: string[] = []
+    let node: Node | null = range.commonAncestorContainer
+
+    while (node && node.nodeType !== Node.DOCUMENT_NODE) {
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        const element = node as Element
+        parents.push(`${element.tagName?.toLowerCase() || 'unknown'}${element.className ? '.' + element.className : ''}`)
+      }
+      node = node.parentNode
+    }
+
+    return parents
+  }
+
+  private restoreSelectionOnFormattedText(editorElement: HTMLElement, selectedText: string, action: string): void {
+    // Find all formatted elements that might contain our text (including nested ones)
+    let formattedElements: NodeListOf<HTMLElement> | null = null
+
+    switch (action) {
+      case 'bold':
+        formattedElements = editorElement.querySelectorAll('strong, b')
+        break
+      case 'italic':
+        formattedElements = editorElement.querySelectorAll('em, i')
+        break
+      case 'underline':
+        formattedElements = editorElement.querySelectorAll('u')
+        break
+    }
+
+    if (formattedElements) {
+      console.log(`Found ${formattedElements.length} ${action} elements to check`)
+
+      // Check each formatted element to find one containing our text
+      for (let i = 0; i < formattedElements.length; i++) {
+        const formattedElement = formattedElements[i]
+        console.log(`Checking ${action} element ${i + 1}:`, {
+          tagName: formattedElement.tagName,
+          textContent: formattedElement.textContent?.substring(0, 50) + '...',
+          innerHTML: formattedElement.innerHTML
+        })
+
+        if (formattedElement.textContent?.includes(selectedText)) {
+          console.log(`✅ Found ${action} element containing "${selectedText}"`)
+
+          // Create a range that selects the content
+          const range = document.createRange()
+
+          // Find the specific text node within this formatted element
+          const textNode = this.findTextNodeWithContent(formattedElement, selectedText)
+          if (textNode) {
+            const textContent = textNode.textContent || ''
+            const startIndex = textContent.indexOf(selectedText)
+            if (startIndex !== -1) {
+              range.setStart(textNode, startIndex)
+              range.setEnd(textNode, startIndex + selectedText.length)
+
+              // Apply the selection
+              const selection = window.getSelection()
+              if (selection) {
+                selection.removeAllRanges()
+                selection.addRange(range)
+                console.log(`✅ Restored selection on formatted ${action} text: "${selectedText}"`)
+                return // Success, exit early
+              }
+            }
+          } else {
+            // Fallback: select the entire formatted element content
+            try {
+              range.selectNodeContents(formattedElement)
+              const selection = window.getSelection()
+              if (selection) {
+                selection.removeAllRanges()
+                selection.addRange(range)
+                console.log(`✅ Restored selection on entire formatted ${action} element`)
+                return // Success, exit early
+              }
+            } catch (error) {
+              console.log(`Could not select contents of ${action} element:`, error)
+            }
+          }
+        }
+      }
+    }
+
+    console.log(`❌ Could not restore selection - no ${action} element found containing "${selectedText}"`)
+  }
+
+  private findTextNodeWithContent(element: HTMLElement, content: string): Text | null {
+    // Recursively search for a text node containing the specified content
+    for (let i = 0; i < element.childNodes.length; i++) {
+      const child = element.childNodes[i]
+      if (child.nodeType === Node.TEXT_NODE) {
+        const textNode = child as Text
+        if (textNode.textContent?.includes(content)) {
+          return textNode
+        }
+      } else if (child.nodeType === Node.ELEMENT_NODE) {
+        const found = this.findTextNodeWithContent(child as HTMLElement, content)
+        if (found) {
+          return found
+        }
+      }
+    }
+    return null
+  }
 }
+
