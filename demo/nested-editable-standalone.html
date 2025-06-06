@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medium Editor - Nested Editable Elements Demo</title>
+    <title>Medium Editor - Nested Editable Elements Demo (Standalone)</title>
     <link rel="stylesheet" href="css/demo.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="../src/css/medium-editor.css">
@@ -110,7 +110,7 @@
         [contenteditable="false"] [contenteditable="true"] {
             cursor: text;
         }
-        /* Shiki syntax highlighting styles */
+
         .code-example {
             background: #f8f9fa;
             border: 1px solid #e9ecef;
@@ -122,28 +122,27 @@
             overflow-x: auto;
             line-height: 1.5;
         }
-        .code-example.shiki-highlighted {
-            background: transparent;
-            padding: 0;
-        }
-        .code-example.shiki-highlighted code {
-            display: block;
-            padding: 1rem;
-            border-radius: 4px;
-            font-size: 12px;
-            line-height: 1.5;
-            overflow-x: auto;
-        }
-        .shiki {
-            background: #f8f9fa !important;
-            border: 1px solid #e9ecef;
-            border-radius: 4px;
-        }
         .source-attribution {
             text-align: center;
             margin-top: 2rem;
             font-size: 12px;
             color: #6c757d;
+        }
+        .status-indicator {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            font-size: 14px;
+        }
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
         }
     </style>
 </head>
@@ -167,6 +166,7 @@
             </select>
         </div>
         <p><em>Try different themes to see how they affect the editor appearance!</em></p>
+        <div id="status-indicator"></div>
     </div>
 
     <div id="container">
@@ -211,7 +211,7 @@
             </div>
 
             <h4>HTML Structure</h4>
-            <div class="code-example" data-lang="html">&lt;div class="editable"&gt;
+            <div class="code-example">&lt;div class="editable"&gt;
   &lt;p&gt;Regular editable content...&lt;/p&gt;
 
   &lt;div contenteditable="false"&gt;
@@ -225,7 +225,7 @@
 &lt;/div&gt;</div>
 
             <h4>JavaScript Configuration</h4>
-            <div class="code-example" data-lang="typescript">const editor = new MediumEditor('.editable', {
+            <div class="code-example">const editor = new MediumEditor('.editable', {
   buttonLabels: 'fontawesome',
   toolbar: {
     buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote'],
@@ -265,22 +265,56 @@
         </small>
     </div>
 
-    <script type="module" src="ts/nested-editable.ts"></script>
-
-    <!-- Error fallback for browsers that don't support ES modules -->
-    <script nomodule>
+    <!-- Load the built library (UMD version for global window access) -->
+    <script src="../dist/medium-editor.umd.js"></script>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const container = document.getElementById('container');
-            if (container) {
-                const errorDiv = document.createElement('div');
-                errorDiv.innerHTML = `
-                    <div style="background: #f8d7da; color: #721c24; padding: 1rem; margin: 1rem 0; border-radius: 4px; border: 1px solid #f5c6cb;">
-                        <strong>Browser Compatibility Issue:</strong> This demo requires a modern browser with ES module support.
-                        <br><br>
-                        Please use a recent version of Chrome, Firefox, Safari, or Edge.
+            const statusIndicator = document.getElementById('status-indicator');
+
+            function showStatus(message, isError = false) {
+                statusIndicator.innerHTML = `
+                    <div class="status-indicator ${isError ? 'status-error' : 'status-success'}">
+                        ${message}
                     </div>
                 `;
-                container.insertBefore(errorDiv, container.firstChild);
+            }
+
+            try {
+                // Check if MediumEditor is available
+                if (typeof window.MediumEditor === 'undefined') {
+                    throw new Error('MediumEditor not found. Please ensure the library is built and available.');
+                }
+
+                // Create editor with FontAwesome button labels
+                const editor = new window.MediumEditor('.editable', {
+                    buttonLabels: 'fontawesome',
+                    toolbar: {
+                        buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote'],
+                    },
+                    placeholder: {
+                        text: 'Click here to edit...',
+                    },
+                });
+
+                showStatus('✅ Medium Editor initialized successfully!');
+
+                // Theme switching functionality
+                const themeSelector = document.getElementById('sel-themes');
+                const cssLink = document.getElementById('medium-editor-theme');
+
+                if (themeSelector && cssLink) {
+                    themeSelector.addEventListener('change', function() {
+                        cssLink.href = `../src/css/${this.value}.css`;
+                        showStatus(`🎨 Theme changed to: ${this.value.split('/')[1]}`);
+                    });
+                }
+
+                // Store editor globally for debugging
+                window.nestedEditor = editor;
+
+            } catch (error) {
+                console.error('Error initializing nested-editable demo:', error);
+                showStatus(`❌ Error: ${error.message}`, true);
             }
         });
     </script>

@@ -40,7 +40,9 @@
     "dev:docs": "bun --bun vitepress dev docs",
     "build:docs": "bun --bun vitepress build docs",
     "preview:docs": "bun --bun vitepress preview docs",
-    "typecheck": "bun --bun tsc --noEmit"
+    "typecheck": "bun --bun tsc --noEmit",
+    "dev:demo": "bun run build && bun run serve-demo.ts",
+    "serve:demo": "bun run serve-demo.ts"
   },
   "dependencies": {
     "shiki": "^3.6.0"

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medium Editor - Multi-Paragraph Selection Demo</title>
+    <title>Medium Editor - Multi-Paragraph Selection Demo (Standalone)</title>
     <link rel="stylesheet" href="css/demo.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="../src/css/medium-editor.css">
@@ -68,7 +68,6 @@
             font-style: italic;
             color: #6c757d;
         }
-        /* Shiki syntax highlighting styles */
         .code-example {
             background: #f8f9fa;
             border: 1px solid #e9ecef;
@@ -79,23 +78,6 @@
             font-size: 12px;
             overflow-x: auto;
             line-height: 1.5;
-        }
-        .code-example.shiki-highlighted {
-            background: transparent;
-            padding: 0;
-        }
-        .code-example.shiki-highlighted code {
-            display: block;
-            padding: 1rem;
-            border-radius: 4px;
-            font-size: 12px;
-            line-height: 1.5;
-            overflow-x: auto;
-        }
-        .shiki {
-            background: #f8f9fa !important;
-            border: 1px solid #e9ecef;
-            border-radius: 4px;
         }
         .source-attribution {
             text-align: center;
@@ -175,7 +157,7 @@
             </div>
 
             <h4>Editor Configuration</h4>
-            <div class="code-example" data-lang="typescript">const editor = new MediumEditor('.editable', {
+            <div class="code-example">const editor = new MediumEditor('.editable', {
   delay: 0,
   buttonLabels: 'fontawesome',
   toolbar: {
@@ -221,22 +203,51 @@
         </small>
     </div>
 
-    <script type="module" src="ts/multi-paragraph.ts"></script>
-
-    <!-- Error fallback for browsers that don't support ES modules -->
-    <script nomodule>
+    <!-- Load the built library (UMD version for global window access) -->
+    <script src="../dist/medium-editor.umd.js"></script>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const container = document.getElementById('container');
-            if (container) {
-                const errorDiv = document.createElement('div');
-                errorDiv.innerHTML = `
-                    <div style="background: #f8d7da; color: #721c24; padding: 1rem; margin: 1rem 0; border-radius: 4px; border: 1px solid #f5c6cb;">
-                        <strong>Browser Compatibility Issue:</strong> This demo requires a modern browser with ES module support.
-                        <br><br>
-                        Please use a recent version of Chrome, Firefox, Safari, or Edge.
+            const statusIndicator = document.getElementById('status-indicator');
+
+            function showStatus(message, isError = false) {
+                statusIndicator.innerHTML = `
+                    <div class="status-indicator ${isError ? 'status-error' : 'status-success'}">
+                        ${message}
                     </div>
                 `;
-                container.insertBefore(errorDiv, container.firstChild);
+            }
+
+            try {
+                // Check if MediumEditor is available
+                if (typeof window.MediumEditor === 'undefined') {
+                    throw new Error('MediumEditor not found. Please ensure the library is built and available.');
+                }
+
+                // Create editor with specific multi-paragraph settings
+                const editor = new window.MediumEditor('.editable', {
+                    delay: 0,
+                    buttonLabels: 'fontawesome',
+                    toolbar: {
+                        diffTop: -12,
+                        allowMultiParagraphSelection: false, // Key setting for this demo
+                        buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote'],
+                    },
+                    anchor: {
+                        placeholderText: 'Type a link',
+                    },
+                    placeholder: {
+                        text: 'Type some text and try selecting across multiple paragraphs...',
+                    },
+                });
+
+                showStatus('✅ Multi-Paragraph Demo initialized successfully! Try selecting text within a single paragraph vs across multiple paragraphs.');
+
+                // Store editor globally for debugging
+                window.multiParagraphEditor = editor;
+
+            } catch (error) {
+                console.error('Error initializing multi-paragraph demo:', error);
+                showStatus(`❌ Error: ${error.message}`, true);
             }
         });
     </script>
