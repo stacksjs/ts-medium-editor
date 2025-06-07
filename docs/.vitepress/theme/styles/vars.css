@@ -12,9 +12,9 @@
 
   --vp-c-text-code: #4a72bf;
 
-  --vp-code-block-bg: rgba(125, 125, 125, 0.04);
-  --vp-code-copy-code-bg: rgba(125, 125, 125, 0.1);
-  --vp-code-copy-code-hover-bg: rgba(125, 125, 125, 0.2);
+  --vp-code-block-bg: #0d1117;
+  --vp-code-copy-code-bg: #21262d;
+  --vp-code-copy-code-hover-bg: #30363d;
 
   --vp-c-disabled-bg: rgba(125, 125, 125, 0.2);
   --vp-c-text-light-2: rgba(56 56 56 / 70%);
@@ -35,7 +35,9 @@
 }
 
 .dark {
-  --vp-code-block-bg: var(--vp-c-bg-alt);
+  --vp-code-block-bg: #0d1117;
+  --vp-code-copy-code-bg: #21262d;
+  --vp-code-copy-code-hover-bg: #30363d;
   --vp-c-text-code: #93c5fd;
   --vp-c-text-dark-2: rgba(235, 235, 235, 0.6);
 }
