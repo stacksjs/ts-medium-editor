@@ -5,7 +5,7 @@
   <a href="https://github.com/stacksjs/ts-medium-editor/actions?query=workflow%3Aci"><img src="https://img.shields.io/github/actions/workflow/status/stacksjs/ts-medium-editor/ci.yml?style=flat-square&branch=main" alt="GitHub Actions"></a>
   <a href="http://commitizen.github.io/cz-cli/"><img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" alt="Commitizen friendly"></a>
   <a href="https://github.com/stacksjs/ts-medium-editor/blob/main/LICENSE.md"><img src="https://img.shields.io/github/license/stacksjs/ts-medium-editor?style=flat-square" alt="License"></a>
-  <a href="https://discord.gg/stacksjs"><img src="https://img.shields.io/discord/928731270204653568?style=flat-square&label=discord&color=5865F2" alt="Discord"></a>
+  <a href="https://discord.gg/5gHFD8Uk3K"><img src="https://img.shields.io/discord/928731270204653568?style=flat-square&label=discord&color=5865F2" alt="Discord"></a>
 </p>
 
 <p align="center">
