@@ -2,6 +2,14 @@ import type { MediumEditorExtension, MediumEditorOptions, SelectionState, Versio
 import { Events } from './events'
 import { Placeholder } from './extensions/placeholder'
 import { Toolbar } from './extensions/toolbar'
+import { Anchor } from './extensions/anchor'
+import { AnchorPreview } from './extensions/anchor-preview'
+import { Paste } from './extensions/paste'
+import { KeyboardCommands } from './extensions/keyboard-commands'
+import { Button } from './extensions/button'
+import { FileDragging } from './extensions/file-dragging'
+import { FontName } from './extensions/fontname'
+import { FontSize } from './extensions/fontsize'
 import { selection } from './selection'
 import { util } from './util'
 
@@ -609,6 +617,52 @@ export class MediumEditor {
         case 'quote':
           success = this.options.ownerDocument.execCommand('formatBlock', false, 'blockquote')
           break
+        case 'createLink':
+          // Handle createLink specially - it expects a URL string, not an object
+          if (opts && typeof opts === 'object' && opts.value) {
+            success = this.options.ownerDocument.execCommand('createLink', false, opts.value)
+            // Apply additional attributes if needed
+            if (success && (opts.target || opts.buttonClass)) {
+              const selection = window.getSelection()
+              if (selection && selection.rangeCount > 0) {
+                const range = selection.getRangeAt(0)
+                let linkElement = range.commonAncestorContainer
+
+                // Find the link element
+                while (linkElement && linkElement.nodeType !== Node.ELEMENT_NODE && linkElement.parentNode) {
+                  linkElement = linkElement.parentNode
+                }
+
+                if (linkElement && (linkElement as HTMLElement).tagName === 'A') {
+                  const link = linkElement as HTMLAnchorElement
+                  if (opts.target) {
+                    link.target = opts.target
+                  }
+                  if (opts.buttonClass) {
+                    link.className = opts.buttonClass
+                  }
+                } else {
+                  // Look for a link in the selection
+                  const parentNode = range.commonAncestorContainer.parentNode
+                  if (parentNode && parentNode.nodeType === Node.ELEMENT_NODE) {
+                    const links = (parentNode as HTMLElement).querySelectorAll('a')
+                    if (links && links.length > 0) {
+                      const link = links[links.length - 1] as HTMLAnchorElement
+                      if (opts.target) {
+                        link.target = opts.target
+                      }
+                      if (opts.buttonClass) {
+                        link.className = opts.buttonClass
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          } else {
+            success = this.options.ownerDocument.execCommand(action, false, opts)
+          }
+          break
         default:
           // For other actions, use the provided opts parameter
           success = this.options.ownerDocument.execCommand(action, false, opts)
@@ -639,8 +693,65 @@ export class MediumEditor {
     return this.extensions[name]
   }
 
-  addBuiltInExtension(_name: string, _opts?: any): MediumEditor {
-    // Implementation for adding built-in extensions
+  addBuiltInExtension(name: string, opts?: any): MediumEditor {
+    // Create and return built-in extensions
+    switch (name) {
+      case 'anchor': {
+        const anchor = new Anchor(this as any, opts)
+        anchor.init()
+        this.extensions[name] = anchor
+        break
+      }
+      case 'anchor-preview': {
+        const anchorPreview = new AnchorPreview(this as any, opts)
+        anchorPreview.init()
+        this.extensions[name] = anchorPreview
+        break
+      }
+      case 'paste': {
+        const paste = new Paste(this as any, opts)
+        paste.init()
+        this.extensions[name] = paste
+        break
+      }
+      case 'keyboard-commands': {
+        const keyboardCommands = new KeyboardCommands(this as any, opts)
+        keyboardCommands.init()
+        this.extensions[name] = keyboardCommands
+        break
+      }
+      case 'button': {
+        const button = new Button(this as any, opts || name)
+        button.init?.()
+        this.extensions[name] = button
+        break
+      }
+      case 'file-dragging': {
+        const fileDragging = new FileDragging(this as any, opts)
+        fileDragging.init()
+        this.extensions[name] = fileDragging
+        break
+      }
+      case 'fontname': {
+        const fontName = new FontName(this as any, opts)
+        fontName.init()
+        this.extensions[name] = fontName
+        break
+      }
+      case 'fontsize': {
+        const fontSize = new FontSize(this as any, opts)
+        fontSize.init()
+        this.extensions[name] = fontSize
+        break
+      }
+      default: {
+        // For other buttons, create a basic Button extension
+        const button = new Button(this as any, name)
+        button.init?.()
+        this.extensions[name] = button
+        break
+      }
+    }
     return this
   }
 

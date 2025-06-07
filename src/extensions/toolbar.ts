@@ -68,6 +68,7 @@ export class Toolbar implements MediumEditorExtension {
     console.log('Toolbar element created:', this.toolbar)
 
     this.createButtons()
+    this.addExtensionForms()
     this.container.appendChild(this.toolbar)
 
     console.log('Toolbar appended to container:', this.container)
@@ -122,6 +123,32 @@ export class Toolbar implements MediumEditorExtension {
     })
 
     console.log(`Total buttons created: ${this.buttons.length}`)
+  }
+
+    addExtensionForms(): void {
+    if (!this.editor || !this.toolbar) {
+      return
+    }
+
+    // Check each button to see if there's a corresponding extension with a form
+    this.options.buttons?.forEach(buttonConfig => {
+      const buttonName = typeof buttonConfig === 'string' ? buttonConfig : buttonConfig.name
+
+      // First, ensure the extension exists by calling addBuiltInExtension
+      this.editor.addBuiltInExtension(buttonName)
+
+      // Now get the extension and add its form if it has one
+      const extension = this.editor.getExtensionByName(buttonName)
+
+      if (extension && typeof extension.getForm === 'function') {
+        console.log(`Adding form for extension: ${buttonName}`)
+        const form = extension.getForm()
+        if (form) {
+          this.toolbar!.appendChild(form)
+          console.log(`Form added for ${buttonName}`)
+        }
+      }
+    })
   }
 
   createButton(name: string): HTMLElement | null {
@@ -348,19 +375,6 @@ export class Toolbar implements MediumEditorExtension {
     this.lastClickTime = currentTime
 
     console.log(`🔘 Button click started:`, action)
-    console.log(`Button event details:`, {
-      target: event.target,
-      currentTarget: event.currentTarget,
-      timeStamp: event.timeStamp,
-      type: event.type
-    })
-
-    // Log current toolbar state
-    console.log(`Toolbar state:`, {
-      activeButtons: this.buttons.filter(btn => btn.classList.contains('medium-editor-button-active')).map(btn => btn.getAttribute('data-action')),
-      totalButtons: this.buttons.length,
-      toolbarVisible: this.toolbar?.style.display !== 'none'
-    })
 
     // Check for custom function action first
     const customAction = this.customActions.get(action)
@@ -368,6 +382,22 @@ export class Toolbar implements MediumEditorExtension {
       console.log(`Executing custom action for: ${action}`)
       customAction()
       return
+    }
+
+    // Check if there's a specific extension for this action
+    if (this.editor) {
+      const extension = this.editor.getExtensionByName(action)
+      if (extension && typeof extension.handleClick === 'function') {
+        console.log(`🎯 Delegating to ${action} extension's handleClick method`)
+        try {
+          const result = extension.handleClick(event)
+          console.log(`Extension ${action} handleClick result:`, result)
+          return
+        } catch (error) {
+          console.error(`Error in ${action} extension handleClick:`, error)
+          // Continue to fallback handling
+        }
+      }
     }
 
     // Get current selection and validate it
@@ -860,6 +890,30 @@ export class Toolbar implements MediumEditorExtension {
 
   getToolbarElement(): HTMLElement | null {
     return this.toolbar || null
+  }
+
+  hideToolbarDefaultActions(): void {
+    if (!this.toolbar) return
+
+    // Hide all buttons when showing a form
+    this.buttons.forEach(button => {
+      button.style.display = 'none'
+    })
+  }
+
+  showToolbarDefaultActions(): void {
+    if (!this.toolbar) return
+
+    // Show all buttons when hiding a form
+    this.buttons.forEach(button => {
+      button.style.display = ''
+    })
+  }
+
+  setToolbarPosition(): void {
+    // This method is called by extensions to reposition the toolbar
+    // The positioning logic is already handled in positionToolbar()
+    this.positionToolbar()
   }
 
   checkState(): void {

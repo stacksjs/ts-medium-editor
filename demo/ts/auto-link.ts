@@ -5,6 +5,7 @@ import { highlightAllCodeBlocks } from './syntax-highlighter.ts'
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', async () => {
   try {
+    // Create editor instance first
     const editor = new MediumEditor('.editable', {
       buttonLabels: 'fontawesome',
       autoLink: true,
@@ -23,7 +24,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // Make it globally available for debugging
-    window.editor = editor
+    ;(window as any).editor = editor
+
+    // Debug: Check if anchor extension is loaded
+    console.log('Loaded extensions:', Object.keys(editor.extensions))
+    const anchorExt = editor.getExtensionByName('anchor')
+    console.log('Anchor extension:', anchorExt)
 
     // Apply syntax highlighting to any code examples
     await highlightAllCodeBlocks()

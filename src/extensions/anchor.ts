@@ -22,6 +22,8 @@ export class Anchor implements MediumEditorExtension {
   private formSaveLabel = '&#10003;'
   private formCloseLabel = '&times;'
   private activeClass = 'medium-editor-toolbar-form-active'
+  private lastClickTime = 0
+  private clickDebounceMs = 300
 
   constructor(editor: MediumEditor, options: AnchorOptions = {}) {
     this.editor = editor
@@ -48,19 +50,50 @@ export class Anchor implements MediumEditorExtension {
     event.preventDefault()
     event.stopPropagation()
 
+    // Debounce rapid clicks
+    const currentTime = Date.now()
+    if (currentTime - this.lastClickTime < this.clickDebounceMs) {
+      console.log('🚫 Click debounced - too soon after last click')
+      return false
+    }
+    this.lastClickTime = currentTime
+
+    console.log('🔗 Anchor handleClick called')
+
     const selection = window.getSelection()
-    if (!selection || selection.rangeCount === 0) return false
+    if (!selection || selection.rangeCount === 0) {
+      console.warn('No selection available for anchor action')
+      return false
+    }
 
     const range = selection.getRangeAt(0)
+    const selectedText = range.toString().trim()
+
+    console.log('Selection details:', {
+      text: selectedText,
+      rangeCount: selection.rangeCount,
+      collapsed: range.collapsed
+    })
+
+    // Require non-empty selection for creating links
+    if (!selectedText && !this.isWithinAnchor(range)) {
+      console.warn('Cannot create link: no text selected')
+      return false
+    }
 
     // Check if we're clicking on an existing link
     if (this.isWithinAnchor(range)) {
+      console.log('Removing existing link')
       this.execAction('unlink')
       return false
     }
 
+    // Show form if not already displayed
     if (!this.isDisplayed()) {
+      console.log('Showing anchor form')
       this.showForm()
+    } else {
+      console.log('Anchor form already displayed')
     }
 
     return false
@@ -74,13 +107,30 @@ export class Anchor implements MediumEditorExtension {
   }
 
   private isWithinAnchor(range: Range): boolean {
-    let node: Node | null = range.commonAncestorContainer
-    while (node && node !== document.body) {
-      if (node.nodeType === Node.ELEMENT_NODE && (node as HTMLElement).tagName === 'A') {
+    // Check both start and end containers for anchor elements
+    const containers = [range.startContainer, range.endContainer, range.commonAncestorContainer]
+
+    for (const container of containers) {
+      let node: Node | null = container
+      while (node && node !== document.body) {
+        if (node.nodeType === Node.ELEMENT_NODE && (node as HTMLElement).tagName === 'A') {
+          console.log('Found anchor element:', node)
+          return true
+        }
+        node = node.parentNode
+      }
+    }
+
+    // Also check if the selection contains any anchor elements
+    if (range.commonAncestorContainer.nodeType === Node.ELEMENT_NODE) {
+      const element = range.commonAncestorContainer as HTMLElement
+      const anchors = element.querySelectorAll('a')
+      if (anchors.length > 0) {
+        console.log('Found anchor elements in selection:', anchors.length)
         return true
       }
-      node = node.parentNode
     }
+
     return false
   }
 
@@ -139,33 +189,64 @@ export class Anchor implements MediumEditorExtension {
   }
 
   hideForm(): void {
+    console.log('Hiding form...')
+
     if (this.form) {
       this.form.classList.remove(this.activeClass)
       const input = this.getInput()
-      if (input) input.value = ''
+      if (input) {
+        input.value = ''
+        input.style.borderColor = '' // Reset any error styling
+        input.blur() // Remove focus
+      }
+      console.log('Form hidden')
     }
+
+    this.showToolbarDefaultActions()
+    console.log('Toolbar buttons restored')
   }
 
   showForm(opts: { value?: string; target?: string; buttonClass?: string } = {}): void {
+    console.log('Showing form with options:', opts)
+
+    // Ensure form exists
+    if (!this.form) {
+      console.log('Creating form...')
+      this.form = this.createForm()
+    }
+
     const input = this.getInput()
     const targetCheckbox = this.getAnchorTargetCheckbox()
     const buttonCheckbox = this.getAnchorButtonCheckbox()
 
+    // Save current selection
     if (this.editor.saveSelection) {
+      console.log('Saving selection...')
       this.editor.saveSelection()
     }
 
+    // Hide toolbar buttons
     this.hideToolbarDefaultActions()
 
+    // Show the form
     if (this.form) {
       this.form.classList.add(this.activeClass)
+      console.log('Form activated')
     }
 
+    // Position the toolbar
     this.setToolbarPosition()
 
+    // Set form values and focus
     if (input) {
       input.value = opts.value || ''
-      input.focus()
+      input.style.borderColor = '' // Reset any error styling
+
+      // Focus with a small delay to ensure form is visible
+      setTimeout(() => {
+        input.focus()
+        input.select() // Select existing text if any
+      }, 50)
     }
 
     if (targetCheckbox) {
@@ -176,6 +257,8 @@ export class Anchor implements MediumEditorExtension {
       const classList = opts.buttonClass ? opts.buttonClass.split(' ') : []
       buttonCheckbox.checked = classList.includes(this.customClassOption)
     }
+
+    console.log('Form setup complete')
   }
 
   private getFormOpts(): { value: string; target: string; buttonClass?: string } {
@@ -207,16 +290,50 @@ export class Anchor implements MediumEditorExtension {
 
   private doFormSave(): void {
     const opts = this.getFormOpts()
+
+    // Validate URL
+    if (!opts.value || opts.value.trim() === '') {
+      console.warn('Cannot save link: empty URL')
+      const input = this.getInput()
+      if (input) {
+        input.focus()
+        input.style.borderColor = '#dc3545' // Red border for error
+        setTimeout(() => {
+          input.style.borderColor = ''
+        }, 2000)
+      }
+      return
+    }
+
+    console.log('Saving link with options:', opts)
     this.completeFormSave(opts)
   }
 
   private completeFormSave(opts: { value: string; target: string; buttonClass?: string }): void {
+    console.log('Completing form save...')
+
+    // Restore selection first, before hiding form
     if (this.editor.restoreSelection) {
       this.editor.restoreSelection()
     }
-    this.execAction(this.action, opts)
+
+    // Execute the link creation
+    const success = this.execAction(this.action, opts)
+
+    if (success) {
+      console.log('Link created successfully')
+      this.hideForm()
+    } else {
+      console.error('Failed to create link')
+      // Don't hide form on failure, let user try again
+      return
+    }
+
+    // Update editor state
     if (this.editor.checkSelection) {
-      this.editor.checkSelection()
+      setTimeout(() => {
+        this.editor.checkSelection()
+      }, 10)
     }
   }
 
@@ -240,6 +357,7 @@ export class Anchor implements MediumEditorExtension {
   }
 
   private doFormCancel(): void {
+    this.hideForm()
     if (this.editor.restoreSelection) {
       this.editor.restoreSelection()
     }
@@ -294,15 +412,28 @@ export class Anchor implements MediumEditorExtension {
   }
 
   private handleTextboxKeyup(event: KeyboardEvent): void {
+    console.log('Textbox keyup:', event.key)
+
     if (event.key === 'Enter') {
       event.preventDefault()
+      event.stopPropagation()
+      console.log('Enter pressed - saving form')
       this.doFormSave()
       return
     }
 
     if (event.key === 'Escape') {
       event.preventDefault()
+      event.stopPropagation()
+      console.log('Escape pressed - canceling form')
       this.doFormCancel()
+      return
+    }
+
+    // Clear any error styling when user starts typing
+    const input = event.target as HTMLInputElement
+    if (input && input.style.borderColor) {
+      input.style.borderColor = ''
     }
   }
 
@@ -312,11 +443,15 @@ export class Anchor implements MediumEditorExtension {
 
   private handleSaveClick(event: Event): void {
     event.preventDefault()
+    event.stopPropagation()
+    console.log('Save button clicked')
     this.doFormSave()
   }
 
   private handleCloseClick(event: Event): void {
     event.preventDefault()
+    event.stopPropagation()
+    console.log('Close button clicked')
     this.doFormCancel()
   }
 
@@ -331,6 +466,13 @@ export class Anchor implements MediumEditorExtension {
     const toolbar = this.editor.getExtensionByName('toolbar')
     if (toolbar && 'hideToolbarDefaultActions' in toolbar) {
       (toolbar as any).hideToolbarDefaultActions()
+    }
+  }
+
+  private showToolbarDefaultActions(): void {
+    const toolbar = this.editor.getExtensionByName('toolbar')
+    if (toolbar && 'showToolbarDefaultActions' in toolbar) {
+      (toolbar as any).showToolbarDefaultActions()
     }
   }
 
