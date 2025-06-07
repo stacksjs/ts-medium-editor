@@ -1,969 +1,876 @@
 # Multiple Editors
 
-Manage multiple editor instances with different configurations on the same page.
+Learn how to manage multiple Medium Editor instances on a single page, each with different configurations and purposes.
 
-## Basic Multiple Elements
+## Shared Editor Instance
 
-### Interactive Demo
+One editor instance can manage multiple elements, sharing the same toolbar and configuration:
 
-<div class="demo-container">
-  <div class="demo-label">Multiple elements managed by one editor instance:</div>
-  <div class="demo-status" id="demo-status-multiple">
-    <span class="loading">🔄 Loading interactive demo...</span>
-  </div>
-  <div class="demo-editor-group">
-    <div class="demo-title-element demo-editable" data-placeholder="Enter title..." contenteditable="true">
-      <h1>Document Title</h1>
+<div class="interactive-demo">
+  <div class="demo-header">
+    <div class="demo-title">
+      <span class="demo-icon">🔗</span>
+      <h4>Shared Editor Instance</h4>
+      <span class="demo-badge minimal">ONE TOOLBAR, MULTIPLE ELEMENTS</span>
     </div>
-    <div class="demo-content-element demo-editable" data-placeholder="Enter content..." contenteditable="true">
-      <p>This is the document content. Both elements share the same toolbar configuration.</p>
+    <div id="shared-demo-status" class="demo-status loading">
+      <span class="status-icon">⏳</span>
+      Loading interactive demo...
+    </div>
+  </div>
+
+  <div class="demo-content">
+    <div class="demo-editor-group">
+      <div class="demo-element-card">
+        <div class="demo-element-label">
+          <span class="demo-element-icon">📝</span>
+          <span>Title Element</span>
+        </div>
+        <div class="demo-title-element demo-editable" data-placeholder="Document Title" contenteditable="true">
+          <h1>Document Title</h1>
+        </div>
+      </div>
+
+      <div class="demo-element-card">
+        <div class="demo-element-label">
+          <span class="demo-element-icon">📄</span>
+          <span>Content Element</span>
+        </div>
+        <div class="demo-content-element demo-editable" data-placeholder="Write your content here..." contenteditable="true">
+          <p>This is the document content. Both elements share the same toolbar configuration.</p>
+          <p>Select text in either element to see the <strong>shared toolbar</strong> in action.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-shared-footer">
+      <small>💡 Both editors share the same toolbar configuration and Medium Editor instance.</small>
     </div>
   </div>
 </div>
-
-Create one editor instance that manages multiple elements:
-
-### HTML
-```html
-<div class="editor-group">
-  <div class="title-editor editable" data-placeholder="Enter title...">
-    <h1>Document Title</h1>
-  </div>
-  <div class="content-editor editable" data-placeholder="Enter content...">
-    <p>This is the document content. Both elements share the same toolbar configuration.</p>
-  </div>
-</div>
-```
-
-### TypeScript
-```typescript
-// Single editor instance managing multiple elements
-const editor = new MediumEditor('.editable', {
-  toolbar: {
-    buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote']
-  },
-  buttonLabels: 'fontawesome',
-  placeholder: {
-    text: 'Start typing...',
-    hideOnClick: true
-  }
-})
-```
 
 ## Different Editor Configurations
 
-### Interactive Demo
+Multiple independent editors with unique configurations:
 
-<div class="demo-container">
-  <div class="demo-label">Three different editors with unique configurations:</div>
-  <div class="demo-status" id="demo-status-different">
-    <span class="loading">🔄 Loading interactive demo...</span>
-  </div>
-  <div class="demo-different-editors">
-    <div class="demo-editor-section">
-      <h4>Article Editor (Full Features)</h4>
-      <div class="demo-article-editor" data-placeholder="Write your article..." contenteditable="true">
-        <p>This editor has a full toolbar with all formatting options.</p>
-      </div>
+<div class="interactive-demo">
+  <div class="demo-header">
+    <div class="demo-title">
+      <span class="demo-icon">⚙️</span>
+      <h4>Different Editor Configurations</h4>
+      <span class="demo-badge none">UNIQUE CONFIGURATIONS</span>
     </div>
-
-    <div class="demo-editor-section">
-      <h4>Comment Editor (Minimal)</h4>
-      <div class="demo-comment-editor" data-placeholder="Write a comment..." contenteditable="true">
-        <p>This editor has minimal formatting options for comments.</p>
-      </div>
-    </div>
-
-    <div class="demo-editor-section">
-      <h4>Title Editor (No Toolbar)</h4>
-      <div class="demo-title-only-editor" data-placeholder="Enter title..." contenteditable="true">
-        <h2>This editor is for titles only</h2>
-      </div>
+    <div id="different-demo-status" class="demo-status loading">
+      <span class="status-icon">⏳</span>
+      Loading interactive demo...
     </div>
   </div>
-</div>
 
-Create separate editor instances with different configurations:
+  <div class="demo-content">
+    <div class="demo-editors-grid">
+      <div class="demo-editor-card comment-card">
+        <div class="demo-card-header">
+          <span class="demo-card-icon">💬</span>
+          <h4>Comment Editor</h4>
+          <span class="demo-card-badge minimal">Minimal</span>
+        </div>
+        <div class="demo-comment-editor demo-editable" data-placeholder="Write a comment..." contenteditable="true">
+          <p>This editor has <em>minimal formatting</em> options, perfect for comments.</p>
+        </div>
+        <div class="demo-card-footer">
+          <small>❤️ Bold, Italic & Links Only</small>
+        </div>
+      </div>
 
-### HTML
-```html
-<!-- Full-featured editor -->
-<div class="main-content">
-  <h3>Article Editor</h3>
-  <div class="article-editor" data-placeholder="Write your article...">
-    <p>This editor has a full toolbar with all formatting options.</p>
+      <div class="demo-editor-card title-card">
+        <div class="demo-card-header">
+          <span class="demo-card-icon">📰</span>
+          <h4>Title Editor</h4>
+          <span class="demo-card-badge none">No Toolbar</span>
+        </div>
+        <div class="demo-title-only-editor demo-editable" data-placeholder="Enter title..." contenteditable="true">
+          <h2>This editor is for titles only</h2>
+        </div>
+        <div class="demo-card-footer">
+          <small>🚫 No Toolbar – Single Line Only</small>
+        </div>
+      </div>
+
+      <div class="demo-editor-card full-card">
+        <div class="demo-card-header">
+          <span class="demo-card-icon">📝</span>
+          <h4>Full Editor</h4>
+          <span class="demo-card-badge full">Complete</span>
+        </div>
+        <div class="demo-full-editor demo-editable" data-placeholder="Write your article..." contenteditable="true">
+          <p>This editor has <strong>all formatting options</strong> available for rich content creation.</p>
+          <p>Perfect for <em>articles</em>, <u>blog posts</u>, and comprehensive content.</p>
+        </div>
+        <div class="demo-card-footer">
+          <small>✨ Full Toolbar – All Features Available</small>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- Minimal editor -->
-<div class="comment-section">
-  <h3>Comment Editor</h3>
-  <div class="comment-editor" data-placeholder="Write a comment...">
-    <p>This editor has minimal formatting options for comments.</p>
-  </div>
-</div>
+<script setup>
+import { onMounted } from 'vue'
 
-<!-- Title-only editor -->
-<div class="title-section">
-  <h3>Title Editor</h3>
-  <div class="title-only-editor" data-placeholder="Enter title...">
-    <h2>This editor is for titles only</h2>
-  </div>
-</div>
-```
-
-### TypeScript
-```typescript
-// Full-featured editor for articles
-const articleEditor = new MediumEditor('.article-editor', {
-  toolbar: {
-    buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote', 'pre']
-  },
-  buttonLabels: 'fontawesome',
-  autoLink: true,
-  paste: {
-    cleanPastedHTML: true
-  }
+onMounted(async () => {
+  await initializeMultipleEditorsDemo()
 })
 
-// Minimal editor for comments
+async function initializeMultipleEditorsDemo() {
+  try {
+    // Update status
+    updateStatus('shared-demo-status', 'loading', '⏳', 'Loading resources...')
+    updateStatus('different-demo-status', 'loading', '⏳', 'Loading resources...')
+
+    // Load FontAwesome
+    await loadFontAwesome()
+
+    // Load MediumEditor
+    await loadMediumEditor()
+
+    // Initialize shared editor
+    updateStatus('shared-demo-status', 'loading', '⏳', 'Initializing shared editor...')
+    const sharedEditor = new window.MediumEditor(['.demo-title-element', '.demo-content-element'], {
+      toolbar: {
+        buttons: ['bold', 'italic', 'underline', 'anchor']
+      },
+      placeholder: {
+        text: 'Start writing...'
+      }
+    })
+
+    // Initialize different editors
+    updateStatus('different-demo-status', 'loading', '⏳', 'Initializing different editors...')
+
+    const commentEditor = new window.MediumEditor('.demo-comment-editor', {
+      toolbar: {
+        buttons: ['bold', 'italic', 'anchor']
+      },
+      placeholder: {
+        text: 'Write a comment...'
+      }
+    })
+
+    const titleEditor = new window.MediumEditor('.demo-title-only-editor', {
+      toolbar: false,
+      placeholder: {
+        text: 'Enter title...'
+      },
+      disableReturn: true,
+      disableDoubleReturn: true
+    })
+
+    const fullEditor = new window.MediumEditor('.demo-full-editor', {
+      toolbar: {
+        buttons: [
+          'bold', 'italic', 'underline', 'strikethrough',
+          'subscript', 'superscript', 'anchor', 'image',
+          'quote', 'pre', 'orderedlist', 'unorderedlist',
+          'indent', 'outdent', 'justifyLeft', 'justifyCenter',
+          'justifyRight', 'justifyFull', 'h1', 'h2', 'h3',
+          'h4', 'h5', 'h6'
+        ]
+      }
+    })
+
+    // Success status
+    updateStatus('shared-demo-status', 'success', '✅', 'Demo ready')
+    updateStatus('different-demo-status', 'success', '✅', 'Demo ready')
+
+  } catch (error) {
+    console.error('Demo initialization failed:', error)
+    updateStatus('shared-demo-status', 'error', '❌', 'Demo failed to load')
+    updateStatus('different-demo-status', 'error', '❌', 'Demo failed to load')
+  }
+}
+
+function updateStatus(elementId, className, icon, text) {
+  const element = document.getElementById(elementId)
+  if (element) {
+    element.className = `demo-status ${className}`
+    element.innerHTML = `<span class="status-icon">${icon}</span>${text}`
+  }
+}
+
+function loadFontAwesome() {
+  return new Promise((resolve, reject) => {
+    if (document.querySelector('link[href*="font-awesome"]')) {
+      resolve()
+      return
+    }
+
+    const link = document.createElement('link')
+    link.rel = 'stylesheet'
+    link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
+    link.onload = resolve
+    link.onerror = () => {
+      // Try alternative CDN
+      const altLink = document.createElement('link')
+      altLink.rel = 'stylesheet'
+      altLink.href = 'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css'
+      altLink.onload = resolve
+      altLink.onerror = reject
+      document.head.appendChild(altLink)
+    }
+    document.head.appendChild(link)
+  })
+}
+
+function loadMediumEditor() {
+  return new Promise((resolve, reject) => {
+    if (window.MediumEditor) {
+      resolve()
+      return
+    }
+
+    // Load CSS
+    const css = document.createElement('link')
+    css.rel = 'stylesheet'
+    css.href = 'https://cdn.jsdelivr.net/npm/medium-editor@5.23.3/dist/css/medium-editor.min.css'
+    document.head.appendChild(css)
+
+    const themeCss = document.createElement('link')
+    themeCss.rel = 'stylesheet'
+    themeCss.href = 'https://cdn.jsdelivr.net/npm/medium-editor@5.23.3/dist/css/themes/default.min.css'
+    document.head.appendChild(themeCss)
+
+    // Load JS
+    const script = document.createElement('script')
+    script.src = 'https://cdn.jsdelivr.net/npm/medium-editor@5.23.3/dist/js/medium-editor.min.js'
+    script.onload = resolve
+    script.onerror = reject
+    document.head.appendChild(script)
+  })
+}
+</script>
+
+<style>
+.interactive-demo {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  margin: 24px 0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.demo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.demo-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.demo-title h4 {
+  margin: 0;
+  color: #1e293b;
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+.demo-icon {
+  font-size: 1.2em;
+}
+
+.demo-badge {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.demo-badge.minimal {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.demo-badge.none {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.demo-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.85em;
+  font-weight: 500;
+}
+
+.demo-status.loading {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.demo-status.success {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.demo-status.error {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.demo-content {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+}
+
+/* Shared Editor Styles */
+.demo-editor-group {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.demo-element-card {
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+  background: #f9fafb;
+}
+
+.demo-element-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.9em;
+}
+
+.demo-element-icon {
+  font-size: 1.1em;
+}
+
+.demo-title-element, .demo-content-element {
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 16px;
+  min-height: 60px;
+  transition: border-color 0.2s;
+}
+
+.demo-title-element:focus, .demo-content-element:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.demo-title-element h1 {
+  margin: 0;
+  font-size: 1.5em;
+  color: #1f2937;
+}
+
+.demo-content-element p {
+  margin: 0 0 12px 0;
+  line-height: 1.6;
+  color: #374151;
+}
+
+.demo-content-element p:last-child {
+  margin-bottom: 0;
+}
+
+.demo-shared-footer {
+  margin-top: 16px;
+  padding: 12px;
+  background: #eff6ff;
+  border-radius: 6px;
+  text-align: center;
+  color: #1e40af;
+}
+
+/* Different Editors Styles */
+.demo-editors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin: 20px 0;
+}
+
+.demo-editor-card {
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.demo-editor-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.comment-card {
+  border-color: #10b981;
+  background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%);
+}
+
+.title-card {
+  border-color: #f59e0b;
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+}
+
+.full-card {
+  border-color: #3b82f6;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+}
+
+.demo-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.demo-card-header h4 {
+  margin: 0;
+  flex: 1;
+  color: #1f2937;
+  font-size: 1.1em;
+}
+
+.demo-card-icon {
+  font-size: 1.3em;
+}
+
+.demo-card-badge {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.demo-card-badge.minimal {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.demo-card-badge.none {
+  background: #fed7aa;
+  color: #9a3412;
+}
+
+.demo-card-badge.full {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.demo-comment-editor, .demo-title-only-editor, .demo-full-editor {
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 16px;
+  min-height: 80px;
+  transition: border-color 0.2s;
+  margin-bottom: 12px;
+}
+
+.demo-comment-editor:focus, .demo-title-only-editor:focus, .demo-full-editor:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.demo-title-only-editor {
+  min-height: 60px;
+}
+
+.demo-title-only-editor h2 {
+  margin: 0;
+  font-size: 1.3em;
+  color: #1f2937;
+}
+
+.demo-comment-editor p, .demo-full-editor p {
+  margin: 0 0 12px 0;
+  line-height: 1.6;
+  color: #374151;
+}
+
+.demo-comment-editor p:last-child, .demo-full-editor p:last-child {
+  margin-bottom: 0;
+}
+
+.demo-card-footer {
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 6px;
+  text-align: center;
+  font-size: 0.85em;
+  color: #6b7280;
+}
+
+/* Dark mode support */
+.dark .interactive-demo {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border-color: #374151;
+}
+
+.dark .demo-title h4 {
+  color: #f1f5f9;
+}
+
+.dark .demo-content {
+  background: #1f2937;
+  border-color: #374151;
+  color: #f9fafb;
+}
+
+.dark .demo-element-card {
+  background: #374151;
+  border-color: #4b5563;
+}
+
+.dark .demo-editor-card {
+  background: #374151;
+  border-color: #4b5563;
+}
+
+.dark .demo-title-element, .dark .demo-content-element,
+.dark .demo-comment-editor, .dark .demo-title-only-editor, .dark .demo-full-editor {
+  background: #1f2937;
+  border-color: #4b5563;
+  color: #f9fafb;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .demo-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .interactive-demo {
+    padding: 16px;
+  }
+
+  .demo-editors-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .demo-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+</style>
+
+## Code Examples
+
+### Basic Multiple Elements Setup
+
+```typescript{4}
+import { MediumEditor } from 'ts-medium-editor'
+
+// Single editor managing multiple elements
+const sharedEditor = new MediumEditor(['.title', '.content'], {
+  toolbar: {
+    buttons: ['bold', 'italic', 'underline', 'anchor']
+  },
+  placeholder: {
+    text: 'Start writing...'
+  }
+})
+```
+
+### Different Editor Configurations
+
+```typescript{1,8,15}
+// Comment editor - minimal toolbar
 const commentEditor = new MediumEditor('.comment-editor', {
   toolbar: {
     buttons: ['bold', 'italic', 'anchor']
   },
-  disableReturn: false,
-  disableDoubleReturn: true,
-  paste: {
-    forcePlainText: true
-  }
-})
-
-// Title-only editor (no toolbar)
-const titleEditor = new MediumEditor('.title-only-editor', {
-  toolbar: false,
-  disableReturn: true,
-  disableDoubleReturn: true
-})
-```
-
-## Blog Post Editor System
-
-A complete blog post editing system with multiple specialized editors:
-
-### HTML
-```html
-<div class="blog-editor-system">
-  <!-- Title Editor -->
-  <div class="blog-title-section">
-    <label>Title</label>
-    <div class="blog-title" data-placeholder="Enter your blog post title...">
-      <h1>Your Amazing Blog Post Title</h1>
-    </div>
-  </div>
-
-  <!-- Subtitle Editor -->
-  <div class="blog-subtitle-section">
-    <label>Subtitle</label>
-    <div class="blog-subtitle" data-placeholder="Enter a compelling subtitle...">
-      <h2>A subtitle that draws readers in</h2>
-    </div>
-  </div>
-
-  <!-- Main Content Editor -->
-  <div class="blog-content-section">
-    <label>Content</label>
-    <div class="blog-content" data-placeholder="Write your blog post content...">
-      <p>Start writing your amazing blog post here. You have access to all formatting tools.</p>
-      <blockquote>You can add quotes, links, and various formatting options.</blockquote>
-    </div>
-  </div>
-
-  <!-- Tags Editor -->
-  <div class="blog-tags-section">
-    <label>Tags</label>
-    <div class="blog-tags" data-placeholder="Add tags separated by commas...">
-      <p>typescript, medium-editor, blogging, web-development</p>
-    </div>
-  </div>
-</div>
-```
-
-### TypeScript
-```typescript
-// Title editor - no toolbar, single line
-const titleEditor = new MediumEditor('.blog-title', {
-  toolbar: false,
-  disableReturn: true,
-  disableDoubleReturn: true,
   placeholder: {
-    text: 'Enter your blog post title...'
+    text: 'Write a comment...'
   }
 })
 
-// Subtitle editor - no toolbar, single line
-const subtitleEditor = new MediumEditor('.blog-subtitle', {
+// Title editor - no toolbar
+const titleEditor = new MediumEditor('.title-editor', {
   toolbar: false,
-  disableReturn: true,
-  disableDoubleReturn: true,
   placeholder: {
-    text: 'Enter a compelling subtitle...'
+    text: 'Enter title...'
   }
 })
 
-// Main content editor - full toolbar
-const contentEditor = new MediumEditor('.blog-content', {
+// Full editor - all options
+const fullEditor = new MediumEditor('.full-editor', {
   toolbar: {
-    buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote', 'pre']
-  },
-  buttonLabels: 'fontawesome',
-  autoLink: true,
-  placeholder: {
-    text: 'Write your blog post content...'
-  }
-})
-
-// Tags editor - minimal, plain text
-const tagsEditor = new MediumEditor('.blog-tags', {
-  toolbar: false,
-  disableReturn: true,
-  paste: {
-    forcePlainText: true
-  },
-  placeholder: {
-    text: 'Add tags separated by commas...'
+    buttons: [
+      'bold', 'italic', 'underline', 'strikethrough',
+      'subscript', 'superscript', 'anchor', 'image',
+      'quote', 'pre', 'orderedlist', 'unorderedlist',
+      'indent', 'outdent', 'justifyLeft', 'justifyCenter',
+      'justifyRight', 'justifyFull', 'h1', 'h2', 'h3',
+      'h4', 'h5', 'h6'
+    ]
   }
 })
 ```
 
-### CSS
-```css
-.blog-editor-system {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem;
+## Real-World Applications
+
+### Blog Post Editor System
+
+```typescript{5,12,19}
+class BlogPostEditor {
+  private titleEditor: MediumEditor
+  private contentEditor: MediumEditor
+  private excerptEditor: MediumEditor
+
+  constructor() {
+    this.initializeEditors()
+    this.setupEventHandlers()
+  }
+
+  private initializeEditors() {
+    // Title editor - single line, no toolbar
+    this.titleEditor = new MediumEditor('.post-title', {
+      toolbar: false,
+      placeholder: { text: 'Enter post title...' },
+      disableReturn: true,
+      disableDoubleReturn: true
+    })
+
+    // Excerpt editor - basic formatting
+    this.excerptEditor = new MediumEditor('.post-excerpt', {
+      toolbar: {
+        buttons: ['bold', 'italic']
+      },
+      placeholder: { text: 'Write a brief excerpt...' }
+    })
+
+    // Content editor - full features
+    this.contentEditor = new MediumEditor('.post-content', {
+      toolbar: {
+        buttons: [
+          'bold', 'italic', 'underline', 'anchor',
+          'h2', 'h3', 'quote', 'unorderedlist',
+          'orderedlist'
+        ]
+      },
+      placeholder: { text: 'Write your post content...' }
+    })
+  }
+
+  private setupEventHandlers() {
+    // Auto-save functionality
+    [this.titleEditor, this.excerptEditor, this.contentEditor].forEach(editor => {
+      editor.subscribe('editableInput', () => {
+        this.autoSave()
+      })
+    })
+  }
+
+  private autoSave() {
+    const postData = {
+      title: this.titleEditor.getContent(),
+      excerpt: this.excerptEditor.getContent(),
+      content: this.contentEditor.getContent(),
+      lastModified: new Date().toISOString()
+    }
+
+    localStorage.setItem('blog-post-draft', JSON.stringify(postData))
+    console.log('Post auto-saved')
+  }
+
+  public getPostData() {
+    return {
+      title: this.titleEditor.getContent(),
+      excerpt: this.excerptEditor.getContent(),
+      content: this.contentEditor.getContent()
+    }
+  }
 }
 
-.blog-title-section,
-.blog-subtitle-section,
-.blog-content-section,
-.blog-tags-section {
-  margin-bottom: 2rem;
-}
-
-.blog-title-section label,
-.blog-subtitle-section label,
-.blog-content-section label,
-.blog-tags-section label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  color: #495057;
-}
-
-.blog-title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  border: 2px dashed #dee2e6;
-  padding: 1rem;
-  border-radius: 8px;
-}
-
-.blog-subtitle {
-  font-size: 1.5rem;
-  color: #6c757d;
-  border: 2px dashed #dee2e6;
-  padding: 1rem;
-  border-radius: 8px;
-}
-
-.blog-content {
-  min-height: 300px;
-  border: 2px dashed #dee2e6;
-  padding: 1rem;
-  border-radius: 8px;
-  line-height: 1.6;
-}
-
-.blog-tags {
-  border: 2px dashed #dee2e6;
-  padding: 1rem;
-  border-radius: 8px;
-  font-family: monospace;
-  background: #f8f9fa;
-}
+// Initialize the blog post editor
+const blogEditor = new BlogPostEditor()
 ```
 
-## Form Integration
+### Form Integration
 
-Integrate multiple editors with form submission:
-
-### HTML
-```html
-<form id="article-form" class="article-form">
+```html{4,9}
+<form id="article-form">
   <div class="form-group">
     <label for="article-title">Title</label>
-    <div class="form-title-editor" data-placeholder="Article title...">
-      <h1>Sample Article Title</h1>
-    </div>
-    <input type="hidden" id="article-title" name="title">
-  </div>
-
-  <div class="form-group">
-    <label for="article-excerpt">Excerpt</label>
-    <div class="form-excerpt-editor" data-placeholder="Brief excerpt...">
-      <p>A brief excerpt of the article...</p>
-    </div>
-    <input type="hidden" id="article-excerpt" name="excerpt">
+    <div class="title-editor" data-name="title"></div>
   </div>
 
   <div class="form-group">
     <label for="article-content">Content</label>
-    <div class="form-content-editor" data-placeholder="Article content...">
-      <p>Full article content goes here...</p>
-    </div>
-    <input type="hidden" id="article-content" name="content">
+    <div class="content-editor" data-name="content"></div>
   </div>
 
   <button type="submit">Save Article</button>
 </form>
 ```
 
-### TypeScript
-```typescript
-// Title editor
-const formTitleEditor = new MediumEditor('.form-title-editor', {
-  toolbar: false,
-  disableReturn: true
-})
+```typescript{2,7}
+// Form handling with multiple editors
+const formEditors = {
+  title: new MediumEditor('.title-editor', {
+    toolbar: false,
+    disableReturn: true
+  }),
+  content: new MediumEditor('.content-editor', {
+    toolbar: {
+      buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3']
+    }
+  })
+}
 
-// Excerpt editor
-const formExcerptEditor = new MediumEditor('.form-excerpt-editor', {
-  toolbar: {
-    buttons: ['bold', 'italic']
-  },
-  disableDoubleReturn: true
-})
+document.getElementById('article-form')?.addEventListener('submit', (e) => {
+  e.preventDefault()
 
-// Content editor
-const formContentEditor = new MediumEditor('.form-content-editor', {
-  toolbar: {
-    buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote']
-  },
-  buttonLabels: 'fontawesome'
-})
-
-// Update hidden inputs on content change
-formTitleEditor.subscribe('editableInput', () => {
-  document.getElementById('article-title').value =
-    document.querySelector('.form-title-editor').textContent.trim()
-})
-
-formExcerptEditor.subscribe('editableInput', () => {
-  document.getElementById('article-excerpt').value =
-    document.querySelector('.form-excerpt-editor').innerHTML
-})
-
-formContentEditor.subscribe('editableInput', () => {
-  document.getElementById('article-content').value =
-    document.querySelector('.form-content-editor').innerHTML
-})
-
-// Handle form submission
-document.getElementById('article-form').addEventListener('submit', (event) => {
-  event.preventDefault()
-
-  const formData = new FormData(event.target)
-  const articleData = {
-    title: formData.get('title'),
-    excerpt: formData.get('excerpt'),
-    content: formData.get('content')
+  const formData = {
+    title: formEditors.title.getContent(),
+    content: formEditors.content.getContent()
   }
 
-  console.log('Article data:', articleData)
-  // Submit to your backend
+  console.log('Form submitted:', formData)
+  // Send to server...
 })
 ```
 
 ## Conditional Editors
 
-Show/hide editors based on user interaction:
+```typescript{4,18,35}
+class ConditionalEditorManager {
+  private editors: Map<string, MediumEditor> = new Map()
 
-### HTML
-```html
-<div class="conditional-editors">
-  <div class="editor-controls">
-    <button id="toggle-advanced" type="button">Toggle Advanced Editor</button>
-    <button id="add-sidebar" type="button">Add Sidebar Content</button>
-  </div>
+  createEditor(elementId: string, type: 'basic' | 'advanced' | 'minimal') {
+    const element = document.getElementById(elementId)
+    if (!element) return
 
-  <div class="basic-editor-container">
-    <h3>Basic Editor</h3>
-    <div class="basic-editor" data-placeholder="Basic content...">
-      <p>This editor is always visible.</p>
-    </div>
-  </div>
-
-  <div class="advanced-editor-container" style="display: none;">
-    <h3>Advanced Editor</h3>
-    <div class="advanced-editor" data-placeholder="Advanced content...">
-      <p>This editor appears when toggled.</p>
-    </div>
-  </div>
-
-  <div class="sidebar-editor-container" style="display: none;">
-    <h3>Sidebar Content</h3>
-    <div class="sidebar-editor" data-placeholder="Sidebar content...">
-      <p>Additional sidebar content.</p>
-    </div>
-  </div>
-</div>
-```
-
-### TypeScript
-```typescript
-// Initialize basic editor immediately
-const basicEditor = new MediumEditor('.basic-editor', {
-  toolbar: {
-    buttons: ['bold', 'italic', 'anchor']
-  }
-})
-
-// Advanced and sidebar editors (initialized when needed)
-let advancedEditor = null
-let sidebarEditor = null
-
-// Toggle advanced editor
-document.getElementById('toggle-advanced').addEventListener('click', () => {
-  const container = document.querySelector('.advanced-editor-container')
-
-  if (container.style.display === 'none') {
-    container.style.display = 'block'
-
-    // Initialize editor if not already done
-    if (!advancedEditor) {
-      advancedEditor = new MediumEditor('.advanced-editor', {
+    const configs = {
+      basic: {
+        toolbar: { buttons: ['bold', 'italic', 'anchor'] }
+      },
+      advanced: {
         toolbar: {
-          buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote', 'pre']
-        },
-        buttonLabels: 'fontawesome'
-      })
-    }
-  } else {
-    container.style.display = 'none'
-  }
-})
-
-// Add sidebar editor
-document.getElementById('add-sidebar').addEventListener('click', () => {
-  const container = document.querySelector('.sidebar-editor-container')
-
-  if (container.style.display === 'none') {
-    container.style.display = 'block'
-
-    // Initialize editor if not already done
-    if (!sidebarEditor) {
-      sidebarEditor = new MediumEditor('.sidebar-editor', {
-        toolbar: {
-          buttons: ['bold', 'italic', 'quote']
+          buttons: [
+            'bold', 'italic', 'underline', 'anchor',
+            'h1', 'h2', 'h3', 'quote', 'unorderedlist'
+          ]
         }
-      })
+      },
+      minimal: {
+        toolbar: { buttons: ['bold', 'italic'] }
+      }
+    }
+
+    const editor = new MediumEditor(element, configs[type])
+    this.editors.set(elementId, editor)
+
+    return editor
+  }
+
+  destroyEditor(elementId: string) {
+    const editor = this.editors.get(elementId)
+    if (editor) {
+      editor.destroy()
+      this.editors.delete(elementId)
     }
   }
-})
+
+  switchEditorType(elementId: string, newType: 'basic' | 'advanced' | 'minimal') {
+    const content = this.editors.get(elementId)?.getContent()
+    this.destroyEditor(elementId)
+
+    const newEditor = this.createEditor(elementId, newType)
+    if (newEditor && content) {
+      newEditor.setContent(content)
+    }
+  }
+}
+
+// Usage
+const manager = new ConditionalEditorManager()
+
+// Create different editors based on user role
+const userRole = 'admin' // or 'user', 'guest'
+const editorType = userRole === 'admin' ? 'advanced' : 'basic'
+
+manager.createEditor('main-editor', editorType)
 ```
 
 ## Cross-Editor Communication
 
-Make editors communicate with each other:
+```typescript{4,8,21}
+class EditorCommunicationHub {
+  private editors: MediumEditor[] = []
+  private eventBus = new EventTarget()
 
-### TypeScript
-```typescript
-// Create editors
-const editor1 = new MediumEditor('.editor-1')
-const editor2 = new MediumEditor('.editor-2')
+  addEditor(editor: MediumEditor, name: string) {
+    this.editors.push(editor)
 
-// Shared state
-const sharedState = {
-  wordCount: 0,
-  lastModified: null
+    editor.subscribe('editableInput', () => {
+      this.eventBus.dispatchEvent(new CustomEvent('editorChanged', {
+        detail: { name, content: editor.getContent() }
+      }))
+    })
+  }
+
+  onEditorChange(callback: (data: { name: string, content: string }) => void) {
+    this.eventBus.addEventListener('editorChanged', (e: any) => {
+      callback(e.detail)
+    })
+  }
+
+  syncContent(fromEditor: string, toEditor: string) {
+    // Implementation for syncing content between editors
+  }
 }
 
-// Update shared state when any editor changes
-function updateSharedState() {
-  const editor1Content = document.querySelector('.editor-1').textContent
-  const editor2Content = document.querySelector('.editor-2').textContent
+// Usage
+const hub = new EditorCommunicationHub()
 
-  sharedState.wordCount = (editor1Content + ' ' + editor2Content)
-    .trim().split(/\s+/).length
-  sharedState.lastModified = new Date()
+const titleEditor = new MediumEditor('.title')
+const summaryEditor = new MediumEditor('.summary')
 
-  // Update UI
-  document.getElementById('total-words').textContent = sharedState.wordCount
-  document.getElementById('last-modified').textContent =
-    sharedState.lastModified.toLocaleTimeString()
-}
+hub.addEditor(titleEditor, 'title')
+hub.addEditor(summaryEditor, 'summary')
 
-// Listen to both editors
-editor1.subscribe('editableInput', updateSharedState)
-editor2.subscribe('editableInput', updateSharedState)
-
-// Sync formatting between editors
-editor1.subscribe('editableInput', () => {
-  // Copy formatting from editor1 to editor2 if needed
-  // This is just an example - implement based on your needs
+hub.onEditorChange(({ name, content }) => {
+  console.log(`${name} editor changed:`, content)
+  // Update word count, save draft, etc.
 })
 ```
 
 ## Next Steps
 
-- Learn about [Event Handling](/examples/events) for editor communication
-- Explore [Extensions](/examples/extensions) for shared functionality
-- Check out [Real-World Use Cases](/examples/real-world) for complete applications
-
-<script>
-// Initialize multiple editors demos when the page loads
-if (typeof window !== 'undefined') {
-  let demoInitialized = false
-
-  function loadMediumEditor() {
-    return new Promise((resolve, reject) => {
-      if (typeof window.MediumEditor !== 'undefined') {
-        resolve()
-        return
-      }
-
-      let loadedCount = 0
-      const totalResources = 4
-
-      function checkAllLoaded() {
-        loadedCount++
-        if (loadedCount === totalResources) {
-          console.log('All Medium Editor resources loaded successfully')
-          // Wait a bit more for FontAwesome to be ready
-          setTimeout(resolve, 500)
-        }
-      }
-
-      // Load Medium Editor CSS
-      const link = document.createElement('link')
-      link.rel = 'stylesheet'
-      link.href = 'https://cdn.jsdelivr.net/npm/medium-editor@5.23.3/dist/css/medium-editor.min.css'
-      link.onload = checkAllLoaded
-      link.onerror = () => {
-        console.error('Failed to load Medium Editor CSS')
-        checkAllLoaded() // Continue anyway
-      }
-      document.head.appendChild(link)
-
-      // Load theme CSS
-      const themeLink = document.createElement('link')
-      themeLink.rel = 'stylesheet'
-      themeLink.href = 'https://cdn.jsdelivr.net/npm/medium-editor@5.23.3/dist/css/themes/default.min.css'
-      themeLink.onload = checkAllLoaded
-      themeLink.onerror = () => {
-        console.error('Failed to load Medium Editor theme CSS')
-        checkAllLoaded() // Continue anyway
-      }
-      document.head.appendChild(themeLink)
-
-      // Load FontAwesome for icons - try multiple CDNs
-      const faLink = document.createElement('link')
-      faLink.rel = 'stylesheet'
-      faLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
-      faLink.onload = () => {
-        console.log('FontAwesome loaded successfully')
-        checkAllLoaded()
-      }
-      faLink.onerror = () => {
-        console.warn('Primary FontAwesome CDN failed, trying backup...')
-        // Try backup CDN
-        const faBackup = document.createElement('link')
-        faBackup.rel = 'stylesheet'
-        faBackup.href = 'https://use.fontawesome.com/releases/v6.4.0/css/all.css'
-        faBackup.onload = () => {
-          console.log('FontAwesome backup loaded successfully')
-          checkAllLoaded()
-        }
-        faBackup.onerror = () => {
-          console.error('All FontAwesome CDNs failed')
-          checkAllLoaded() // Continue anyway
-        }
-        document.head.appendChild(faBackup)
-      }
-      document.head.appendChild(faLink)
-
-      // Load Medium Editor JavaScript
-      const script = document.createElement('script')
-      script.src = 'https://cdn.jsdelivr.net/npm/medium-editor@5.23.3/dist/js/medium-editor.min.js'
-      script.onload = () => {
-        console.log('Medium Editor JavaScript loaded successfully')
-        checkAllLoaded()
-      }
-      script.onerror = () => {
-        console.error('Failed to load Medium Editor JavaScript')
-        reject(new Error('Failed to load Medium Editor'))
-      }
-      document.head.appendChild(script)
-
-      // Timeout fallback
-      setTimeout(() => {
-        if (loadedCount < totalResources) {
-          console.warn('Some resources may not have loaded, proceeding anyway...')
-          resolve()
-        }
-      }, 10000)
-    })
-  }
-
-  function updateDemoStatus(demoId, status, message) {
-    const statusEl = document.getElementById(`demo-status-${demoId}`)
-    if (statusEl) {
-      statusEl.innerHTML = `<span class="${status}">${message}</span>`
-      if (status === 'success') {
-        setTimeout(() => {
-          statusEl.style.display = 'none'
-        }, 2000)
-      }
-    }
-  }
-
-  function initializeMultipleDemos() {
-    if (demoInitialized) return
-    demoInitialized = true
-
-    console.log('Initializing Multiple Editors demos...')
-
-    try {
-      // Multiple elements with single editor instance
-      const multipleElements = document.querySelectorAll('.demo-editable')
-      if (multipleElements.length > 0) {
-        console.log('Initializing multiple elements demo')
-        updateDemoStatus('multiple', 'loading', '🔄 Initializing shared editor...')
-
-        const editor1 = new MediumEditor('.demo-editable', {
-          toolbar: {
-            buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote']
-          },
-          buttonLabels: 'fontawesome',
-          placeholder: {
-            text: 'Start typing...',
-            hideOnClick: true
-          }
-        })
-
-        updateDemoStatus('multiple', 'success', '✅ Shared editor ready! Both elements use same toolbar.')
-        console.log('Multiple elements editor initialized:', editor1)
-      }
-
-      // Different editor configurations
-      const articleEditor = document.querySelector('.demo-article-editor')
-      const commentEditor = document.querySelector('.demo-comment-editor')
-      const titleOnlyEditor = document.querySelector('.demo-title-only-editor')
-
-      if (articleEditor || commentEditor || titleOnlyEditor) {
-        console.log('Initializing different editors demo')
-        updateDemoStatus('different', 'loading', '🔄 Initializing different editors...')
-
-        // Article editor - full features
-        if (articleEditor) {
-          const editor2 = new MediumEditor(articleEditor, {
-            toolbar: {
-              buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote', 'pre']
-            },
-            buttonLabels: 'fontawesome',
-            autoLink: true,
-            paste: {
-              cleanPastedHTML: true
-            }
-          })
-          console.log('Article editor initialized:', editor2)
-        }
-
-        // Comment editor - minimal
-        if (commentEditor) {
-          const editor3 = new MediumEditor(commentEditor, {
-            toolbar: {
-              buttons: ['bold', 'italic', 'anchor']
-            },
-            disableReturn: false,
-            disableDoubleReturn: true,
-            paste: {
-              forcePlainText: true
-            }
-          })
-          console.log('Comment editor initialized:', editor3)
-        }
-
-        // Title-only editor - no toolbar
-        if (titleOnlyEditor) {
-          const editor4 = new MediumEditor(titleOnlyEditor, {
-            toolbar: false,
-            disableReturn: true,
-            disableDoubleReturn: true
-          })
-          console.log('Title-only editor initialized:', editor4)
-        }
-
-        updateDemoStatus('different', 'success', '✅ All different editors ready! Try each one.')
-      }
-
-      console.log('All multiple editor demos initialized successfully')
-    } catch (error) {
-      console.error('Error initializing multiple editor demos:', error)
-      // Update all status indicators with error
-      updateDemoStatus('multiple', 'error', '❌ Demo failed to load')
-      updateDemoStatus('different', 'error', '❌ Demo failed to load')
-    }
-  }
-
-  // Try multiple initialization strategies
-  function attemptInitialization() {
-    loadMediumEditor()
-      .then(() => {
-        // Wait a bit for DOM to be ready
-        setTimeout(initializeMultipleDemos, 100)
-      })
-      .catch(error => {
-        console.error('Failed to load Medium Editor:', error)
-        // Fallback: show message to user
-        const containers = document.querySelectorAll('.demo-container')
-        containers.forEach(container => {
-          const errorMsg = document.createElement('div')
-          errorMsg.style.cssText = 'background: #f8d7da; color: #721c24; padding: 1rem; border-radius: 4px; margin: 1rem 0;'
-          errorMsg.innerHTML = '⚠️ Interactive demo temporarily unavailable. Please refresh the page to try again.'
-          container.appendChild(errorMsg)
-        })
-      })
-  }
-
-  // Multiple initialization triggers
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', attemptInitialization)
-  } else {
-    attemptInitialization()
-  }
-
-  // Also try after a delay in case of timing issues
-  setTimeout(attemptInitialization, 1000)
-
-  // VitePress specific initialization
-  if (typeof window.__VITEPRESS__ !== 'undefined') {
-    // Wait for VitePress to be ready
-    setTimeout(attemptInitialization, 2000)
-  }
-}
-</script>
-
-<style>
-.demo-container {
-  border: 2px dashed #e9ecef;
-  border-radius: 8px;
-  padding: 1.5rem;
-  margin: 1.5rem 0;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-}
-
-.demo-label {
-  font-size: 0.9rem;
-  color: #6c757d;
-  margin-bottom: 1rem;
-  font-weight: 500;
-  text-align: center;
-}
-
-.demo-status {
-  text-align: center;
-  margin-bottom: 1rem;
-  padding: 0.5rem;
-  border-radius: 4px;
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
-.demo-status .loading {
-  color: #0c5460;
-  background: #d1ecf1;
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  display: inline-block;
-}
-
-.demo-status .success {
-  color: #155724;
-  background: #d4edda;
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  display: inline-block;
-}
-
-.demo-status .error {
-  color: #721c24;
-  background: #f8d7da;
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  display: inline-block;
-}
-
-.demo-editor-group {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.demo-title-element,
-.demo-content-element,
-.demo-article-editor,
-.demo-comment-editor,
-.demo-title-only-editor {
-  background: white;
-  padding: 1rem;
-  border-radius: 6px;
-  border: 2px solid #dee2e6;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  line-height: 1.6;
-  cursor: text;
-  transition: all 0.3s ease;
-}
-
-.demo-title-element {
-  min-height: 60px;
-}
-
-.demo-content-element,
-.demo-article-editor,
-.demo-comment-editor {
-  min-height: 120px;
-}
-
-.demo-title-only-editor {
-  min-height: 80px;
-}
-
-.demo-title-element:hover,
-.demo-content-element:hover,
-.demo-article-editor:hover,
-.demo-comment-editor:hover,
-.demo-title-only-editor:hover {
-  border-color: #007bff;
-  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.15);
-}
-
-.demo-title-element:focus,
-.demo-content-element:focus,
-.demo-article-editor:focus,
-.demo-comment-editor:focus,
-.demo-title-only-editor:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 0.3rem rgba(0, 123, 255, 0.25);
-}
-
-/* Make sure the editors are editable */
-.demo-title-element[contenteditable="true"],
-.demo-content-element[contenteditable="true"],
-.demo-article-editor[contenteditable="true"],
-.demo-comment-editor[contenteditable="true"],
-.demo-title-only-editor[contenteditable="true"] {
-  border-color: #28a745;
-}
-
-/* Add subtle indicators when editors are ready */
-.demo-title-element::before,
-.demo-content-element::before,
-.demo-article-editor::before,
-.demo-comment-editor::before,
-.demo-title-only-editor::before {
-  content: "✏️ Click to edit";
-  position: absolute;
-  top: -25px;
-  left: 0;
-  font-size: 12px;
-  color: #6c757d;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.demo-container:hover .demo-title-element::before,
-.demo-container:hover .demo-content-element::before,
-.demo-container:hover .demo-article-editor::before,
-.demo-container:hover .demo-comment-editor::before,
-.demo-container:hover .demo-title-only-editor::before {
-  opacity: 1;
-}
-
-.demo-title-element h1 {
-  margin: 0;
-  font-size: 1.5rem;
-  color: #212529;
-}
-
-.demo-different-editors {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-}
-
-.demo-editor-section {
-  background: white;
-  border-radius: 8px;
-  padding: 1rem;
-  border: 1px solid #e9ecef;
-}
-
-.demo-editor-section h4 {
-  margin: 0 0 1rem 0;
-  font-size: 1rem;
-  color: #495057;
-  border-bottom: 1px solid #e9ecef;
-  padding-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.demo-editor-section h4::before {
-  content: "📝";
-  font-size: 0.875rem;
-}
-
-.demo-article-editor {
-  border-color: #28a745;
-  border-style: solid;
-}
-
-.demo-comment-editor {
-  border-color: #ffc107;
-  border-style: solid;
-}
-
-.demo-title-only-editor {
-  border-color: #6c757d;
-  border-style: solid;
-}
-
-.demo-title-only-editor h2 {
-  margin: 0;
-  font-size: 1.25rem;
-  color: #495057;
-}
-
-@media (min-width: 768px) {
-  .demo-different-editors {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-}
-
-/* Medium Editor theme adjustments for demos */
-.demo-container .medium-editor-toolbar {
-  background: #343a40;
-  border: 1px solid #495057;
-}
-
-.demo-container .medium-editor-action {
-  color: #fff;
-}
-
-.demo-container .medium-editor-action:hover {
-  background: #007bff;
-}
-</style>
+- Learn about [Event Handling](/examples/events) for editor interactions
+- Explore [Extensions](/examples/extensions) for custom functionality
+- Check out [Real-World Use Cases](/examples/real-world) for complete implementations

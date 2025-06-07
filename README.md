@@ -24,7 +24,7 @@
 
 ---
 
-## ✨ Features
+## Features
 
 - 📝 **Medium-like Editor** - A modern TypeScript port of the popular Medium.com-style WYSIWYG editor
 - 🔧 **Extensible Architecture** - Plugin system for custom functionality and toolbar buttons
@@ -37,7 +37,7 @@
 - 🔄 **Event System** - Comprehensive event handling for content changes
 - 🎛️ **Flexible Toolbars** - Static, floating, or custom positioned toolbars
 
-## 📦 Installation
+## Installation
 
 Choose your preferred package manager:
 
@@ -55,7 +55,7 @@ pnpm add ts-medium-editor
 bun add ts-medium-editor
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Basic Setup
 
@@ -103,7 +103,7 @@ const editor = new MediumEditor('.editable', {
 </html>
 ```
 
-## 🎮 Live Demos
+## Live Demos
 
 Explore our comprehensive demo collection to see all features in action:
 
@@ -131,7 +131,7 @@ Explore our comprehensive demo collection to see all features in action:
 - **[Custom Extensions](demo/pass-instance.html)** - Instance-aware extension development
 - **[Table Extension](demo/table-extension.html)** - Custom table insertion functionality
 
-## 🛠️ TypeScript Configuration
+## TypeScript Configuration
 
 For optimal TypeScript support, configure your `tsconfig.json`:
 
@@ -148,7 +148,7 @@ For optimal TypeScript support, configure your `tsconfig.json`:
 }
 ```
 
-## 📚 API Reference
+## API Reference
 
 ### Constructor Options
 
@@ -226,9 +226,9 @@ class MediumEditor {
 }
 ```
 
-## 💡 Examples
+## Examples
 
-### 🎨 Custom Toolbar with FontAwesome
+### Custom Toolbar with FontAwesome
 
 ```typescript
 const editor = new MediumEditor('.editable', {
@@ -267,7 +267,7 @@ const editor = new MediumEditor('.editable', {
 })
 ```
 
-### 🔗 Auto-Link Configuration
+### Auto-Link Configuration
 
 ```typescript
 const editor = new MediumEditor('.editable', {
@@ -284,7 +284,7 @@ const editor = new MediumEditor('.editable', {
 })
 ```
 
-### 📝 Multiple Editors with Different Configs
+### Multiple Editors with Different Configs
 
 ```typescript
 // Title editor (no line breaks)
@@ -311,7 +311,7 @@ const contentEditor = new MediumEditor('.content', {
 })
 ```
 
-### 📋 Smart Paste Configuration
+### Smart Paste Configuration
 
 ```typescript
 const editor = new MediumEditor('.editable', {
@@ -330,7 +330,7 @@ const editor = new MediumEditor('.editable', {
 })
 ```
 
-### 🎯 Event Handling
+### Event Handling
 
 ```typescript
 const editor = new MediumEditor('.editable')
@@ -357,7 +357,7 @@ editor.subscribe('blur', (event, editable) => {
 })
 ```
 
-### 🔌 Creating Custom Extensions
+### Creating Custom Extensions
 
 ```typescript
 import { MediumEditorExtension } from 'ts-medium-editor'
@@ -416,7 +416,7 @@ const editor = new MediumEditor('.editable', {
 })
 ```
 
-### 🎨 Theme Switching
+### Theme Switching
 
 ```typescript
 const themeSelector = document.getElementById('theme-select') as HTMLSelectElement
@@ -438,7 +438,7 @@ themeSelector.addEventListener('change', (event) => {
 })
 ```
 
-## 🎨 Available Themes
+## Available Themes
 
 The library includes 7 beautiful themes:
 
@@ -455,7 +455,7 @@ The library includes 7 beautiful themes:
 <link rel="stylesheet" href="dist/css/themes/default.css">
 ```
 
-## 🔧 Advanced Configuration
+## Advanced Configuration
 
 ### Toolbar Positioning
 
@@ -500,130 +500,45 @@ const editor = new MediumEditor('.editable', {
 })
 ```
 
-## 🧪 Testing
+## Testing
 
 Run the test suite:
 
 ```bash
-# Install dependencies
-bun install
-
-# Run tests
 bun test
-
-# Run tests with coverage
-bun test --coverage
-
-# Run specific test file
-bun test --grep "toolbar"
 ```
 
-## 🔨 Development
-
-Get started with development:
-
-```bash
-# Clone the repository
-git clone https://github.com/stacksjs/ts-medium-editor.git
-cd ts-medium-editor
-
-# Install dependencies
-bun install
-
-# Start development server
-bun dev
-
-# Build the project
-bun run build
-
-# Preview demos locally
-bun run preview
-```
-
-### Project Structure
-
-```
-ts-medium-editor/
-├── src/                    # Source TypeScript files
-│   ├── core.ts            # Core editor functionality
-│   ├── extensions/        # Built-in extensions
-│   ├── css/               # Stylesheets and themes
-│   └── index.ts           # Main entry point
-├── demo/                  # Interactive demos
-│   ├── ts/                # Demo TypeScript files
-│   └── *.html             # Demo HTML files
-├── test/                  # Test files
-├── dist/                  # Built files
-└── docs/                  # Documentation
-```
-
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guide](https://github.com/stacksjs/contributing) for details.
-
-### Development Workflow
-
-1. **Fork** the repository
-2. **Clone** your fork: `git clone https://github.com/your-username/ts-medium-editor.git`
-3. **Create** a feature branch: `git checkout -b feature/amazing-feature`
-4. **Install** dependencies: `bun install`
-5. **Make** your changes
-6. **Test** your changes: `bun test`
-7. **Commit** your changes: `git commit -m 'Add amazing feature'`
-8. **Push** to your branch: `git push origin feature/amazing-feature`
-9. **Open** a Pull Request
-
-### Reporting Issues
-
-Found a bug? Have a feature request? Please [open an issue](https://github.com/stacksjs/ts-medium-editor/issues/new) with:
-
-- Clear description of the problem
-- Steps to reproduce
-- Expected vs actual behavior
-- Browser and version information
-- Code examples (if applicable)
-
-## 🌍 Community
+## Community
 
 For help, discussion about best practices, or any other conversation:
 
 - 💬 [GitHub Discussions](https://github.com/stacksjs/stacks/discussions)
-- 🎮 [Discord Server](https://discord.gg/stacksjs)
+- 🎮 [Discord Server](https://discord.gg/5gHFD8Uk3K)
 - 🐛 [Issue Tracker](https://github.com/stacksjs/ts-medium-editor/issues)
 
-## 📮 Postcardware
+## Postcardware
 
-**ts-medium-editor** is postcardware! If you use it in production, we'd love to receive a postcard from your hometown showing where our software is being used.
+“Software that is free, but hopes for a postcard.” We love receiving postcards from around the world showing where Stacks is being used! We showcase them on our website too.
 
-**Our address:**
-Stacks.js
-12665 Village Ln #2306
-Playa Vista, CA 90094
-United States 🌎
+Our address: Stacks.js, 12665 Village Ln #2306, Playa Vista, CA 90094, United States 🌎
 
-## 💎 Sponsors
+## Sponsors
 
-We extend our gratitude to our sponsors who make this project possible:
+We would like to extend our thanks to the following sponsors for funding Stacks development:
 
 - [**JetBrains**](https://www.jetbrains.com/) - Professional development tools
 - [**The Solana Foundation**](https://solana.com/) - Blockchain infrastructure
 
-[Become a sponsor](https://github.com/sponsors/stacksjs) and support open source development.
+_[Become a sponsor](https://github.com/sponsors/stacksjs) and support open source development._
 
-## 📈 Stats
-
-![GitHub stars](https://img.shields.io/github/stars/stacksjs/ts-medium-editor?style=social)
-![GitHub forks](https://img.shields.io/github/forks/stacksjs/ts-medium-editor?style=social)
-![npm downloads](https://img.shields.io/npm/dm/ts-medium-editor)
-
-## 🏆 Credits
+## Credits
 
 - **[Medium](https://medium.com)** - For the beautiful editor design inspiration
 - **[medium-editor](https://github.com/yabwe/medium-editor)** - The original JavaScript implementation that inspired this TypeScript port
 - **[Chris Breuer](https://github.com/chrisbbreuer)** - Primary maintainer and TypeScript port author
 - **[All Contributors](../../contributors)** - Everyone who has contributed to making this project better
 
-## 📄 License
+## License
 
 The MIT License (MIT). Please see [LICENSE](LICENSE.md) for more information.
 
@@ -635,6 +550,6 @@ The MIT License (MIT). Please see [LICENSE](LICENSE.md) for more information.
 
 <p align="center">
   <a href="https://github.com/stacksjs/ts-medium-editor">⭐ Star us on GitHub</a> •
-  <a href="https://twitter.com/stacksjs">🐦 Follow on Twitter</a> •
-  <a href="https://discord.gg/stacksjs">💬 Join Discord</a>
+  <a href="https://bsky.app/profile/chris-breuer.me">🐦 Follow on Bluesky</a> •
+  <a href="https://discord.gg/5gHFD8Uk3K">💬 Join Discord</a>
 </p>

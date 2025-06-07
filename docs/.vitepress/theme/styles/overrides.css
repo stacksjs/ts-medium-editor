@@ -7,44 +7,104 @@
   letter-spacing: 0.5px;
 }
 
-/* Code block styling improvements */
-.vp-doc div[class*="language-"] {
-  background-color: #0d1117 !important;
-  border: 1px solid #21262d;
-  border-radius: 8px;
+/* Enhanced code block styling */
+.vp-code-group .tabs {
+  background: #0d1117;
+  border-bottom: 1px solid #30363d;
 }
 
-.vp-doc div[class*="language-"] pre {
-  background-color: transparent !important;
+.vp-code-group .tabs .tab {
+  color: #7d8590;
+  background: transparent;
+  border-bottom: 2px solid transparent;
 }
 
-.vp-doc div[class*="language-"] code {
-  background-color: transparent !important;
-  color: #e6edf3 !important;
+.vp-code-group .tabs .tab.active {
+  color: #f0f6fc;
+  border-bottom-color: #fd7e14;
 }
 
-/* Line numbers styling */
-.vp-doc div[class*="language-"] .line-numbers-wrapper {
-  background-color: #161b22 !important;
-  border-right: 1px solid #21262d;
-  color: #7d8590 !important;
+.vp-code-group .tabs .tab:hover {
+  color: #f0f6fc;
 }
 
 /* Copy button styling */
-.vp-doc div[class*="language-"] .copy {
-  background-color: #21262d !important;
+.vp-copy-code {
+  background: #21262d !important;
   border: 1px solid #30363d !important;
-  color: #e6edf3 !important;
-}
-
-.vp-doc div[class*="language-"] .copy:hover {
-  background-color: #30363d !important;
-  border-color: #484f58 !important;
-}
-
-/* Language label styling */
-.vp-doc div[class*="language-"]:before {
-  background-color: #21262d !important;
   color: #7d8590 !important;
-  border: 1px solid #30363d !important;
+}
+
+.vp-copy-code:hover {
+  background: #30363d !important;
+  color: #f0f6fc !important;
+}
+
+/* Enhanced line highlighting */
+.shiki .highlighted {
+  background: rgba(255, 255, 0, 0.1);
+  border-left: 3px solid #ffd700;
+  padding-left: 8px;
+  margin-left: -8px;
+}
+
+/* Better focus highlighting for specific lines */
+.shiki .line.focus {
+  background: rgba(101, 117, 133, 0.16);
+}
+
+.shiki .line.diff.add {
+  background: rgba(46, 160, 67, 0.15);
+}
+
+.shiki .line.diff.remove {
+  background: rgba(248, 81, 73, 0.15);
+}
+
+/* Improved syntax highlighting for TypeScript */
+.shiki .token.keyword {
+  color: #ff7b72 !important;
+  font-weight: 600;
+}
+
+.shiki .token.string {
+  color: #a5d6ff !important;
+}
+
+.shiki .token.function {
+  color: #d2a8ff !important;
+  font-weight: 500;
+}
+
+.shiki .token.class-name {
+  color: #ffa657 !important;
+  font-weight: 500;
+}
+
+.shiki .token.number {
+  color: #79c0ff !important;
+}
+
+.shiki .token.comment {
+  color: #8b949e !important;
+  font-style: italic;
+}
+
+/* Better line numbers */
+.shiki .line-numbers {
+  color: #6e7681;
+  user-select: none;
+  padding-right: 16px;
+  border-right: 1px solid #30363d;
+  margin-right: 16px;
+}
+
+/* Code block title styling */
+.vp-code-group .title {
+  background: #161b22;
+  color: #f0f6fc;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-bottom: 1px solid #30363d;
+  font-size: 0.9em;
 }

@@ -148,8 +148,27 @@ export default withPwa(
     },
 
     markdown: {
-      theme: 'github-dark',
+      theme: {
+        light: 'github-light',
+        dark: 'github-dark'
+      },
       lineNumbers: true,
+      defaultHighlightLang: 'typescript',
+      codeTransformers: [
+        {
+          name: 'shiki-line-highlight',
+          preprocess(code, options) {
+            return code
+          },
+          line(node, line) {
+            // Add line highlighting support
+            if (line.toString().includes('// highlight-line')) {
+              this.addClassToHast(node, 'highlighted')
+            }
+            return node
+          }
+        }
+      ]
     },
 
     vite: viteConfig,
