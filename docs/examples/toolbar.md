@@ -8,7 +8,10 @@ Customize the toolbar appearance and functionality to match your needs.
 
 <div class="demo-container">
   <div class="demo-label">FontAwesome icons toolbar - Select text to see professional icons:</div>
-  <div class="demo-fontawesome-editor" data-placeholder="Select text to see FontAwesome icons...">
+  <div class="demo-status" id="demo-status-fontawesome">
+    <span class="loading">🔄 Loading interactive demo...</span>
+  </div>
+  <div class="demo-fontawesome-editor" data-placeholder="Select text to see FontAwesome icons..." contenteditable="true">
     <p>This editor uses <strong>FontAwesome icons</strong> for a professional look.</p>
     <p>Try selecting this text to see the <em>beautiful icons</em> in action!</p>
   </div>
@@ -64,8 +67,11 @@ const editor = new MediumEditor('.editable', {
 
 <div class="demo-container">
   <div class="demo-label">Static toolbar - Always visible, no need to select text:</div>
+  <div class="demo-status" id="demo-status-static">
+    <span class="loading">🔄 Loading interactive demo...</span>
+  </div>
   <div class="demo-static-container">
-    <div class="demo-static-editor" data-placeholder="Toolbar is always visible above...">
+    <div class="demo-static-editor" data-placeholder="Toolbar is always visible above..." contenteditable="true">
       <p>The toolbar above is always visible, making it easy to access formatting options.</p>
       <p>You can start typing or click anywhere to begin editing!</p>
     </div>
@@ -118,7 +124,10 @@ const editor = new MediumEditor('.static-editor', {
 
 <div class="demo-container">
   <div class="demo-label">Minimal toolbar with only Bold and Italic:</div>
-  <div class="demo-minimal-toolbar-editor" data-placeholder="Select text for minimal toolbar...">
+  <div class="demo-status" id="demo-status-minimal">
+    <span class="loading">🔄 Loading interactive demo...</span>
+  </div>
+  <div class="demo-minimal-toolbar-editor" data-placeholder="Select text for minimal toolbar..." contenteditable="true">
     <p>This editor has a <strong>minimal toolbar</strong> with only essential buttons.</p>
     <p>Perfect for <em>simple formatting</em> needs without clutter.</p>
   </div>
@@ -367,60 +376,277 @@ editor.subscribe('editableClick', (event, editable) => {
 <script>
 // Initialize toolbar demos when the page loads
 if (typeof window !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', () => {
-    // Load Medium Editor and FontAwesome if not already loaded
-    if (typeof window.MediumEditor === 'undefined') {
-      const script = document.createElement('script')
-      script.src = 'https://cdn.jsdelivr.net/npm/medium-editor@5.23.3/dist/js/medium-editor.min.js'
-      script.onload = initializeToolbarDemos
-      document.head.appendChild(script)
+  let demoInitialized = false
 
+    function loadMediumEditor() {
+    return new Promise((resolve, reject) => {
+      if (typeof window.MediumEditor !== 'undefined') {
+        resolve()
+        return
+      }
+
+      let loadedCount = 0
+      const totalResources = 4
+
+      function checkAllLoaded() {
+        loadedCount++
+        if (loadedCount === totalResources) {
+          console.log('All Medium Editor resources loaded successfully')
+          // Wait a bit more for FontAwesome to be ready
+          setTimeout(resolve, 500)
+        }
+      }
+
+      // Load Medium Editor CSS
       const link = document.createElement('link')
       link.rel = 'stylesheet'
       link.href = 'https://cdn.jsdelivr.net/npm/medium-editor@5.23.3/dist/css/medium-editor.min.css'
+      link.onload = checkAllLoaded
+      link.onerror = () => {
+        console.error('Failed to load Medium Editor CSS')
+        checkAllLoaded() // Continue anyway
+      }
       document.head.appendChild(link)
 
-      // Load FontAwesome for icons
+      // Load theme CSS
+      const themeLink = document.createElement('link')
+      themeLink.rel = 'stylesheet'
+      themeLink.href = 'https://cdn.jsdelivr.net/npm/medium-editor@5.23.3/dist/css/themes/default.min.css'
+      themeLink.onload = checkAllLoaded
+      themeLink.onerror = () => {
+        console.error('Failed to load Medium Editor theme CSS')
+        checkAllLoaded() // Continue anyway
+      }
+      document.head.appendChild(themeLink)
+
+      // Load FontAwesome for icons - try multiple CDNs
       const faLink = document.createElement('link')
       faLink.rel = 'stylesheet'
-      faLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css'
+      faLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
+      faLink.onload = () => {
+        console.log('FontAwesome loaded successfully')
+        checkAllLoaded()
+      }
+      faLink.onerror = () => {
+        console.warn('Primary FontAwesome CDN failed, trying backup...')
+        // Try backup CDN
+        const faBackup = document.createElement('link')
+        faBackup.rel = 'stylesheet'
+        faBackup.href = 'https://use.fontawesome.com/releases/v6.4.0/css/all.css'
+        faBackup.onload = () => {
+          console.log('FontAwesome backup loaded successfully')
+          checkAllLoaded()
+        }
+        faBackup.onerror = () => {
+          console.error('All FontAwesome CDNs failed')
+          checkAllLoaded() // Continue anyway
+        }
+        document.head.appendChild(faBackup)
+      }
       document.head.appendChild(faLink)
-    } else {
-      initializeToolbarDemos()
+
+      // Load Medium Editor JavaScript
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/medium-editor@5.23.3/dist/js/medium-editor.min.js'
+      script.onload = () => {
+        console.log('Medium Editor JavaScript loaded successfully')
+        checkAllLoaded()
+      }
+      script.onerror = () => {
+        console.error('Failed to load Medium Editor JavaScript')
+        reject(new Error('Failed to load Medium Editor'))
+      }
+      document.head.appendChild(script)
+
+      // Timeout fallback
+      setTimeout(() => {
+        if (loadedCount < totalResources) {
+          console.warn('Some resources may not have loaded, proceeding anyway...')
+          resolve()
+        }
+      }, 10000)
+    })
+  }
+
+  function updateDemoStatus(demoId, status, message) {
+    const statusEl = document.getElementById(`demo-status-${demoId}`)
+    if (statusEl) {
+      statusEl.innerHTML = `<span class="${status}">${message}</span>`
+      if (status === 'success') {
+        setTimeout(() => {
+          statusEl.style.display = 'none'
+        }, 2000)
+      }
     }
-  })
+  }
 
   function initializeToolbarDemos() {
-    // FontAwesome toolbar demo
-    if (document.querySelector('.demo-fontawesome-editor')) {
-      new MediumEditor('.demo-fontawesome-editor', {
-        toolbar: {
-          buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote']
-        },
-        buttonLabels: 'fontawesome'
-      })
-    }
+    if (demoInitialized) return
+    demoInitialized = true
 
-    // Static toolbar demo
-    if (document.querySelector('.demo-static-editor')) {
-      new MediumEditor('.demo-static-editor', {
-        toolbar: {
-          static: true,
-          sticky: true,
-          buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3']
+    console.log('Initializing Medium Editor toolbar demos...')
+
+    try {
+            // FontAwesome toolbar demo
+      const fontawesomeEditor = document.querySelector('.demo-fontawesome-editor')
+      if (fontawesomeEditor) {
+        console.log('Initializing FontAwesome toolbar demo')
+        updateDemoStatus('fontawesome', 'loading', '🔄 Initializing FontAwesome toolbar...')
+
+        // Check if FontAwesome is available
+        const isFontAwesomeLoaded = document.querySelector('link[href*="font-awesome"]') !== null
+
+        let editorConfig = {
+          toolbar: {
+            buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote']
+          }
         }
-      })
-    }
 
-    // Minimal toolbar demo
-    if (document.querySelector('.demo-minimal-toolbar-editor')) {
-      new MediumEditor('.demo-minimal-toolbar-editor', {
-        toolbar: {
-          buttons: ['bold', 'italic']
-        },
-        buttonLabels: false
-      })
+        if (isFontAwesomeLoaded) {
+          editorConfig.buttonLabels = 'fontawesome'
+          console.log('FontAwesome detected, using FA icons')
+        } else {
+          // Fallback to custom HTML icons if FontAwesome fails
+          console.log('FontAwesome not detected, using custom icons')
+          editorConfig.toolbar.buttons = [
+            {
+              name: 'bold',
+              contentDefault: '<b>B</b>',
+              aria: 'Bold'
+            },
+            {
+              name: 'italic',
+              contentDefault: '<i>I</i>',
+              aria: 'Italic'
+            },
+            {
+              name: 'underline',
+              contentDefault: '<u>U</u>',
+              aria: 'Underline'
+            },
+            {
+              name: 'anchor',
+              contentDefault: '🔗',
+              aria: 'Link'
+            },
+            {
+              name: 'h2',
+              contentDefault: 'H2',
+              aria: 'Heading 2'
+            },
+            {
+              name: 'h3',
+              contentDefault: 'H3',
+              aria: 'Heading 3'
+            },
+            {
+              name: 'quote',
+              contentDefault: '❝',
+              aria: 'Quote'
+            }
+          ]
+        }
+
+        const editor1 = new MediumEditor(fontawesomeEditor, editorConfig)
+
+        // Verify toolbar was created properly
+        setTimeout(() => {
+          const toolbar = document.querySelector('.medium-editor-toolbar')
+          if (toolbar) {
+            const buttons = toolbar.querySelectorAll('.medium-editor-action')
+            console.log(`Toolbar created with ${buttons.length} buttons`)
+            if (isFontAwesomeLoaded) {
+              updateDemoStatus('fontawesome', 'success', '✅ FontAwesome toolbar ready! Select text to see FA icons.')
+            } else {
+              updateDemoStatus('fontawesome', 'success', '✅ Custom icon toolbar ready! Select text to see icons.')
+            }
+          } else {
+            updateDemoStatus('fontawesome', 'error', '❌ Toolbar creation failed')
+          }
+        }, 100)
+
+        console.log('FontAwesome toolbar initialized:', editor1)
+      }
+
+      // Static toolbar demo
+      const staticEditor = document.querySelector('.demo-static-editor')
+      if (staticEditor) {
+        console.log('Initializing static toolbar demo')
+        updateDemoStatus('static', 'loading', '🔄 Initializing static toolbar...')
+
+        const editor2 = new MediumEditor(staticEditor, {
+          toolbar: {
+            static: true,
+            sticky: true,
+            buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3']
+          }
+        })
+
+        updateDemoStatus('static', 'success', '✅ Static toolbar ready! Always visible above.')
+        console.log('Static toolbar initialized:', editor2)
+      }
+
+      // Minimal toolbar demo
+      const minimalEditor = document.querySelector('.demo-minimal-toolbar-editor')
+      if (minimalEditor) {
+        console.log('Initializing minimal toolbar demo')
+        updateDemoStatus('minimal', 'loading', '🔄 Initializing minimal toolbar...')
+
+        const editor3 = new MediumEditor(minimalEditor, {
+          toolbar: {
+            buttons: ['bold', 'italic']
+          },
+          buttonLabels: false
+        })
+
+        updateDemoStatus('minimal', 'success', '✅ Minimal toolbar ready! Select text for Bold/Italic.')
+        console.log('Minimal toolbar initialized:', editor3)
+      }
+
+      console.log('All toolbar demos initialized successfully')
+    } catch (error) {
+      console.error('Error initializing toolbar demos:', error)
+      // Update all status indicators with error
+      updateDemoStatus('fontawesome', 'error', '❌ Demo failed to load')
+      updateDemoStatus('static', 'error', '❌ Demo failed to load')
+      updateDemoStatus('minimal', 'error', '❌ Demo failed to load')
     }
+  }
+
+  // Try multiple initialization strategies
+  function attemptInitialization() {
+    loadMediumEditor()
+      .then(() => {
+        // Wait a bit for DOM to be ready
+        setTimeout(initializeToolbarDemos, 100)
+      })
+      .catch(error => {
+        console.error('Failed to load Medium Editor:', error)
+        // Fallback: show message to user
+        const containers = document.querySelectorAll('.demo-container')
+        containers.forEach(container => {
+          const errorMsg = document.createElement('div')
+          errorMsg.style.cssText = 'background: #f8d7da; color: #721c24; padding: 1rem; border-radius: 4px; margin: 1rem 0;'
+          errorMsg.innerHTML = '⚠️ Interactive demo temporarily unavailable. Please refresh the page to try again.'
+          container.appendChild(errorMsg)
+        })
+      })
+  }
+
+  // Multiple initialization triggers
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', attemptInitialization)
+  } else {
+    attemptInitialization()
+  }
+
+  // Also try after a delay in case of timing issues
+  setTimeout(attemptInitialization, 1000)
+
+  // VitePress specific initialization
+  if (typeof window.__VITEPRESS__ !== 'undefined') {
+    // Wait for VitePress to be ready
+    setTimeout(attemptInitialization, 2000)
   }
 }
 </script>
@@ -442,6 +668,39 @@ if (typeof window !== 'undefined') {
   text-align: center;
 }
 
+.demo-status {
+  text-align: center;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.demo-status .loading {
+  color: #0c5460;
+  background: #d1ecf1;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+.demo-status .success {
+  color: #155724;
+  background: #d4edda;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+.demo-status .error {
+  color: #721c24;
+  background: #f8d7da;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  display: inline-block;
+}
+
 .demo-fontawesome-editor,
 .demo-static-editor,
 .demo-minimal-toolbar-editor {
@@ -449,9 +708,18 @@ if (typeof window !== 'undefined') {
   padding: 1rem;
   border-radius: 6px;
   min-height: 120px;
-  border: 1px solid #dee2e6;
+  border: 2px solid #dee2e6;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.6;
+  cursor: text;
+  transition: all 0.3s ease;
+}
+
+.demo-fontawesome-editor:hover,
+.demo-static-editor:hover,
+.demo-minimal-toolbar-editor:hover {
+  border-color: #007bff;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.15);
 }
 
 .demo-fontawesome-editor:focus,
@@ -459,7 +727,34 @@ if (typeof window !== 'undefined') {
 .demo-minimal-toolbar-editor:focus {
   outline: none;
   border-color: #007bff;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  box-shadow: 0 0 0 0.3rem rgba(0, 123, 255, 0.25);
+}
+
+/* Make sure the editors are editable */
+.demo-fontawesome-editor[contenteditable="true"],
+.demo-static-editor[contenteditable="true"],
+.demo-minimal-toolbar-editor[contenteditable="true"] {
+  border-color: #28a745;
+}
+
+/* Add a subtle indicator when editor is ready */
+.demo-fontawesome-editor::before,
+.demo-static-editor::before,
+.demo-minimal-toolbar-editor::before {
+  content: "✏️ Click to edit or select text for toolbar";
+  position: absolute;
+  top: -25px;
+  left: 0;
+  font-size: 12px;
+  color: #6c757d;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.demo-container:hover .demo-fontawesome-editor::before,
+.demo-container:hover .demo-static-editor::before,
+.demo-container:hover .demo-minimal-toolbar-editor::before {
+  opacity: 1;
 }
 
 .demo-static-container {
@@ -508,5 +803,44 @@ if (typeof window !== 'undefined') {
 .demo-minimal-toolbar-editor + .medium-editor-toolbar .medium-editor-action {
   padding: 10px 15px;
   font-size: 14px;
+}
+
+/* Custom button styling for fallback icons */
+.demo-container .medium-editor-action {
+  min-width: 40px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.demo-container .medium-editor-action b,
+.demo-container .medium-editor-action i,
+.demo-container .medium-editor-action u {
+  font-style: normal;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.demo-container .medium-editor-action i {
+  font-style: italic;
+  font-weight: normal;
+}
+
+.demo-container .medium-editor-action u {
+  text-decoration: underline;
+}
+
+/* Ensure FontAwesome icons are visible when loaded */
+.demo-container .medium-editor-action .fa,
+.demo-container .medium-editor-action .fas,
+.demo-container .medium-editor-action .far,
+.demo-container .medium-editor-action .fab {
+  font-size: 14px;
+  color: inherit;
+}
+
+/* Better spacing for custom icons */
+.demo-container .medium-editor-action:not([class*="fa-"]) {
+  font-size: 14px;
+  line-height: 1;
 }
 </style>
