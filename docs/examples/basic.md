@@ -28,7 +28,7 @@ The simplest way to get started with `ts-medium-editor`.
 ### TypeScript
 ```typescript
 import { MediumEditor } from 'ts-medium-editor'
-import 'ts-medium-editor/dist/css/medium-editor.css'
+import 'ts-medium-editor/css/medium-editor.css'
 
 const editor = new MediumEditor('.editable', {
   toolbar: {
@@ -59,7 +59,7 @@ For the absolute minimum setup:
 
 ```typescript
 import { MediumEditor } from 'ts-medium-editor'
-import 'ts-medium-editor/dist/css/medium-editor.css'
+import 'ts-medium-editor/css/medium-editor.css'
 
 // Just pass a selector - uses all default options
 const editor = new MediumEditor('.editable')

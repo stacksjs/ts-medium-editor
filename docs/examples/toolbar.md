@@ -280,7 +280,7 @@ Combine toolbar customization with themes:
 
 ```typescript
 // Import a theme
-import 'ts-medium-editor/dist/css/themes/flat.css'
+import 'ts-medium-editor/css/themes/flat.css'
 
 const themedEditor = new MediumEditor('.themed-editor', {
   toolbar: {

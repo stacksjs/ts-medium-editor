@@ -30,7 +30,7 @@ For quick prototyping or simple projects, you can use the CDN version:
 
 ```html
 <!-- CSS -->
-<link rel="stylesheet" href="https://unpkg.com/ts-medium-editor/dist/css/medium-editor.css">
+<link rel="stylesheet" href="https://unpkg.com/ts-medium-editor/css/medium-editor.css">
 
 <!-- JavaScript -->
 <script src="https://unpkg.com/ts-medium-editor/dist/index.js"></script>
@@ -52,13 +52,13 @@ Don't forget to include the CSS styles for the editor to display properly:
 ### ES Modules
 
 ```typescript
-import 'ts-medium-editor/dist/css/medium-editor.css'
+import 'ts-medium-editor/css/medium-editor.css'
 ```
 
 ### HTML Link Tag
 
 ```html
-<link rel="stylesheet" href="node_modules/ts-medium-editor/dist/css/medium-editor.css">
+<link rel="stylesheet" href="node_modules/ts-medium-editor/css/medium-editor.css">
 ```
 
 ## Verification
@@ -67,7 +67,7 @@ To verify your installation, create a simple editor:
 
 ```typescript
 import { MediumEditor } from 'ts-medium-editor'
-import 'ts-medium-editor/dist/css/medium-editor.css'
+import 'ts-medium-editor/css/medium-editor.css'
 
 const editor = new MediumEditor('.editable', {
   toolbar: {

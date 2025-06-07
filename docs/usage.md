@@ -18,7 +18,7 @@ Then initialize the editor:
 
 ```typescript
 import { MediumEditor } from 'ts-medium-editor'
-import 'ts-medium-editor/dist/css/medium-editor.css'
+import 'ts-medium-editor/css/medium-editor.css'
 
 const editor = new MediumEditor('.editable')
 ```
@@ -301,7 +301,7 @@ editor.createLink({
 ```tsx
 import React, { useEffect, useRef } from 'react'
 import { MediumEditor } from 'ts-medium-editor'
-import 'ts-medium-editor/dist/css/medium-editor.css'
+import 'ts-medium-editor/css/medium-editor.css'
 
 const EditorComponent: React.FC = () => {
   const editorRef = useRef<HTMLDivElement>(null)
@@ -339,7 +339,7 @@ const EditorComponent: React.FC = () => {
 <script setup lang="ts">
 import { MediumEditor } from 'ts-medium-editor'
 import { onMounted, onUnmounted, ref } from 'vue'
-import 'ts-medium-editor/dist/css/medium-editor.css'
+import 'ts-medium-editor/css/medium-editor.css'
 
 const editorRef = ref<HTMLDivElement>()
 let editor: MediumEditor | null = null
@@ -371,7 +371,7 @@ onUnmounted(() => {
 ```typescript
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { MediumEditor } from 'ts-medium-editor'
-import 'ts-medium-editor/dist/css/medium-editor.css'
+import 'ts-medium-editor/css/medium-editor.css'
 
 @Component({
   selector: 'app-editor',

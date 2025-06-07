@@ -61,8 +61,8 @@ bun add ts-medium-editor
 
 ```typescript
 import { MediumEditor } from 'ts-medium-editor'
-import 'ts-medium-editor/dist/css/medium-editor.css'
-import 'ts-medium-editor/dist/css/themes/default.css'
+import 'ts-medium-editor/css/medium-editor.css'
+import 'ts-medium-editor/css/themes/default.css'
 
 // Initialize editor
 const editor = new MediumEditor('.editable', {
@@ -84,8 +84,8 @@ const editor = new MediumEditor('.editable', {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Editor</title>
-  <link rel="stylesheet" href="node_modules/ts-medium-editor/dist/css/medium-editor.css">
-  <link rel="stylesheet" href="node_modules/ts-medium-editor/dist/css/themes/default.css">
+  <link rel="stylesheet" href="node_modules/ts-medium-editor/css/medium-editor.css">
+  <link rel="stylesheet" href="node_modules/ts-medium-editor/css/themes/default.css">
 </head>
 <body>
   <div class="editable">
