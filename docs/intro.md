@@ -2,12 +2,12 @@
 
 # Introduction
 
-TypeScript Medium Editor is a modern, type-safe WYSIWYG (What You See Is What You Get) rich text editor inspired by Medium.com's clean and intuitive editing experience. Built from the ground up with TypeScript, it provides developers with a robust, extensible, and lightweight solution for rich text editing in web applications.
+`ts-medium-editor` is a modern, type-safe WYSIWYG (What You See Is What You Get) rich text editor inspired by Medium.com's clean and intuitive editing experience. Built from the ground up with TypeScript, it provides developers with a robust, extensible, and lightweight solution for rich text editing in web applications.
 
-## Why TypeScript Medium Editor?
+## Why `ts-medium-editor`?
 
 ### 🎯 **Type Safety First**
-Unlike many JavaScript-based editors, TypeScript Medium Editor is built with TypeScript from day one. This means:
+Unlike many JavaScript-based editors, `ts-medium-editor` is built with TypeScript from day one. This means:
 - Complete type definitions for all APIs
 - Enhanced IDE support with autocomplete and error detection
 - Reduced runtime errors through compile-time checking
@@ -61,7 +61,7 @@ The editor follows a plugin-based architecture that allows you to:
 
 ## Browser Support
 
-TypeScript Medium Editor supports all modern browsers:
+`ts-medium-editor` supports all modern browsers:
 
 - **Chrome**: 60+
 - **Firefox**: 55+
@@ -70,7 +70,7 @@ TypeScript Medium Editor supports all modern browsers:
 
 ## Getting Started
 
-Ready to start using TypeScript Medium Editor? Head over to the [Installation Guide](/install) to get up and running in minutes.
+Ready to start using `ts-medium-editor`? Head over to the [Installation Guide](/install) to get up and running in minutes.
 
 ## Community & Support
 
@@ -81,11 +81,11 @@ Ready to start using TypeScript Medium Editor? Head over to the [Installation Gu
 
 ## License
 
-TypeScript Medium Editor is released under the [MIT License](/license), making it free for both personal and commercial use.
+`ts-medium-editor` is released under the [MIT License](/license), making it free for both personal and commercial use.
 
 ## Next Steps
 
-Now that you understand what TypeScript Medium Editor offers, you're ready to dive in:
+Now that you understand what `ts-medium-editor` offers, you're ready to dive in:
 
 1. **[Installation](/install)** - Get the editor installed in your project
 2. **[Quick Start](/usage)** - Create your first editor instance

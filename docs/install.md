@@ -1,6 +1,6 @@
 # Installation
 
-TypeScript Medium Editor can be installed via npm, yarn, pnpm, or bun. Choose your preferred package manager:
+`ts-medium-editor` can be installed via npm, yarn, pnpm, or bun. Choose your preferred package manager:
 
 ## Package Managers
 
@@ -80,7 +80,7 @@ console.log('Editor initialized:', editor)
 
 ## Next Steps
 
-Now that you have TypeScript Medium Editor installed, head over to the [Usage Guide](/usage) to learn how to create your first editor instance.
+Now that you have `ts-medium-editor` installed, head over to the [Usage Guide](/usage) to learn how to create your first editor instance.
 
 ## Requirements
 
@@ -90,7 +90,7 @@ Now that you have TypeScript Medium Editor installed, head over to the [Usage Gu
 
 ## Bundle Size
 
-TypeScript Medium Editor is designed to be lightweight:
+`ts-medium-editor` is designed to be lightweight:
 
 - **Minified**: ~76KB
 - **Gzipped**: ~24KB
@@ -98,7 +98,7 @@ TypeScript Medium Editor is designed to be lightweight:
 
 ## Framework Integration
 
-TypeScript Medium Editor works with any framework or vanilla JavaScript:
+`ts-medium-editor` works with any framework or vanilla JavaScript:
 
 - ✅ **React**: Full compatibility
 - ✅ **Vue**: Full compatibility

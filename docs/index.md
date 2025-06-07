@@ -3,8 +3,8 @@
 layout: home
 
 hero:
-  name: "TypeScript Medium Editor"
-  text: "Modern WYSIWYG Editor"
+  name: "Medium-like Editor"
+  text: "Modern WYSIWYG"
   tagline: "A type-safe, extensible rich text editor inspired by Medium.com"
   image: /images/logo-white.png
   actions:

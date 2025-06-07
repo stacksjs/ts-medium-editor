@@ -1,6 +1,6 @@
 # Links and Anchors
 
-TypeScript Medium Editor provides comprehensive link creation and editing capabilities through the anchor button. Users can easily create, edit, and remove hyperlinks with a clean, intuitive interface.
+`ts-medium-editor` provides comprehensive link creation and editing capabilities through the anchor button. Users can easily create, edit, and remove hyperlinks with a clean, intuitive interface.
 
 ## Overview
 

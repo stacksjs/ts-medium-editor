@@ -1,6 +1,6 @@
 # Text Formatting
 
-TypeScript Medium Editor provides comprehensive text formatting capabilities that allow users to create rich, styled content. The formatting system supports both user interactions through the toolbar and programmatic control via the API.
+`ts-medium-editor` provides comprehensive text formatting capabilities that allow users to create rich, styled content. The formatting system supports both user interactions through the toolbar and programmatic control via the API.
 
 ## Overview
 

@@ -141,11 +141,16 @@ export class Toolbar implements MediumEditorExtension {
       const extension = this.editor.getExtensionByName(buttonName)
 
       if (extension && typeof extension.getForm === 'function') {
-        console.log(`Adding form for extension: ${buttonName}`)
+        console.log(`Preparing form for extension: ${buttonName}`)
         const form = extension.getForm()
         if (form) {
+          // Add the form to the toolbar but ensure it's hidden by default
           this.toolbar!.appendChild(form)
-          console.log(`Form added for ${buttonName}`)
+          // Make sure the form is hidden initially (remove any active class)
+          form.classList.remove('medium-editor-toolbar-form-active')
+          // Force hide the form with inline style as backup
+          form.style.display = 'none'
+          console.log(`Form added for ${buttonName} (hidden by default)`)
         }
       }
     })
@@ -1063,22 +1068,44 @@ export class Toolbar implements MediumEditorExtension {
       top += this.options.diffTop || 0
       left += this.options.diffLeft || 0
 
-      // Adjust for relative container
+      // Handle relative container positioning
       if (this.options.relativeContainer && this.options.relativeContainer !== document.body) {
+        // For relative containers, position within the container
+        const containerRect = this.options.relativeContainer.getBoundingClientRect()
+        const containerStyle = window.getComputedStyle(this.options.relativeContainer)
+        const containerPadding = {
+          top: parseInt(containerStyle.paddingTop, 10) || 0,
+          left: parseInt(containerStyle.paddingLeft, 10) || 0,
+          right: parseInt(containerStyle.paddingRight, 10) || 0,
+          bottom: parseInt(containerStyle.paddingBottom, 10) || 0
+        }
+
+        // Position relative to container, centered horizontally
+        const containerWidth = containerRect.width - containerPadding.left - containerPadding.right
+        const containerHeight = containerRect.height - containerPadding.top - containerPadding.bottom
+
+        this.toolbar.style.position = 'absolute'
+        this.toolbar.style.top = `${containerPadding.top + 10}px`
+        this.toolbar.style.left = `${containerPadding.left + Math.max(10, (containerWidth - this.toolbar.offsetWidth) / 2)}px`
+        this.toolbar.style.zIndex = '1001'
+        this.toolbar.style.maxWidth = `${containerWidth - 20}px`
+      } else {
+        // Standard positioning for non-relative containers
         top -= containerOffset.top
         left -= containerOffset.left
+
+        // Ensure toolbar stays within viewport bounds
+        left = Math.max(10, Math.min(
+          left,
+          window.innerWidth + scrollLeft - this.toolbar.offsetWidth - 10,
+        ))
+
+        this.toolbar.style.position = 'absolute'
+        this.toolbar.style.top = `${top}px`
+        this.toolbar.style.left = `${left}px`
+        this.toolbar.style.zIndex = '1000'
+        this.toolbar.style.maxWidth = 'none'
       }
-
-      // Ensure toolbar stays within viewport bounds
-      left = Math.max(10, Math.min(
-        left,
-        window.innerWidth + scrollLeft - this.toolbar.offsetWidth - 10,
-      ))
-
-      this.toolbar.style.position = 'absolute'
-      this.toolbar.style.top = `${top}px`
-      this.toolbar.style.left = `${left}px`
-      this.toolbar.style.zIndex = '1000'
 
       // Trigger positionToolbar event
       if (this.editor && typeof this.editor.trigger === 'function') {

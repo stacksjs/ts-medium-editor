@@ -1,6 +1,6 @@
 # Multiple Editors
 
-TypeScript Medium Editor supports managing multiple editor instances on a single page, each with independent configurations, content, and behavior. This is useful for complex applications with multiple content areas, forms, or collaborative editing scenarios.
+`ts-medium-editor` supports managing multiple editor instances on a single page, each with independent configurations, content, and behavior. This is useful for complex applications with multiple content areas, forms, or collaborative editing scenarios.
 
 ## Overview
 

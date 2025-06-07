@@ -33,6 +33,20 @@ const sidebar = [
     ],
   },
   {
+    text: 'Examples',
+    items: [
+      { text: 'Basic Editor', link: '/examples/basic' },
+      { text: 'Custom Toolbar', link: '/examples/toolbar' },
+      { text: 'Multiple Editors', link: '/examples/multiple' },
+      { text: 'Auto-Link', link: '/examples/auto-link' },
+      { text: 'Clean Paste', link: '/examples/paste' },
+      { text: 'Event Handling', link: '/examples/events' },
+      { text: 'Extensions', link: '/examples/extensions' },
+      { text: 'Textarea Integration', link: '/examples/textarea' },
+      { text: 'Real-World Use Cases', link: '/examples/real-world' },
+    ],
+  },
+  {
     text: 'Core Features',
     items: [
       { text: 'Toolbar', link: '/features/toolbar' },
@@ -58,12 +72,12 @@ const sidebar = [
 ]
 
 const description = 'A modern, TypeScript-first rich text editor inspired by Medium.com'
-const title = 'TypeScript Medium Editor | Modern WYSIWYG Editor'
+const title = 'ts-medium-editor | Modern WYSIWYG Editor'
 
 export default withPwa(
   defineConfig({
     lang: 'en-US',
-    title: 'TypeScript Medium Editor',
+    title: 'ts-medium-editor',
     description,
     metaChunk: true,
     cleanUrls: true,
@@ -87,7 +101,7 @@ export default withPwa(
       ['meta', { property: 'og:title', content: title }],
       ['meta', { property: 'og:description', content: description }],
 
-      ['meta', { property: 'og:site_name', content: 'TypeScript Medium Editor' }],
+      ['meta', { property: 'og:site_name', content: 'ts-medium-editor' }],
       ['meta', { property: 'og:image', content: './images/og-image.jpg' }],
       ['meta', { property: 'og:url', content: 'https://ts-medium-editor.dev/' }],
       ...analyticsHead,
@@ -112,7 +126,7 @@ export default withPwa(
 
       footer: {
         message: 'Released under the MIT License.',
-        copyright: 'Copyright © 2024 TypeScript Medium Editor',
+        copyright: 'Copyright © 2025 Stacks.js',
       },
 
       socialLinks: [

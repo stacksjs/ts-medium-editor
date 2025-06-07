@@ -1,6 +1,6 @@
 # Toolbar
 
-The toolbar is the heart of TypeScript Medium Editor's user interface, providing an intuitive way for users to format their text. It appears contextually when text is selected and offers a clean, Medium.com-inspired design.
+The toolbar is the heart of `ts-medium-editor`'s user interface, providing an intuitive way for users to format their text. It appears contextually when text is selected and offers a clean, Medium.com-inspired design.
 
 ## Overview
 
@@ -8,12 +8,56 @@ The toolbar extension provides a floating toolbar that appears when users select
 
 ## Basic Usage
 
+### Simple Toolbar Setup
+
+```html
+<div class="editable" data-placeholder="Select text to see the toolbar...">
+  <p>This is a <strong>basic editor</strong> with a <em>customizable toolbar</em>.</p>
+  <p>Select any text to see the formatting options appear!</p>
+</div>
+```
+
 ```typescript
 import { MediumEditor } from 'ts-medium-editor'
 
 const editor = new MediumEditor('.editable', {
   toolbar: {
     buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote']
+  }
+})
+```
+
+### Real-World Blog Editor
+
+```html
+<article class="blog-post">
+  <h1 class="post-title" data-placeholder="Enter your blog title...">
+    How to Build Amazing Web Applications
+  </h1>
+  <div class="post-content" data-placeholder="Write your blog post...">
+    <p>Creating engaging web applications requires the right tools and techniques...</p>
+    <blockquote>
+      "The best way to predict the future is to create it." - Peter Drucker
+    </blockquote>
+    <p>In this article, we'll explore modern development practices.</p>
+  </div>
+</article>
+```
+
+```typescript
+// Blog post editor with comprehensive toolbar
+const blogEditor = new MediumEditor(['.post-title', '.post-content'], {
+  toolbar: {
+    buttons: [
+      'bold', 'italic', 'underline',
+      'anchor', 'h2', 'h3', 'quote',
+      'unorderedlist', 'orderedlist'
+    ]
+  },
+  buttonLabels: 'fontawesome',
+  placeholder: {
+    text: 'Start writing your story...',
+    hideOnClick: true
   }
 })
 ```
@@ -130,13 +174,105 @@ const editor = new MediumEditor('.editable', {
 
 For applications that need a persistent toolbar, you can enable static mode:
 
+### Word Processor Style
+
+```html
+<div class="document-editor">
+  <div class="toolbar-container">
+    <!-- Toolbar will appear here -->
+  </div>
+  <div class="document-content" data-placeholder="Start typing your document...">
+    <h2>Document Title</h2>
+    <p>This editor has a static toolbar that's always visible, similar to traditional word processors like Microsoft Word or Google Docs.</p>
+    <p>The toolbar stays in place while you scroll through your document.</p>
+  </div>
+</div>
+```
+
 ```typescript
-const editor = new MediumEditor('.editable', {
+const documentEditor = new MediumEditor('.document-content', {
   toolbar: {
     static: true,
-    buttons: ['bold', 'italic', 'underline', 'anchor']
+    sticky: true,
+    buttons: [
+      'bold', 'italic', 'underline', 'strikethrough',
+      'anchor', 'h2', 'h3', 'quote',
+      'unorderedlist', 'orderedlist',
+      'justifyLeft', 'justifyCenter', 'justifyRight'
+    ]
+  },
+  buttonLabels: 'fontawesome'
+})
+```
+
+```css
+.document-editor {
+  max-width: 800px;
+  margin: 0 auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.toolbar-container {
+  background: #f8f9fa;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 8px;
+}
+
+.document-content {
+  padding: 40px;
+  min-height: 500px;
+  font-family: 'Times New Roman', serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
+```
+
+### Mobile-Optimized Static Toolbar
+
+```html
+<div class="mobile-editor">
+  <div class="mobile-content" data-placeholder="Tap to start writing...">
+    <p>This editor is optimized for mobile devices with a bottom-positioned static toolbar.</p>
+  </div>
+</div>
+```
+
+```typescript
+const mobileEditor = new MediumEditor('.mobile-content', {
+  toolbar: {
+    static: true,
+    buttons: ['bold', 'italic', 'anchor', 'quote']
   }
 })
+```
+
+```css
+@media (max-width: 768px) {
+  .medium-editor-toolbar {
+    position: fixed !important;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    z-index: 1000;
+  }
+
+  .medium-editor-action {
+    padding: 16px;
+    font-size: 18px;
+    flex: 1;
+    text-align: center;
+  }
+
+  .mobile-content {
+    padding-bottom: 80px; /* Space for fixed toolbar */
+  }
+}
 ```
 
 **Benefits of Static Toolbar:**
@@ -144,15 +280,25 @@ const editor = new MediumEditor('.editable', {
 - Consistent positioning
 - Better for mobile interfaces
 - Familiar word processor experience
+- No need to select text to access formatting
 
 ## Custom Button Creation
 
 ### Adding Custom Buttons
 
-You can add custom buttons through the toolbar's `createCustomButton` method:
+Create custom buttons for specialized formatting needs:
+
+#### Highlight Button Example
+
+```html
+<div class="highlight-editor" data-placeholder="Select text and use the highlight button...">
+  <p>This editor has a custom <mark>highlight button</mark> that you can use to emphasize important text.</p>
+  <p>Try selecting some text and clicking the highlight button in the toolbar!</p>
+</div>
+```
 
 ```typescript
-const editor = new MediumEditor('.editable', {
+const highlightEditor = new MediumEditor('.highlight-editor', {
   toolbar: {
     buttons: [
       'bold',
@@ -167,7 +313,79 @@ const editor = new MediumEditor('.editable', {
         attrs: {
           'data-action': 'highlight'
         }
-      }
+      },
+      'anchor'
+    ]
+  }
+})
+```
+
+```css
+.custom-highlight-button {
+  background-color: #ffeb3b !important;
+  color: #333 !important;
+  font-weight: bold;
+}
+
+.custom-highlight-button:hover {
+  background-color: #ffc107 !important;
+}
+
+mark {
+  background-color: #ffeb3b;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+```
+
+#### Multiple Custom Buttons
+
+```html
+<div class="advanced-editor" data-placeholder="Try the custom formatting options...">
+  <p>This editor includes several custom buttons:</p>
+  <ul>
+    <li><mark>Highlight</mark> for important text</li>
+    <li><span style="background: #e3f2fd; padding: 2px 4px; border-radius: 3px;">Info boxes</span> for notes</li>
+    <li><span style="color: #d32f2f; font-weight: bold;">Warning text</span> for alerts</li>
+  </ul>
+</div>
+```
+
+```typescript
+const advancedEditor = new MediumEditor('.advanced-editor', {
+  toolbar: {
+    buttons: [
+      'bold', 'italic',
+      {
+        name: 'highlight',
+        aria: 'Highlight text',
+        tagNames: ['mark'],
+        contentDefault: '🖍️',
+        classList: ['btn-highlight']
+      },
+      {
+        name: 'info',
+        aria: 'Info box',
+        tagNames: ['span'],
+        style: {
+          prop: 'background-color',
+          value: '#e3f2fd'
+        },
+        contentDefault: 'ℹ️',
+        classList: ['btn-info']
+      },
+      {
+        name: 'warning',
+        aria: 'Warning text',
+        tagNames: ['span'],
+        style: {
+          prop: 'color',
+          value: '#d32f2f'
+        },
+        contentDefault: '⚠️',
+        classList: ['btn-warning']
+      },
+      'anchor'
     ]
   }
 })

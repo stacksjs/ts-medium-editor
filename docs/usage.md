@@ -1,6 +1,6 @@
 # Usage
 
-This guide will walk you through the basic usage of TypeScript Medium Editor, from creating your first editor instance to advanced customization options.
+This guide will walk you through the basic usage of `ts-medium-editor`, from creating your first editor instance to advanced customization options.
 
 ## Quick Start
 
@@ -183,7 +183,7 @@ const editor = new MediumEditor('.editable', {
 
 ## Event Handling
 
-TypeScript Medium Editor provides a comprehensive event system:
+`ts-medium-editor` provides a comprehensive event system:
 
 ```typescript
 const editor = new MediumEditor('.editable')

@@ -1,6 +1,6 @@
 # Extensions
 
-TypeScript Medium Editor features a powerful extension system that allows you to add custom functionality, create new toolbar buttons, and extend the editor's capabilities. This guide covers everything you need to know about creating and using extensions.
+`ts-medium-editor` features a powerful extension system that allows you to add custom functionality, create new toolbar buttons, and extend the editor's capabilities. This guide covers everything you need to know about creating and using extensions.
 
 ## Built-in Extensions
 
@@ -799,7 +799,7 @@ my-medium-editor-extension/
 {
   "name": "medium-editor-my-extension",
   "version": "1.0.0",
-  "description": "Custom extension for TypeScript Medium Editor",
+  "description": "Custom extension for ts-medium-editor",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

@@ -88,7 +88,8 @@ export class Anchor implements MediumEditorExtension {
       return false
     }
 
-    // Show form if not already displayed
+    // Only show form if this was an explicit user action (button click or keyboard shortcut)
+    // Don't show automatically on text selection
     if (!this.isDisplayed()) {
       console.log('Showing anchor form')
       this.showForm()
@@ -193,6 +194,8 @@ export class Anchor implements MediumEditorExtension {
 
     if (this.form) {
       this.form.classList.remove(this.activeClass)
+      // Force hide the form with inline style
+      this.form.style.display = 'none'
       const input = this.getInput()
       if (input) {
         input.value = ''
@@ -231,6 +234,8 @@ export class Anchor implements MediumEditorExtension {
     // Show the form
     if (this.form) {
       this.form.classList.add(this.activeClass)
+      // Remove any inline display style that might be hiding the form
+      this.form.style.display = ''
       console.log('Form activated')
     }
 

@@ -1,6 +1,6 @@
 # API Reference
 
-This page provides a complete reference for all TypeScript Medium Editor APIs, including classes, methods, properties, and interfaces based on the actual implementation.
+This page provides a complete reference for all `ts-medium-editor` APIs, including classes, methods, properties, and interfaces based on the actual implementation.
 
 ## MediumEditor Class
 

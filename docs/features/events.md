@@ -1,6 +1,6 @@
 # Events
 
-TypeScript Medium Editor provides a comprehensive event system that allows you to listen for and respond to various editor interactions. This enables you to create dynamic, responsive applications that react to user input and editor state changes.
+`ts-medium-editor` provides a comprehensive event system that allows you to listen for and respond to various editor interactions. This enables you to create dynamic, responsive applications that react to user input and editor state changes.
 
 ## Overview
 
