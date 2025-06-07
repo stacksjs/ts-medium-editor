@@ -6,3 +6,45 @@
   filter: saturate(0.6);
   letter-spacing: 0.5px;
 }
+
+/* Code block styling improvements */
+.vp-doc div[class*="language-"] {
+  background-color: #0d1117 !important;
+  border: 1px solid #21262d;
+  border-radius: 8px;
+}
+
+.vp-doc div[class*="language-"] pre {
+  background-color: transparent !important;
+}
+
+.vp-doc div[class*="language-"] code {
+  background-color: transparent !important;
+  color: #e6edf3 !important;
+}
+
+/* Line numbers styling */
+.vp-doc div[class*="language-"] .line-numbers-wrapper {
+  background-color: #161b22 !important;
+  border-right: 1px solid #21262d;
+  color: #7d8590 !important;
+}
+
+/* Copy button styling */
+.vp-doc div[class*="language-"] .copy {
+  background-color: #21262d !important;
+  border: 1px solid #30363d !important;
+  color: #e6edf3 !important;
+}
+
+.vp-doc div[class*="language-"] .copy:hover {
+  background-color: #30363d !important;
+  border-color: #484f58 !important;
+}
+
+/* Language label styling */
+.vp-doc div[class*="language-"]:before {
+  background-color: #21262d !important;
+  color: #7d8590 !important;
+  border: 1px solid #30363d !important;
+}
