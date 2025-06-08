@@ -1,6 +1,6 @@
 # Configuration
 
-The TypeScript Medium Editor can be extensively configured to match your needs. This guide covers all available configuration options.
+The `ts-medium-editor` can be extensively configured to match your needs. This guide covers all available configuration options.
 
 ## Basic Configuration
 
