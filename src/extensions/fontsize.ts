@@ -39,7 +39,7 @@ export class FontSize extends FormExtension {
 
     if (!this.isDisplayed()) {
       // Get fontSize of current selection (convert to string since IE returns this as number)
-      const fontSize = document.queryCommandValue('fontSize') + ''
+      const fontSize = `${document.queryCommandValue('fontSize')}`
       this.showForm(fontSize)
     }
 
@@ -136,7 +136,8 @@ export class FontSize extends FormExtension {
   private clearFontSize(): void {
     // Get selected elements and clear font size attribute
     const selection = window.getSelection()
-    if (!selection || selection.rangeCount === 0) return
+    if (!selection || selection.rangeCount === 0)
+      return
 
     const range = selection.getRangeAt(0)
     const walker = document.createTreeWalker(
@@ -148,8 +149,8 @@ export class FontSize extends FormExtension {
           return element.tagName.toLowerCase() === 'font' && element.hasAttribute('size')
             ? NodeFilter.FILTER_ACCEPT
             : NodeFilter.FILTER_SKIP
-        }
-      }
+        },
+      },
     )
 
     const fontElements: HTMLElement[] = []
@@ -159,19 +160,21 @@ export class FontSize extends FormExtension {
       node = walker.nextNode()
     }
 
-    fontElements.forEach(el => {
+    fontElements.forEach((el) => {
       el.removeAttribute('size')
     })
   }
 
   private handleSliderChange(): void {
     const input = this.getInput()
-    if (!input) return
+    if (!input)
+      return
 
     const size = input.value
     if (size === '4') { // Default size
       this.clearFontSize()
-    } else {
+    }
+    else {
       this.execAction('fontSize', { value: size })
     }
   }

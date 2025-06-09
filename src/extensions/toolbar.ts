@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import type { MediumEditorExtension, ToolbarOptions } from '../types'
 
 export class Toolbar implements MediumEditorExtension {
@@ -103,7 +104,7 @@ export class Toolbar implements MediumEditorExtension {
           tagName: button.tagName,
           className: button.className,
           dataAction: button.getAttribute('data-action'),
-          innerHTML: button.innerHTML
+          innerHTML: button.innerHTML,
         })
 
         // Add first/last button classes
@@ -117,7 +118,8 @@ export class Toolbar implements MediumEditorExtension {
         this.toolbar!.appendChild(button)
         this.buttons.push(button)
         console.log(`Button "${buttonName}" added to toolbar`)
-      } else {
+      }
+      else {
         console.warn(`Failed to create button for: "${buttonName}"`)
       }
     })
@@ -125,13 +127,13 @@ export class Toolbar implements MediumEditorExtension {
     console.log(`Total buttons created: ${this.buttons.length}`)
   }
 
-    addExtensionForms(): void {
+  addExtensionForms(): void {
     if (!this.editor || !this.toolbar) {
       return
     }
 
     // Check each button to see if there's a corresponding extension with a form
-    this.options.buttons?.forEach(buttonConfig => {
+    this.options.buttons?.forEach((buttonConfig) => {
       const buttonName = typeof buttonConfig === 'string' ? buttonConfig : buttonConfig.name
 
       // First, ensure the extension exists by calling addBuiltInExtension
@@ -323,7 +325,7 @@ export class Toolbar implements MediumEditorExtension {
       target,
       tagName: target.tagName,
       className: target.className,
-      dataAction: target.getAttribute('data-action')
+      dataAction: target.getAttribute('data-action'),
     })
 
     // Find the actual button element (in case user clicked on icon inside button)
@@ -339,7 +341,7 @@ export class Toolbar implements MediumEditorExtension {
         tagName: buttonElement.tagName,
         className: buttonElement.className,
         dataAction: buttonElement.getAttribute('data-action'),
-        isButton: buttonElement.tagName === 'BUTTON'
+        isButton: buttonElement.tagName === 'BUTTON',
       })
 
       action = buttonElement.getAttribute('data-action')
@@ -353,7 +355,7 @@ export class Toolbar implements MediumEditorExtension {
       action,
       buttonElement: buttonElement?.tagName,
       buttonClass: buttonElement?.className,
-      attempts
+      attempts,
     })
 
     if (!action || !buttonElement) {
@@ -398,7 +400,8 @@ export class Toolbar implements MediumEditorExtension {
           const result = extension.handleClick(event)
           console.log(`Extension ${action} handleClick result:`, result)
           return
-        } catch (error) {
+        }
+        catch (error) {
           console.error(`Error in ${action} extension handleClick:`, error)
           // Continue to fallback handling
         }
@@ -459,7 +462,7 @@ export class Toolbar implements MediumEditorExtension {
       endOffset: range.endOffset,
       startContainer: range.startContainer,
       endContainer: range.endContainer,
-      commonAncestor: range.commonAncestorContainer
+      commonAncestor: range.commonAncestorContainer,
     }
 
     console.log('Selection info:', selectionInfo)
@@ -486,7 +489,7 @@ export class Toolbar implements MediumEditorExtension {
 
       // Verify if the formatting was actually applied
       const newHtml = editorElement.innerHTML
-             const wasActuallyFormatted = this.isTextActuallyFormatted(range, action)
+      const wasActuallyFormatted = this.isTextActuallyFormatted(range, action)
 
       console.log(`HTML before: ${htmlBefore}`)
       console.log(`HTML after:  ${newHtml}`)
@@ -508,7 +511,8 @@ export class Toolbar implements MediumEditorExtension {
       if (commandSuccess && wasActuallyFormatted) {
         console.log(`✅ execCommand successful for ${action}`)
         success = true
-      } else if (!wasActuallyFormatted) {
+      }
+      else if (!wasActuallyFormatted) {
         console.log(`❌ execCommand returned ${commandSuccess} but formatting verification failed`)
 
         // Before falling back to DOM manipulation, check if execCommand actually did something useful
@@ -532,29 +536,34 @@ export class Toolbar implements MediumEditorExtension {
             if (hasExistingFormatting[action as keyof typeof hasExistingFormatting] !== currentlyHasFormatting) {
               console.log(`✅ execCommand successfully toggled ${action} formatting`)
               success = true
-            } else {
+            }
+            else {
               console.log(`🔄 execCommand changed HTML but didn't achieve desired formatting toggle`)
               // Proceed with DOM manipulation fallback
               const manipulationSuccess = this.applyFormattingDirectly(action, currentRange, selectedText, editorElement)
               if (manipulationSuccess) {
                 console.log(`✅ DOM manipulation successful for ${action}`)
                 success = true
-              } else {
+              }
+              else {
                 console.log(`❌ DOM manipulation also failed for ${action}`)
               }
             }
-          } else {
+          }
+          else {
             console.log(`No selection available to verify current formatting state`)
             success = true // Assume execCommand worked since it changed the HTML
           }
-        } else {
+        }
+        else {
           console.log(`🔄 execCommand didn't change HTML, falling back to DOM manipulation`)
           // Standard DOM manipulation fallback
           const manipulationSuccess = this.applyFormattingDirectly(action, range, selectedText, editorElement)
           if (manipulationSuccess) {
             console.log(`✅ DOM manipulation successful for ${action}`)
             success = true
-          } else {
+          }
+          else {
             console.log(`❌ DOM manipulation also failed for ${action}`)
           }
         }
@@ -582,7 +591,7 @@ export class Toolbar implements MediumEditorExtension {
     }, 10)
   }
 
-  private applyFormattingDirectly(action: string, range: Range, selectedText: string, editorElement: HTMLElement): boolean {
+  private applyFormattingDirectly(action: string, range: Range, _selectedText: string, _editorElement: HTMLElement): boolean {
     try {
       console.log(`🔧 Starting direct DOM manipulation for "${action}"`)
 
@@ -593,13 +602,14 @@ export class Toolbar implements MediumEditorExtension {
       console.log(`Formatting state check:`, {
         action,
         hasExisting: shouldRemove,
-        allFormatting: hasExistingFormatting
+        allFormatting: hasExistingFormatting,
       })
 
       if (shouldRemove) {
         console.log(`🔄 Text already has ${action} formatting - attempting to remove it`)
         return this.removeFormattingFromRange(range, action)
-      } else {
+      }
+      else {
         console.log(`🔄 Text does not have ${action} formatting - adding it`)
 
         // Extract the selected content
@@ -638,8 +648,8 @@ export class Toolbar implements MediumEditorExtension {
         console.log(`✅ Direct DOM manipulation completed for "${action}" - formatting added`)
         return true
       }
-
-    } catch (error) {
+    }
+    catch (error) {
       console.error(`❌ Direct DOM manipulation failed for "${action}":`, error)
       return false
     }
@@ -693,7 +703,7 @@ export class Toolbar implements MediumEditorExtension {
       const walker = document.createTreeWalker(
         element,
         NodeFilter.SHOW_ELEMENT,
-        null
+        null,
       )
 
       let node: Node | null = walker.nextNode()
@@ -710,7 +720,8 @@ export class Toolbar implements MediumEditorExtension {
         }
         node = walker.nextNode()
       }
-    } catch (error) {
+    }
+    catch (error) {
       console.warn('Could not restore selection:', error)
     }
   }
@@ -898,19 +909,21 @@ export class Toolbar implements MediumEditorExtension {
   }
 
   hideToolbarDefaultActions(): void {
-    if (!this.toolbar) return
+    if (!this.toolbar)
+      return
 
     // Hide all buttons when showing a form
-    this.buttons.forEach(button => {
+    this.buttons.forEach((button) => {
       button.style.display = 'none'
     })
   }
 
   showToolbarDefaultActions(): void {
-    if (!this.toolbar) return
+    if (!this.toolbar)
+      return
 
     // Show all buttons when hiding a form
-    this.buttons.forEach(button => {
+    this.buttons.forEach((button) => {
       button.style.display = ''
     })
   }
@@ -1074,22 +1087,23 @@ export class Toolbar implements MediumEditorExtension {
         const containerRect = this.options.relativeContainer.getBoundingClientRect()
         const containerStyle = window.getComputedStyle(this.options.relativeContainer)
         const containerPadding = {
-          top: parseInt(containerStyle.paddingTop, 10) || 0,
-          left: parseInt(containerStyle.paddingLeft, 10) || 0,
-          right: parseInt(containerStyle.paddingRight, 10) || 0,
-          bottom: parseInt(containerStyle.paddingBottom, 10) || 0
+          top: Number.parseInt(containerStyle.paddingTop, 10) || 0,
+          left: Number.parseInt(containerStyle.paddingLeft, 10) || 0,
+          right: Number.parseInt(containerStyle.paddingRight, 10) || 0,
+          bottom: Number.parseInt(containerStyle.paddingBottom, 10) || 0,
         }
 
         // Position relative to container, centered horizontally
         const containerWidth = containerRect.width - containerPadding.left - containerPadding.right
-        const containerHeight = containerRect.height - containerPadding.top - containerPadding.bottom
+        const _containerHeight = containerRect.height - containerPadding.top - containerPadding.bottom
 
         this.toolbar.style.position = 'absolute'
         this.toolbar.style.top = `${containerPadding.top + 10}px`
         this.toolbar.style.left = `${containerPadding.left + Math.max(10, (containerWidth - this.toolbar.offsetWidth) / 2)}px`
         this.toolbar.style.zIndex = '1001'
         this.toolbar.style.maxWidth = `${containerWidth - 20}px`
-      } else {
+      }
+      else {
         // Standard positioning for non-relative containers
         top -= containerOffset.top
         left -= containerOffset.left
@@ -1223,7 +1237,7 @@ export class Toolbar implements MediumEditorExtension {
     const range = selection.getRangeAt(0)
     console.log('Current selection for button state check:', {
       text: range.toString(),
-      collapsed: range.collapsed
+      collapsed: range.collapsed,
     })
 
     // Check each button and update its active state based on current selection
@@ -1235,7 +1249,8 @@ export class Toolbar implements MediumEditorExtension {
 
         if (isActive) {
           button.classList.add('medium-editor-button-active')
-        } else {
+        }
+        else {
           button.classList.remove('medium-editor-button-active')
         }
       }
@@ -1249,7 +1264,7 @@ export class Toolbar implements MediumEditorExtension {
     const nodesToCheck = [
       range.commonAncestorContainer,
       range.startContainer,
-      range.endContainer
+      range.endContainer,
     ]
 
     console.log(`Checking formatting for "${action}" across ${nodesToCheck.length} nodes:`)
@@ -1258,7 +1273,7 @@ export class Toolbar implements MediumEditorExtension {
     const foundFormatting = {
       bold: false,
       italic: false,
-      underline: false
+      underline: false,
     }
 
     for (let i = 0; i < nodesToCheck.length; i++) {
@@ -1267,7 +1282,7 @@ export class Toolbar implements MediumEditorExtension {
       console.log(`  Node ${i + 1}:`, {
         nodeType: currentNode.nodeType,
         nodeName: currentNode.nodeName,
-        textContent: currentNode.textContent?.substring(0, 50) + '...'
+        textContent: `${currentNode.textContent?.substring(0, 50)}...`,
       })
 
       // If it's a text node, start from its parent
@@ -1283,7 +1298,7 @@ export class Toolbar implements MediumEditorExtension {
 
         console.log(`    Checking element at depth ${depth}:`, {
           tagName: element.tagName,
-          className: element.className
+          className: element.className,
         })
 
         // Check for all formatting types in the hierarchy
@@ -1340,7 +1355,8 @@ export class Toolbar implements MediumEditorExtension {
 
     if (result) {
       console.log(`✅ Selection HAS ${action} formatting`)
-    } else {
+    }
+    else {
       console.log(`❌ Selection does NOT have ${action} formatting`)
     }
 
@@ -1572,7 +1588,7 @@ export class Toolbar implements MediumEditorExtension {
   }
 
   // Add helper methods for better formatting detection
-  private hasExistingFormatting(range: Range): { bold: boolean; italic: boolean; underline: boolean } {
+  private hasExistingFormatting(range: Range): { bold: boolean, italic: boolean, underline: boolean } {
     const result = { bold: false, italic: false, underline: false }
 
     // Check all ancestor elements of the selection
@@ -1609,7 +1625,7 @@ export class Toolbar implements MediumEditorExtension {
     while (node && node.nodeType !== Node.DOCUMENT_NODE) {
       if (node.nodeType === Node.ELEMENT_NODE) {
         const element = node as Element
-        parents.push(`${element.tagName?.toLowerCase() || 'unknown'}${element.className ? '.' + element.className : ''}`)
+        parents.push(`${element.tagName?.toLowerCase() || 'unknown'}${element.className ? `.${element.className}` : ''}`)
       }
       node = node.parentNode
     }
@@ -1641,8 +1657,8 @@ export class Toolbar implements MediumEditorExtension {
         const formattedElement = formattedElements[i]
         console.log(`Checking ${action} element ${i + 1}:`, {
           tagName: formattedElement.tagName,
-          textContent: formattedElement.textContent?.substring(0, 50) + '...',
-          innerHTML: formattedElement.innerHTML
+          textContent: `${formattedElement.textContent?.substring(0, 50)}...`,
+          innerHTML: formattedElement.innerHTML,
         })
 
         if (formattedElement.textContent?.includes(selectedText)) {
@@ -1669,7 +1685,8 @@ export class Toolbar implements MediumEditorExtension {
                 return // Success, exit early
               }
             }
-          } else {
+          }
+          else {
             // Fallback: select the entire formatted element content
             try {
               range.selectNodeContents(formattedElement)
@@ -1680,7 +1697,8 @@ export class Toolbar implements MediumEditorExtension {
                 console.log(`✅ Restored selection on entire formatted ${action} element`)
                 return // Success, exit early
               }
-            } catch (error) {
+            }
+            catch (error) {
               console.log(`Could not select contents of ${action} element:`, error)
             }
           }
@@ -1700,7 +1718,8 @@ export class Toolbar implements MediumEditorExtension {
         if (textNode.textContent?.includes(content)) {
           return textNode
         }
-      } else if (child.nodeType === Node.ELEMENT_NODE) {
+      }
+      else if (child.nodeType === Node.ELEMENT_NODE) {
         const found = this.findTextNodeWithContent(child as HTMLElement, content)
         if (found) {
           return found
@@ -1710,4 +1729,3 @@ export class Toolbar implements MediumEditorExtension {
     return null
   }
 }
-

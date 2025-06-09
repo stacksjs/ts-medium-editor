@@ -27,8 +27,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     ;(window as any).editor = editor
 
     // Debug: Check if anchor extension is loaded
+    // eslint-disable-next-line no-console
     console.log('Loaded extensions:', Object.keys(editor.extensions))
     const anchorExt = editor.getExtensionByName('anchor')
+    // eslint-disable-next-line no-console
     console.log('Anchor extension:', anchorExt)
 
     // Apply syntax highlighting to any code examples

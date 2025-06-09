@@ -150,7 +150,7 @@ export default withPwa(
     markdown: {
       theme: {
         light: 'github-light',
-        dark: 'github-dark'
+        dark: 'github-dark',
       },
       lineNumbers: true,
       defaultHighlightLang: 'typescript',
@@ -166,9 +166,9 @@ export default withPwa(
               this.addClassToHast(node, 'highlighted')
             }
             return node
-          }
-        }
-      ]
+          },
+        },
+      ],
     },
 
     vite: viteConfig,

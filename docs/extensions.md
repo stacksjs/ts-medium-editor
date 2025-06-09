@@ -46,6 +46,138 @@ const editor = new MediumEditor('.editable', {
 - Hide on click or focus options
 - Automatic show/hide based on content
 
+### Keyboard Commands Extension
+
+The keyboard commands extension enables keyboard shortcuts for formatting actions:
+
+```typescript
+import { KeyboardCommands, MediumEditor } from 'ts-medium-editor'
+
+const editor = new MediumEditor('.editable', {
+  extensions: {
+    keyboardCommands: new KeyboardCommands(editor, {
+      commands: [
+        {
+          command: 'bold',
+          key: 'b',
+          meta: true
+        },
+        {
+          command: 'italic',
+          key: 'i',
+          meta: true
+        },
+        {
+          command: 'underline',
+          key: 'u',
+          meta: true
+        },
+        {
+          command: 'strikethrough',
+          key: 's',
+          meta: true,
+          shift: true
+        }
+      ]
+    })
+  }
+})
+```
+
+**Features:**
+- Customizable keyboard shortcuts for any editor command
+- Support for modifier keys (Ctrl/Cmd, Shift, Alt)
+- Cross-platform compatibility (Ctrl on Windows/Linux, Cmd on Mac)
+- Default shortcuts for common formatting actions
+
+**Default Commands:**
+- `Ctrl/Cmd + B` - Bold
+- `Ctrl/Cmd + I` - Italic
+- `Ctrl/Cmd + U` - Underline
+
+**Command Options:**
+
+| Option | Type | Description | Default |
+|--------|------|-------------|---------|
+| `command` | string | The editor command to execute | Required |
+| `key` | string | The key to trigger the command | Required |
+| `meta` | boolean | Require Ctrl (Windows/Linux) or Cmd (Mac) | `false` |
+| `shift` | boolean | Require Shift key | `false` |
+| `alt` | boolean | Require Alt key | `false` |
+
+**Custom Commands Example:**
+
+```typescript
+const keyboardCommands = new KeyboardCommands(editor, {
+  commands: [
+    // Quote block with Ctrl/Cmd + Q
+    {
+      command: 'quote',
+      key: 'q',
+      meta: true
+    },
+    // Heading 2 with Ctrl/Cmd + 2
+    {
+      command: 'h2',
+      key: '2',
+      meta: true
+    },
+    // Link with Ctrl/Cmd + K
+    {
+      command: 'anchor',
+      key: 'k',
+      meta: true
+    },
+    // Code with Ctrl/Cmd + `
+    {
+      command: 'code',
+      key: '`',
+      meta: true
+    },
+    // Strikethrough with Ctrl/Cmd + Shift + S
+    {
+      command: 'strikethrough',
+      key: 's',
+      meta: true,
+      shift: true
+    }
+  ]
+})
+
+const editor = new MediumEditor('.editable', {
+  extensions: {
+    keyboardCommands
+  }
+})
+```
+
+**Advanced Usage:**
+
+```typescript
+// Disable default commands and add custom ones
+const editor = new MediumEditor('.editable', {
+  extensions: {
+    keyboardCommands: new KeyboardCommands(editor, {
+      commands: [
+        // Override default bold with different key
+        {
+          command: 'bold',
+          key: 'f',
+          meta: true
+        },
+        // Add custom command with Alt modifier
+        {
+          command: 'highlight',
+          key: 'h',
+          meta: true,
+          alt: true
+        }
+      ]
+    })
+  }
+})
+```
+
 ## Creating Custom Extensions
 
 ### Extension Interface

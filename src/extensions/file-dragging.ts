@@ -98,7 +98,7 @@ export class FileDragging implements MediumEditorExtension {
   }
 
   private handleFiles(files: File[], target: HTMLElement): void {
-    files.forEach(file => {
+    files.forEach((file) => {
       this.insertFile(file, target)
     })
   }
@@ -138,10 +138,12 @@ export class FileDragging implements MediumEditorExtension {
             range.collapse(true)
             selection.removeAllRanges()
             selection.addRange(range)
-          } else {
+          }
+          else {
             target.appendChild(img)
           }
-        } else {
+        }
+        else {
           target.appendChild(img)
         }
 

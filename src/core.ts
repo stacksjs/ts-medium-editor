@@ -1,15 +1,15 @@
 import type { MediumEditorExtension, MediumEditorOptions, SelectionState, VersionInfo } from './types'
 import { Events } from './events'
-import { Placeholder } from './extensions/placeholder'
-import { Toolbar } from './extensions/toolbar'
 import { Anchor } from './extensions/anchor'
 import { AnchorPreview } from './extensions/anchor-preview'
-import { Paste } from './extensions/paste'
-import { KeyboardCommands } from './extensions/keyboard-commands'
 import { Button } from './extensions/button'
 import { FileDragging } from './extensions/file-dragging'
 import { FontName } from './extensions/fontname'
 import { FontSize } from './extensions/fontsize'
+import { KeyboardCommands } from './extensions/keyboard-commands'
+import { Paste } from './extensions/paste'
+import { Placeholder } from './extensions/placeholder'
+import { Toolbar } from './extensions/toolbar'
 import { selection } from './selection'
 import { util } from './util'
 
@@ -589,7 +589,8 @@ export class MediumEditor {
         try {
           toolbar.applyFormattingFallback(action)
           return true
-        } catch (error) {
+        }
+        catch (error) {
           console.warn('Fallback formatting failed:', error)
           return false
         }
@@ -641,7 +642,8 @@ export class MediumEditor {
                   if (opts.buttonClass) {
                     link.className = opts.buttonClass
                   }
-                } else {
+                }
+                else {
                   // Look for a link in the selection
                   const parentNode = range.commonAncestorContainer.parentNode
                   if (parentNode && parentNode.nodeType === Node.ELEMENT_NODE) {
@@ -659,7 +661,8 @@ export class MediumEditor {
                 }
               }
             }
-          } else {
+          }
+          else {
             success = this.options.ownerDocument.execCommand(action, false, opts)
           }
           break
@@ -678,7 +681,8 @@ export class MediumEditor {
       }
 
       return success
-    } catch (error) {
+    }
+    catch (error) {
       console.warn('execCommand failed:', error)
       return false
     }

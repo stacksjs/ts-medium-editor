@@ -1,4 +1,4 @@
-import type { MediumEditor, MediumEditorExtension, KeyboardCommandsOptions, KeyboardCommand } from '../types'
+import type { KeyboardCommand, KeyboardCommandsOptions, MediumEditor, MediumEditorExtension } from '../types'
 
 export class KeyboardCommands implements MediumEditorExtension {
   name = 'keyboardCommands'
@@ -71,18 +71,18 @@ export class KeyboardCommands implements MediumEditorExtension {
       {
         command: 'bold',
         key: 'b',
-        meta: true
+        meta: true,
       },
       {
         command: 'italic',
         key: 'i',
-        meta: true
+        meta: true,
       },
       {
         command: 'underline',
         key: 'u',
-        meta: true
-      }
+        meta: true,
+      },
     ]
   }
 }

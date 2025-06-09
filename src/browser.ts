@@ -4,7 +4,9 @@ import { selection } from './selection'
 import { util } from './util'
 
 // Make MediumEditor available globally
-;(window as any).MediumEditor = MediumEditor
+;
+
+(window as any).MediumEditor = MediumEditor
 
 // Also expose utilities for advanced usage
 ;(window as any).MediumEditor.Events = Events
@@ -12,4 +14,4 @@ import { util } from './util'
 ;(window as any).MediumEditor.util = util
 
 export { MediumEditor as default }
-export { MediumEditor, Events, selection, util }
+export { Events, MediumEditor, selection, util }

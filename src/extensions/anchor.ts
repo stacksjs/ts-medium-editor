@@ -1,4 +1,5 @@
-import type { MediumEditor, MediumEditorExtension, AnchorOptions } from '../types'
+/* eslint-disable no-console */
+import type { AnchorOptions, MediumEditor, MediumEditorExtension } from '../types'
 
 export class Anchor implements MediumEditorExtension {
   name = 'anchor'
@@ -72,7 +73,7 @@ export class Anchor implements MediumEditorExtension {
     console.log('Selection details:', {
       text: selectedText,
       rangeCount: selection.rangeCount,
-      collapsed: range.collapsed
+      collapsed: range.collapsed,
     })
 
     // Require non-empty selection for creating links
@@ -93,7 +94,8 @@ export class Anchor implements MediumEditorExtension {
     if (!this.isDisplayed()) {
       console.log('Showing anchor form')
       this.showForm()
-    } else {
+    }
+    else {
       console.log('Anchor form already displayed')
     }
 
@@ -144,20 +146,20 @@ export class Anchor implements MediumEditorExtension {
 
   private getTemplate(): string {
     const template = [
-      `<input type="text" class="medium-editor-toolbar-input" placeholder="${this.placeholderText}">`
+      `<input type="text" class="medium-editor-toolbar-input" placeholder="${this.placeholderText}">`,
     ]
 
     const buttonLabels = this.editor.options.buttonLabels
     template.push(
       '<a href="#" class="medium-editor-toolbar-save">',
       buttonLabels === 'fontawesome' ? '<i class="fa fa-check"></i>' : this.formSaveLabel,
-      '</a>'
+      '</a>',
     )
 
     template.push(
       '<a href="#" class="medium-editor-toolbar-close">',
       buttonLabels === 'fontawesome' ? '<i class="fa fa-times"></i>' : this.formCloseLabel,
-      '</a>'
+      '</a>',
     )
 
     if (this.targetCheckbox) {
@@ -167,7 +169,7 @@ export class Anchor implements MediumEditorExtension {
         `<label for="medium-editor-toolbar-anchor-target-field-${this.editor.id}">`,
         this.targetCheckboxText,
         '</label>',
-        '</div>'
+        '</div>',
       )
     }
 
@@ -178,7 +180,7 @@ export class Anchor implements MediumEditorExtension {
         `<label for="medium-editor-toolbar-anchor-button-field-${this.editor.id}">`,
         this.customClassOptionText,
         '</label>',
-        '</div>'
+        '</div>',
       )
     }
 
@@ -209,7 +211,7 @@ export class Anchor implements MediumEditorExtension {
     console.log('Toolbar buttons restored')
   }
 
-  showForm(opts: { value?: string; target?: string; buttonClass?: string } = {}): void {
+  showForm(opts: { value?: string, target?: string, buttonClass?: string } = {}): void {
     console.log('Showing form with options:', opts)
 
     // Ensure form exists
@@ -266,7 +268,7 @@ export class Anchor implements MediumEditorExtension {
     console.log('Form setup complete')
   }
 
-  private getFormOpts(): { value: string; target: string; buttonClass?: string } {
+  private getFormOpts(): { value: string, target: string, buttonClass?: string } {
     const input = this.getInput()
     const targetCheckbox = this.getAnchorTargetCheckbox()
     const buttonCheckbox = this.getAnchorButtonCheckbox()
@@ -277,9 +279,9 @@ export class Anchor implements MediumEditorExtension {
       value = this.checkLinkFormat(value)
     }
 
-    const opts: { value: string; target: string; buttonClass?: string } = {
+    const opts: { value: string, target: string, buttonClass?: string } = {
       value,
-      target: '_self'
+      target: '_self',
     }
 
     if (targetCheckbox && targetCheckbox.checked) {
@@ -314,7 +316,7 @@ export class Anchor implements MediumEditorExtension {
     this.completeFormSave(opts)
   }
 
-  private completeFormSave(opts: { value: string; target: string; buttonClass?: string }): void {
+  private completeFormSave(opts: { value: string, target: string, buttonClass?: string }): void {
     console.log('Completing form save...')
 
     // Restore selection first, before hiding form
@@ -328,7 +330,8 @@ export class Anchor implements MediumEditorExtension {
     if (success) {
       console.log('Link created successfully')
       this.hideForm()
-    } else {
+    }
+    else {
       console.error('Failed to create link')
       // Don't hide form on failure, let user try again
       return
@@ -343,18 +346,19 @@ export class Anchor implements MediumEditorExtension {
   }
 
   private checkLinkFormat(value: string): string {
-    const urlSchemeRegex = /^([a-z]+:)?\/\/|^(mailto|tel|maps):|^\#/i
+    // eslint-disable-next-line regexp/no-unused-capturing-group
+    const urlSchemeRegex = /^([a-z]+:)?\/\/|^(mailto|tel|maps):|^#/i
     const hasScheme = urlSchemeRegex.test(value)
-    const telRegex = /^\+?\s?\(?(?:\d\s?\-?\)?){3,20}$/
+    const telRegex = /^\+?\s?\(?(?:\d\s?-?\)?){3,20}$/
 
     if (telRegex.test(value)) {
-      return 'tel:' + value
+      return `tel:${value}`
     }
 
     if (!hasScheme) {
       const host = value.split('/')[0]
       if (host.match(/.+(\.|:).+/) || host === 'localhost') {
-        return 'http://' + value
+        return `http://${value}`
       }
     }
 

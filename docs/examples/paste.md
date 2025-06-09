@@ -263,6 +263,7 @@ function processCustomPaste(editable) {
   )
 
   let node
+  // eslint-disable-next-line no-cond-assign
   while ((node = walker.nextNode())) {
     if (node.nodeValue.trim() && node.parentNode === editable) {
       textNodes.push(node)

@@ -49,9 +49,15 @@ const editor = new MediumEditor('.editable', {
 const blogEditor = new MediumEditor(['.post-title', '.post-content'], {
   toolbar: {
     buttons: [
-      'bold', 'italic', 'underline',
-      'anchor', 'h2', 'h3', 'quote',
-      'unorderedlist', 'orderedlist'
+      'bold',
+      'italic',
+      'underline',
+      'anchor',
+      'h2',
+      'h3',
+      'quote',
+      'unorderedlist',
+      'orderedlist'
     ]
   },
   buttonLabels: 'fontawesome',
@@ -195,10 +201,19 @@ const documentEditor = new MediumEditor('.document-content', {
     static: true,
     sticky: true,
     buttons: [
-      'bold', 'italic', 'underline', 'strikethrough',
-      'anchor', 'h2', 'h3', 'quote',
-      'unorderedlist', 'orderedlist',
-      'justifyLeft', 'justifyCenter', 'justifyRight'
+      'bold',
+      'italic',
+      'underline',
+      'strikethrough',
+      'anchor',
+      'h2',
+      'h3',
+      'quote',
+      'unorderedlist',
+      'orderedlist',
+      'justifyLeft',
+      'justifyCenter',
+      'justifyRight'
     ]
   },
   buttonLabels: 'fontawesome'
@@ -355,7 +370,8 @@ mark {
 const advancedEditor = new MediumEditor('.advanced-editor', {
   toolbar: {
     buttons: [
-      'bold', 'italic',
+      'bold',
+      'italic',
       {
         name: 'highlight',
         aria: 'Highlight text',

@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 // Make this file a module
 export {}
 
@@ -97,6 +99,7 @@ class CustomExtension {
   // Called when button is clicked
   onClick() {
     if (!this.base) {
+      // eslint-disable-next-line no-alert
       alert('Extension not properly initialized!')
       return
     }
@@ -105,7 +108,8 @@ class CustomExtension {
     let savedSelection: any = null
     try {
       savedSelection = this.base.exportSelection()
-    } catch (error) {
+    }
+    catch (error) {
       console.warn('Could not save selection:', error)
     }
 
@@ -113,9 +117,9 @@ class CustomExtension {
     const editorInfo = {
       id: this.base.id,
       elements: this.base.elements.length,
-      content: this.base.getContent(0)?.substring(0, 80) + '...',
+      content: `${this.base.getContent(0)?.substring(0, 80)}...`,
       isActive: this.base.isActive(),
-      version: this.base.version?.toString() || 'Unknown'
+      version: this.base.version?.toString() || 'Unknown',
     }
 
     const message = `🎯 Custom Extension Info:
@@ -130,13 +134,15 @@ Current Content Preview:
 
 Click OK to see more details in console.`
 
+    // eslint-disable-next-line no-alert
     alert(message)
 
     // Restore selection after alert
     if (savedSelection) {
       try {
         this.base.importSelection(savedSelection)
-      } catch (error) {
+      }
+      catch (error) {
         console.warn('Could not restore selection:', error)
       }
     }
@@ -149,7 +155,7 @@ Click OK to see more details in console.`
       extensions: Object.keys(this.base.extensions),
       isActive: this.base.isActive(),
       version: this.base.version,
-      fullContent: this.base.getContent(0)
+      fullContent: this.base.getContent(0),
     })
   }
 
@@ -185,16 +191,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         buttons: ['bold', 'italic', 'underline', 'customExtension'],
         // Ensure toolbar updates properly
         updateOnEmptySelection: false,
-        standardizeSelectionStart: false
+        standardizeSelectionStart: false,
       },
       extensions: {
         customExtension: new CustomExtension(),
       },
       placeholder: {
-        text: 'Click here to edit the first editor...'
+        text: 'Click here to edit the first editor...',
       },
       // Improve selection handling
-      delay: 50
+      delay: 50,
     })
 
     // Create second editor instance with custom extension
@@ -204,16 +210,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         buttons: ['bold', 'italic', 'underline', 'customExtension'],
         // Ensure toolbar updates properly
         updateOnEmptySelection: false,
-        standardizeSelectionStart: false
+        standardizeSelectionStart: false,
       },
       extensions: {
         customExtension: new CustomExtension(),
       },
       placeholder: {
-        text: 'Click here to edit the second editor...'
+        text: 'Click here to edit the second editor...',
       },
       // Improve selection handling
-      delay: 50
+      delay: 50,
     })
 
     console.log('✓ Both editor instances created successfully')

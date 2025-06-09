@@ -1,4 +1,4 @@
-import type { MediumEditor, MediumEditorExtension, AnchorPreviewOptions } from '../types'
+import type { AnchorPreviewOptions, MediumEditor, MediumEditorExtension } from '../types'
 
 export class AnchorPreview implements MediumEditorExtension {
   name = 'anchor-preview'
@@ -69,13 +69,14 @@ export class AnchorPreview implements MediumEditorExtension {
   }
 
   private showPreview(anchorEl: HTMLAnchorElement): this {
-    if (this.anchorPreview.classList.contains('medium-editor-anchor-preview-active') ||
-        anchorEl.getAttribute('data-disable-preview')) {
+    if (this.anchorPreview.classList.contains('medium-editor-anchor-preview-active')
+      || anchorEl.getAttribute('data-disable-preview')) {
       return this
     }
 
     const href = anchorEl.getAttribute('href')
-    if (!href) return this
+    if (!href)
+      return this
 
     // Check if we should show on empty links
     if (!this.showOnEmptyLinks && (href === '' || href === '#' || href.startsWith('#'))) {
@@ -106,7 +107,8 @@ export class AnchorPreview implements MediumEditorExtension {
 
   private positionPreview(activeAnchor?: HTMLAnchorElement): void {
     activeAnchor = activeAnchor || this.activeAnchor || undefined
-    if (!activeAnchor) return
+    if (!activeAnchor)
+      return
 
     const containerWidth = window.innerWidth
     const buttonHeight = this.anchorPreview.offsetHeight
@@ -116,7 +118,7 @@ export class AnchorPreview implements MediumEditorExtension {
 
     const elementsContainer = this.editor.options.elementsContainer || document.body
     const elementsContainerAbsolute = ['absolute', 'fixed'].includes(
-      window.getComputedStyle(elementsContainer).getPropertyValue('position')
+      window.getComputedStyle(elementsContainer).getPropertyValue('position'),
     )
 
     let relativeBoundary: DOMRect = boundary
@@ -144,29 +146,32 @@ export class AnchorPreview implements MediumEditorExtension {
         bottom: boundary.bottom - elementsContainerBoundary.top,
         x: boundary.x - elementsContainerBoundary.x,
         y: boundary.y - elementsContainerBoundary.y,
-        toJSON: boundary.toJSON
+        toJSON: boundary.toJSON,
       } as DOMRect
 
       relativeBoundary = adjustedBoundary
       top = (elementsContainer as HTMLElement).scrollTop
-    } else {
+    }
+    else {
       top = window.pageYOffset
     }
 
     const middleBoundary = relativeBoundary.left + relativeBoundary.width / 2
     top += buttonHeight + relativeBoundary.top + relativeBoundary.height - diffTop - this.anchorPreview.offsetHeight
 
-    this.anchorPreview.style.top = Math.round(top) + 'px'
+    this.anchorPreview.style.top = `${Math.round(top)}px`
     this.anchorPreview.style.right = 'initial'
 
     if (middleBoundary < halfOffsetWidth) {
-      this.anchorPreview.style.left = defaultLeft + halfOffsetWidth + 'px'
+      this.anchorPreview.style.left = `${defaultLeft + halfOffsetWidth}px`
       this.anchorPreview.style.right = 'initial'
-    } else if ((containerWidth - middleBoundary) < halfOffsetWidth) {
+    }
+    else if ((containerWidth - middleBoundary) < halfOffsetWidth) {
       this.anchorPreview.style.left = 'auto'
       this.anchorPreview.style.right = '0px'
-    } else {
-      this.anchorPreview.style.left = defaultLeft + middleBoundary + 'px'
+    }
+    else {
+      this.anchorPreview.style.left = `${defaultLeft + middleBoundary}px`
       this.anchorPreview.style.right = 'initial'
     }
   }
@@ -200,7 +205,7 @@ export class AnchorPreview implements MediumEditorExtension {
             const opts = {
               value: activeAnchor.getAttribute('href') || '',
               target: activeAnchor.getAttribute('target') || '',
-              buttonClass: activeAnchor.getAttribute('class') || ''
+              buttonClass: activeAnchor.getAttribute('class') || '',
             }
             ;(anchorExtension as any).showForm(opts)
           }
@@ -227,7 +232,8 @@ export class AnchorPreview implements MediumEditorExtension {
       setTimeout(() => {
         this.showPreview(anchorEl)
       }, 100)
-    } else if (this.activeAnchor) {
+    }
+    else if (this.activeAnchor) {
       // Mouse left an anchor, hide after delay
       this.hideTimeout = window.setTimeout(() => {
         this.hidePreview()

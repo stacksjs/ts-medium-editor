@@ -1,27 +1,5 @@
-<template>
-  <div class="interactive-demo">
-    <div class="demo-header">
-      <div class="demo-title">
-        <component :is="'span'" class="demo-icon" v-html="icon"></component>
-        <h4>{{ title }}</h4>
-        <span v-if="badge" class="demo-badge" :class="badgeClass">{{ badge }}</span>
-      </div>
-      <div class="demo-status" :class="statusClass">
-        <span class="status-icon">{{ statusIcon }}</span>
-        {{ status }}
-      </div>
-    </div>
-
-    <div class="demo-content" v-html="content"></div>
-
-    <div v-if="description" class="demo-footer">
-      <small>{{ description }}</small>
-    </div>
-  </div>
-</template>
-
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 const props = defineProps({
   title: String,
@@ -32,8 +10,8 @@ const props = defineProps({
   description: String,
   autoInit: {
     type: Boolean,
-    default: true
-  }
+    default: true,
+  },
 })
 
 const status = ref('Loading interactive demo...')
@@ -68,7 +46,8 @@ async function initializeDemo() {
 
     status.value = 'Demo ready'
     statusClass.value = 'success'
-  } catch (error) {
+  }
+  catch (error) {
     console.error('Demo initialization failed:', error)
     status.value = 'Demo failed to load'
     statusClass.value = 'error'
@@ -129,7 +108,7 @@ function loadMediumEditor() {
 function initializeEditors() {
   // Initialize all editable elements
   const editables = document.querySelectorAll('.demo-editable')
-  editables.forEach(element => {
+  editables.forEach((element) => {
     if (!element.mediumEditor) {
       const config = JSON.parse(element.dataset.config || '{}')
       element.mediumEditor = new window.MediumEditor(element, config)
@@ -137,6 +116,29 @@ function initializeEditors() {
   })
 }
 </script>
+
+<template>
+  <div class="interactive-demo">
+    <div class="demo-header">
+      <div class="demo-title">
+        <!-- eslint-disable-next-line vue/require-component-is, vue/no-v-text-v-html-on-component -->
+        <component is="span" class="demo-icon" v-html="icon" />
+        <h4>{{ title }}</h4>
+        <span v-if="badge" class="demo-badge" :class="badgeClass">{{ badge }}</span>
+      </div>
+      <div class="demo-status" :class="statusClass">
+        <span class="status-icon">{{ statusIcon }}</span>
+        {{ status }}
+      </div>
+    </div>
+
+    <div class="demo-content" v-html="content" />
+
+    <div v-if="description" class="demo-footer">
+      <small>{{ description }}</small>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 .interactive-demo {

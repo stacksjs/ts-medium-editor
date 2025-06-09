@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // Make this file a module
 export {}
 

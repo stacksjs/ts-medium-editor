@@ -36,7 +36,7 @@ export class FontName extends FormExtension {
 
     if (!this.isDisplayed()) {
       // Get FontName of current selection (convert to string since IE returns this as number)
-      const fontName = document.queryCommandValue('fontName') + ''
+      const fontName = `${document.queryCommandValue('fontName')}`
       this.showForm(fontName)
     }
 
@@ -137,7 +137,8 @@ export class FontName extends FormExtension {
   private clearFontName(): void {
     // Get selected elements and clear font face attribute
     const selection = window.getSelection()
-    if (!selection || selection.rangeCount === 0) return
+    if (!selection || selection.rangeCount === 0)
+      return
 
     const range = selection.getRangeAt(0)
     const walker = document.createTreeWalker(
@@ -149,8 +150,8 @@ export class FontName extends FormExtension {
           return element.tagName.toLowerCase() === 'font' && element.hasAttribute('face')
             ? NodeFilter.FILTER_ACCEPT
             : NodeFilter.FILTER_SKIP
-        }
-      }
+        },
+      },
     )
 
     const fontElements: HTMLElement[] = []
@@ -160,19 +161,21 @@ export class FontName extends FormExtension {
       node = walker.nextNode()
     }
 
-    fontElements.forEach(el => {
+    fontElements.forEach((el) => {
       el.removeAttribute('face')
     })
   }
 
   private handleFontChange(): void {
     const select = this.getSelect()
-    if (!select) return
+    if (!select)
+      return
 
     const font = select.value
     if (font === '') {
       this.clearFontName()
-    } else {
+    }
+    else {
       this.execAction('fontName', { value: font })
     }
   }

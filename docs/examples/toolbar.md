@@ -337,7 +337,8 @@ window.addEventListener('resize', () => {
   if (window.innerWidth <= 768) {
     // Mobile: make toolbar static
     responsiveEditor.options.toolbar.static = true
-  } else {
+  }
+  else {
     // Desktop: make toolbar dynamic
     responsiveEditor.options.toolbar.static = false
   }

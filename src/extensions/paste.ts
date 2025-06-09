@@ -64,7 +64,7 @@ export class Paste implements MediumEditorExtension {
     // Handle Ctrl+V paste
     if ((event.ctrlKey || event.metaKey) && event.key === 'v') {
       // Let the paste event handle this
-      return
+
     }
   }
 
@@ -114,7 +114,8 @@ export class Paste implements MediumEditorExtension {
       // Convert plain text to HTML by escaping and adding line breaks
       content = this.htmlEntities(content)
       content = content.replace(/\n/g, '<br>')
-    } else {
+    }
+    else {
       content = pastedHTML
 
       if (this.cleanPastedHTML) {
@@ -183,7 +184,7 @@ export class Paste implements MediumEditorExtension {
       [/<span[^>]*font-weight:(bold|700)[^>]*>/gi, '<span class="replace-with bold">'],
 
       // replace manually entered b/i/a tags with real ones
-      [/&lt;(\/?)(i|b|a)&gt;/gi, '<$1$2>'],
+      [/&lt;(\/?)([iba])&gt;/gi, '<$1$2>'],
 
       // Newlines between paragraphs in html have no syntactic value
       [/<\/p>\n+/gi, '</p>'],
@@ -193,7 +194,7 @@ export class Paste implements MediumEditorExtension {
       [/<\/?o:[a-z]*>/gi, ''],
 
       // Microsoft Word adds some special elements around list items
-      [/<!\[if !supportLists\]>(((?!<!).)*)<!\[endif]\>/gi, '$1']
+      [/<!\[if !supportLists\]>(((?!<!).)*)<!\[endif\]>/gi, '$1'],
     ]
   }
 
@@ -202,13 +203,13 @@ export class Paste implements MediumEditorExtension {
     div.innerHTML = html
 
     // Remove unwanted tags
-    this.cleanTags.forEach(tagName => {
+    this.cleanTags.forEach((tagName) => {
       const elements = div.querySelectorAll(tagName)
       elements.forEach(el => el.remove())
     })
 
     // Unwrap specified tags
-    this.unwrapTags.forEach(tagName => {
+    this.unwrapTags.forEach((tagName) => {
       const elements = div.querySelectorAll(tagName)
       elements.forEach(el => this.unwrap(el as HTMLElement))
     })
@@ -216,8 +217,8 @@ export class Paste implements MediumEditorExtension {
     // Clean attributes
     if (this.cleanAttrs.length > 0) {
       const allElements = div.querySelectorAll('*')
-      allElements.forEach(el => {
-        this.cleanAttrs.forEach(attr => {
+      allElements.forEach((el) => {
+        this.cleanAttrs.forEach((attr) => {
           el.removeAttribute(attr)
         })
       })
@@ -228,7 +229,8 @@ export class Paste implements MediumEditorExtension {
 
   private unwrap(element: HTMLElement): void {
     const parent = element.parentNode
-    if (!parent) return
+    if (!parent)
+      return
 
     while (element.firstChild) {
       parent.insertBefore(element.firstChild, element)

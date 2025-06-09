@@ -1,4 +1,4 @@
-import type { MediumEditor, ButtonExtension, ToolbarButton } from '../types'
+import type { ButtonExtension, MediumEditor, ToolbarButton } from '../types'
 
 export class Button implements ButtonExtension {
   name: string
@@ -9,6 +9,7 @@ export class Button implements ButtonExtension {
     prop: string
     value: string
   }
+
   useQueryState?: boolean
   contentDefault?: string
   contentFA?: string
@@ -25,7 +26,8 @@ export class Button implements ButtonExtension {
       // Built-in button
       this.name = config
       this.initBuiltInButton(config)
-    } else {
+    }
+    else {
       // Custom button
       this.name = config.name
       this.action = config.action as string
@@ -48,7 +50,7 @@ export class Button implements ButtonExtension {
         tagNames: ['b', 'strong'],
         contentDefault: '<b>B</b>',
         contentFA: '<i class="fa fa-bold"></i>',
-        useQueryState: true
+        useQueryState: true,
       },
       italic: {
         action: 'italic',
@@ -56,7 +58,7 @@ export class Button implements ButtonExtension {
         tagNames: ['i', 'em'],
         contentDefault: '<i>I</i>',
         contentFA: '<i class="fa fa-italic"></i>',
-        useQueryState: true
+        useQueryState: true,
       },
       underline: {
         action: 'underline',
@@ -64,7 +66,7 @@ export class Button implements ButtonExtension {
         tagNames: ['u'],
         contentDefault: '<u>U</u>',
         contentFA: '<i class="fa fa-underline"></i>',
-        useQueryState: true
+        useQueryState: true,
       },
       strikethrough: {
         action: 'strikethrough',
@@ -72,48 +74,48 @@ export class Button implements ButtonExtension {
         tagNames: ['strike', 's'],
         contentDefault: '<s>S</s>',
         contentFA: '<i class="fa fa-strikethrough"></i>',
-        useQueryState: true
+        useQueryState: true,
       },
       anchor: {
         action: 'createLink',
         aria: 'Link',
         tagNames: ['a'],
         contentDefault: '<b>#</b>',
-        contentFA: '<i class="fa fa-link"></i>'
+        contentFA: '<i class="fa fa-link"></i>',
       },
       h2: {
         action: 'append-h2',
         aria: 'Heading 2',
         tagNames: ['h2'],
-        contentDefault: 'H2'
+        contentDefault: 'H2',
       },
       h3: {
         action: 'append-h3',
         aria: 'Heading 3',
         tagNames: ['h3'],
-        contentDefault: 'H3'
+        contentDefault: 'H3',
       },
       quote: {
         action: 'append-blockquote',
         aria: 'Quote',
         tagNames: ['blockquote'],
         contentDefault: '&ldquo;&rdquo;',
-        contentFA: '<i class="fa fa-quote-left"></i>'
+        contentFA: '<i class="fa fa-quote-left"></i>',
       },
       orderedlist: {
         action: 'insertorderedlist',
         aria: 'Ordered List',
         tagNames: ['ol'],
         contentDefault: '1.',
-        contentFA: '<i class="fa fa-list-ol"></i>'
+        contentFA: '<i class="fa fa-list-ol"></i>',
       },
       unorderedlist: {
         action: 'insertunorderedlist',
         aria: 'Unordered List',
         tagNames: ['ul'],
         contentDefault: '&bull;',
-        contentFA: '<i class="fa fa-list-ul"></i>'
-      }
+        contentFA: '<i class="fa fa-list-ul"></i>',
+      },
     }
 
     const config = builtInButtons[name]
@@ -149,7 +151,7 @@ export class Button implements ButtonExtension {
     button.classList.add(`medium-editor-action-${this.name}`)
 
     if (this.classList) {
-      this.classList.forEach(className => {
+      this.classList.forEach((className) => {
         button.classList.add(className)
       })
     }
@@ -196,19 +198,22 @@ export class Button implements ButtonExtension {
   }
 
   isActive(): boolean {
-    if (!this.button) return false
+    if (!this.button)
+      return false
     const activeClass = this.editor.options.activeButtonClass || 'medium-editor-button-active'
     return this.button.classList.contains(activeClass)
   }
 
   setActive(): void {
-    if (!this.button) return
+    if (!this.button)
+      return
     const activeClass = this.editor.options.activeButtonClass || 'medium-editor-button-active'
     this.button.classList.add(activeClass)
   }
 
   setInactive(): void {
-    if (!this.button) return
+    if (!this.button)
+      return
     const activeClass = this.editor.options.activeButtonClass || 'medium-editor-button-active'
     this.button.classList.remove(activeClass)
   }
@@ -217,7 +222,8 @@ export class Button implements ButtonExtension {
     if (this.useQueryState && this.action) {
       try {
         return document.queryCommandState(this.action)
-      } catch {
+      }
+      catch {
         return false
       }
     }
