@@ -264,7 +264,17 @@ const editor = new CustomEditor('.editable', {
 ### Constructor
 
 ```typescript
-new KeyboardCommands(editor: MediumEditor, options?: KeyboardCommandsOptions)
+const editor = new MediumEditor('.editable')
+const options: KeyboardCommandsOptions = {
+  commands: [
+    {
+      command: 'bold',
+      key: 'b',
+      meta: true
+    }
+  ]
+}
+const keyboardCommands = new KeyboardCommands(editor, options)
 ```
 
 **Parameters:**
