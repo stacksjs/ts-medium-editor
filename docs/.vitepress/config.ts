@@ -157,7 +157,7 @@ export default withPwa(
       codeTransformers: [
         {
           name: 'shiki-line-highlight',
-          preprocess(code, options) {
+          preprocess(code, _options) {
             return code
           },
           line(node, line) {

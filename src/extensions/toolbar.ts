@@ -46,7 +46,7 @@ export class Toolbar implements MediumEditorExtension {
   }
 
   createToolbar(): void {
-    console.log('Creating toolbar with options:', this.options)
+    // console.log('Creating toolbar with options:', this.options)
 
     this.toolbar = document.createElement('div')
     this.toolbar.className = 'medium-editor-toolbar'
@@ -66,14 +66,14 @@ export class Toolbar implements MediumEditorExtension {
       this.toolbar.style.zIndex = '1000'
     }
 
-    console.log('Toolbar element created:', this.toolbar)
+    // console.log('Toolbar element created:', this.toolbar)
 
     this.createButtons()
     this.addExtensionForms()
     this.container.appendChild(this.toolbar)
 
-    console.log('Toolbar appended to container:', this.container)
-    console.log('Final toolbar HTML:', this.toolbar.outerHTML)
+    // console.log('Toolbar appended to container:', this.container)
+    // console.log('Final toolbar HTML:', this.toolbar.outerHTML)
   }
 
   createButtons(): void {
@@ -82,7 +82,7 @@ export class Toolbar implements MediumEditorExtension {
       return
     }
 
-    console.log('Creating buttons for:', this.options.buttons)
+    // console.log('Creating buttons for:', this.options.buttons)
 
     this.options.buttons.forEach((buttonConfig, index) => {
       // Skip null or undefined button configurations
@@ -92,20 +92,20 @@ export class Toolbar implements MediumEditorExtension {
       }
 
       const buttonName = typeof buttonConfig === 'string' ? buttonConfig : buttonConfig.name
-      console.log(`Creating button ${index}: "${buttonName}"`)
+      // console.log(`Creating button ${index}: "${buttonName}"`)
 
       const button = typeof buttonConfig === 'string'
         ? this.createButton(buttonName)
         : this.createCustomButton(buttonConfig)
 
       if (button) {
-        console.log(`Button created successfully:`, {
-          name: buttonName,
-          tagName: button.tagName,
-          className: button.className,
-          dataAction: button.getAttribute('data-action'),
-          innerHTML: button.innerHTML,
-        })
+        // console.log(`Button created successfully:`, {
+        //   name: buttonName,
+        //   tagName: button.tagName,
+        //   className: button.className,
+        //   dataAction: button.getAttribute('data-action'),
+        //   innerHTML: button.innerHTML,
+        // })
 
         // Add first/last button classes
         if (index === 0 && this.options.firstButtonClass) {
@@ -117,14 +117,14 @@ export class Toolbar implements MediumEditorExtension {
 
         this.toolbar!.appendChild(button)
         this.buttons.push(button)
-        console.log(`Button "${buttonName}" added to toolbar`)
+        // console.log(`Button "${buttonName}" added to toolbar`)
       }
       else {
         console.warn(`Failed to create button for: "${buttonName}"`)
       }
     })
 
-    console.log(`Total buttons created: ${this.buttons.length}`)
+    // console.log(`Total buttons created: ${this.buttons.length}`)
   }
 
   addExtensionForms(): void {
@@ -143,7 +143,7 @@ export class Toolbar implements MediumEditorExtension {
       const extension = this.editor.getExtensionByName(buttonName)
 
       if (extension && typeof extension.getForm === 'function') {
-        console.log(`Preparing form for extension: ${buttonName}`)
+        // console.log(`Preparing form for extension: ${buttonName}`)
         const form = extension.getForm()
         if (form) {
           // Add the form to the toolbar but ensure it's hidden by default
@@ -152,7 +152,7 @@ export class Toolbar implements MediumEditorExtension {
           form.classList.remove('medium-editor-toolbar-form-active')
           // Force hide the form with inline style as backup
           form.style.display = 'none'
-          console.log(`Form added for ${buttonName} (hidden by default)`)
+          // console.log(`Form added for ${buttonName} (hidden by default)`)
         }
       }
     })
@@ -306,14 +306,14 @@ export class Toolbar implements MediumEditorExtension {
       return
     }
 
-    console.log('Attaching event listeners to toolbar:', this.toolbar)
-    console.log('Toolbar buttons found:', this.buttons.length)
+    // console.log('Attaching event listeners to toolbar:', this.toolbar)
+    // console.log('Toolbar buttons found:', this.buttons.length)
 
     this.toolbar.addEventListener('click', (event) => {
       this.handleToolbarClick(event)
     })
 
-    console.log('✓ Event listeners attached to toolbar')
+    // console.log('✓ Event listeners attached to toolbar')
   }
 
   handleToolbarClick(event: Event): void {
@@ -321,12 +321,12 @@ export class Toolbar implements MediumEditorExtension {
     event.stopImmediatePropagation()
 
     const target = event.target as HTMLElement
-    console.log('🎯 Toolbar click event received:', {
-      target,
-      tagName: target.tagName,
-      className: target.className,
-      dataAction: target.getAttribute('data-action'),
-    })
+    // console.log('🎯 Toolbar click event received:', {
+    //   target,
+    //   tagName: target.tagName,
+    //   className: target.className,
+    //   dataAction: target.getAttribute('data-action'),
+    // })
 
     // Find the actual button element (in case user clicked on icon inside button)
     let buttonElement: HTMLElement | null = target
@@ -337,12 +337,12 @@ export class Toolbar implements MediumEditorExtension {
     const maxAttempts = 5 // Prevent infinite loops
 
     while (buttonElement && !action && attempts < maxAttempts) {
-      console.log(`🔍 Checking element ${attempts + 1}:`, {
-        tagName: buttonElement.tagName,
-        className: buttonElement.className,
-        dataAction: buttonElement.getAttribute('data-action'),
-        isButton: buttonElement.tagName === 'BUTTON',
-      })
+      // console.log(`🔍 Checking element ${attempts + 1}:`, {
+      //   tagName: buttonElement.tagName,
+      //   className: buttonElement.className,
+      //   dataAction: buttonElement.getAttribute('data-action'),
+      //   isButton: buttonElement.tagName === 'BUTTON',
+      // })
 
       action = buttonElement.getAttribute('data-action')
       if (!action) {
@@ -351,19 +351,19 @@ export class Toolbar implements MediumEditorExtension {
       attempts++
     }
 
-    console.log('Final results:', {
-      action,
-      buttonElement: buttonElement?.tagName,
-      buttonClass: buttonElement?.className,
-      attempts,
-    })
+    // console.log('Final results:', {
+    //   action,
+    //   buttonElement: buttonElement?.tagName,
+    //   buttonClass: buttonElement?.className,
+    //   attempts,
+    // })
 
     if (!action || !buttonElement) {
       console.warn('No valid action found for click target after DOM traversal')
       return
     }
 
-    console.log(`✅ Successfully found action "${action}", calling handleButtonClick`)
+    // console.log(`✅ Successfully found action "${action}", calling handleButtonClick`)
 
     // Call the button click handler with the correct action
     this.handleButtonClick(action, event)
@@ -376,17 +376,17 @@ export class Toolbar implements MediumEditorExtension {
     // Debouncing: prevent rapid successive clicks
     const currentTime = Date.now()
     if (currentTime - this.lastClickTime < this.minClickInterval) {
-      console.log(`🚫 Click debounced for action "${action}" (too soon after last click)`)
+      // console.log(`🚫 Click debounced for action "${action}" (too soon after last click)`)
       return
     }
     this.lastClickTime = currentTime
 
-    console.log(`🔘 Button click started:`, action)
+    // console.log(`🔘 Button click started:`, action)
 
     // Check for custom function action first
     const customAction = this.customActions.get(action)
     if (customAction) {
-      console.log(`Executing custom action for: ${action}`)
+      // console.log(`Executing custom action for: ${action}`)
       customAction()
       return
     }
@@ -395,10 +395,10 @@ export class Toolbar implements MediumEditorExtension {
     if (this.editor) {
       const extension = this.editor.getExtensionByName(action)
       if (extension && typeof extension.handleClick === 'function') {
-        console.log(`🎯 Delegating to ${action} extension's handleClick method`)
+        // console.log(`🎯 Delegating to ${action} extension's handleClick method`)
         try {
-          const result = extension.handleClick(event)
-          console.log(`Extension ${action} handleClick result:`, result)
+          const _result = extension.handleClick(event)
+          // console.log(`Extension ${action} handleClick result:`, result)
           return
         }
         catch (error) {
@@ -475,16 +475,41 @@ export class Toolbar implements MediumEditorExtension {
     const hasExistingFormatting = this.hasExistingFormatting(range)
     console.log(`Existing formatting detected:`, hasExistingFormatting)
 
-    // Strategy 1: Try standard execCommand
-    console.log(`🔄 Attempting execCommand for action: ${action}`)
+    // Strategy 1: Try using editor's execAction method first (this will trigger checkSelection)
+    console.log(`🔄 Attempting editor execAction for action: ${action}`)
     editorElement.focus()
 
     // Set flag to prevent button state flickering during formatting
     this.isFormattingInProgress = true
 
+    // Try the editor's execAction method first, which handles the complete flow including checkSelection
+    let commandSuccess = false
+    if (this.editor && typeof this.editor.execAction === 'function') {
+      commandSuccess = this.editor.execAction(action)
+      console.log(`Editor execAction result: ${commandSuccess}`)
+
+      // If execAction succeeded, we can complete the operation
+      if (commandSuccess) {
+        console.log(`✅ Editor execAction successful for ${action}`)
+        success = true
+
+        // Clear the formatting flag and update button states
+        setTimeout(() => {
+          this.isFormattingInProgress = false
+          this.updateButtonStates()
+          console.log('✅ Button states updated after editor execAction')
+        }, 10)
+
+        return
+      }
+    }
+
+    // If editor execAction failed or isn't available, fall back to direct execCommand
+    console.log(`🔄 Falling back to direct execCommand for action: ${action}`)
+
     // Small delay to ensure focus is properly set
     setTimeout(() => {
-      const commandSuccess = document.execCommand(action, false, undefined)
+      commandSuccess = document.execCommand(action, false, undefined)
       console.log(`execCommand result: ${commandSuccess}`)
 
       // Verify if the formatting was actually applied
@@ -834,6 +859,13 @@ export class Toolbar implements MediumEditorExtension {
           // Ignore selection errors
         }
       }
+    }
+
+    // Trigger checkSelection after formatting in test environments
+    if (this.editor && typeof this.editor.checkSelection === 'function') {
+      setTimeout(() => {
+        this.editor.checkSelection()
+      }, 10)
     }
   }
 
@@ -1218,15 +1250,15 @@ export class Toolbar implements MediumEditorExtension {
 
     // Skip button state updates during active formatting to prevent flickering
     if (this.isFormattingInProgress) {
-      console.log('🔄 Skipping button state update - formatting in progress')
+      // console.log('🔄 Skipping button state update - formatting in progress')
       return
     }
 
-    console.log('🔄 Updating button states...')
+    // console.log('🔄 Updating button states...')
 
     const selection = window.getSelection()
     if (!selection || selection.rangeCount === 0) {
-      console.log('No selection - clearing all button states')
+      // console.log('No selection - clearing all button states')
       // If no selection, clear all active states
       this.buttons.forEach((button) => {
         button.classList.remove('medium-editor-button-active')
@@ -1235,17 +1267,17 @@ export class Toolbar implements MediumEditorExtension {
     }
 
     const range = selection.getRangeAt(0)
-    console.log('Current selection for button state check:', {
-      text: range.toString(),
-      collapsed: range.collapsed,
-    })
+    // console.log('Current selection for button state check:', {
+    //   text: range.toString(),
+    //   collapsed: range.collapsed,
+    // })
 
     // Check each button and update its active state based on current selection
     this.buttons.forEach((button) => {
       const action = button.getAttribute('data-action')
       if (action) {
         const isActive = this.isSelectionFormatted(range, action)
-        console.log(`Button "${action}" should be active: ${isActive}`)
+        // console.log(`Button "${action}" should be active: ${isActive}`)
 
         if (isActive) {
           button.classList.add('medium-editor-button-active')
@@ -1267,7 +1299,7 @@ export class Toolbar implements MediumEditorExtension {
       range.endContainer,
     ]
 
-    console.log(`Checking formatting for "${action}" across ${nodesToCheck.length} nodes:`)
+    // console.log(`Checking formatting for "${action}" across ${nodesToCheck.length} nodes:`)
 
     // Track all formatting found in the hierarchy
     const foundFormatting = {
@@ -1279,16 +1311,16 @@ export class Toolbar implements MediumEditorExtension {
     for (let i = 0; i < nodesToCheck.length; i++) {
       let currentNode: Node | null = nodesToCheck[i]
 
-      console.log(`  Node ${i + 1}:`, {
-        nodeType: currentNode.nodeType,
-        nodeName: currentNode.nodeName,
-        textContent: `${currentNode.textContent?.substring(0, 50)}...`,
-      })
+      // console.log(`  Node ${i + 1}:`, {
+      //   nodeType: currentNode.nodeType,
+      //   nodeName: currentNode.nodeName,
+      //   textContent: `${currentNode.textContent?.substring(0, 50)}...`,
+      // })
 
       // If it's a text node, start from its parent
       if (currentNode.nodeType === Node.TEXT_NODE) {
         currentNode = currentNode.parentNode
-        console.log(`    Text node parent:`, currentNode?.nodeName)
+        // console.log(`    Text node parent:`, currentNode?.nodeName)
       }
 
       // Walk up the DOM tree to find all formatting elements
@@ -1296,25 +1328,25 @@ export class Toolbar implements MediumEditorExtension {
       while (currentNode && currentNode !== document.body && currentNode.nodeType === Node.ELEMENT_NODE && depth < 10) {
         const element = currentNode as HTMLElement
 
-        console.log(`    Checking element at depth ${depth}:`, {
-          tagName: element.tagName,
-          className: element.className,
-        })
+        // console.log(`    Checking element at depth ${depth}:`, {
+        //   tagName: element.tagName,
+        //   className: element.className,
+        // })
 
         // Check for all formatting types in the hierarchy
         if (element.tagName === 'STRONG' || element.tagName === 'B') {
           foundFormatting.bold = true
-          console.log(`    🔸 Found Bold formatting at depth ${depth}`)
+          // console.log(`    🔸 Found Bold formatting at depth ${depth}`)
         }
 
         if (element.tagName === 'EM' || element.tagName === 'I') {
           foundFormatting.italic = true
-          console.log(`    🔸 Found Italic formatting at depth ${depth}`)
+          // console.log(`    🔸 Found Italic formatting at depth ${depth}`)
         }
 
         if (element.tagName === 'U') {
           foundFormatting.underline = true
-          console.log(`    🔸 Found Underline formatting at depth ${depth}`)
+          // console.log(`    🔸 Found Underline formatting at depth ${depth}`)
         }
 
         currentNode = currentNode.parentNode
@@ -1329,36 +1361,36 @@ export class Toolbar implements MediumEditorExtension {
       tempDiv.appendChild(selectedContent)
       const html = tempDiv.innerHTML
 
-      console.log('Selected content HTML:', html)
+      // console.log('Selected content HTML:', html)
 
       if (html.includes('<strong>') || html.includes('<b>')) {
         foundFormatting.bold = true
-        console.log('🔸 Found Bold formatting in selected content')
+        // console.log('🔸 Found Bold formatting in selected content')
       }
 
       if (html.includes('<em>') || html.includes('<i>')) {
         foundFormatting.italic = true
-        console.log('🔸 Found Italic formatting in selected content')
+        // console.log('🔸 Found Italic formatting in selected content')
       }
 
       if (html.includes('<u>')) {
         foundFormatting.underline = true
-        console.log('🔸 Found Underline formatting in selected content')
+        // console.log('🔸 Found Underline formatting in selected content')
       }
     }
 
     // Log all found formatting
-    console.log('All formatting found:', foundFormatting)
+    // console.log('All formatting found:', foundFormatting)
 
     // Return result for the specific action being checked
     const result = foundFormatting[action as keyof typeof foundFormatting] || false
 
-    if (result) {
-      console.log(`✅ Selection HAS ${action} formatting`)
-    }
-    else {
-      console.log(`❌ Selection does NOT have ${action} formatting`)
-    }
+    // if (result) {
+    // console.log(`✅ Selection HAS ${action} formatting`)
+    // }
+    // else {
+    // console.log(`❌ Selection does NOT have ${action} formatting`)
+    // }
 
     return result
   }
