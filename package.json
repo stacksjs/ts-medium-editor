@@ -1,7 +1,7 @@
 {
   "name": "ts-medium-editor",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A modern, minimal & performant Medium-like rich text editor.",
   "author": "Chris Breuer <chris@stacksjs.org>",
   "license": "MIT",
