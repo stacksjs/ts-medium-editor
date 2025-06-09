@@ -134,6 +134,11 @@ export class Toolbar implements MediumEditorExtension {
 
     // Check each button to see if there's a corresponding extension with a form
     this.options.buttons?.forEach((buttonConfig) => {
+      // Skip null or undefined button configurations
+      if (!buttonConfig) {
+        return
+      }
+
       const buttonName = typeof buttonConfig === 'string' ? buttonConfig : buttonConfig.name
 
       // First, ensure the extension exists by calling addBuiltInExtension
