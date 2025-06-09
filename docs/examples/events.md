@@ -5,6 +5,8 @@ Listen to editor events for real-time updates and custom functionality.
 ## Basic Event Listening
 
 ```typescript
+import { MediumEditor } from 'ts-medium-editor'
+
 const editor = new MediumEditor('.editable')
 
 // Content change events
@@ -29,10 +31,9 @@ editor.subscribe('blur', (event, editable) => {
 <div class="demo-container">
   <div class="demo-label">Live word counter - Start typing to see real-time statistics:</div>
   <div class="demo-word-counter">
-    <div class="demo-counter-editor" data-placeholder="Start typing to see the word count...">
+    <div class="demo-counter-editor" contenteditable="true" data-placeholder="Start typing to see the word count...">
       <p>Type here and watch the word count update in real-time!</p>
     </div>
-
     <div class="demo-stats-panel">
       <div class="demo-stat">
         <span class="demo-stat-label">Words:</span>
@@ -76,6 +77,8 @@ editor.subscribe('blur', (event, editable) => {
 
 ### TypeScript
 ```typescript
+import { MediumEditor } from 'ts-medium-editor'
+
 const counterEditor = new MediumEditor('.editor-with-counter', {
   toolbar: {
     buttons: ['bold', 'italic', 'anchor', 'quote']
@@ -87,21 +90,30 @@ counterEditor.subscribe('editableInput', (event, editable) => {
   updateStats(editable)
 })
 
-function updateStats(editable) {
-  const text = editable.textContent.trim()
+function updateStats(editable: HTMLElement) {
+  const text = editable.textContent?.trim() || ''
   const words = text ? text.split(/\s+/).length : 0
   const chars = text.length
   const readingTime = Math.ceil(words / 200) // 200 words per minute
 
-  document.getElementById('word-count').textContent = words
-  document.getElementById('char-count').textContent = chars
-  document.getElementById('reading-time').textContent = `${readingTime} min`
+  const wordCountEl = document.getElementById('word-count')
+  const charCountEl = document.getElementById('char-count')
+  const readingTimeEl = document.getElementById('reading-time')
+
+  if (wordCountEl)
+    wordCountEl.textContent = words.toString()
+  if (charCountEl)
+    charCountEl.textContent = chars.toString()
+  if (readingTimeEl)
+    readingTimeEl.textContent = `${readingTime} min`
 }
 
 // Initialize stats
 document.addEventListener('DOMContentLoaded', () => {
-  const editable = document.querySelector('.editor-with-counter')
-  updateStats(editable)
+  const editable = document.querySelector('.editor-with-counter') as HTMLElement
+  if (editable) {
+    updateStats(editable)
+  }
 })
 ```
 
@@ -153,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 <div class="demo-container">
   <div class="demo-label">Auto-save demo - Content saves automatically after you stop typing:</div>
-  <div class="demo-auto-save-editor" data-placeholder="Your content is automatically saved...">
+  <div class="demo-auto-save-editor" contenteditable="true" data-placeholder="Your content is automatically saved...">
     <p>This editor automatically saves your content to localStorage after you stop typing.</p>
   </div>
 
@@ -175,10 +187,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ### TypeScript
 ```typescript
+import { MediumEditor } from 'ts-medium-editor'
+
 const autoSaveEditor = new MediumEditor('.auto-save-editor')
 
-let saveTimeout = null
-let lastSaved = null
+let saveTimeout: NodeJS.Timeout | null = null
+let lastSaved: Date | null = null
 
 // Auto-save functionality
 autoSaveEditor.subscribe('editableInput', (event, editable) => {
@@ -196,7 +210,7 @@ autoSaveEditor.subscribe('editableInput', (event, editable) => {
   }, 2000) // Save after 2 seconds of inactivity
 })
 
-function saveContent(content) {
+function saveContent(content: string) {
   // Simulate API call
   updateSaveStatus('saving', 'Saving...')
 
@@ -209,19 +223,23 @@ function saveContent(content) {
   }, 500)
 }
 
-function updateSaveStatus(status, text) {
+function updateSaveStatus(status: string, text: string) {
   const statusElement = document.getElementById('save-status')
-  const textElement = statusElement.querySelector('.status-text')
+  const textElement = statusElement?.querySelector('.status-text')
 
-  statusElement.className = `save-status ${status}`
-  textElement.textContent = text
+  if (statusElement && textElement) {
+    statusElement.className = `save-status ${status}`
+    textElement.textContent = text
+  }
 }
 
 // Load saved content on page load
 document.addEventListener('DOMContentLoaded', () => {
   const savedContent = localStorage.getItem('editor-content')
-  if (savedContent) {
-    document.querySelector('.auto-save-editor').innerHTML = savedContent
+  const editorElement = document.querySelector('.auto-save-editor') as HTMLElement
+
+  if (savedContent && editorElement) {
+    editorElement.innerHTML = savedContent
     updateSaveStatus('loaded', 'Content loaded from previous session')
   }
 })
@@ -294,6 +312,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ### TypeScript
 ```typescript
+import { MediumEditor } from 'ts-medium-editor'
+
 const titleEditor = new MediumEditor('.title-editor', {
   toolbar: false,
   disableReturn: true
@@ -323,61 +343,75 @@ contentEditor.subscribe('editableInput', (event, editable) => {
   updateSubmitButton()
 })
 
-function validateTitle(editable) {
-  const title = editable.textContent.trim()
+function validateTitle(editable: HTMLElement) {
+  const title = editable.textContent?.trim() || ''
   const errorElement = document.getElementById('title-error')
+
+  if (!errorElement)
+    return
 
   if (title.length === 0) {
     showError(errorElement, 'Title is required')
     validation.title = false
-  } else if (title.length < 5) {
+  }
+  else if (title.length < 5) {
     showError(errorElement, 'Title must be at least 5 characters')
     validation.title = false
-  } else if (title.length > 100) {
+  }
+  else if (title.length > 100) {
     showError(errorElement, 'Title must be less than 100 characters')
     validation.title = false
-  } else {
+  }
+  else {
     hideError(errorElement)
     validation.title = true
   }
 }
 
-function validateContent(editable) {
-  const text = editable.textContent.trim()
+function validateContent(editable: HTMLElement) {
+  const text = editable.textContent?.trim() || ''
   const words = text ? text.split(/\s+/).length : 0
   const errorElement = document.getElementById('content-error')
+
+  if (!errorElement)
+    return
 
   if (words === 0) {
     showError(errorElement, 'Content is required')
     validation.content = false
-  } else if (words < 50) {
+  }
+  else if (words < 50) {
     showError(errorElement, `Content must be at least 50 words (currently ${words})`)
     validation.content = false
-  } else {
+  }
+  else {
     hideError(errorElement)
     validation.content = true
   }
 }
 
-function showError(element, message) {
+function showError(element: HTMLElement, message: string) {
   element.textContent = message
   element.style.display = 'block'
 }
 
-function hideError(element) {
+function hideError(element: HTMLElement) {
   element.style.display = 'none'
 }
 
 function updateSubmitButton() {
-  const submitBtn = document.getElementById('submit-btn')
+  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement
   const isValid = validation.title && validation.content
 
-  submitBtn.disabled = !isValid
-  submitBtn.textContent = isValid ? 'Publish Article' : 'Please complete all fields'
+  if (submitBtn) {
+    submitBtn.disabled = !isValid
+    submitBtn.textContent = isValid ? 'Publish Article' : 'Please complete all fields'
+  }
 }
 
 // Handle form submission
-document.querySelector('.validated-form').addEventListener('submit', (event) => {
+const form = document.querySelector('.validated-form') as HTMLFormElement
+form?.addEventListener('submit', (event) => {
   event.preventDefault()
 
   if (validation.title && validation.content) {
@@ -409,10 +443,12 @@ document.querySelector('.validated-form').addEventListener('submit', (event) => 
 
 ### TypeScript
 ```typescript
+import { MediumEditor } from 'ts-medium-editor'
+
 const collaborativeEditor = new MediumEditor('.collaborative-editor')
 
 let currentUser = 'User 1'
-let activityLog = []
+let activityLog: Array<{ user: string, action: string, timestamp: string }> = []
 
 // Track all editing activity
 collaborativeEditor.subscribe('editableInput', (event, editable) => {
@@ -428,15 +464,20 @@ collaborativeEditor.subscribe('blur', (event, editable) => {
 })
 
 // User switching
-document.getElementById('switch-user').addEventListener('click', () => {
+const switchUserBtn = document.getElementById('switch-user')
+const currentUserEl = document.getElementById('current-user')
+
+switchUserBtn?.addEventListener('click', () => {
   currentUser = currentUser === 'User 1' ? 'User 2' : 'User 1'
-  document.getElementById('current-user').textContent = currentUser
+  if (currentUserEl) {
+    currentUserEl.textContent = currentUser
+  }
 
   // Simulate user joining
   logActivity('joined the document', currentUser)
 })
 
-function logActivity(action, user) {
+function logActivity(action: string, user: string) {
   const timestamp = new Date().toLocaleTimeString()
   const activity = {
     user,
@@ -457,13 +498,15 @@ function logActivity(action, user) {
 function updateActivityLog() {
   const listElement = document.getElementById('activity-list')
 
-  listElement.innerHTML = activityLog.map(activity => `
-    <div class="activity-item ${activity.user.toLowerCase().replace(' ', '-')}">
-      <span class="user">${activity.user}</span>
-      <span class="action">${activity.action}</span>
-      <span class="time">${activity.timestamp}</span>
-    </div>
-  `).join('')
+  if (listElement) {
+    listElement.innerHTML = activityLog.map(activity => `
+      <div class="activity-item ${activity.user.toLowerCase().replace(' ', '-')}">
+        <span class="user">${activity.user}</span>
+        <span class="action">${activity.action}</span>
+        <span class="time">${activity.timestamp}</span>
+      </div>
+    `).join('')
+  }
 }
 ```
 
@@ -536,98 +579,179 @@ function updateActivityLog() {
 - Learn about [Custom Toolbar](/examples/toolbar) event integration
 
 <script>
-// Initialize events demos when the page loads
-if (typeof window !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', () => {
-    // Load Medium Editor if not already loaded
-    if (typeof window.MediumEditor === 'undefined') {
-      const script = document.createElement('script')
-      script.src = 'https://cdn.jsdelivr.net/npm/medium-editor@5.23.3/dist/js/medium-editor.min.js'
-      script.onload = initializeEventsDemos
-      document.head.appendChild(script)
+// This demo uses a simplified version for documentation purposes
+// In a real implementation, you would import from the built library:
+// import { MediumEditor } from 'ts-medium-editor'
 
-      const link = document.createElement('link')
-      link.rel = 'stylesheet'
-      link.href = 'https://cdn.jsdelivr.net/npm/medium-editor@5.23.3/dist/css/medium-editor.min.css'
-      document.head.appendChild(link)
-    } else {
-      initializeEventsDemos()
-    }
-  })
-
-  function initializeEventsDemos() {
-    // Word counter demo
-    if (document.querySelector('.demo-counter-editor')) {
-      const counterEditor = new MediumEditor('.demo-counter-editor', {
-        toolbar: {
-          buttons: ['bold', 'italic', 'anchor', 'quote']
-        }
-      })
-
-      // Update statistics in real-time
-      counterEditor.subscribe('editableInput', (event, editable) => {
-        updateDemoStats(editable)
-      })
-
-      // Initialize stats
-      updateDemoStats(document.querySelector('.demo-counter-editor'))
-    }
-
-    // Auto-save demo
-    if (document.querySelector('.demo-auto-save-editor')) {
-      const autoSaveEditor = new MediumEditor('.demo-auto-save-editor')
-      let demoSaveTimeout = null
-
-      autoSaveEditor.subscribe('editableInput', (event, editable) => {
-        // Clear existing timeout
-        if (demoSaveTimeout) {
-          clearTimeout(demoSaveTimeout)
-        }
-
-        // Show "typing" status
-        updateDemoSaveStatus('typing', 'Typing...')
-
-        // Set new timeout for auto-save
-        demoSaveTimeout = setTimeout(() => {
-          saveDemoContent(editable.innerHTML)
-        }, 2000)
-      })
-    }
+// Simplified MediumEditor simulation for demo purposes
+class DemoMediumEditor {
+  constructor(selector, options = {}) {
+    this.elements = typeof selector === 'string'
+      ? Array.from(document.querySelectorAll(selector))
+      : [selector]
+    this.options = options
+    this.listeners = new Map()
+    this.init()
   }
 
-  function updateDemoStats(editable) {
-    const text = editable.textContent.trim()
-    const words = text ? text.split(/\s+/).length : 0
-    const chars = text.length
-    const readingTime = Math.ceil(words / 200)
+    init() {
+    this.elements.forEach(element => {
+      // Ensure elements are editable (only set if not already set)
+      if (!element.hasAttribute('contenteditable')) {
+        element.contentEditable = 'true'
+      }
+      element.classList.add('medium-editor-element')
 
-    const wordCountEl = document.getElementById('demo-word-count')
-    const charCountEl = document.getElementById('demo-char-count')
-    const readingTimeEl = document.getElementById('demo-reading-time')
+      // Add event listeners
+      element.addEventListener('input', (e) => {
+        this.trigger('editableInput', e, element)
+      })
 
-    if (wordCountEl) wordCountEl.textContent = words
-    if (charCountEl) charCountEl.textContent = chars
-    if (readingTimeEl) readingTimeEl.textContent = `${readingTime} min`
+      element.addEventListener('focus', (e) => {
+        this.trigger('focus', e, element)
+      })
+
+      element.addEventListener('blur', (e) => {
+        this.trigger('blur', e, element)
+      })
+    })
   }
 
-  function saveDemoContent(content) {
-    updateDemoSaveStatus('saving', 'Saving...')
-
-    setTimeout(() => {
-      localStorage.setItem('demo-editor-content', content)
-      const now = new Date()
-      updateDemoSaveStatus('saved', `Saved at ${now.toLocaleTimeString()}`)
-    }, 500)
-  }
-
-  function updateDemoSaveStatus(status, text) {
-    const statusElement = document.getElementById('demo-save-status')
-    const textElement = statusElement.querySelector('.demo-status-text')
-
-    if (statusElement && textElement) {
-      statusElement.className = `demo-save-status ${status}`
-      textElement.textContent = text
+  subscribe(eventName, callback) {
+    if (!this.listeners.has(eventName)) {
+      this.listeners.set(eventName, [])
     }
+    this.listeners.get(eventName).push(callback)
+  }
+
+  trigger(eventName, event, element) {
+    const callbacks = this.listeners.get(eventName) || []
+    callbacks.forEach(callback => callback(event, element))
+  }
+
+  getContent() {
+    return this.elements.map(el => el.innerHTML).join('')
+  }
+
+  setContent(html, index) {
+    if (index !== undefined && this.elements[index]) {
+      this.elements[index].innerHTML = html
+    } else if (this.elements[0]) {
+      this.elements[0].innerHTML = html
+    }
+  }
+}
+
+// Initialize demos when page loads
+function initializeDemos() {
+  // Word counter demo
+  const counterEditor = document.querySelector('.demo-counter-editor')
+
+  if (counterEditor) {
+
+    const editor = new DemoMediumEditor(counterEditor, {
+      toolbar: {
+        buttons: ['bold', 'italic', 'anchor', 'quote']
+      }
+    })
+
+    // Update statistics in real-time
+    editor.subscribe('editableInput', (event, editable) => {
+      updateDemoStats(editable)
+    })
+
+        // Initialize stats once
+    updateDemoStats(counterEditor)
+  }
+
+  // Auto-save demo
+  const autoSaveEditor = document.querySelector('.demo-auto-save-editor')
+  if (autoSaveEditor) {
+    const editor = new DemoMediumEditor(autoSaveEditor)
+    let demoSaveTimeout = null
+
+    editor.subscribe('editableInput', (event, editable) => {
+      // Clear existing timeout
+      if (demoSaveTimeout) {
+        clearTimeout(demoSaveTimeout)
+      }
+
+      // Show "typing" status
+      updateDemoSaveStatus('typing', 'Typing...')
+
+      // Set new timeout for auto-save
+      demoSaveTimeout = setTimeout(() => {
+        saveDemoContent(editable.innerHTML)
+      }, 2000)
+    })
+
+    // Load saved content if available
+    const savedContent = localStorage.getItem('demo-editor-content')
+    if (savedContent) {
+      autoSaveEditor.innerHTML = savedContent
+      updateDemoSaveStatus('loaded', 'Content loaded from previous session')
+    }
+  }
+}
+
+// Run initialization with retry logic
+let retryCount = 0
+const maxRetries = 50 // Try for up to 5 seconds
+
+function waitForElements() {
+  const counterEditor = document.querySelector('.demo-counter-editor')
+  const autoSaveEditor = document.querySelector('.demo-auto-save-editor')
+
+  if (counterEditor || autoSaveEditor) {
+    initializeDemos()
+  } else if (retryCount < maxRetries) {
+    retryCount++
+    setTimeout(waitForElements, 100)
+  }
+}
+
+// Start trying to initialize
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', waitForElements)
+} else {
+  // DOM is already loaded, but markdown might still be processing
+  waitForElements()
+}
+
+function updateDemoStats(editable) {
+  if (!editable) return
+
+  const text = editable.textContent?.trim() || ''
+  const words = text ? text.split(/\s+/).filter(word => word.length > 0).length : 0
+  const chars = text.length
+  const readingTime = Math.max(1, Math.ceil(words / 200)) // Minimum 1 minute
+
+  const wordCountEl = document.getElementById('demo-word-count')
+  const charCountEl = document.getElementById('demo-char-count')
+  const readingTimeEl = document.getElementById('demo-reading-time')
+
+  if (wordCountEl) wordCountEl.textContent = words.toString()
+  if (charCountEl) charCountEl.textContent = chars.toString()
+  if (readingTimeEl) readingTimeEl.textContent = `${readingTime} min`
+}
+
+function saveDemoContent(content) {
+  updateDemoSaveStatus('saving', 'Saving...')
+
+  setTimeout(() => {
+    localStorage.setItem('demo-editor-content', content)
+    const now = new Date()
+    updateDemoSaveStatus('saved', `Saved at ${now.toLocaleTimeString()}`)
+  }, 500)
+}
+
+function updateDemoSaveStatus(status, text) {
+  const statusElement = document.getElementById('demo-save-status')
+  const textElement = statusElement.querySelector('.demo-status-text')
+
+  if (statusElement && textElement) {
+    statusElement.className = `demo-save-status ${status}`
+    textElement.textContent = text
   }
 }
 </script>
@@ -659,6 +783,18 @@ if (typeof window !== 'undefined') {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.6;
   margin-bottom: 1rem;
+}
+
+.demo-counter-editor[contenteditable="true"],
+.demo-auto-save-editor[contenteditable="true"] {
+  cursor: text;
+}
+
+.demo-counter-editor:empty:before,
+.demo-auto-save-editor:empty:before {
+  content: attr(data-placeholder);
+  color: #6c757d;
+  font-style: italic;
 }
 
 .demo-counter-editor:focus,
@@ -743,17 +879,16 @@ if (typeof window !== 'undefined') {
   }
 }
 
-/* Medium Editor theme adjustments for demos */
-.demo-container .medium-editor-toolbar {
-  background: #343a40;
-  border: 1px solid #495057;
+/* Demo-specific styles */
+.demo-container .medium-editor-element {
+  outline: none;
 }
 
-.demo-container .medium-editor-action {
-  color: #fff;
+.demo-container .medium-editor-element p {
+  margin: 0.5rem 0;
 }
 
-.demo-container .medium-editor-action:hover {
-  background: #007bff;
+.demo-container .medium-editor-element:first-child {
+  margin-top: 0;
 }
 </style>

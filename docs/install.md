@@ -82,20 +82,6 @@ console.log('Editor initialized:', editor)
 
 Now that you have `ts-medium-editor` installed, head over to the [Usage Guide](/usage) to learn how to create your first editor instance.
 
-## Requirements
-
-- **Node.js**: 16+ (for development)
-- **TypeScript**: 4.5+ (optional, but recommended)
-- **Modern Browser**: Chrome 60+, Firefox 55+, Safari 12+, Edge 79+
-
-## Bundle Size
-
-`ts-medium-editor` is designed to be lightweight:
-
-- **Minified**: ~76KB
-- **Gzipped**: ~24KB
-- **Tree-shakable**: Import only what you need
-
 ## Framework Integration
 
 `ts-medium-editor` works with any framework or vanilla JavaScript:

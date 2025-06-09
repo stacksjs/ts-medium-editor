@@ -2,31 +2,31 @@
 
 # Introduction
 
-`ts-medium-editor` is a modern, type-safe WYSIWYG (What You See Is What You Get) rich text editor inspired by Medium.com's clean and intuitive editing experience. Built from the ground up with TypeScript, it provides developers with a robust, extensible, and lightweight solution for rich text editing in web applications.
+`ts-medium-editor` is a modern, type-safe WYSIWYG _(What You See Is What You Get)_ rich text editor inspired by Medium.com's clean and intuitive editing experience. Built from the ground up with TypeScript, it provides developers with a robust, extensible, and lightweight solution for rich text editing in web applications.
 
 ## Why `ts-medium-editor`?
 
-### 🎯 **Type Safety First**
+### **Type Safety First**
 Unlike many JavaScript-based editors, `ts-medium-editor` is built with TypeScript from day one. This means:
 - Complete type definitions for all APIs
 - Enhanced IDE support with autocomplete and error detection
 - Reduced runtime errors through compile-time checking
 - Better refactoring capabilities
 
-### 🚀 **Modern Architecture**
+### **Modern Architecture**
 - **ES Modules**: Native support for modern module systems
 - **Zero Dependencies**: No jQuery or other heavy frameworks required
 - **Tree Shakable**: Import only what you need for optimal bundle size
 - **Framework Agnostic**: Works with React, Vue, Angular, or vanilla JavaScript
 
-### 🔧 **Extensible Design**
+### **Extensible Design**
 The editor follows a plugin-based architecture that allows you to:
 - Create custom toolbar buttons
 - Add new formatting options
 - Implement custom extensions
 - Override default behaviors
 
-### ⚡ **Performance Focused**
+### **Performance Focused**
 - Lightweight core (~76KB minified)
 - Efficient DOM manipulation
 - Optimized for mobile devices
