@@ -1,4 +1,4 @@
-<p align="center"><img src="https://github.com/stacksjs/rpx/blob/main/.github/art/cover.jpg?raw=true" alt="Social Card of this repo"></p>
+<p align="center"><img src="https://github.com/stacksjs/ts-medium-editor/blob/main/.github/art/cover.jpg?raw=true" alt="Social Card of this repo"></p>
 
 # Introduction
 
