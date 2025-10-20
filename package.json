@@ -53,7 +53,7 @@
     "shiki": "^3.13.0"
   },
   "devDependencies": {
-    "@happy-dom/global-registrator": "^20.0.6",
+    "@happy-dom/global-registrator": "^20.0.7",
     "@stacksjs/bumpx": "^0.1.84",
     "@stacksjs/clarity": "^0.3.23",
     "@stacksjs/docs": "^0.70.23",
