@@ -50,10 +50,10 @@
     "serve:demo": "bun run serve-demo.ts"
   },
   "dependencies": {
-    "shiki": "^3.20.0"
+    "shiki": "^3.21.0"
   },
   "devDependencies": {
-    "@happy-dom/global-registrator": "^19.0.2",
+    "@happy-dom/global-registrator": "^20.1.0",
     "@stacksjs/bumpx": "^0.2.4",
     "@stacksjs/clarity": "^0.3.24",
     "@stacksjs/docs": "^0.70.23",
