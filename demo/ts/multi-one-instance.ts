@@ -1,7 +1,6 @@
 import { MediumEditor } from '../../src/index.ts'
 import { highlightAllCodeBlocks } from './syntax-highlighter.ts'
 
-// Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', async () => {
   try {
     // Create editor with first element
@@ -16,7 +15,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     })
 
     // Subscribe to input events for demonstration
-    editor.subscribe('editableInput', (event: any, editable?: HTMLElement) => {
+    editor.subscribe('editableInput', (_event: any, editable?: HTMLElement) => {
       if (editable) {
         console.warn('editableInput fired!', editable.id || editable.className)
       }

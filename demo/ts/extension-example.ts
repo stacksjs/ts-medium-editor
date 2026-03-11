@@ -1,14 +1,13 @@
 import { MediumEditor } from '../../src/index.ts'
 import { highlightAllCodeBlocks } from './syntax-highlighter.ts'
 
-// Example 1: Disable Context Menu Extension
 class DisableContextMenuExtension {
   name = 'disable-context-menu'
   base?: any
 
   init(): void {
     if (!this.base)
-      return
+    return
 
     this.base.elements.forEach((element: HTMLElement) => {
       this.base.on(element, 'contextmenu', this.handleContextmenu.bind(this))
@@ -46,7 +45,7 @@ class WordCountExtension {
 
   init(): void {
     if (!this.base)
-      return
+    return
 
     // Create word count display
     this.createWordCountDisplay()
@@ -63,33 +62,33 @@ class WordCountExtension {
     this.countElement = document.createElement('div')
     this.countElement.className = 'word-count-display'
     this.countElement.style.cssText = `
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #333;
-      color: white;
-      padding: 8px 12px;
-      border-radius: 4px;
-      font-size: 12px;
-      font-family: monospace;
-      z-index: 1000;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #333;
+    color: white;
+    padding: 8px 12px;
+    border - radius: 4px;
+    font - size: 12px;
+    font - family: monospace;
+    z - index: 1000;
+    box - shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     `
     document.body.appendChild(this.countElement)
   }
 
   private updateWordCount() {
     if (!this.base || !this.countElement)
-      return
+    return
 
-    let totalWords = 0
-    let totalChars = 0
+    const totalWords = 0
+    const totalChars = 0
 
     this.base.elements.forEach((element: HTMLElement) => {
       const text = element.textContent || ''
       const words = text.trim().split(/\s+/).filter(word => word.length > 0)
-      totalWords += words.length
-      totalChars += text.length
+      totalWords + = words.length
+      totalChars + = text.length
     })
 
     this.countElement.textContent = `${totalWords} words, ${totalChars} chars`
@@ -111,7 +110,7 @@ class AutoSaveExtension {
 
   init(): void {
     if (!this.base)
-      return
+    return
 
     this.base.subscribe('editableInput', this.scheduleAutoSave.bind(this))
     this.createSaveIndicator()
@@ -124,17 +123,17 @@ class AutoSaveExtension {
 
     this.saveTimeout = window.setTimeout(() => {
       this.performAutoSave()
-    }, 2000) // Auto-save after 2 seconds of inactivity
+    }, 2000) // Auto - save after 2 seconds of inactivity
   }
 
   private performAutoSave() {
     if (!this.base)
-      return
+    return
 
     const content = this.base.serialize()
 
     // Simulate saving to localStorage
-    localStorage.setItem('medium-editor-autosave', JSON.stringify({
+    localStorage.setItem('medium-editor-autosave', JSON.stringify( {
       content,
       timestamp: new Date().toISOString(),
     }))
@@ -148,16 +147,16 @@ class AutoSaveExtension {
     const indicator = document.createElement('div')
     indicator.id = 'save-indicator'
     indicator.style.cssText = `
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: #28a745;
-      color: white;
-      padding: 8px 12px;
-      border-radius: 4px;
-      font-size: 12px;
-      z-index: 1000;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #28a745;
+    color: white;
+    padding: 8px 12px;
+    border - radius: 4px;
+    font - size: 12px;
+    z - index: 1000;
+    box - shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     `
     indicator.textContent = 'Saved'
     document.body.appendChild(indicator)
@@ -187,7 +186,7 @@ class EmojiPickerExtension {
 
   init(): void {
     if (!this.base)
-      return
+    return
     this.createEmojiButton()
   }
 
@@ -223,20 +222,20 @@ class EmojiPickerExtension {
     this.picker = document.createElement('div')
     this.picker.className = 'emoji-picker'
     this.picker.style.cssText = `
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: white;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 16px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-      z-index: 10000;
-      display: grid;
-      grid-template-columns: repeat(8, 1fr);
-      gap: 8px;
-      max-width: 320px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border: 1px solid #ddd;
+    border - radius: 8px;
+    padding: 16px;
+    box - shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    z - index: 10000;
+    display: grid;
+    grid - template - columns: repeat(8, 1fr);
+    gap: 8px;
+    max - width: 320px;
     `
 
     const emojis = ['😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇', '🙂', '🙃', '😉', '😌', '😍', '🥰', '😘', '😗', '😙', '😚', '😋', '😛', '😝', '😜', '🤪', '🤨', '🧐', '🤓', '😎', '🤩', '🥳', '😏']
@@ -245,13 +244,13 @@ class EmojiPickerExtension {
       const button = document.createElement('button')
       button.textContent = emoji
       button.style.cssText = `
-        border: none;
-        background: none;
-        font-size: 24px;
-        cursor: pointer;
-        padding: 8px;
-        border-radius: 4px;
-        transition: background-color 0.2s;
+      border: none;
+      background: none;
+      font - size: 24px;
+      cursor: pointer;
+      padding: 8px;
+      border - radius: 4px;
+      transition: background - color 0.2s;
       `
       button.addEventListener('mouseenter', () => {
         button.style.backgroundColor = '#f0f0f0'
@@ -305,19 +304,19 @@ class EmojiPickerExtension {
 function showNotification(message: string, type: 'success' | 'warning' | 'error' = 'success') {
   const notification = document.createElement('div')
   notification.style.cssText = `
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: ${type === 'success' ? '#28a745' : type === 'warning' ? '#ffc107' : '#dc3545'};
-    color: ${type === 'warning' ? '#000' : '#fff'};
-    padding: 12px 20px;
-    border-radius: 4px;
-    font-size: 14px;
-    z-index: 10001;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    opacity: 0;
-    transition: opacity 0.3s ease;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: $ {type === 'success' ? '#28a745' : type === 'warning' ? '#ffc107' : '#dc3545'};
+  color: $ {type === 'warning' ? '#000' : '#fff'};
+  padding: 12px 20px;
+  border - radius: 4px;
+  font - size: 14px;
+  z - index: 10001;
+  box - shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transition: opacity 0.3s ease;
   `
   notification.textContent = message
   document.body.appendChild(notification)
