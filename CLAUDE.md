@@ -2,7 +2,7 @@
 
 ## About
 
-A modern, minimal & performant Medium-like rich text editor.
+A modern TypeScript port of the popular Medium.com-style WYSIWYG editor. It provides a zero-dependency, extensible rich text editing experience with a plugin system, 7 built-in themes, floating or static toolbars, auto-link detection, smart paste cleaning, and full keyboard navigation and accessibility support. Key classes include `MediumEditor` (core editor), toolbar configuration, and an extension API for custom buttons and functionality.
 
 ## Linting
 
