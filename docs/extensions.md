@@ -21,7 +21,7 @@ const editor = new MediumEditor('.editable', {
 })
 ```
 
-**Features:**
+#### Features
 
 - Contextual toolbar that appears on text selection
 - Customizable button set
@@ -42,7 +42,7 @@ const editor = new MediumEditor('.editable', {
 })
 ```
 
-**Features:**
+#### Features
 
 - Customizable placeholder text
 - Hide on click or focus options
@@ -86,20 +86,20 @@ const editor = new MediumEditor('.editable', {
 })
 ```
 
-**Features:**
+#### Features
 
 - Customizable keyboard shortcuts for any editor command
 - Support for modifier keys (Ctrl/Cmd, Shift, Alt)
 - Cross-platform compatibility (Ctrl on Windows/Linux, Cmd on Mac)
 - Default shortcuts for common formatting actions
 
-**Default Commands:**
+##### Default Commands
 
 - `Ctrl/Cmd + B` - Bold
 - `Ctrl/Cmd + I` - Italic
 - `Ctrl/Cmd + U` - Underline
 
-**Command Options:**
+###### Command Options
 
 | Option | Type | Description | Default |
 |--------|------|-------------|---------|
@@ -109,7 +109,7 @@ const editor = new MediumEditor('.editable', {
 | `shift` | boolean | Require Shift key | `false` |
 | `alt` | boolean | Require Alt key | `false` |
 
-**Custom Commands Example:**
+###### Custom Commands Example
 
 ```typescript
 const keyboardCommands = new KeyboardCommands(editor, {
@@ -155,7 +155,7 @@ const editor = new MediumEditor('.editable', {
 })
 ```
 
-**Advanced Usage:**
+###### Advanced Usage
 
 ```typescript
 // Disable default commands and add custom ones

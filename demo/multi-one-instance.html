@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Medium Editor - Single Instance Multiple Elements Demo</title>
-    <link rel="stylesheet" href="css/demo.css">
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css">
-    <link rel="stylesheet" href="../src/css/medium-editor.css">
-    <link rel="stylesheet" href="../src/css/themes/default.css" id="medium-editor-theme">
+    <link rel='stylesheet' href='css/demo.css'>
+    <link rel='stylesheet' href='http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css'>
+    <link rel='stylesheet' href='../src/css/medium-editor.css'>
+    <link rel='stylesheet' href='../src/css/themes/default.css' id='medium-editor-theme'>
     <style>
         .demo-section {
             margin-bottom: 2rem;
@@ -118,74 +118,74 @@
     </style>
 </head>
 <body>
-    <a href="https://github.com/stacksjs/ts-medium-editor" class="github-link" aria-label="Fork me on GitHub">
-        <img style="z-index: 100;position: absolute; top: 0; right: 0; border: 0;"
-             src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
-             alt="Fork me on GitHub">
+    <a href='https://github.com/stacksjs/ts-medium-editor' class='github-link' aria-label='Fork me on GitHub'>
+        <img style='z-index: 100;position: absolute; top: 0; right: 0; border: 0;'
+          src='https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png'
+          alt='Fork me on GitHub'>
     </a>
 
-    <div class="controls-section">
+    <div class='controls-section'>
         <h3>🎨 Theme Selector</h3>
-        <div class="theme-selector">
-            <label for="sel-themes">Choose Theme:</label>
-            <select id="sel-themes">
-                <option value="themes/default" selected>default</option>
-                <option value="themes/roman">roman</option>
-                <option value="themes/mani">mani</option>
-                <option value="themes/flat">flat</option>
-                <option value="themes/bootstrap">bootstrap</option>
-                <option value="themes/tim">tim</option>
-                <option value="themes/beagle">beagle</option>
+        <div class='theme-selector'>
+            <label for='sel-themes'>Choose Theme:</label>
+            <select id='sel-themes'>
+                <option value='themes/default' selected>default</option>
+                <option value='themes/roman'>roman</option>
+                <option value='themes/mani'>mani</option>
+                <option value='themes/flat'>flat</option>
+                <option value='themes/bootstrap'>bootstrap</option>
+                <option value='themes/tim'>tim</option>
+                <option value='themes/beagle'>beagle</option>
             </select>
         </div>
         <p><em>Try different themes to see how they affect the editor appearance!</em></p>
     </div>
 
-    <div id="container">
+    <div id='container'>
         <header>
             <h1>Medium Editor - Single Instance Multiple Elements</h1>
             <p>This demo shows how to dynamically add elements to an existing editor instance using <code>addElements()</code>.</p>
         </header>
 
-        <section class="demo-section">
+        <section class='demo-section'>
             <h3>📝 Initial Editor Element</h3>
-            <div class="demo-description">
+            <div class='demo-description'>
                 This element was included when the editor was first created with the <code>.editable</code> class selector.
             </div>
-            <div class="editor-info">
+            <div class='editor-info'>
                 <strong>Status:</strong> Original element managed by the editor instance
             </div>
 
-            <div class="editable">
-                <p>My father's family name being <a href="https://en.wikipedia.org/wiki/Pip_(Great_Expectations)">Pirrip</a>, and my Christian name Philip, my infant tongue could make of both names nothing longer or more explicit than Pip. So, I called myself Pip, and came to be called Pip.</p>
+            <div class='editable'>
+                <p>My father's family name being <a href='https://en.wikipedia.org/wiki/Pip_(Great_Expectations)'>Pirrip</a>, and my Christian name Philip, my infant tongue could make of both names nothing longer or more explicit than Pip. So, I called myself Pip, and came to be called Pip.</p>
                 <p>I give Pirrip as my father's family name, on the authority of his tombstone and my sister,—Mrs. Joe Gargery, who married the blacksmith. As I never saw my father or my mother, and never saw any likeness of either of them (for their days were long before the days of photographs), my first fancies regarding what they were like were unreasonably derived from their tombstones.</p>
             </div>
         </section>
 
-        <section class="demo-section">
+        <section class='demo-section'>
             <h3>➕ Dynamically Added Element</h3>
-            <div class="demo-description">
+            <div class='demo-description'>
                 This element was added to the same editor instance after initialization using <code>editor.addElements()</code>.
                 Notice how it shares the same toolbar and configuration as the first element.
             </div>
-            <div class="editor-info">
+            <div class='editor-info'>
                 <strong>Status:</strong> Added dynamically with <code>addElements(document.querySelector('.editable2'))</code>
             </div>
 
-            <div class="editable2">
+            <div class='editable2'>
                 <p>This element was <strong>dynamically added</strong> to the existing editor instance. It shares the same toolbar configuration and behavior as the original element.</p>
                 <p>Ours was the marsh country, down by the river, within, as the river wound, twenty miles of the sea. My first most vivid and broad impression of the identity of things seems to me to have been gained on a memorable raw afternoon towards evening.</p>
             </div>
         </section>
 
-        <section class="demo-section">
+        <section class='demo-section'>
             <h3>💻 Code Implementation</h3>
-            <div class="demo-description">
+            <div class='demo-description'>
                 Here's how to create an editor and dynamically add elements to it:
             </div>
 
             <h4>1. Create Initial Editor</h4>
-            <div class="code-example" data-lang="typescript">const editor = new MediumEditor('.editable', {
+            <div class='code-example' data-lang='typescript'>const editor = new MediumEditor('.editable', {
   buttonLabels: 'fontawesome',
   toolbar: {
     buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote'],
@@ -196,22 +196,23 @@
 })</div>
 
             <h4>2. Add Elements Dynamically</h4>
-            <div class="code-example" data-lang="typescript">// Add second element to the same editor instance
+            <div class='code-example' data-lang='typescript'>// Add second element to the same editor instance
 const secondElement = document.querySelector('.editable2')
 if (secondElement) {
   editor.addElements(secondElement)
 }</div>
 
             <h4>3. Subscribe to Events</h4>
-            <div class="code-example" data-lang="typescript">// Listen for input events across all elements
+            <div class='code-example' data-lang='typescript'>// Listen for input events across all elements
 editor.subscribe('editableInput', (event, editable) => {
   if (editable) {
+    // eslint-disable-next-line no-console
     console.log('Content changed in:', editable.className)
   }
 })</div>
 
             <h4>4. Theme Switching</h4>
-            <div class="code-example" data-lang="typescript">const themeSelector = document.getElementById('sel-themes')
+            <div class='code-example' data-lang='typescript'>const themeSelector = document.getElementById('sel-themes')
 const cssLink = document.getElementById('medium-editor-theme')
 
 themeSelector.addEventListener('change', function () {
@@ -229,14 +230,14 @@ themeSelector.addEventListener('change', function () {
         </section>
     </div>
 
-    <div class="source-attribution">
+    <div class='source-attribution'>
         <small>
-            <a style="color: #6c757d;" target="_blank" href="http://www.goodreads.com/reader/475-great-expectations">
-                Sample text from "Great Expectations" by Charles Dickens
+            <a style='color: #6c757d;' target='_blank' href='http://www.goodreads.com/reader/475-great-expectations'>
+                Sample text from 'Great Expectations' by Charles Dickens
             </a>
         </small>
     </div>
 
-    <script type="module" src="ts/multi-one-instance.ts"></script>
+    <script type='module' src='ts/multi-one-instance.ts'></script>
 </body>
 </html>

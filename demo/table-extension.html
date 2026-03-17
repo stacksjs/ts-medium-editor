@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Medium Editor - Table Extension Demo</title>
-    <link rel="stylesheet" href="css/demo.css">
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css" rel="stylesheet">
-    <link rel="stylesheet" href="../src/css/medium-editor.css">
-    <link rel="stylesheet" href="../src/css/themes/default.css">
+    <link rel='stylesheet' href='css/demo.css'>
+    <link href='http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css' rel='stylesheet'>
+    <link rel='stylesheet' href='../src/css/medium-editor.css'>
+    <link rel='stylesheet' href='../src/css/themes/default.css'>
     <style>
         .demo-section {
             margin-bottom: 2rem;
@@ -127,26 +127,26 @@
     </style>
 </head>
 <body>
-    <a href="https://github.com/stacksjs/ts-medium-editor" aria-label="Fork me on GitHub">
-        <img style="position: absolute; top: 0; right: 0; border: 0;"
-             src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
-             alt="Fork me on GitHub">
+    <a href='https://github.com/stacksjs/ts-medium-editor' aria-label='Fork me on GitHub'>
+        <img style='position: absolute; top: 0; right: 0; border: 0;'
+          src='https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png'
+          alt='Fork me on GitHub'>
     </a>
 
-    <div id="container">
+    <div id='container'>
         <header>
             <h1>Medium Editor - Table Extension Demo</h1>
             <p>This demo shows how to create custom extensions for inserting tables and other complex content.</p>
         </header>
 
-        <section class="demo-section">
+        <section class='demo-section'>
             <h3>📊 Table Extension</h3>
-            <div class="demo-description">
+            <div class='demo-description'>
                 Medium Editor allows you to add custom forms and extensions for your specific needs.
                 This example demonstrates a custom table extension that inserts formatted tables into the editor.
             </div>
 
-            <div class="demo-instructions">
+            <div class='demo-instructions'>
                 <h4>🧪 Try This</h4>
                 <ol>
                     <li>Click in the editor below to position your cursor</li>
@@ -156,13 +156,13 @@
                 </ol>
             </div>
 
-            <div class="editable">
+            <div class='editable'>
                 <h2>Table Extension Demo</h2>
                 <p>Click the table button in the toolbar above to insert a table. You can then edit the table content directly.</p>
                 <p>Tables are inserted with proper styling and can be edited like any other content in the editor.</p>
             </div>
 
-            <div class="feature-highlight">
+            <div class='feature-highlight'>
                 <h4>✨ Extension Features</h4>
                 <ul>
                     <li><strong>Custom Button:</strong> Adds a table icon to the toolbar</li>
@@ -174,21 +174,21 @@
             </div>
         </section>
 
-        <section class="demo-section">
+        <section class='demo-section'>
             <h3>💻 Code Implementation</h3>
-            <div class="demo-description">
+            <div class='demo-description'>
                 Here's how to create a custom table extension for Medium Editor:
             </div>
 
             <h4>1. Table Extension Class</h4>
-            <div class="code-example" data-lang="typescript">class TableExtension {
+            <div class='code-example' data-lang='typescript'>class TableExtension {
   private button: HTMLButtonElement
   private base: any
 
   constructor() {
     this.button = document.createElement('button')
     this.button.className = 'medium-editor-action'
-    this.button.innerHTML = '<i class="fa fa-table"></i>'
+    this.button.innerHTML = '<i class='fa fa-table'></i>'
     this.button.title = 'Insert Table'
     this.button.onclick = this.onClick.bind(this)
   }
@@ -199,19 +199,19 @@
 
   onClick() {
     const tableHTML = `
-      <table style="border-collapse: collapse; width: 100%; margin: 1rem 0;">
+      <table style='border-collapse: collapse; width: 100%; margin: 1rem 0;'>
         <thead>
           <tr>
-            <th style="border: 1px solid #ddd; padding: 8px; background: #f5f5f5;">Header 1</th>
-            <th style="border: 1px solid #ddd; padding: 8px; background: #f5f5f5;">Header 2</th>
-            <th style="border: 1px solid #ddd; padding: 8px; background: #f5f5f5;">Header 3</th>
+            <th style='border: 1px solid #ddd; padding: 8px; background: #f5f5f5;'>Header 1</th>
+            <th style='border: 1px solid #ddd; padding: 8px; background: #f5f5f5;'>Header 2</th>
+            <th style='border: 1px solid #ddd; padding: 8px; background: #f5f5f5;'>Header 3</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td style="border: 1px solid #ddd; padding: 8px;">Cell 1</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">Cell 2</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">Cell 3</td>
+            <td style='border: 1px solid #ddd; padding: 8px;'>Cell 1</td>
+            <td style='border: 1px solid #ddd; padding: 8px;'>Cell 2</td>
+            <td style='border: 1px solid #ddd; padding: 8px;'>Cell 3</td>
           </tr>
         </tbody>
       </table>
@@ -229,7 +229,7 @@
 }</div>
 
             <h4>2. Editor Configuration</h4>
-            <div class="code-example" data-lang="typescript">const editor = new MediumEditor('.editable', {
+            <div class='code-example' data-lang='typescript'>const editor = new MediumEditor('.editable', {
   toolbar: {
     buttons: ['bold', 'italic', 'underline', 'anchor', 'table'],
     static: true, // Keep toolbar visible
@@ -241,7 +241,7 @@
 })</div>
 
             <h4>3. CSS Styling for Tables</h4>
-            <div class="code-example" data-lang="css">.editable table {
+            <div class='code-example' data-lang='css'>.editable table {
   border-collapse: collapse;
   width: 100%;
   margin: 1rem 0;
@@ -277,7 +277,7 @@
             </ul>
 
             <h4>Advanced Extension Ideas</h4>
-            <div class="demo-description">
+            <div class='demo-description'>
                 You can create extensions for:
                 <ul>
                     <li><strong>Image Galleries:</strong> Insert image carousels or galleries</li>
@@ -291,14 +291,14 @@
         </section>
     </div>
 
-    <div class="source-attribution">
+    <div class='source-attribution'>
         <small>
-            <a style="color: #6c757d;" target="_blank" href="https://github.com/stacksjs/ts-medium-editor">
+            <a style='color: #6c757d;' target='_blank' href='https://github.com/stacksjs/ts-medium-editor'>
                 Medium Editor Project on GitHub
             </a>
         </small>
     </div>
 
-    <script type="module" src="ts/table-extension.ts"></script>
+    <script type='module' src='ts/table-extension.ts'></script>
 </body>
 </html>

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Medium Editor - Nested Editable Elements Demo (Standalone)</title>
-    <link rel="stylesheet" href="css/demo.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/font-awesome.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="../src/css/medium-editor.css">
-    <link rel="stylesheet" href="../src/css/themes/default.css" id="medium-editor-theme">
+    <link rel='stylesheet' href='css/demo.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/font-awesome.min.css' crossorigin='anonymous'>
+    <link rel='stylesheet' href='../src/css/medium-editor.css'>
+    <link rel='stylesheet' href='../src/css/themes/default.css' id='medium-editor-theme'>
     <style>
         .demo-section {
             margin-bottom: 2rem;
@@ -102,12 +102,12 @@
         }
 
         /* Improve non-editable area styling */
-        [contenteditable="false"] {
+        [contenteditable='false'] {
             cursor: default;
         }
 
         /* Ensure editable areas within non-editable containers work properly */
-        [contenteditable="false"] [contenteditable="true"] {
+        [contenteditable='false'] [contenteditable='true'] {
             cursor: text;
         }
 
@@ -147,51 +147,51 @@
     </style>
 </head>
 <body>
-    <a href="https://github.com/stacksjs/ts-medium-editor" class="github-link" aria-label="Fork me on GitHub">
-        <img style="z-index: 100;position: absolute; top: 0; right: 0; border: 0;"
-             src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
-             alt="Fork me on GitHub">
+    <a href='https://github.com/stacksjs/ts-medium-editor' class='github-link' aria-label='Fork me on GitHub'>
+        <img style='z-index: 100;position: absolute; top: 0; right: 0; border: 0;'
+          src='https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png'
+          alt='Fork me on GitHub'>
     </a>
 
-    <div class="controls-section">
+    <div class='controls-section'>
         <h3>🎨 Theme Selector</h3>
-        <div class="theme-selector">
-            <label for="sel-themes">Choose Theme:</label>
-            <select id="sel-themes">
-                <option value="themes/default" selected>default</option>
-                <option value="themes/roman">roman</option>
-                <option value="themes/mani">mani</option>
-                <option value="themes/flat">flat</option>
-                <option value="themes/bootstrap">bootstrap</option>
+        <div class='theme-selector'>
+            <label for='sel-themes'>Choose Theme:</label>
+            <select id='sel-themes'>
+                <option value='themes/default' selected>default</option>
+                <option value='themes/roman'>roman</option>
+                <option value='themes/mani'>mani</option>
+                <option value='themes/flat'>flat</option>
+                <option value='themes/bootstrap'>bootstrap</option>
             </select>
         </div>
         <p><em>Try different themes to see how they affect the editor appearance!</em></p>
-        <div id="status-indicator"></div>
+        <div id='status-indicator'></div>
     </div>
 
-    <div id="container">
+    <div id='container'>
         <header>
             <h1>Medium Editor - Nested Editable Elements</h1>
             <p>This demo shows how Medium Editor handles nested contenteditable elements with different editability settings.</p>
         </header>
 
-        <section class="demo-section">
+        <section class='demo-section'>
             <h3>📝 Main Editable Area</h3>
-            <div class="demo-description">
+            <div class='demo-description'>
                 This is the main editable area managed by Medium Editor. It contains both regular content and nested elements with different editability settings.
             </div>
 
-            <div class="editable">
-                <p>My father's family name being <a href="https://en.wikipedia.org/wiki/Pip_(Great_Expectations)">Pirrip</a>, and my Christian name Philip, my infant tongue could make of both names nothing longer or more explicit than Pip. So, I called myself Pip, and came to be called Pip.</p>
+            <div class='editable'>
+                <p>My father's family name being <a href='https://en.wikipedia.org/wiki/Pip_(Great_Expectations)'>Pirrip</a>, and my Christian name Philip, my infant tongue could make of both names nothing longer or more explicit than Pip. So, I called myself Pip, and came to be called Pip.</p>
 
-                <div class="nested-container">
-                    <div contenteditable="false">
+                <div class='nested-container'>
+                    <div contenteditable='false'>
                         <div>
-                            <h4 style="user-select: none;">🚫 This portion is not editable</h4>
-                            <p style="user-select: none; font-size: 12px; color: #6c757d; margin: 0.5rem 0;">
+                            <h4 style='user-select: none;'>🚫 This portion is not editable</h4>
+                            <p style='user-select: none; font-size: 12px; color: #6c757d; margin: 0.5rem 0;'>
                                 (This text and header are protected from editing)
                             </p>
-                            <div class="nested-editable" contenteditable="true">
+                            <div class='nested-editable' contenteditable='true'>
                                 <p><strong>✅ This nested area IS editable</strong></p>
                                 <p>This demonstrates how you can have non-editable containers with editable content inside. Try editing this text! You can make it <strong>bold</strong>, <em>italic</em>, or add links.</p>
                                 <p>Notice how the toolbar appears when you select text in this area, even though it's nested inside a non-editable container.</p>
@@ -204,19 +204,19 @@
             </div>
         </section>
 
-        <section class="demo-section">
+        <section class='demo-section'>
             <h3>💻 Code Implementation</h3>
-            <div class="demo-description">
+            <div class='demo-description'>
                 Here's how to create nested editable elements with different contenteditable settings:
             </div>
 
             <h4>HTML Structure</h4>
-            <div class="code-example">&lt;div class="editable"&gt;
+            <div class='code-example'>&lt;div class='editable'&gt;
   &lt;p&gt;Regular editable content...&lt;/p&gt;
 
-  &lt;div contenteditable="false"&gt;
+  &lt;div contenteditable='false'&gt;
     &lt;h4&gt;This portion is not editable&lt;/h4&gt;
-    &lt;div contenteditable="true"&gt;
+    &lt;div contenteditable='true'&gt;
       &lt;p&gt;This nested area IS editable&lt;/p&gt;
     &lt;/div&gt;
   &lt;/div&gt;
@@ -225,7 +225,7 @@
 &lt;/div&gt;</div>
 
             <h4>JavaScript Configuration</h4>
-            <div class="code-example">const editor = new MediumEditor('.editable', {
+            <div class='code-example'>const editor = new MediumEditor('.editable', {
   buttonLabels: 'fontawesome',
   toolbar: {
     buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote'],
@@ -237,15 +237,15 @@
 
             <h4>Key Concepts</h4>
             <ul>
-                <li><strong><code>contenteditable="false"</code></strong> - Makes an element non-editable</li>
-                <li><strong><code>contenteditable="true"</code></strong> - Makes a nested element editable again</li>
+                <li><strong><code>contenteditable='false'</code></strong> - Makes an element non-editable</li>
+                <li><strong><code>contenteditable='true'</code></strong> - Makes a nested element editable again</li>
                 <li><strong>Inheritance:</strong> Child elements inherit editability from parents unless explicitly overridden</li>
                 <li><strong>Toolbar Behavior:</strong> Medium Editor's toolbar works within any editable area</li>
                 <li><strong>Selection Boundaries:</strong> Text selection respects contenteditable boundaries</li>
             </ul>
 
             <h4>Use Cases</h4>
-            <div class="demo-description">
+            <div class='demo-description'>
                 Nested editable elements are useful for:
                 <ul>
                     <li>Creating protected headers or metadata sections</li>
@@ -257,16 +257,16 @@
         </section>
     </div>
 
-    <div class="source-attribution">
+    <div class='source-attribution'>
         <small>
-            <a style="color: #6c757d;" target="_blank" href="http://www.goodreads.com/reader/475-great-expectations">
-                Sample text from "Great Expectations" by Charles Dickens
+            <a style='color: #6c757d;' target='_blank' href='http://www.goodreads.com/reader/475-great-expectations'>
+                Sample text from 'Great Expectations' by Charles Dickens
             </a>
         </small>
     </div>
 
     <!-- Load the built library (UMD version for global window access) -->
-    <script src="../dist/medium-editor.umd.js"></script>
+    <script src='../dist/medium-editor.umd.js'></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const statusIndicator = document.getElementById('status-indicator');

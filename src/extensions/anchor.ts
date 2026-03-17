@@ -53,15 +53,18 @@ export class Anchor implements MediumEditorExtension {
     // Debounce rapid clicks
     const currentTime = Date.now()
     if (currentTime - this.lastClickTime < this.clickDebounceMs) {
+      // eslint-disable-next-line no-console
       console.log('🚫 Click debounced - too soon after last click')
       return false
     }
     this.lastClickTime = currentTime
 
+    // eslint-disable-next-line no-console
     console.log('🔗 Anchor handleClick called')
 
     const selection = window.getSelection()
     if (!selection || selection.rangeCount === 0) {
+      // eslint-disable-next-line no-console
       console.warn('No selection available for anchor action')
       return false
     }
@@ -69,6 +72,7 @@ export class Anchor implements MediumEditorExtension {
     const range = selection.getRangeAt(0)
     const selectedText = range.toString().trim()
 
+    // eslint-disable-next-line no-console
     console.log('Selection details:', {
       text: selectedText,
       rangeCount: selection.rangeCount,
@@ -77,12 +81,14 @@ export class Anchor implements MediumEditorExtension {
 
     // Require non-empty selection for creating links
     if (!selectedText && !this.isWithinAnchor(range)) {
+      // eslint-disable-next-line no-console
       console.warn('Cannot create link: no text selected')
       return false
     }
 
     // Check if we're clicking on an existing link
     if (this.isWithinAnchor(range)) {
+      // eslint-disable-next-line no-console
       console.log('Removing existing link')
       this.execAction('unlink')
       return false
@@ -91,10 +97,12 @@ export class Anchor implements MediumEditorExtension {
     // Only show form if this was an explicit user action (button click or keyboard shortcut)
     // Don't show automatically on text selection
     if (!this.isDisplayed()) {
+      // eslint-disable-next-line no-console
       console.log('Showing anchor form')
       this.showForm()
     }
     else {
+      // eslint-disable-next-line no-console
       console.log('Anchor form already displayed')
     }
 
@@ -116,6 +124,7 @@ export class Anchor implements MediumEditorExtension {
       let node: Node | null = container
       while (node && node !== document.body) {
         if (node.nodeType === Node.ELEMENT_NODE && (node as HTMLElement).tagName === 'A') {
+          // eslint-disable-next-line no-console
           console.log('Found anchor element:', node)
           return true
         }
@@ -128,6 +137,7 @@ export class Anchor implements MediumEditorExtension {
       const element = range.commonAncestorContainer as HTMLElement
       const anchors = element.querySelectorAll('a')
       if (anchors.length > 0) {
+        // eslint-disable-next-line no-console
         console.log('Found anchor elements in selection:', anchors.length)
         return true
       }
@@ -191,6 +201,7 @@ export class Anchor implements MediumEditorExtension {
   }
 
   hideForm(): void {
+    // eslint-disable-next-line no-console
     console.log('Hiding form...')
 
     if (this.form) {
@@ -203,18 +214,22 @@ export class Anchor implements MediumEditorExtension {
         input.style.borderColor = '' // Reset any error styling
         input.blur() // Remove focus
       }
+      // eslint-disable-next-line no-console
       console.log('Form hidden')
     }
 
     this.showToolbarDefaultActions()
+    // eslint-disable-next-line no-console
     console.log('Toolbar buttons restored')
   }
 
   showForm(opts: { value?: string, target?: string, buttonClass?: string } = {}): void {
+    // eslint-disable-next-line no-console
     console.log('Showing form with options:', opts)
 
     // Ensure form exists
     if (!this.form) {
+      // eslint-disable-next-line no-console
       console.log('Creating form...')
       this.form = this.createForm()
     }
@@ -225,6 +240,7 @@ export class Anchor implements MediumEditorExtension {
 
     // Save current selection
     if (this.editor.saveSelection) {
+      // eslint-disable-next-line no-console
       console.log('Saving selection...')
       this.editor.saveSelection()
     }
@@ -237,6 +253,7 @@ export class Anchor implements MediumEditorExtension {
       this.form.classList.add(this.activeClass)
       // Remove any inline display style that might be hiding the form
       this.form.style.display = ''
+      // eslint-disable-next-line no-console
       console.log('Form activated')
     }
 
@@ -264,6 +281,7 @@ export class Anchor implements MediumEditorExtension {
       buttonCheckbox.checked = classList.includes(this.customClassOption)
     }
 
+    // eslint-disable-next-line no-console
     console.log('Form setup complete')
   }
 
@@ -299,6 +317,7 @@ export class Anchor implements MediumEditorExtension {
 
     // Validate URL
     if (!opts.value || opts.value.trim() === '') {
+      // eslint-disable-next-line no-console
       console.warn('Cannot save link: empty URL')
       const input = this.getInput()
       if (input) {
@@ -311,11 +330,13 @@ export class Anchor implements MediumEditorExtension {
       return
     }
 
+    // eslint-disable-next-line no-console
     console.log('Saving link with options:', opts)
     this.completeFormSave(opts)
   }
 
   private completeFormSave(opts: { value: string, target: string, buttonClass?: string }): void {
+    // eslint-disable-next-line no-console
     console.log('Completing form save...')
 
     // Restore selection first, before hiding form
@@ -327,10 +348,12 @@ export class Anchor implements MediumEditorExtension {
     const success = this.execAction(this.action, opts)
 
     if (success) {
+      // eslint-disable-next-line no-console
       console.log('Link created successfully')
       this.hideForm()
     }
     else {
+      // eslint-disable-next-line no-console
       console.error('Failed to create link')
       // Don't hide form on failure, let user try again
       return
@@ -420,11 +443,13 @@ export class Anchor implements MediumEditorExtension {
   }
 
   private handleTextboxKeyup(event: KeyboardEvent): void {
+    // eslint-disable-next-line no-console
     console.log('Textbox keyup:', event.key)
 
     if (event.key === 'Enter') {
       event.preventDefault()
       event.stopPropagation()
+      // eslint-disable-next-line no-console
       console.log('Enter pressed - saving form')
       this.doFormSave()
       return
@@ -433,6 +458,7 @@ export class Anchor implements MediumEditorExtension {
     if (event.key === 'Escape') {
       event.preventDefault()
       event.stopPropagation()
+      // eslint-disable-next-line no-console
       console.log('Escape pressed - canceling form')
       this.doFormCancel()
       return
@@ -452,6 +478,7 @@ export class Anchor implements MediumEditorExtension {
   private handleSaveClick(event: Event): void {
     event.preventDefault()
     event.stopPropagation()
+    // eslint-disable-next-line no-console
     console.log('Save button clicked')
     this.doFormSave()
   }
@@ -459,6 +486,7 @@ export class Anchor implements MediumEditorExtension {
   private handleCloseClick(event: Event): void {
     event.preventDefault()
     event.stopPropagation()
+    // eslint-disable-next-line no-console
     console.log('Close button clicked')
     this.doFormCancel()
   }

@@ -91,6 +91,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         buttons: [
         'bold', // Default FontAwesome
         'italic', // Default FontAwesome
+        // eslint-disable-next-line style/brace-style
         {
           name: 'underline',
           contentDefault: '📝 Underline',

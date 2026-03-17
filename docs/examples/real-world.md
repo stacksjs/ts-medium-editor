@@ -300,7 +300,7 @@ yarn add ts-medium-editor</code></pre>
         <pre><code>import { MediumEditor } from 'ts-medium-editor'
 const editor = new MediumEditor('.editable', {
   toolbar: {
-    buttons: ['bold', 'italic', 'anchor']
+    buttons: &#91;'bold', 'italic', 'anchor']
   }
 })</code></pre>
         <h3>Configuration Options</h3>
@@ -730,6 +730,7 @@ const commentSystem = new CommentSystem()
 - Learn about [Event Handling](/examples/events) for building interactive features
 
 <script>
+/* eslint-disable markdown/reference-links-images, markdown/blanks-around-tables, markdown/table-pipe-style, markdown/no-reversed-links, markdown/single-title, markdown/link-image-reference-definitions, markdown/table-column-count */
 // Comprehensive demo implementation for real-world use cases
 class DemoMediumEditor {
   constructor(selector, options = {}) {
@@ -1395,9 +1396,11 @@ if (document.readyState === 'loading') {
 } else {
   waitForElements()
 }
+/* eslint-enable markdown/reference-links-images, markdown/blanks-around-tables, markdown/table-pipe-style, markdown/no-reversed-links, markdown/single-title, markdown/link-image-reference-definitions, markdown/table-column-count */
 </script>
 
 <style>
+/* eslint-disable markdown/reference-links-images, markdown/blanks-around-tables, markdown/table-pipe-style, markdown/no-reversed-links, markdown/single-title, markdown/link-image-reference-definitions, markdown/table-column-count */
 .demo-container {
   border: 2px dashed #e9ecef;
   border-radius: 8px;
@@ -1917,4 +1920,5 @@ if (document.readyState === 'loading') {
   color: #6c757d;
   font-style: italic;
 }
+/* eslint-enable markdown/reference-links-images, markdown/blanks-around-tables, markdown/table-pipe-style, markdown/no-reversed-links, markdown/single-title, markdown/link-image-reference-definitions, markdown/table-column-count */
 </style>

@@ -1,13 +1,11 @@
 import type { Theme } from 'vitepress'
+import './styles/main.css'
+import './styles/overrides.css'
+import './styles/vars.css'
+import 'uno.css'
 import TwoSlashFloatingVue from '@shikijs/vitepress-twoslash/client'
 import DefaultTheme from 'vitepress/theme'
 import { h } from 'vue'
-
-import 'uno.css'
-
-import './styles/main.css'
-import './styles/vars.css'
-import './styles/overrides.css'
 
 export default {
   ...DefaultTheme,

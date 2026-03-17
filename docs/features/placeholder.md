@@ -326,7 +326,7 @@ class PlaceholderWithAutoSave extends Extension {
 
 ### Common Issues
 
-**Placeholder not showing:**
+#### Placeholder not showing
 
 ```typescript
 // Ensure the editor element is empty
@@ -340,7 +340,7 @@ const editor = new MediumEditor('.editable', {
 console.log('Element content:', editor.elements[0].innerHTML)
 ```
 
-**Placeholder not hiding:**
+##### Placeholder not hiding
 
 ```typescript
 // Check hideOnClick and hideOnFocus settings
@@ -353,7 +353,7 @@ const editor = new MediumEditor('.editable', {
 })
 ```
 
-**Styling issues:**
+###### Styling issues
 
 ```css
 /* Ensure placeholder CSS is loaded */
@@ -386,50 +386,50 @@ debugPlaceholder(editor)
 
 1. **Be specific and helpful:**
 
-   ```typescript
-   // Good
-   placeholder: {
-     text: 'Describe your experience with the product...'
-   }
+    ```typescript
+    // Good
+    placeholder: {
+      text: 'Describe your experience with the product...'
+    }
 
-   // Avoid
-   placeholder: {
-     text: 'Type here...'
-   }
-   ```
+    // Avoid
+    placeholder: {
+      text: 'Type here...'
+    }
+    ```
 
 2. **Match your content type:**
 
-   ```typescript
-   // For blog posts
-   placeholder: {
-     text: 'Share your story, insights, or experiences...'
-   }
+    ```typescript
+    // For blog posts
+    placeholder: {
+      text: 'Share your story, insights, or experiences...'
+    }
 
-   // For comments
-   placeholder: {
-     text: 'Add your thoughts to the discussion...'
-   }
+    // For comments
+    placeholder: {
+      text: 'Add your thoughts to the discussion...'
+    }
 
-   // For titles
-   placeholder: {
-     text: 'Enter a compelling headline...'
-   }
-   ```
+    // For titles
+    placeholder: {
+      text: 'Enter a compelling headline...'
+    }
+    ```
 
 3. **Keep it concise:**
 
-   ```typescript
-   // Good
-   placeholder: {
-     text: 'What\'s your main point?'
-   }
+    ```typescript
+    // Good
+    placeholder: {
+      text: 'What\'s your main point?'
+    }
 
-   // Too long
-   placeholder: {
-     text: 'Please enter your detailed thoughts and opinions about this topic here...'
-   }
-   ```
+    // Too long
+    placeholder: {
+      text: 'Please enter your detailed thoughts and opinions about this topic here...'
+    }
+    ```
 
 ### Performance Optimization
 

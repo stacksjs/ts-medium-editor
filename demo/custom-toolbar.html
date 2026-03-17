@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Medium Editor - Custom Toolbar Demo</title>
-    <link rel="stylesheet" href="css/demo.css">
-    <link href="https://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css" rel="stylesheet">
-    <link rel="stylesheet" href="../src/css/medium-editor.css">
-    <link rel="stylesheet" href="../src/css/themes/flat.css" id="theme-css">
+    <link rel='stylesheet' href='css/demo.css'>
+    <link href='https://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css' rel='stylesheet'>
+    <link rel='stylesheet' href='../src/css/medium-editor.css'>
+    <link rel='stylesheet' href='../src/css/themes/flat.css' id='theme-css'>
     <style>
         .demo-section {
             margin-bottom: 3rem;
@@ -124,59 +124,59 @@
     </style>
 </head>
 <body>
-    <a href="https://github.com/stacksjs/ts-medium-editor" aria-label="Fork me on GitHub">
-        <img style="position: absolute; top: 0; right: 0; border: 0;"
-             src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
-             alt="Fork me on GitHub">
+    <a href='https://github.com/stacksjs/ts-medium-editor' aria-label='Fork me on GitHub'>
+        <img style='position: absolute; top: 0; right: 0; border: 0;'
+          src='https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png'
+          alt='Fork me on GitHub'>
     </a>
 
-    <div id="container">
+    <div id='container'>
         <header>
             <h1>Medium Editor - Custom Toolbar Demo</h1>
             <p>This demo showcases various ways to customize the toolbar appearance and button labels.</p>
         </header>
 
-        <div class="controls-section">
+        <div class='controls-section'>
             <h3>🎨 Global Controls</h3>
-            <div class="theme-selector">
-                <label for="theme-selector">Choose Theme:</label>
-                <select id="theme-selector">
-                    <option value="default">Default</option>
-                    <option value="flat" selected>Flat</option>
-                    <option value="beagle">Beagle</option>
-                    <option value="bootstrap">Bootstrap</option>
-                    <option value="mani">Mani</option>
-                    <option value="roman">Roman</option>
-                    <option value="tim">Tim</option>
+            <div class='theme-selector'>
+                <label for='theme-selector'>Choose Theme:</label>
+                <select id='theme-selector'>
+                    <option value='default'>Default</option>
+                    <option value='flat' selected>Flat</option>
+                    <option value='beagle'>Beagle</option>
+                    <option value='bootstrap'>Bootstrap</option>
+                    <option value='mani'>Mani</option>
+                    <option value='roman'>Roman</option>
+                    <option value='tim'>Tim</option>
                 </select>
             </div>
             <p><em>Try different themes to see how they affect the custom toolbar buttons!</em></p>
         </div>
 
-        <section class="demo-section">
+        <section class='demo-section'>
             <h3>🎯 FontAwesome Icons</h3>
-            <div class="demo-description">
+            <div class='demo-description'>
                 Using <code>buttonLabels: 'fontawesome'</code> provides a complete toolbar with professional icons.
                 This includes all available formatting options with FontAwesome icon styling.
             </div>
-            <div class="editable-fontawesome">
+            <div class='editable-fontawesome'>
                 <h4>FontAwesome Toolbar</h4>
                 <p>This editor uses <strong>FontAwesome icons</strong> for all toolbar buttons. Try selecting text to see the full range of formatting options including <em>italic</em>, <u>underline</u>, lists, alignment, and more!</p>
             </div>
-            <div class="code-example" data-lang="javascript">buttonLabels: 'fontawesome'</div>
+            <div class='code-example' data-lang='javascript'>buttonLabels: 'fontawesome'</div>
         </section>
 
-        <section class="demo-section">
+        <section class='demo-section'>
             <h3>📝 Custom Text Labels</h3>
-            <div class="demo-description">
+            <div class='demo-description'>
                 Define custom button content using the <code>contentDefault</code> property.
                 You can use plain text, HTML, or even emojis for button labels.
             </div>
-            <div class="editable-custom-labels">
+            <div class='editable-custom-labels'>
                 <h4>Custom Text Labels</h4>
-                <p>This toolbar uses <strong>custom text labels</strong> instead of icons. Notice how the buttons show descriptive text like "Bold", "Italic", and even emojis like 🔗 for links!</p>
+                <p>This toolbar uses <strong>custom text labels</strong> instead of icons. Notice how the buttons show descriptive text like 'Bold', 'Italic', and even emojis like 🔗 for links!</p>
             </div>
-            <div class="code-example" data-lang="javascript">{
+            <div class='code-example' data-lang='javascript'>{
   name: 'bold',
   contentDefault: '&lt;strong&gt;Bold&lt;/strong&gt;'
 },
@@ -186,17 +186,17 @@
 }</div>
         </section>
 
-        <section class="demo-section">
+        <section class='demo-section'>
             <h3>🎭 Mixed Styles</h3>
-            <div class="demo-description">
+            <div class='demo-description'>
                 Combine default FontAwesome icons with custom labels in the same toolbar.
                 Some buttons use icons while others use custom text or emojis.
             </div>
-            <div class="editable-mixed">
+            <div class='editable-mixed'>
                 <h4>Mixed Button Styles</h4>
                 <p>This toolbar <strong>mixes different styles</strong> - some buttons use FontAwesome icons (like bold and italic), while others use custom text and emojis like 📝 Underline and 1️⃣ List.</p>
             </div>
-            <div class="code-example" data-lang="javascript">buttons: [
+            <div class='code-example' data-lang='javascript'>buttons: [
   'bold',  // FontAwesome icon
   'italic', // FontAwesome icon
   {
@@ -206,44 +206,44 @@
 ]</div>
         </section>
 
-        <section class="demo-section">
+        <section class='demo-section'>
             <h3>⚡ Minimal Toolbar</h3>
-            <div class="demo-description">
+            <div class='demo-description'>
                 Sometimes less is more! Create a simple toolbar with just the essential formatting options.
                 Perfect for comment systems or simple text editing.
             </div>
-            <div class="editable-minimal">
+            <div class='editable-minimal'>
                 <h4>Minimal Toolbar</h4>
                 <p>This editor has a <strong>minimal toolbar</strong> with just the basics: Bold, Italic, and Link. Perfect for simple editing scenarios where you don't need all the formatting options.</p>
             </div>
-            <div class="code-example" data-lang="javascript">buttons: [
+            <div class='code-example' data-lang='javascript'>buttons: [
   { name: 'bold', contentDefault: 'B' },
   { name: 'italic', contentDefault: 'I' },
   { name: 'anchor', contentDefault: 'Link' }
 ]</div>
         </section>
 
-        <section class="demo-section">
+        <section class='demo-section'>
             <h3>🎨 Advanced Styling</h3>
-            <div class="demo-description">
+            <div class='demo-description'>
                 Use custom CSS classes and special Unicode characters to create unique button appearances.
                 This example uses mathematical Unicode characters and custom colors.
             </div>
-            <div class="editable-advanced">
+            <div class='editable-advanced'>
                 <h4>Advanced Custom Styling</h4>
                 <p>This toolbar uses <strong>advanced custom styling</strong> with special Unicode characters like 𝐁 for bold and 𝐼 for italic, plus custom CSS classes for unique colors and effects!</p>
             </div>
-            <div class="code-example" data-lang="javascript">{
+            <div class='code-example' data-lang='javascript'>{
   name: 'bold',
-  contentDefault: '&lt;span class="custom-btn-bold"&gt;𝐁&lt;/span&gt;'
+  contentDefault: '&lt;span class='custom-btn-bold'&gt;𝐁&lt;/span&gt;'
 },
 {
   name: 'italic',
-  contentDefault: '&lt;span class="custom-btn-italic"&gt;𝐼&lt;/span&gt;'
+  contentDefault: '&lt;span class='custom-btn-italic'&gt;𝐼&lt;/span&gt;'
 }</div>
         </section>
 
-        <section class="demo-section">
+        <section class='demo-section'>
             <h3>💡 Key Features Demonstrated</h3>
             <ul>
                 <li><strong>FontAwesome Integration:</strong> Professional icon set for all buttons</li>
@@ -257,14 +257,14 @@
         </section>
     </div>
 
-    <div class="source-attribution">
+    <div class='source-attribution'>
         <small>
-            <a style="color: #6c757d;" target="_blank" href="http://www.goodreads.com/reader/475-great-expectations">
-                Sample text from "Great Expectations" by Charles Dickens
+            <a style='color: #6c757d;' target='_blank' href='http://www.goodreads.com/reader/475-great-expectations'>
+                Sample text from 'Great Expectations' by Charles Dickens
             </a>
         </small>
     </div>
 
-    <script type="module" src="ts/custom-toolbar.ts"></script>
+    <script type='module' src='ts/custom-toolbar.ts'></script>
 </body>
 </html>

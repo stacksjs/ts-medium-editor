@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Medium Editor - Clean Paste Demo</title>
-    <link rel="stylesheet" href="css/demo.css">
-    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css">
-    <link rel="stylesheet" href="../src/css/medium-editor.css">
-    <link rel="stylesheet" href="../src/css/themes/default.css">
+    <link rel='stylesheet' href='css/demo.css'>
+    <link rel='stylesheet' href='https://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css'>
+    <link rel='stylesheet' href='../src/css/medium-editor.css'>
+    <link rel='stylesheet' href='../src/css/themes/default.css'>
     <style>
         .demo-section {
             margin-bottom: 2rem;
@@ -152,20 +152,20 @@
     </style>
 </head>
 <body>
-    <a href="https://github.com/stacksjs/ts-medium-editor" aria-label="Fork me on GitHub">
-        <img style="position: absolute; top: 0; right: 0; border: 0;"
-             src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
-             alt="Fork me on GitHub">
+    <a href='https://github.com/stacksjs/ts-medium-editor' aria-label='Fork me on GitHub'>
+        <img style='position: absolute; top: 0; right: 0; border: 0;'
+          src='https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png'
+          alt='Fork me on GitHub'>
     </a>
 
-    <div id="container">
+    <div id='container'>
         <header>
             <h1>Medium Editor - Clean Paste Demo</h1>
             <p>This demo showcases the clean paste functionality that automatically removes unwanted formatting from copied content.</p>
         </header>
 
-        <section class="demo-section">
-            <div class="demo-instructions">
+        <section class='demo-section'>
+            <div class='demo-instructions'>
                 <h3>🧹 Clean Paste Features</h3>
                 <ul>
                     <li><strong>Word Document Cleanup:</strong> Removes Microsoft Word's proprietary tags and styles</li>
@@ -176,27 +176,27 @@
                 </ul>
             </div>
 
-            <div class="demo-sample">
+            <div class='demo-sample'>
                 <h4>📋 Example: What Clean Paste Does</h4>
                 <p><strong>Before cleaning</strong> (what gets pasted from Word/Google Docs):</p>
-                <div class="sample-content sample-dirty">
-                    &lt;p style="margin:0cm;font-family:Calibri;font-size:11pt;color:#333"&gt;<br>
-                    &nbsp;&nbsp;&lt;span style="font-weight:bold;color:red;mso-style-name:Heading"&gt;Important Title&lt;/span&gt;<br>
+                <div class='sample-content sample-dirty'>
+                    &lt;p style='margin:0cm;font-family:Calibri;font-size:11pt;color:#333'&gt;<br>
+                    &nbsp;&nbsp;&lt;span style='font-weight:bold;color:red;mso-style-name:Heading'&gt;Important Title&lt;/span&gt;<br>
                     &nbsp;&nbsp;&lt;o:p&gt;&lt;/o:p&gt;<br>
                     &lt;/p&gt;<br>
-                    &lt;div style="margin:10px;padding:5px"&gt;<br>
-                    &nbsp;&nbsp;&lt;span&gt;Some content with a &lt;a href="example.com" style="color:blue"&gt;link&lt;/a&gt;&lt;/span&gt;<br>
+                    &lt;div style='margin:10px;padding:5px'&gt;<br>
+                    &nbsp;&nbsp;&lt;span&gt;Some content with a &lt;a href='example.com' style='color:blue'&gt;link&lt;/a&gt;&lt;/span&gt;<br>
                     &lt;/div&gt;
                 </div>
                 <p><strong>After cleaning</strong> (what you get in the editor):</p>
-                <div class="sample-content sample-clean">
+                <div class='sample-content sample-clean'>
                     &lt;p&gt;&lt;strong&gt;Important Title&lt;/strong&gt;&lt;/p&gt;<br>
-                    &lt;p&gt;Some content with a &lt;a href="example.com"&gt;link&lt;/a&gt;&lt;/p&gt;
+                    &lt;p&gt;Some content with a &lt;a href='example.com'&gt;link&lt;/a&gt;&lt;/p&gt;
                 </div>
                 <p><em>✨ Clean, semantic HTML that matches your site's styling!</em></p>
             </div>
 
-            <div class="demo-instructions">
+            <div class='demo-instructions'>
                 <h3>🧪 Try It Yourself</h3>
                 <p>Copy some rich text from any of these sources and paste it into the editor below:</p>
                 <ul>
@@ -209,33 +209,33 @@
                 <p><em>Watch the real-time comparison below to see exactly what gets cleaned!</em></p>
             </div>
 
-            <div class="editable">
-                <p>My father's family name being <a href="https://en.wikipedia.org/wiki/Pip_(Great_Expectations)">Pirrip</a>, and my Christian name Philip, my infant tongue could make of both names nothing longer or more explicit than Pip. So, I called myself Pip, and came to be called Pip.</p>
+            <div class='editable'>
+                <p>My father's family name being <a href='https://en.wikipedia.org/wiki/Pip_(Great_Expectations)'>Pirrip</a>, and my Christian name Philip, my infant tongue could make of both names nothing longer or more explicit than Pip. So, I called myself Pip, and came to be called Pip.</p>
                 <p>I give Pirrip as my father's family name, on the authority of his tombstone and my sister,—Mrs. Joe Gargery, who married the blacksmith. As I never saw my father or my mother, and never saw any likeness of either of them (for their days were long before the days of photographs), my first fancies regarding what they were like were unreasonably derived from their tombstones.</p>
                 <p><strong>Try pasting some rich text content here!</strong> The editor will automatically clean unwanted formatting while preserving the essential structure and styling.</p>
             </div>
 
-            <div class="comparison-container">
-                <div class="comparison-panel">
-                    <div class="comparison-header before">
+            <div class='comparison-container'>
+                <div class='comparison-panel'>
+                    <div class='comparison-header before'>
                         📥 Raw Pasted HTML (Before Cleaning)
                     </div>
-                    <div class="comparison-content">
-                        <div id="raw-html" class="html-display">Paste something to see the raw HTML...</div>
+                    <div class='comparison-content'>
+                        <div id='raw-html' class='html-display'>Paste something to see the raw HTML...</div>
                     </div>
                 </div>
-                <div class="comparison-panel">
-                    <div class="comparison-header after">
+                <div class='comparison-panel'>
+                    <div class='comparison-header after'>
                         ✨ Cleaned HTML (After Processing)
                     </div>
-                    <div class="comparison-content">
-                        <div id="clean-html" class="html-display">Cleaned HTML will appear here...</div>
+                    <div class='comparison-content'>
+                        <div id='clean-html' class='html-display'>Cleaned HTML will appear here...</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="demo-section">
+        <section class='demo-section'>
             <h3>Technical Implementation</h3>
             <p>This demo uses the following paste configuration:</p>
             <pre><code>{
@@ -253,14 +253,14 @@
         </section>
     </div>
 
-    <div class="source-attribution">
+    <div class='source-attribution'>
         <small>
-            <a style="color: #6c757d;" target="_blank" href="http://www.goodreads.com/reader/475-great-expectations">
-                Sample text from "Great Expectations" by Charles Dickens
+            <a style='color: #6c757d;' target='_blank' href='http://www.goodreads.com/reader/475-great-expectations'>
+                Sample text from 'Great Expectations' by Charles Dickens
             </a>
         </small>
     </div>
 
-    <script type="module" src="ts/clean-paste.ts"></script>
+    <script type='module' src='ts/clean-paste.ts'></script>
 </body>
 </html>

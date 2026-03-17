@@ -20,7 +20,7 @@
 }
 
 .medium-editor-toolbar {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 16px;
     left: 0;
     position: absolute;
@@ -61,7 +61,7 @@
 }
 
 .medium-editor-toolbar li .medium-editor-action-pre {
-    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
     font-size: 12px;
     font-weight: 100;
     padding: 15px 0;
@@ -86,7 +86,7 @@
 
 .medium-editor-toolbar-actions:after {
     clear: both;
-    content: "";
+    content: '';
     display: table;
 }
 

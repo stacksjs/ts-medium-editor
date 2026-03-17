@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Medium Editor - Custom Extension Demo</title>
-    <link rel="stylesheet" href="css/demo.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/font-awesome.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="../src/css/medium-editor.css">
-    <link rel="stylesheet" href="../src/css/themes/default.css">
+    <link rel='stylesheet' href='css/demo.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/font-awesome.min.css' crossorigin='anonymous'>
+    <link rel='stylesheet' href='../src/css/medium-editor.css'>
+    <link rel='stylesheet' href='../src/css/themes/default.css'>
     <style>
         .demo-section {
             margin-bottom: 2rem;
@@ -146,49 +146,49 @@
     </style>
 </head>
 <body>
-    <a href="https://github.com/stacksjs/ts-medium-editor" aria-label="Fork me on GitHub">
-        <img style="position: absolute; top: 0; right: 0; border: 0;"
-             src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
-             alt="Fork me on GitHub">
+    <a href='https://github.com/stacksjs/ts-medium-editor' aria-label='Fork me on GitHub'>
+        <img style='position: absolute; top: 0; right: 0; border: 0;'
+          src='https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png'
+          alt='Fork me on GitHub'>
     </a>
 
-    <div id="container">
+    <div id='container'>
         <header>
             <h1>Medium Editor - Custom Extension Demo</h1>
             <p>This demo shows how to create custom extensions and pass editor instances to extension methods.</p>
         </header>
 
-        <div id="status-indicator"></div>
+        <div id='status-indicator'></div>
 
-        <section class="demo-section">
+        <section class='demo-section'>
             <h3>🔧 Custom Extension with Instance Access</h3>
-            <div class="demo-description">
+            <div class='demo-description'>
                 Each editor instance has a custom extension that can access the editor's properties.
-                The extension creates a custom green "🎯" button that shows which editor instance it belongs to.
+                The extension creates a custom green '🎯' button that shows which editor instance it belongs to.
             </div>
 
-            <div class="demo-instructions">
+            <div class='demo-instructions'>
                 <h4>🧪 Try This</h4>
                 <ol>
                     <li>Select text in either editor below</li>
-                    <li>Click the green "🎯" button in the toolbar</li>
+                    <li>Click the green '🎯' button in the toolbar</li>
                     <li>Notice how each extension knows which editor instance it belongs to</li>
                     <li>The alert will show the unique editor ID and some instance information</li>
                 </ol>
             </div>
 
-            <div class="editor-container">
-                <div class="editor-box">
+            <div class='editor-container'>
+                <div class='editor-box'>
                     <h4>📝 First Editor Instance</h4>
-                    <div class="one">
-                        <p>My father's family name being <a href="https://en.wikipedia.org/wiki/Pip_(Great_Expectations)">Pirrip</a>, and my Christian name Philip, my infant tongue could make of both names nothing longer or more explicit than Pip. So, I called myself Pip, and came to be called Pip.</p>
+                    <div class='one'>
+                        <p>My father's family name being <a href='https://en.wikipedia.org/wiki/Pip_(Great_Expectations)'>Pirrip</a>, and my Christian name Philip, my infant tongue could make of both names nothing longer or more explicit than Pip. So, I called myself Pip, and came to be called Pip.</p>
                         <p>I give Pirrip as my father's family name, on the authority of his tombstone and my sister,—Mrs. Joe Gargery, who married the blacksmith.</p>
                     </div>
                 </div>
 
-                <div class="editor-box">
+                <div class='editor-box'>
                     <h4>📝 Second Editor Instance</h4>
-                    <div class="two">
+                    <div class='two'>
                         <p>Ours was the marsh country, down by the river, within, as the river wound, twenty miles of the sea. My first most vivid and broad impression of the identity of things seems to me to have been gained on a memorable raw afternoon towards evening.</p>
                         <p>At such a time I found out for certain that this bleak place overgrown with nettles was the churchyard; and that Philip Pirrip, late of this parish, and also Georgiana wife of the above, were dead and buried.</p>
                     </div>
@@ -196,14 +196,14 @@
             </div>
         </section>
 
-        <section class="demo-section">
+        <section class='demo-section'>
             <h3>💻 Code Implementation</h3>
-            <div class="demo-description">
+            <div class='demo-description'>
                 Here's how to create a custom extension that can access the editor instance:
             </div>
 
             <h4>1. Custom Extension Class</h4>
-            <div class="code-example" data-lang="typescript">class CustomExtension {
+            <div class='code-example' data-lang='typescript'>class CustomExtension {
   name = 'customExtension'
   private button: HTMLButtonElement
   private base: any
@@ -236,7 +236,7 @@
 }</div>
 
             <h4>2. Create Editor Instances with Extensions</h4>
-            <div class="code-example" data-lang="typescript">// First editor instance
+            <div class='code-example' data-lang='typescript'>// First editor instance
 const editorOne = new MediumEditor('.one', {
   toolbar: {
     buttons: ['bold', 'italic', 'customExtension'], // Include standard + custom buttons
@@ -268,7 +268,7 @@ const editorTwo = new MediumEditor('.two', {
             </ul>
 
             <h4>Extension Properties Available</h4>
-            <div class="demo-description">
+            <div class='demo-description'>
                 Through <code>this.base</code>, extensions can access:
                 <ul>
                     <li><code>this.base.id</code> - Unique editor identifier</li>
@@ -283,7 +283,7 @@ const editorTwo = new MediumEditor('.two', {
             </div>
 
             <h4>Advanced Extension Features</h4>
-            <div class="demo-description">
+            <div class='demo-description'>
                 Extensions can also implement:
                 <ul>
                     <li><strong><code>init()</code></strong> - Called when extension is first initialized</li>
@@ -296,15 +296,15 @@ const editorTwo = new MediumEditor('.two', {
         </section>
     </div>
 
-    <div class="source-attribution">
+    <div class='source-attribution'>
         <small>
-            <a style="color: #6c757d;" target="_blank" href="http://www.goodreads.com/reader/475-great-expectations">
-                Sample text from "Great Expectations" by Charles Dickens
+            <a style='color: #6c757d;' target='_blank' href='http://www.goodreads.com/reader/475-great-expectations'>
+                Sample text from 'Great Expectations' by Charles Dickens
             </a>
         </small>
     </div>
 
-    <script type="module" src="ts/pass-instance.ts"></script>
+    <script type='module' src='ts/pass-instance.ts'></script>
 
     <!-- Error fallback for browsers that don't support ES modules -->
     <script nomodule>

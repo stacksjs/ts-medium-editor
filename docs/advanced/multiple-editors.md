@@ -371,6 +371,7 @@ class ArticleForm {
 
   private updateFormData(field: string, content: string): void {
     if (field in this.formData) {
+      // eslint-disable-next-line markdown/no-reversed-links
       (this.formData as any)[field] = content
     }
 

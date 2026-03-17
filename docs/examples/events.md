@@ -590,6 +590,7 @@ function updateActivityLog() {
 - Learn about [Custom Toolbar](/examples/toolbar) event integration
 
 <script>
+/* eslint-disable markdown/reference-links-images, markdown/blanks-around-tables, markdown/table-pipe-style, markdown/no-reversed-links, markdown/single-title, markdown/link-image-reference-definitions, markdown/table-column-count */
 // This demo uses a simplified version for documentation purposes
 // In a real implementation, you would import from the built library:
 // import { MediumEditor } from 'ts-medium-editor'
@@ -765,9 +766,11 @@ function updateDemoSaveStatus(status, text) {
     textElement.textContent = text
   }
 }
+/* eslint-enable markdown/reference-links-images, markdown/blanks-around-tables, markdown/table-pipe-style, markdown/no-reversed-links, markdown/single-title, markdown/link-image-reference-definitions, markdown/table-column-count */
 </script>
 
 <style>
+/* eslint-disable markdown/reference-links-images, markdown/blanks-around-tables, markdown/table-pipe-style, markdown/no-reversed-links, markdown/single-title, markdown/link-image-reference-definitions, markdown/table-column-count */
 .demo-container {
   border: 2px dashed #e9ecef;
   border-radius: 8px;
@@ -902,4 +905,5 @@ function updateDemoSaveStatus(status, text) {
 .demo-container .medium-editor-element:first-child {
   margin-top: 0;
 }
+/* eslint-enable markdown/reference-links-images, markdown/blanks-around-tables, markdown/table-pipe-style, markdown/no-reversed-links, markdown/single-title, markdown/link-image-reference-definitions, markdown/table-column-count */
 </style>

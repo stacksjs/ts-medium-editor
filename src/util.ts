@@ -566,7 +566,7 @@ function findOrCreateMatchingTextNodes(document: Document, element: HTMLElement,
       const matchStartIndex = match.start - currentTextIndex
       if (matchStartIndex > 0) {
         currentNode = currentNode.splitText(matchStartIndex)
-        currentTextIndex + = matchStartIndex
+        currentTextIndex += matchStartIndex
       }
       startReached = true
     }

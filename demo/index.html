@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>ts-medium-editor Demo</title>
-    <!-- <link rel="stylesheet" href="../src/css/medium-editor.css"> -->
-    <link rel="stylesheet" href="../src/css/medium-editor-compiled.css">
+    <!-- <link rel='stylesheet' href='../src/css/medium-editor.css'> -->
+    <link rel='stylesheet' href='../src/css/medium-editor-compiled.css'>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -104,42 +104,42 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class='container'>
         <h1>ts-medium-editor</h1>
-        <p class="subtitle">A modern, type-safe port of the popular Medium.com-style WYSIWYG editor</p>
+        <p class='subtitle'>A modern, type-safe port of the popular Medium.com-style WYSIWYG editor</p>
 
-        <div class="feature-list">
-            <div class="feature-item">
+        <div class='feature-list'>
+            <div class='feature-item'>
                 <h3>🎯 TypeScript First</h3>
                 <p>Complete type definitions for enhanced developer experience</p>
             </div>
-            <div class="feature-item">
+            <div class='feature-item'>
                 <h3>🚀 Modern ES Modules</h3>
                 <p>Works seamlessly with modern bundlers and import/export</p>
             </div>
-            <div class="feature-item">
+            <div class='feature-item'>
                 <h3>🔧 Extensible</h3>
                 <p>Plugin architecture for custom functionality</p>
             </div>
-            <div class="feature-item">
+            <div class='feature-item'>
                 <h3>⚡ Lightweight</h3>
                 <p>No jQuery or heavy dependencies required</p>
             </div>
         </div>
 
-        <div class="demo-section">
-            <div class="demo-title">Basic Editor</div>
+        <div class='demo-section'>
+            <div class='demo-title'>Basic Editor</div>
             <p>Try editing the content below. Use the toolbar for formatting options:</p>
-            <div class="editable-basic" data-placeholder="Start typing here...">
+            <div class='editable-basic' data-placeholder='Start typing here...'>
                 <p>This is a <strong>basic editor</strong> with <em>formatting capabilities</em>.</p>
-                <p>You can create <a href="#">links</a>, format text, and more!</p>
+                <p>You can create <a href='#'>links</a>, format text, and more!</p>
             </div>
         </div>
 
-        <div class="demo-section">
-            <div class="demo-title">Article Editor</div>
+        <div class='demo-section'>
+            <div class='demo-title'>Article Editor</div>
             <p>A more advanced setup for article writing:</p>
-            <div class="editable-article" data-placeholder="Write your article...">
+            <div class='editable-article' data-placeholder='Write your article...'>
                 <h2>Your Article Title</h2>
                 <p>Write compelling content here. You can use various formatting options:</p>
                 <ul>
@@ -148,38 +148,38 @@
                     <li>Links and quotes</li>
                 </ul>
                 <blockquote>
-                    "This is a blockquote example that demonstrates the quote feature."
+                    'This is a blockquote example that demonstrates the quote feature.'
                 </blockquote>
                 <p>Continue writing your amazing content!</p>
             </div>
         </div>
 
-        <div class="demo-section">
-            <div class="demo-title">Multiple Elements</div>
+        <div class='demo-section'>
+            <div class='demo-title'>Multiple Elements</div>
             <p>The editor can work with multiple elements simultaneously:</p>
-            <div class="editable-title" data-placeholder="Enter title...">
+            <div class='editable-title' data-placeholder='Enter title...'>
                 <h1>Document Title</h1>
             </div>
-            <div class="editable-content" data-placeholder="Enter content...">
+            <div class='editable-content' data-placeholder='Enter content...'>
                 <p>This is the document content. Both elements are editable and managed by the same editor instance.</p>
             </div>
         </div>
 
-        <div class="demo-section">
-            <div class="demo-title">Real-time Output</div>
+        <div class='demo-section'>
+            <div class='demo-title'>Real-time Output</div>
             <p>See the editor content update in real-time:</p>
-            <div class="editable-realtime" data-placeholder="Type something to see real-time output...">
+            <div class='editable-realtime' data-placeholder='Type something to see real-time output...'>
                 <p>Edit this text and watch the output below change!</p>
             </div>
-            <div class="output">
+            <div class='output'>
                 <h4>Serialized Content:</h4>
-                <pre id="realtime-output"></pre>
+                <pre id='realtime-output'></pre>
             </div>
         </div>
 
-        <div class="demo-section">
-            <div class="demo-title">Installation & Usage</div>
-            <div class="code-block">
+        <div class='demo-section'>
+            <div class='demo-title'>Installation & Usage</div>
+            <div class='code-block'>
 # Install via npm
 npm install ts-medium-editor
 
@@ -187,7 +187,7 @@ npm install ts-medium-editor
 bun add ts-medium-editor
             </div>
 
-            <div class="code-block">
+            <div class='code-block'>
 // TypeScript/ES Modules usage
 import { MediumEditor } from 'ts-medium-editor'
 import 'ts-medium-editor/css/medium-editor.css'
@@ -204,6 +204,6 @@ const editor = new MediumEditor('.editable', {
         </div>
     </div>
 
-    <script type="module" src="./ts/index.ts"></script>
+    <script type='module' src='./ts/index.ts'></script>
 </body>
 </html>

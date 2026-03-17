@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // Make it globally available for debugging
+    // eslint-disable-next-line max-statements-per-line
     ; (window as any).editor = editor
 
     // Debug: Check if anchor extension is loaded

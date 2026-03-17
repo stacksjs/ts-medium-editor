@@ -259,6 +259,7 @@ export function mockExecCommand(): any {
   }
 
   // Add mock properties
+  // eslint-disable-next-line max-statements-per-line
   ; (mockFn as any).mock = {
     calls,
     callCount: () => callCount,
@@ -303,6 +304,7 @@ export function mockOwnerDocumentExecCommand(ownerDoc: Document = document): any
   }
 
   // Add mock properties
+  // eslint-disable-next-line max-statements-per-line
   ; (mockFn as any).mock = {
     calls,
     callCount: () => callCount,

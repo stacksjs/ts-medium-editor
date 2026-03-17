@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Medium Editor - Extension Examples</title>
-    <link rel="stylesheet" href="css/demo.css">
-    <link rel="stylesheet" href="../src/css/medium-editor.css">
-    <link rel="stylesheet" href="../src/css/themes/default.css">
+    <link rel='stylesheet' href='css/demo.css'>
+    <link rel='stylesheet' href='../src/css/medium-editor.css'>
+    <link rel='stylesheet' href='../src/css/themes/default.css'>
     <style>
         .demo-section {
             margin-bottom: 2rem;
@@ -128,47 +128,47 @@
     </style>
 </head>
 <body>
-    <a href="https://github.com/stacksjs/ts-medium-editor" aria-label="Fork me on GitHub">
-        <img style="position: absolute; top: 0; right: 0; border: 0;"
-             src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
-             alt="Fork me on GitHub">
+    <a href='https://github.com/stacksjs/ts-medium-editor' aria-label='Fork me on GitHub'>
+        <img style='position: absolute; top: 0; right: 0; border: 0;'
+          src='https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png'
+          alt='Fork me on GitHub'>
     </a>
 
-    <div id="container">
+    <div id='container'>
         <header>
             <h1>Medium Editor - Extension Examples</h1>
             <p>This demo showcases how to create custom extensions to extend the editor's functionality.</p>
         </header>
 
-        <section class="demo-section">
+        <section class='demo-section'>
             <h3>🔌 Active Extensions</h3>
-            <div class="extension-list">
-                <div class="extension-card">
+            <div class='extension-list'>
+                <div class='extension-card'>
                     <h4>🚫 Disable Context Menu</h4>
-                    <span class="status interactive">Interactive</span>
+                    <span class='status interactive'>Interactive</span>
                     <p>Prevents right-click context menu. Press <kbd>ESC</kbd> to toggle on/off.</p>
                 </div>
-                <div class="extension-card">
+                <div class='extension-card'>
                     <h4>📊 Word Count</h4>
-                    <span class="status active">Active</span>
+                    <span class='status active'>Active</span>
                     <p>Real-time word and character count displayed in bottom-right corner.</p>
                 </div>
-                <div class="extension-card">
+                <div class='extension-card'>
                     <h4>💾 Auto-Save</h4>
-                    <span class="status active">Active</span>
+                    <span class='status active'>Active</span>
                     <p>Automatically saves content to localStorage after 2 seconds of inactivity.</p>
                 </div>
-                <div class="extension-card">
+                <div class='extension-card'>
                     <h4>😀 Emoji Picker</h4>
-                    <span class="status interactive">Interactive</span>
+                    <span class='status interactive'>Interactive</span>
                     <p>Click the emoji button in the toolbar to insert emojis.</p>
                 </div>
             </div>
         </section>
 
-        <section class="demo-section">
+        <section class='demo-section'>
             <h3>✨ Try the Extensions</h3>
-            <div class="instructions">
+            <div class='instructions'>
                 <h4>🧪 How to Test</h4>
                 <ul>
                     <li><strong>Type some text</strong> → Watch the word count update in real-time</li>
@@ -180,7 +180,7 @@
                 </ul>
             </div>
 
-            <div class="editable">
+            <div class='editable'>
                 <h2>Extension Demo Editor</h2>
                 <p>This editor demonstrates multiple custom extensions working together. Try typing some text to see the <strong>word count</strong> update in the bottom-right corner.</p>
                 <p>Right-click anywhere in this editor - the <strong>context menu is disabled</strong> by default. Press the <kbd>ESC</kbd> key to toggle it on and off.</p>
@@ -189,14 +189,14 @@
             </div>
         </section>
 
-        <section class="demo-section">
+        <section class='demo-section'>
             <h3>💻 Extension Code Examples</h3>
-            <div id="syntax-loading" style="text-align: center; padding: 1rem; color: #6c757d; font-style: italic;">
+            <div id='syntax-loading' style='text-align: center; padding: 1rem; color: #6c757d; font-style: italic;'>
                 🎨 Loading beautiful syntax highlighting...
             </div>
 
             <h4>1. Disable Context Menu Extension</h4>
-            <div class="code-example" data-lang="typescript">class DisableContextMenuExtension {
+            <div class='code-example' data-lang='typescript'>class DisableContextMenuExtension {
   name = 'disable-context-menu'
 
   init(): void {
@@ -226,7 +226,7 @@
 }</div>
 
             <h4>2. Word Count Extension</h4>
-            <div class="code-example" data-lang="typescript">class WordCountExtension {
+            <div class='code-example' data-lang='typescript'>class WordCountExtension {
   name = 'word-count'
   private countElement?: HTMLElement
 
@@ -252,7 +252,7 @@
 }</div>
 
             <h4>3. Auto-Save Extension</h4>
-            <div class="code-example" data-lang="typescript">class AutoSaveExtension {
+            <div class='code-example' data-lang='typescript'>class AutoSaveExtension {
   name = 'auto-save'
   private saveTimeout?: number
 
@@ -280,7 +280,7 @@
 }</div>
 
             <h4>4. Emoji Picker Extension</h4>
-            <div class="code-example" data-lang="typescript">class EmojiPickerExtension {
+            <div class='code-example' data-lang='typescript'>class EmojiPickerExtension {
   name = 'emoji-picker'
 
   init(): void {
@@ -305,9 +305,9 @@
 }</div>
         </section>
 
-        <section class="demo-section">
+        <section class='demo-section'>
             <h3>🛠️ Creating Your Own Extensions</h3>
-            <div class="demo-description">
+            <div class='demo-description'>
                 Extensions allow you to add custom functionality to Medium Editor. Each extension should:
                 <ul>
                     <li>Have a unique <code>name</code> property</li>
@@ -320,14 +320,14 @@
         </section>
     </div>
 
-    <div class="source-attribution">
+    <div class='source-attribution'>
         <small>
-            <a style="color: #6c757d;" target="_blank" href="http://www.goodreads.com/reader/475-great-expectations">
-                Sample text from "Great Expectations" by Charles Dickens
+            <a style='color: #6c757d;' target='_blank' href='http://www.goodreads.com/reader/475-great-expectations'>
+                Sample text from 'Great Expectations' by Charles Dickens
             </a>
         </small>
     </div>
 
-    <script type="module" src="ts/extension-example.ts"></script>
+    <script type='module' src='ts/extension-example.ts'></script>
 </body>
 </html>

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Medium Editor - Multiple Editors Demo</title>
-    <link rel="stylesheet" href="css/demo.css">
-    <link rel="stylesheet" href="../src/css/medium-editor.css">
-    <link rel="stylesheet" href="../src/css/themes/default.css">
+    <link rel='stylesheet' href='css/demo.css'>
+    <link rel='stylesheet' href='../src/css/medium-editor.css'>
+    <link rel='stylesheet' href='../src/css/themes/default.css'>
     <style>
         .demo-section {
             margin-bottom: 2rem;
@@ -42,7 +42,7 @@
             border-color: #007bff;
             outline: none;
         }
-        .editable[data-disable-toolbar="true"] {
+        .editable[data-disable-toolbar='true'] {
             border-color: #ffc107;
             background: #fff3cd;
         }
@@ -103,80 +103,80 @@
     </style>
 </head>
 <body>
-    <a href="https://github.com/stacksjs/ts-medium-editor" aria-label="Fork me on GitHub">
-        <img style="position: absolute; top: 0; right: 0; border: 0;"
-             src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
-             alt="Fork me on GitHub">
+    <a href='https://github.com/stacksjs/ts-medium-editor' aria-label='Fork me on GitHub'>
+        <img style='position: absolute; top: 0; right: 0; border: 0;'
+          src='https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png'
+          alt='Fork me on GitHub'>
     </a>
 
-    <div id="container">
+    <div id='container'>
         <header>
             <h1>Medium Editor - Multiple Editors Demo</h1>
             <p>This demo showcases how to create multiple editor instances with different configurations on the same page.</p>
         </header>
 
-        <section class="demo-section">
+        <section class='demo-section'>
             <h3>📝 First Editor Instance</h3>
-            <div class="demo-description">
+            <div class='demo-description'>
                 This editor instance manages multiple elements with the <code>.editable</code> class.
                 All elements share the same toolbar configuration and settings.
             </div>
-            <div class="editor-info">
+            <div class='editor-info'>
                 <strong>Configuration:</strong> Full toolbar with bold, italic, underline, anchor, headings, and quote
             </div>
 
-            <div class="editable" id="a">
+            <div class='editable' id='a'>
                 <h2>First Editor Element</h2>
-                <p>This text is a <b>paragraph</b> with some <a href="http://www.w3schools.com/jsref/dom_obj_all.asp"><i>tag elements</i></a>. Try selecting text to see the full toolbar.</p>
+                <p>This text is a <b>paragraph</b> with some <a href='http://www.w3schools.com/jsref/dom_obj_all.asp'><i>tag elements</i></a>. Try selecting text to see the full toolbar.</p>
             </div>
 
-            <div class="editable" id="b">
+            <div class='editable' id='b'>
                 <h2>Second Editor Element</h2>
                 <p>This text is another paragraph in the same editor instance. Notice how both elements share the same toolbar configuration and behavior.</p>
             </div>
 
-            <div class="editable" id="d" data-disable-toolbar="true">
+            <div class='editable' id='d' data-disable-toolbar='true'>
                 <h2>Disabled Toolbar Editor</h2>
-                <p>This element has <i>data-disable-toolbar="true"</i> attribute, so the toolbar won't appear when you select text here.</p>
+                <p>This element has <i>data-disable-toolbar='true'</i> attribute, so the toolbar won't appear when you select text here.</p>
             </div>
         </section>
 
-        <section class="demo-section">
+        <section class='demo-section'>
             <h3>🔧 Second Editor Instance</h3>
-            <div class="demo-description">
+            <div class='demo-description'>
                 This is a separate editor instance with the <code>.secondEditable</code> class.
                 It has a different toolbar configuration to demonstrate independent editor setups.
             </div>
-            <div class="editor-info">
+            <div class='editor-info'>
                 <strong>Configuration:</strong> Minimal toolbar with only bold, italic, quote, and pre (code block)
             </div>
 
-            <div class="secondEditable" id="c">
+            <div class='secondEditable' id='c'>
                 <h2>Third Editor in Another Instance</h2>
                 <p>This text is in a completely separate editor instance with a different toolbar configuration. Try selecting text to see the minimal toolbar.</p>
             </div>
         </section>
 
-        <section class="demo-section">
+        <section class='demo-section'>
             <h3>🚫 Non-Editable Element</h3>
-            <div class="demo-description">
+            <div class='demo-description'>
                 This element doesn't have any editor class, so it remains non-editable for comparison.
             </div>
 
-            <div class="non-editable" id="e">
+            <div class='non-editable' id='e'>
                 <h2>Non-Editable Div</h2>
                 <p>This text is in a normal div without any Medium Editor functionality. You cannot edit this content or see any toolbar.</p>
             </div>
         </section>
 
-        <section class="demo-section">
+        <section class='demo-section'>
             <h3>💻 Code Implementation</h3>
-            <div class="demo-description">
+            <div class='demo-description'>
                 Here's how to create multiple editor instances with different configurations:
             </div>
 
             <h4>First Editor Instance</h4>
-            <div class="code-example" data-lang="typescript">const editor1 = new MediumEditor('.editable', {
+            <div class='code-example' data-lang='typescript'>const editor1 = new MediumEditor('.editable', {
   toolbar: {
     buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote'],
   },
@@ -187,7 +187,7 @@
 })</div>
 
             <h4>Second Editor Instance</h4>
-            <div class="code-example" data-lang="typescript">const editor2 = new MediumEditor('.secondEditable', {
+            <div class='code-example' data-lang='typescript'>const editor2 = new MediumEditor('.secondEditable', {
   toolbar: {
     buttons: ['bold', 'italic', 'quote', 'pre'],
   },
@@ -202,20 +202,20 @@
                 <li><strong>Multiple Instances:</strong> Two separate editor instances with different configurations</li>
                 <li><strong>Shared Elements:</strong> First instance manages multiple elements with the same class</li>
                 <li><strong>Different Toolbars:</strong> Each instance can have completely different toolbar buttons</li>
-                <li><strong>Disabled Toolbar:</strong> Individual elements can disable the toolbar with <code>data-disable-toolbar="true"</code></li>
+                <li><strong>Disabled Toolbar:</strong> Individual elements can disable the toolbar with <code>data-disable-toolbar='true'</code></li>
                 <li><strong>Independent Behavior:</strong> Each editor instance operates independently</li>
             </ul>
         </section>
     </div>
 
-    <div class="source-attribution">
+    <div class='source-attribution'>
         <small>
-            <a style="color: #6c757d;" target="_blank" href="http://www.goodreads.com/reader/475-great-expectations">
-                Sample text from "Great Expectations" by Charles Dickens
+            <a style='color: #6c757d;' target='_blank' href='http://www.goodreads.com/reader/475-great-expectations'>
+                Sample text from 'Great Expectations' by Charles Dickens
             </a>
         </small>
     </div>
 
-    <script type="module" src="ts/multi-editor.ts"></script>
+    <script type='module' src='ts/multi-editor.ts'></script>
 </body>
 </html>

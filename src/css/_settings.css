@@ -1,8 +1,8 @@
 /* Settings - CSS Custom Properties */
 :root {
     /* Typography */
-    --font-fixed: Consolas, "Liberation Mono", Menlo, Courier, monospace;
-    --font-sans-serif: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --font-fixed: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    --font-sans-serif: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
     /* UI / Positioning */
     --z-toolbar: 2000;

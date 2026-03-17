@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Medium Editor - Textarea Support Demo</title>
-    <link rel="stylesheet" href="css/demo.css">
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css">
-    <link rel="stylesheet" href="../src/css/medium-editor.css">
-    <link rel="stylesheet" href="../src/css/themes/default.css" id="medium-editor-theme">
+    <link rel='stylesheet' href='css/demo.css'>
+    <link rel='stylesheet' href='http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css'>
+    <link rel='stylesheet' href='../src/css/medium-editor.css'>
+    <link rel='stylesheet' href='../src/css/themes/default.css' id='medium-editor-theme'>
     <style>
         .demo-section {
             margin-bottom: 2rem;
@@ -110,26 +110,26 @@
     </style>
 </head>
 <body>
-    <a href="https://github.com/stacksjs/ts-medium-editor" class="github-link" aria-label="Fork me on GitHub">
-        <img style="z-index: 100;position: absolute; top: 0; right: 0; border: 0;"
-             src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
-             alt="Fork me on GitHub">
+    <a href='https://github.com/stacksjs/ts-medium-editor' class='github-link' aria-label='Fork me on GitHub'>
+        <img style='z-index: 100;position: absolute; top: 0; right: 0; border: 0;'
+          src='https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png'
+          alt='Fork me on GitHub'>
     </a>
 
-    <div id="container">
+    <div id='container'>
         <header>
             <h1>Medium Editor - Textarea Support</h1>
             <p>This demo shows how Medium Editor can enhance HTML textarea elements with rich text editing capabilities.</p>
         </header>
 
-        <section class="demo-section">
+        <section class='demo-section'>
             <h3>📝 Enhanced Textarea</h3>
-            <div class="demo-description">
+            <div class='demo-description'>
                 Medium Editor can transform regular HTML textarea elements into rich text editors while
                 maintaining the familiar textarea behavior and form integration.
             </div>
 
-            <div class="demo-instructions">
+            <div class='demo-instructions'>
                 <h4>🧪 Try This</h4>
                 <ol>
                     <li>Click in the textarea below to start editing</li>
@@ -139,17 +139,17 @@
                 </ol>
             </div>
 
-            <div class="textarea-container">
-                <textarea class="editable medium-editor-textarea">&lt;p&gt;Textarea is now supported with rich text editing!&lt;/p&gt;
+            <div class='textarea-container'>
+                <textarea class='editable medium-editor-textarea'>&lt;p&gt;Textarea is now supported with rich text editing!&lt;/p&gt;
 
-&lt;p&gt;You can format text with &lt;strong&gt;bold&lt;/strong&gt;, &lt;em&gt;italic&lt;/em&gt;, and &lt;a href="https://example.com"&gt;links&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;You can format text with &lt;strong&gt;bold&lt;/strong&gt;, &lt;em&gt;italic&lt;/em&gt;, and &lt;a href='https://example.com'&gt;links&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2&gt;Headings Work Too&lt;/h2&gt;
 
 &lt;p&gt;This textarea maintains all the benefits of a form element while providing rich text editing capabilities.&lt;/p&gt;</textarea>
             </div>
 
-            <div class="feature-highlight">
+            <div class='feature-highlight'>
                 <h4>✨ Key Benefits</h4>
                 <ul>
                     <li><strong>Form Integration:</strong> Works seamlessly with HTML forms</li>
@@ -161,22 +161,22 @@
             </div>
         </section>
 
-        <section class="demo-section">
+        <section class='demo-section'>
             <h3>💻 Code Implementation</h3>
-            <div class="demo-description">
+            <div class='demo-description'>
                 Here's how to enable Medium Editor on textarea elements:
             </div>
 
             <h4>1. HTML Structure</h4>
-            <div class="code-example" data-lang="html">&lt;form&gt;
-  &lt;textarea class="editable medium-editor-textarea"&gt;
+            <div class='code-example' data-lang='html'>&lt;form&gt;
+  &lt;textarea class='editable medium-editor-textarea'&gt;
     &amp;lt;p&amp;gt;Your initial HTML content here&amp;lt;/p&amp;gt;
   &lt;/textarea&gt;
-  &lt;button type="submit"&gt;Submit&lt;/button&gt;
+  &lt;button type='submit'&gt;Submit&lt;/button&gt;
 &lt;/form&gt;</div>
 
             <h4>2. JavaScript Configuration</h4>
-            <div class="code-example" data-lang="typescript">const editor = new MediumEditor('.editable', {
+            <div class='code-example' data-lang='typescript'>const editor = new MediumEditor('.editable', {
   buttonLabels: 'fontawesome',
   toolbar: {
     buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote'],
@@ -187,7 +187,7 @@
 })</div>
 
             <h4>3. CSS Styling (Optional)</h4>
-            <div class="code-example" data-lang="css">.medium-editor-textarea {
+            <div class='code-example' data-lang='css'>.medium-editor-textarea {
   width: 100%;
   min-height: 200px;
   border: 2px dashed #dee2e6;
@@ -204,7 +204,7 @@
 }</div>
 
             <h4>How It Works</h4>
-            <div class="demo-description">
+            <div class='demo-description'>
                 When Medium Editor is applied to a textarea:
                 <ol>
                     <li>The textarea is temporarily hidden</li>
@@ -226,14 +226,14 @@
         </section>
     </div>
 
-    <div class="source-attribution">
+    <div class='source-attribution'>
         <small>
-            <a style="color: #6c757d;" target="_blank" href="https://github.com/stacksjs/ts-medium-editor">
+            <a style='color: #6c757d;' target='_blank' href='https://github.com/stacksjs/ts-medium-editor'>
                 Medium Editor Project on GitHub
             </a>
         </small>
     </div>
 
-    <script type="module" src="ts/textarea.ts"></script>
+    <script type='module' src='ts/textarea.ts'></script>
 </body>
 </html>

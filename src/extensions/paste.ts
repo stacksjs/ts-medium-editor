@@ -113,7 +113,7 @@ export class Paste implements MediumEditorExtension {
       content = pastedPlain || ''
       // Convert plain text to HTML by escaping and adding line breaks
       content = this.htmlEntities(content)
-      content = content.replace(/\n / g, '<br>')
+      content = content.replace(/\n/g, '<br>')
     }
     else {
       content = pastedHTML
@@ -188,13 +188,13 @@ export class Paste implements MediumEditorExtension {
 
     // Newlines between paragraphs in html have no syntactic value
     [/<\/p>\n+/gi, '</p>'],
-    [/\n+<p / gi, '<p'],
+    [/\n+<p/gi, '<p'],
 
     // Microsoft Word makes these odd tags, like <o:p></o:p>
-    [/<\/?o:[a - z]*>/gi, ''],
+    [/<\/?o:[a-z]*>/gi, ''],
 
     // Microsoft Word adds some special elements around list items
-    [/<!\[if !supportLists\] > (((?!<!).)*) < !\[endif\]>/gi, '$1'],
+    [/<!\[if !supportLists\]>(((?!<!).)*)<!\[endif\]>/gi, '$1'],
     ]
   }
 
@@ -244,7 +244,7 @@ export class Paste implements MediumEditorExtension {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
-    .replace(/\u0027 / g, '&#39;')
+    .replace(/\u0027/g, '&#39;')
   }
 
   private pasteHTML(html: string, editable: HTMLElement): void {
@@ -252,7 +252,7 @@ export class Paste implements MediumEditorExtension {
     const selection = window.getSelection()
     if (!selection || selection.rangeCount === 0) {
       // No selection, append to the end
-      editable.innerHTML + = html
+      editable.innerHTML += html
       return
     }
 

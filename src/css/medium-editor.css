@@ -87,7 +87,7 @@
 }
 
 /* Static toolbar styles */
-.medium-editor-toolbar[data-static-toolbar="true"] {
+.medium-editor-toolbar[data-static-toolbar='true'] {
   position: static !important;
   display: block !important;
   visibility: visible !important;
@@ -135,7 +135,7 @@
   pointer-events: none;
 }
 
-.medium-editor-element[data-medium-focused="true"]:empty:before {
+.medium-editor-element[data-medium-focused='true']:empty:before {
   content: attr(data-placeholder);
 }
 

@@ -174,6 +174,7 @@ const fullEditor = new MediumEditor('.full-featured-editor', {
 - Explore [Custom Toolbar](/examples/toolbar) integration
 
 <script>
+/* eslint-disable markdown/reference-links-images, markdown/blanks-around-tables, markdown/table-pipe-style, markdown/no-reversed-links, markdown/single-title, markdown/link-image-reference-definitions, markdown/table-column-count */
 // Simplified demo implementation for documentation purposes
 class DemoMediumEditor {
   constructor(selector, options = {}) {
@@ -435,9 +436,11 @@ if (document.readyState === 'loading') {
 } else {
   waitForElements()
 }
+/* eslint-enable markdown/reference-links-images, markdown/blanks-around-tables, markdown/table-pipe-style, markdown/no-reversed-links, markdown/single-title, markdown/link-image-reference-definitions, markdown/table-column-count */
 </script>
 
 <style>
+/* eslint-disable markdown/reference-links-images, markdown/blanks-around-tables, markdown/table-pipe-style, markdown/no-reversed-links, markdown/single-title, markdown/link-image-reference-definitions, markdown/table-column-count */
 .demo-container {
   border: 2px dashed #e9ecef;
   border-radius: 8px;
@@ -500,4 +503,5 @@ if (document.readyState === 'loading') {
 .demo-container .medium-editor-element:first-child {
   margin-top: 0;
 }
+/* eslint-enable markdown/reference-links-images, markdown/blanks-around-tables, markdown/table-pipe-style, markdown/no-reversed-links, markdown/single-title, markdown/link-image-reference-definitions, markdown/table-column-count */
 </style>

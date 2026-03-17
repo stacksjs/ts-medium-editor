@@ -148,7 +148,7 @@ export const selection = {
           let i = node.childNodes.length - 1
           while (i >= 0) {
             nodeStack.push(node.childNodes[i])
-            i - = 1
+            i -= 1
           }
         }
       }
@@ -270,7 +270,7 @@ export const selection = {
     while (treeWalker.nextNode()) {
       const blockIsEmpty = treeWalker.currentNode.textContent === ''
       if (blockIsEmpty || emptyBlocksCount > 0) {
-        emptyBlocksCount + = 1
+        emptyBlocksCount += 1
       }
       if (treeWalker.currentNode === closestBlock) {
         return emptyBlocksCount

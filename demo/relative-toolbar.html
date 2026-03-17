@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Medium Editor - Relative Toolbar Container Demo</title>
-    <link rel="stylesheet" href="css/demo.css">
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css" rel="stylesheet">
-    <link rel="stylesheet" href="../src/css/medium-editor.css">
-    <link rel="stylesheet" href="../src/css/themes/default.css">
+    <link rel='stylesheet' href='css/demo.css'>
+    <link href='http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css' rel='stylesheet'>
+    <link rel='stylesheet' href='../src/css/medium-editor.css'>
+    <link rel='stylesheet' href='../src/css/themes/default.css'>
     <style>
         .demo-section {
             margin-bottom: 2rem;
@@ -70,7 +70,7 @@
             padding: 10px;
         }
         .toolbar-container::before {
-            content: "📍 Toolbar will appear here when text is selected above";
+            content: '📍 Toolbar will appear here when text is selected above';
             font-size: 14px;
             position: absolute;
             z-index: 0;
@@ -149,27 +149,27 @@
     </style>
 </head>
 <body>
-    <a href="https://github.com/stacksjs/ts-medium-editor" class="github-link" aria-label="Fork me on GitHub">
-        <img style="z-index: 100;position: absolute; top: 0; right: 0; border: 0;"
-             src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
-             alt="Fork me on GitHub">
+    <a href='https://github.com/stacksjs/ts-medium-editor' class='github-link' aria-label='Fork me on GitHub'>
+        <img style='z-index: 100;position: absolute; top: 0; right: 0; border: 0;'
+          src='https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png'
+          alt='Fork me on GitHub'>
     </a>
 
-    <div id="container">
+    <div id='container'>
         <header>
             <h1>Medium Editor - Relative Toolbar Container</h1>
             <p>This demo shows how to constrain the toolbar to appear within a specific container element.</p>
         </header>
 
-        <section class="demo-section">
+        <section class='demo-section'>
             <h3>📝 Editor with Relative Toolbar</h3>
-            <div class="demo-description">
+            <div class='demo-description'>
                 The toolbar for this editor is configured to appear within the red container below,
                 rather than floating freely on the page. This is useful for constraining the toolbar
                 within specific layout boundaries.
             </div>
 
-            <div class="demo-instructions">
+            <div class='demo-instructions'>
                 <h4>🧪 Try This</h4>
                 <ol>
                     <li>Select text in the editor below</li>
@@ -178,31 +178,31 @@
                 </ol>
             </div>
 
-            <div class="editable">
+            <div class='editable'>
                 <h3>Relative Toolbar Container Demo</h3>
-                <p>My father's family name being <a href="https://en.wikipedia.org/wiki/Pip_(Great_Expectations)">Pirrip</a>, and my Christian name Philip, my infant tongue could make of both names nothing longer or more explicit than Pip. So, I called myself Pip, and came to be called Pip.</p>
+                <p>My father's family name being <a href='https://en.wikipedia.org/wiki/Pip_(Great_Expectations)'>Pirrip</a>, and my Christian name Philip, my infant tongue could make of both names nothing longer or more explicit than Pip. So, I called myself Pip, and came to be called Pip.</p>
                 <p>I give Pirrip as my father's family name, on the authority of his tombstone and my sister,—Mrs. Joe Gargery, who married the blacksmith. As I never saw my father or my mother, and never saw any likeness of either of them (for their days were long before the days of photographs), my first fancies regarding what they were like were unreasonably derived from their tombstones...</p>
             </div>
         </section>
 
-        <div id="someRelativeDiv" class="toolbar-container"></div>
+        <div id='someRelativeDiv' class='toolbar-container'></div>
 
-        <section class="demo-section">
+        <section class='demo-section'>
             <h3>💻 Code Implementation</h3>
-            <div class="demo-description">
+            <div class='demo-description'>
                 Here's how to configure a relative toolbar container:
             </div>
 
             <h4>1. HTML Structure</h4>
-            <div class="code-example" data-lang="html">&lt;div class="editable"&gt;
+            <div class='code-example' data-lang='html'>&lt;div class='editable'&gt;
   &lt;p&gt;Your editable content here...&lt;/p&gt;
 &lt;/div&gt;
 
 &lt;!-- Toolbar will appear in this container --&gt;
-&lt;div id="toolbar-container"&gt;&lt;/div&gt;</div>
+&lt;div id='toolbar-container'&gt;&lt;/div&gt;</div>
 
             <h4>2. JavaScript Configuration</h4>
-            <div class="code-example" data-lang="typescript">// Get the container element
+            <div class='code-example' data-lang='typescript'>// Get the container element
 const relativeContainer = document.getElementById('toolbar-container')
 
 // Create editor with relative toolbar container
@@ -219,7 +219,7 @@ const editor = new MediumEditor('.editable', {
 })</div>
 
             <h4>Available Toolbar Buttons</h4>
-            <div class="demo-description">
+            <div class='demo-description'>
                 This demo includes a comprehensive set of toolbar buttons:
                 <ul>
                     <li><strong>Text Formatting:</strong> bold, italic, underline, strikethrough</li>
@@ -243,14 +243,14 @@ const editor = new MediumEditor('.editable', {
         </section>
     </div>
 
-    <div class="source-attribution">
+    <div class='source-attribution'>
         <small>
-            <a style="color: #6c757d;" target="_blank" href="http://www.goodreads.com/reader/475-great-expectations">
-                Sample text from "Great Expectations" by Charles Dickens
+            <a style='color: #6c757d;' target='_blank' href='http://www.goodreads.com/reader/475-great-expectations'>
+                Sample text from 'Great Expectations' by Charles Dickens
             </a>
         </small>
     </div>
 
-    <script type="module" src="ts/relative-toolbar.ts"></script>
+    <script type='module' src='ts/relative-toolbar.ts'></script>
 </body>
 </html>

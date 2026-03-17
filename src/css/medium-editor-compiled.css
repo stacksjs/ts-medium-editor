@@ -3,8 +3,8 @@
 
 /* Settings */
 :root {
-    --font-fixed: Consolas, "Liberation Mono", Menlo, Courier, monospace;
-    --font-sans-serif: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --font-fixed: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    --font-sans-serif: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --z-toolbar: 2000;
 }
 
@@ -43,7 +43,7 @@
 
 /* Anchor Preview */
 .medium-editor-anchor-preview {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 16px;
     left: 0;
     line-height: 1.4;
@@ -133,7 +133,7 @@
 }
 
 .medium-editor-toolbar {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 16px;
     left: 0;
     position: absolute;
@@ -174,7 +174,7 @@
 }
 
 .medium-editor-toolbar li .medium-editor-action-pre {
-    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
     font-size: 12px;
     font-weight: 100;
     padding: 15px 0;
@@ -199,7 +199,7 @@
 
 .medium-editor-toolbar-actions:after {
     clear: both;
-    content: "";
+    content: '';
     display: table;
 }
 
@@ -235,7 +235,7 @@
 
 .medium-editor-toolbar-form input,
 .medium-editor-toolbar-form a {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .medium-editor-toolbar-form .medium-editor-toolbar-form-row {
@@ -280,7 +280,7 @@
 /* Clearfix */
 .clearfix:after {
     clear: both;
-    content: "";
+    content: '';
     display: table;
 }
 

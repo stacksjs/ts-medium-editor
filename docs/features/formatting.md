@@ -19,12 +19,12 @@ editor.execAction('bold')
 // Keyboard shortcut: Ctrl/Cmd + B
 ```
 
-**HTML Output:**
+#### HTML Output
 
 - Primary: `<strong>bold text</strong>`
 - Alternative: `<b>bold text</b>`
 
-**Usage Example:**
+##### Usage Example
 
 ```typescript
 const editor = new MediumEditor('.editable', {
@@ -50,7 +50,7 @@ editor.execAction('italic')
 // Keyboard shortcut: Ctrl/Cmd + I
 ```
 
-**HTML Output:**
+#### HTML Output
 
 - Primary: `<em>italic text</em>`
 - Alternative: `<i>italic text</i>`
@@ -66,7 +66,7 @@ editor.execAction('underline')
 // Keyboard shortcut: Ctrl/Cmd + U
 ```
 
-**HTML Output:**
+#### HTML Output
 
 - `<u>underlined text</u>`
 
@@ -81,11 +81,11 @@ Convert text to a second-level heading.
 editor.execAction('h2')
 ```
 
-**HTML Output:**
+#### HTML Output
 
 - `<h2>Heading Text</h2>`
 
-**Use Cases:**
+##### Use Cases
 
 - Section titles
 - Major topic divisions
@@ -100,11 +100,11 @@ Convert text to a third-level heading.
 editor.execAction('h3')
 ```
 
-**HTML Output:**
+#### HTML Output
 
 - `<h3>Heading Text</h3>`
 
-**Use Cases:**
+##### Use Cases
 
 - Subsection titles
 - Topic subdivisions
@@ -119,11 +119,11 @@ Transform text into blockquotes for citations, emphasis, or highlighting importa
 editor.execAction('quote')
 ```
 
-**HTML Output:**
+### HTML Output
 
 - `<blockquote><p>quoted text</p></blockquote>`
 
-**Use Cases:**
+#### Use Cases
 
 - Citations and references
 - Highlighting key points
@@ -600,7 +600,7 @@ class OptimizedFormatting extends Extension {
 
 ### Common Formatting Issues
 
-**Formatting not applying:**
+#### Formatting not applying
 
 ```typescript
 // Check if text is selected
@@ -615,7 +615,7 @@ if (!editor.isActive()) {
 }
 ```
 
-**Inconsistent format detection:**
+##### Inconsistent format detection
 
 ```typescript
 // Use content-based detection as fallback
@@ -643,7 +643,7 @@ function detectFormatFallback(format: string): boolean {
 }
 ```
 
-**Format state synchronization:**
+###### Format state synchronization
 
 ```typescript
 // Manually sync format states

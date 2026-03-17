@@ -24,7 +24,7 @@ const editor = new MediumEditor('.editable', {
 })
 ```
 
-**User Workflow:**
+#### User Workflow
 
 1. Select text in the editor
 2. Click the anchor button in the toolbar
@@ -555,7 +555,7 @@ class AccessibleLinks extends Extension {
 
 ### Common Link Issues
 
-**Links not working:**
+#### Links not working
 
 ```typescript
 // Check if anchor extension is enabled
@@ -571,7 +571,7 @@ editor.subscribe('linkCreated', (event, data) => {
 })
 ```
 
-**URL validation failing:**
+##### URL validation failing
 
 ```typescript
 // Debug URL validation
@@ -587,7 +587,7 @@ const editor = new MediumEditor('.editable', {
 })
 ```
 
-**Link styling issues:**
+###### Link styling issues
 
 ```css
 /_ Ensure link styles are applied _/

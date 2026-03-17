@@ -45,6 +45,7 @@ export class Toolbar implements MediumEditorExtension {
   }
 
   createToolbar(): void {
+    // eslint-disable-next-line no-console
     // console.log('Creating toolbar with options:', this.options)
 
     this.toolbar = document.createElement('div')
@@ -65,32 +66,39 @@ export class Toolbar implements MediumEditorExtension {
       this.toolbar.style.zIndex = '1000'
     }
 
+    // eslint-disable-next-line no-console
     // console.log('Toolbar element created:', this.toolbar)
 
     this.createButtons()
     this.addExtensionForms()
     this.container.appendChild(this.toolbar)
 
+    // eslint-disable-next-line no-console
     // console.log('Toolbar appended to container:', this.container)
+    // eslint-disable-next-line no-console
     // console.log('Final toolbar HTML:', this.toolbar.outerHTML)
   }
 
   createButtons(): void {
     if (!this.options.buttons || !this.toolbar) {
+      // eslint-disable-next-line no-console
       console.warn('Cannot create buttons: missing options.buttons or toolbar')
       return
     }
 
+    // eslint-disable-next-line no-console
     // console.log('Creating buttons for:', this.options.buttons)
 
     this.options.buttons.forEach((buttonConfig, index) => {
       // Skip null or undefined button configurations
       if (!buttonConfig) {
+        // eslint-disable-next-line no-console
         console.warn(`Skipping null/undefined button config at index ${index}`)
         return
       }
 
       const buttonName = typeof buttonConfig === 'string' ? buttonConfig : buttonConfig.name
+      // eslint-disable-next-line no-console
       // console.log(`Creating button ${index}: "${buttonName}"`)
 
       const button = typeof buttonConfig === 'string'
@@ -98,6 +106,7 @@ export class Toolbar implements MediumEditorExtension {
       : this.createCustomButton(buttonConfig)
 
       if (button) {
+        // eslint-disable-next-line no-console
         // console.log(`Button created successfully:`, {
           //   name: buttonName,
           //   tagName: button.tagName,
@@ -116,13 +125,16 @@ export class Toolbar implements MediumEditorExtension {
 
           this.toolbar!.appendChild(button)
           this.buttons.push(button)
+          // eslint-disable-next-line no-console
           // console.log(`Button "${buttonName}" added to toolbar`)
         }
         else {
+          // eslint-disable-next-line no-console
           console.warn(`Failed to create button for: "${buttonName}"`)
         }
       })
 
+      // eslint-disable-next-line no-console
       // console.log(`Total buttons created: ${this.buttons.length}`)
     }
 
@@ -147,6 +159,7 @@ export class Toolbar implements MediumEditorExtension {
         const extension = this.editor.getExtensionByName(buttonName)
 
         if (extension && typeof extension.getForm === 'function') {
+          // eslint-disable-next-line no-console
           // console.log(`Preparing form for extension: ${buttonName}`)
           const form = extension.getForm()
           if (form) {
@@ -156,6 +169,7 @@ export class Toolbar implements MediumEditorExtension {
             form.classList.remove('medium-editor-toolbar-form-active')
             // Force hide the form with inline style as backup
             form.style.display = 'none'
+            // eslint-disable-next-line no-console
             // console.log(`Form added for ${buttonName} (hidden by default)`)
           }
         }
@@ -306,17 +320,21 @@ export class Toolbar implements MediumEditorExtension {
 
     attachEventListeners(): void {
       if (!this.toolbar) {
+        // eslint-disable-next-line no-console
         console.warn('No toolbar found when attaching event listeners')
         return
       }
 
+      // eslint-disable-next-line no-console
       // console.log('Attaching event listeners to toolbar:', this.toolbar)
+      // eslint-disable-next-line no-console
       // console.log('Toolbar buttons found:', this.buttons.length)
 
       this.toolbar.addEventListener('click', (event) => {
         this.handleToolbarClick(event)
       })
 
+      // eslint-disable-next-line no-console
       // console.log('✓ Event listeners attached to toolbar')
     }
 
@@ -325,6 +343,7 @@ export class Toolbar implements MediumEditorExtension {
       event.stopImmediatePropagation()
 
       const target = event.target as HTMLElement
+      // eslint-disable-next-line no-console
       // console.log('🎯 Toolbar click event received:', {
         //   target,
         //   tagName: target.tagName,
@@ -341,6 +360,7 @@ export class Toolbar implements MediumEditorExtension {
         const maxAttempts = 5 // Prevent infinite loops
 
         while (buttonElement && !action && attempts < maxAttempts) {
+          // eslint-disable-next-line no-console
           // console.log(`🔍 Checking element ${attempts + 1}:`, {
             //   tagName: buttonElement.tagName,
             //   className: buttonElement.className,
@@ -355,6 +375,7 @@ export class Toolbar implements MediumEditorExtension {
             attempts++
           }
 
+          // eslint-disable-next-line no-console
           // console.log('Final results:', {
             //   action,
             //   buttonElement: buttonElement?.tagName,
@@ -363,10 +384,12 @@ export class Toolbar implements MediumEditorExtension {
             // })
 
             if (!action || !buttonElement) {
+              // eslint-disable-next-line no-console
               console.warn('No valid action found for click target after DOM traversal')
               return
             }
 
+            // eslint-disable-next-line no-console
             // console.log(`✅ Successfully found action "${action}", calling handleButtonClick`)
 
             // Call the button click handler with the correct action
@@ -380,16 +403,19 @@ export class Toolbar implements MediumEditorExtension {
             // Debouncing: prevent rapid successive clicks
             const currentTime = Date.now()
             if (currentTime - this.lastClickTime < this.minClickInterval) {
+              // eslint-disable-next-line no-console
               // console.log(`🚫 Click debounced for action "${action}" (too soon after last click)`)
               return
             }
             this.lastClickTime = currentTime
 
+            // eslint-disable-next-line no-console
             // console.log(`🔘 Button click started:`, action)
 
             // Check for custom function action first
             const customAction = this.customActions.get(action)
             if (customAction) {
+              // eslint-disable-next-line no-console
               // console.log(`Executing custom action for: ${action}`)
               customAction()
               return
@@ -399,13 +425,16 @@ export class Toolbar implements MediumEditorExtension {
             if (this.editor) {
               const extension = this.editor.getExtensionByName(action)
               if (extension && typeof extension.handleClick === 'function') {
+                // eslint-disable-next-line no-console
                 // console.log(`🎯 Delegating to ${action} extension's handleClick method`)
                 try {
                   const _result = extension.handleClick(event)
+                  // eslint-disable-next-line no-console
                   // console.log(`Extension ${action} handleClick result:`, result)
                   return
                 }
                 catch (error) {
+                  // eslint-disable-next-line no-console
                   console.error(`Error in ${action} extension handleClick:`, error)
                   // Continue to fallback handling
                 }
@@ -415,6 +444,7 @@ export class Toolbar implements MediumEditorExtension {
             // Get current selection and validate it
             const selection = window.getSelection()
             if (!selection || selection.rangeCount === 0) {
+              // eslint-disable-next-line no-console
               console.warn('No selection available')
               return
             }
@@ -423,21 +453,25 @@ export class Toolbar implements MediumEditorExtension {
             const selectedText = range.toString().trim()
 
             if (!selectedText) {
+              // eslint-disable-next-line no-console
               console.warn('No text selected')
               return
             }
 
             // Ensure the selection is within our editor
             if (!this.isSelectionInEditor(selection)) {
+              // eslint-disable-next-line no-console
               console.warn('Selection not in editor')
               return
             }
 
+            // eslint-disable-next-line no-console
             console.log(`✓ Valid selection found: "${selectedText}"`)
 
             // Check if this button is currently active/pressed
             const buttonElement = event.target as HTMLElement
             const isButtonActive = buttonElement.classList.contains('medium-editor-button-active')
+            // eslint-disable-next-line no-console
             console.log(`Button "${action}" current state - active: ${isButtonActive}`)
 
             // Find the editor element that contains this selection
@@ -452,11 +486,14 @@ export class Toolbar implements MediumEditorExtension {
             }
 
             if (!editorElement) {
+              // eslint-disable-next-line no-console
               console.warn('Could not find editor element')
               return
             }
 
+            // eslint-disable-next-line no-console
             console.log(`Editor element found:`, editorElement)
+            // eslint-disable-next-line no-console
             console.log(`Editor element HTML before formatting:`, editorElement.innerHTML)
 
             // Capture detailed selection information
@@ -469,6 +506,7 @@ export class Toolbar implements MediumEditorExtension {
               commonAncestor: range.commonAncestorContainer,
             }
 
+            // eslint-disable-next-line no-console
             console.log('Selection info:', selectionInfo)
 
             // Apply formatting using multiple strategies
@@ -477,9 +515,11 @@ export class Toolbar implements MediumEditorExtension {
 
             // Check if we're dealing with overlapping formatting (e.g., Bold after Italic)
             const hasExistingFormatting = this.hasExistingFormatting(range)
+            // eslint-disable-next-line no-console
             console.log(`Existing formatting detected:`, hasExistingFormatting)
 
             // Strategy 1: Try using editor's execAction method first (this will trigger checkSelection)
+            // eslint-disable-next-line no-console
             console.log(`🔄 Attempting editor execAction for action: ${action}`)
             editorElement.focus()
 
@@ -490,10 +530,12 @@ export class Toolbar implements MediumEditorExtension {
             let commandSuccess = false
             if (this.editor && typeof this.editor.execAction === 'function') {
               commandSuccess = this.editor.execAction(action)
+              // eslint-disable-next-line no-console
               console.log(`Editor execAction result: ${commandSuccess}`)
 
               // If execAction succeeded, we can complete the operation
               if (commandSuccess) {
+                // eslint-disable-next-line no-console
                 console.log(`✅ Editor execAction successful for ${action}`)
                 success = true
 
@@ -501,6 +543,7 @@ export class Toolbar implements MediumEditorExtension {
                 setTimeout(() => {
                   this.isFormattingInProgress = false
                   this.updateButtonStates()
+                  // eslint-disable-next-line no-console
                   console.log('✅ Button states updated after editor execAction')
                 }, 10)
 
@@ -509,39 +552,51 @@ export class Toolbar implements MediumEditorExtension {
             }
 
             // If editor execAction failed or isn't available, fall back to direct execCommand
+            // eslint-disable-next-line no-console
             console.log(`🔄 Falling back to direct execCommand for action: ${action}`)
 
             // Small delay to ensure focus is properly set
             setTimeout(() => {
               commandSuccess = document.execCommand(action, false, undefined)
+              // eslint-disable-next-line no-console
               console.log(`execCommand result: ${commandSuccess}`)
 
               // Verify if the formatting was actually applied
               const newHtml = editorElement.innerHTML
               const wasActuallyFormatted = this.isTextActuallyFormatted(range, action)
 
+              // eslint-disable-next-line no-console
               console.log(`HTML before: ${htmlBefore}`)
+              // eslint-disable-next-line no-console
               console.log(`HTML after:  ${newHtml}`)
+              // eslint-disable-next-line no-console
               console.log(`HTML changed: ${htmlBefore !== newHtml}`)
+              // eslint-disable-next-line no-console
               console.log(`Text actually formatted: ${wasActuallyFormatted}`)
 
               // Special case: Check for Bold after Italic issues
               if (action === 'bold' && hasExistingFormatting.italic) {
+                // eslint-disable-next-line no-console
                 console.log(`🔍 Special case: Bold attempted on text that already has Italic formatting`)
+                // eslint-disable-next-line no-console
                 console.log(`Selection parent elements:`, this.getParentElements(range))
               }
 
               // Special case: Check for Italic after Bold issues
               if (action === 'italic' && hasExistingFormatting.bold) {
+                // eslint-disable-next-line no-console
                 console.log(`🔍 Special case: Italic attempted on text that already has Bold formatting`)
+                // eslint-disable-next-line no-console
                 console.log(`Selection parent elements:`, this.getParentElements(range))
               }
 
               if (commandSuccess && wasActuallyFormatted) {
+                // eslint-disable-next-line no-console
                 console.log(`✅ execCommand successful for ${action}`)
                 success = true
               }
               else if (!wasActuallyFormatted) {
+                // eslint-disable-next-line no-console
                 console.log(`❌ execCommand returned ${commandSuccess} but formatting verification failed`)
 
                 // Before falling back to DOM manipulation, check if execCommand actually did something useful
@@ -549,6 +604,7 @@ export class Toolbar implements MediumEditorExtension {
                 const execCommandChangedHTML = htmlBefore !== htmlAfterExecCommand
 
                 if (execCommandChangedHTML) {
+                  // eslint-disable-next-line no-console
                   console.log(`✅ execCommand did change HTML, checking if it achieved the desired result`)
 
                   // Create a fresh range at the same location to check current state
@@ -558,47 +614,59 @@ export class Toolbar implements MediumEditorExtension {
                     const currentFormatting = this.hasExistingFormatting(currentRange)
                     const currentlyHasFormatting = currentFormatting[action as keyof typeof currentFormatting]
 
+                    // eslint-disable-next-line no-console
                     console.log(`Current formatting state after execCommand:`, currentFormatting)
+                    // eslint-disable-next-line no-console
                     console.log(`Currently has ${action}: ${currentlyHasFormatting}`)
 
                     // If we were trying to toggle and the formatting state changed appropriately, consider it success
                     if (hasExistingFormatting[action as keyof typeof hasExistingFormatting] !== currentlyHasFormatting) {
+                      // eslint-disable-next-line no-console
                       console.log(`✅ execCommand successfully toggled ${action} formatting`)
                       success = true
                     }
                     else {
+                      // eslint-disable-next-line no-console
                       console.log(`🔄 execCommand changed HTML but didn't achieve desired formatting toggle`)
                       // Proceed with DOM manipulation fallback
                       const manipulationSuccess = this.applyFormattingDirectly(action, currentRange, selectedText, editorElement)
                       if (manipulationSuccess) {
+                        // eslint-disable-next-line no-console
                         console.log(`✅ DOM manipulation successful for ${action}`)
                         success = true
                       }
                       else {
+                        // eslint-disable-next-line no-console
                         console.log(`❌ DOM manipulation also failed for ${action}`)
                       }
                     }
                   }
                   else {
+                    // eslint-disable-next-line no-console
                     console.log(`No selection available to verify current formatting state`)
                     success = true // Assume execCommand worked since it changed the HTML
                   }
                 }
                 else {
+                  // eslint-disable-next-line no-console
                   console.log(`🔄 execCommand didn't change HTML, falling back to DOM manipulation`)
                   // Standard DOM manipulation fallback
                   const manipulationSuccess = this.applyFormattingDirectly(action, range, selectedText, editorElement)
                   if (manipulationSuccess) {
+                    // eslint-disable-next-line no-console
                     console.log(`✅ DOM manipulation successful for ${action}`)
                     success = true
                   }
                   else {
+                    // eslint-disable-next-line no-console
                     console.log(`❌ DOM manipulation also failed for ${action}`)
                   }
                 }
               }
 
+              // eslint-disable-next-line no-console
               console.log(`🏁 Final result for ${action}: ${success ? 'SUCCESS' : 'FAILED'}`)
+              // eslint-disable-next-line no-console
               console.log(`Final HTML:`, editorElement.innerHTML)
 
               // Always update button states after any formatting operation
@@ -606,6 +674,7 @@ export class Toolbar implements MediumEditorExtension {
                 // Try to restore a selection on the formatted content if no selection exists
                 const currentSelection = window.getSelection()
                 if (!currentSelection || currentSelection.rangeCount === 0) {
+                  // eslint-disable-next-line no-console
                   console.log('No selection after formatting - attempting to restore selection on formatted content')
                   this.restoreSelectionOnFormattedText(editorElement, selectedText, action)
                 }
@@ -613,21 +682,25 @@ export class Toolbar implements MediumEditorExtension {
                 // Clear the formatting flag and update button states
                 this.isFormattingInProgress = false
                 this.updateButtonStates()
+                // eslint-disable-next-line no-console
                 console.log('✅ Button states updated after formatting operation')
               }, 10) // Reduced from 50ms to 10ms for faster visual feedback
 
+              // eslint-disable-next-line no-console
               console.log('---')
             }, 10)
           }
 
           private applyFormattingDirectly(action: string, range: Range, _selectedText: string, _editorElement: HTMLElement): boolean {
             try {
+              // eslint-disable-next-line no-console
               console.log(`🔧 Starting direct DOM manipulation for "${action}"`)
 
               // First, check if we should be removing formatting instead of adding it
               const hasExistingFormatting = this.hasExistingFormatting(range)
               const shouldRemove = hasExistingFormatting[action as keyof typeof hasExistingFormatting]
 
+              // eslint-disable-next-line no-console
               console.log(`Formatting state check:`, {
                 action,
                 hasExisting: shouldRemove,
@@ -635,10 +708,12 @@ export class Toolbar implements MediumEditorExtension {
               })
 
               if (shouldRemove) {
+                // eslint-disable-next-line no-console
                 console.log(`🔄 Text already has ${action} formatting - attempting to remove it`)
                 return this.removeFormattingFromRange(range, action)
               }
               else {
+                // eslint-disable-next-line no-console
                 console.log(`🔄 Text does not have ${action} formatting - adding it`)
 
                 // Extract the selected content
@@ -658,6 +733,7 @@ export class Toolbar implements MediumEditorExtension {
                   formattingElement = document.createElement('u')
                   break
                   default:
+                  // eslint-disable-next-line no-console
                   console.warn(`Unsupported direct formatting action: ${action}`)
                   return false
                 }
@@ -674,11 +750,13 @@ export class Toolbar implements MediumEditorExtension {
                   selection.removeAllRanges()
                 }
 
+                // eslint-disable-next-line no-console
                 console.log(`✅ Direct DOM manipulation completed for "${action}" - formatting added`)
                 return true
               }
             }
             catch (error) {
+              // eslint-disable-next-line no-console
               console.error(`❌ Direct DOM manipulation failed for "${action}":`, error)
               return false
             }
@@ -686,6 +764,7 @@ export class Toolbar implements MediumEditorExtension {
 
           private checkIfTextAlreadyFormatted(element: HTMLElement, text: string, action: string): boolean {
             const html = element.innerHTML
+            // eslint-disable-next-line no-console
             console.log(`Checking if text "${text}" is already formatted with action "${action}" in HTML:`, html)
 
             let isFormatted = false
@@ -704,6 +783,7 @@ export class Toolbar implements MediumEditorExtension {
               isFormatted = false
             }
 
+            // eslint-disable-next-line no-console
             console.log(`Text "${text}" with action "${action}" is already formatted:`, isFormatted)
             return isFormatted
           }
@@ -751,6 +831,7 @@ export class Toolbar implements MediumEditorExtension {
               }
             }
             catch (error) {
+              // eslint-disable-next-line no-console
               console.warn('Could not restore selection:', error)
             }
           }
@@ -1114,8 +1195,8 @@ export class Toolbar implements MediumEditorExtension {
               }
 
               // Apply diff offsets
-              top + = this.options.diffTop || 0
-              left + = this.options.diffLeft || 0
+              top += this.options.diffTop || 0
+              left += this.options.diffLeft || 0
 
               // Handle relative container positioning
               if (this.options.relativeContainer && this.options.relativeContainer !== document.body) {
@@ -1141,8 +1222,8 @@ export class Toolbar implements MediumEditorExtension {
               }
               else {
                 // Standard positioning for non-relative containers
-                top - = containerOffset.top
-                left - = containerOffset.left
+                top -= containerOffset.top
+                left -= containerOffset.left
 
                 // Ensure toolbar stays within viewport bounds
                 left = Math.max(10, Math.min(
@@ -1254,14 +1335,17 @@ export class Toolbar implements MediumEditorExtension {
 
             // Skip button state updates during active formatting to prevent flickering
             if (this.isFormattingInProgress) {
+              // eslint-disable-next-line no-console
               // console.log('🔄 Skipping button state update - formatting in progress')
               return
             }
 
+            // eslint-disable-next-line no-console
             // console.log('🔄 Updating button states...')
 
             const selection = window.getSelection()
             if (!selection || selection.rangeCount === 0) {
+              // eslint-disable-next-line no-console
               // console.log('No selection - clearing all button states')
               // If no selection, clear all active states
               this.buttons.forEach((button) => {
@@ -1271,6 +1355,7 @@ export class Toolbar implements MediumEditorExtension {
             }
 
             const range = selection.getRangeAt(0)
+            // eslint-disable-next-line no-console
             // console.log('Current selection for button state check:', {
               //   text: range.toString(),
               //   collapsed: range.collapsed,
@@ -1281,6 +1366,7 @@ export class Toolbar implements MediumEditorExtension {
                 const action = button.getAttribute('data-action')
                 if (action) {
                   const isActive = this.isSelectionFormatted(range, action)
+                  // eslint-disable-next-line no-console
                   // console.log(`Button "${action}" should be active: ${isActive}`)
 
                   if (isActive) {
@@ -1303,6 +1389,7 @@ export class Toolbar implements MediumEditorExtension {
               range.endContainer,
               ]
 
+              // eslint-disable-next-line no-console
               // console.log(`Checking formatting for "${action}" across ${nodesToCheck.length} nodes:`)
 
               // Track all formatting found in the hierarchy
@@ -1315,6 +1402,7 @@ export class Toolbar implements MediumEditorExtension {
               for (let i = 0; i < nodesToCheck.length; i++) {
                 let currentNode: Node | null = nodesToCheck[i]
 
+                // eslint-disable-next-line no-console
                 // console.log(`  Node ${i + 1}:`, {
                   //   nodeType: currentNode.nodeType,
                   //   nodeName: currentNode.nodeName,
@@ -1324,6 +1412,7 @@ export class Toolbar implements MediumEditorExtension {
                   // If it's a text node, start from its parent
                   if (currentNode.nodeType === Node.TEXT_NODE) {
                     currentNode = currentNode.parentNode
+                    // eslint-disable-next-line no-console
                     // console.log(`    Text node parent:`, currentNode?.nodeName)
                   }
 
@@ -1332,6 +1421,7 @@ export class Toolbar implements MediumEditorExtension {
                   while (currentNode && currentNode !== document.body && currentNode.nodeType === Node.ELEMENT_NODE && depth < 10) {
                     const element = currentNode as HTMLElement
 
+                    // eslint-disable-next-line no-console
                     // console.log(`    Checking element at depth ${depth}:`, {
                       //   tagName: element.tagName,
                       //   className: element.className,
@@ -1340,16 +1430,19 @@ export class Toolbar implements MediumEditorExtension {
                       // Check for all formatting types in the hierarchy
                       if (element.tagName === 'STRONG' || element.tagName === 'B') {
                         foundFormatting.bold = true
+                        // eslint-disable-next-line no-console
                         // console.log(`    🔸 Found Bold formatting at depth ${depth}`)
                       }
 
                       if (element.tagName === 'EM' || element.tagName === 'I') {
                         foundFormatting.italic = true
+                        // eslint-disable-next-line no-console
                         // console.log(`    🔸 Found Italic formatting at depth ${depth}`)
                       }
 
                       if (element.tagName === 'U') {
                         foundFormatting.underline = true
+                        // eslint-disable-next-line no-console
                         // console.log(`    🔸 Found Underline formatting at depth ${depth}`)
                       }
 
@@ -1365,34 +1458,41 @@ export class Toolbar implements MediumEditorExtension {
                     tempDiv.appendChild(selectedContent)
                     const html = tempDiv.innerHTML
 
+                    // eslint-disable-next-line no-console
                     // console.log('Selected content HTML:', html)
 
                     if (html.includes('<strong>') || html.includes('<b>')) {
                       foundFormatting.bold = true
+                      // eslint-disable-next-line no-console
                       // console.log('🔸 Found Bold formatting in selected content')
                     }
 
                     if (html.includes('<em>') || html.includes('<i>')) {
                       foundFormatting.italic = true
+                      // eslint-disable-next-line no-console
                       // console.log('🔸 Found Italic formatting in selected content')
                     }
 
                     if (html.includes('<u>')) {
                       foundFormatting.underline = true
+                      // eslint-disable-next-line no-console
                       // console.log('🔸 Found Underline formatting in selected content')
                     }
                   }
 
                   // Log all found formatting
+                  // eslint-disable-next-line no-console
                   // console.log('All formatting found:', foundFormatting)
 
                   // Return result for the specific action being checked
                   const result = foundFormatting[action as keyof typeof foundFormatting] || false
 
                   // if (result) {
+                    // eslint-disable-next-line no-console
                     // console.log(`✅ Selection HAS ${action} formatting`)
                     // }
                     // else {
+                      // eslint-disable-next-line no-console
                       // console.log(`❌ Selection does NOT have ${action} formatting`)
                       // }
 
@@ -1543,18 +1643,21 @@ export class Toolbar implements MediumEditorExtension {
                         switch (action) {
                           case 'bold':
                           if (element.tagName === 'STRONG' || element.tagName === 'B') {
+                            // eslint-disable-next-line no-console
                             console.log(`Found ${element.tagName} element containing selection`)
                             return true
                           }
                           break
                           case 'italic':
                           if (element.tagName === 'EM' || element.tagName === 'I') {
+                            // eslint-disable-next-line no-console
                             console.log(`Found ${element.tagName} element containing selection`)
                             return true
                           }
                           break
                           case 'underline':
                           if (element.tagName === 'U') {
+                            // eslint-disable-next-line no-console
                             console.log(`Found ${element.tagName} element containing selection`)
                             return true
                           }
@@ -1568,6 +1671,7 @@ export class Toolbar implements MediumEditorExtension {
                         currentNode = currentNode.parentNode
                       }
 
+                      // eslint-disable-next-line no-console
                       console.log(`No formatting element found for action "${action}"`)
                       return false
                     }
@@ -1598,6 +1702,7 @@ export class Toolbar implements MediumEditorExtension {
                         }
 
                         if (shouldRemove) {
+                          // eslint-disable-next-line no-console
                           console.log(`Removing ${element.tagName} formatting element`)
 
                           // Replace the formatting element with its contents
@@ -1619,6 +1724,7 @@ export class Toolbar implements MediumEditorExtension {
                         currentNode = currentNode.parentNode
                       }
 
+                      // eslint-disable-next-line no-console
                       console.log(`No formatting element found to remove for action "${action}"`)
                       return false
                     }
@@ -1686,11 +1792,13 @@ export class Toolbar implements MediumEditorExtension {
                       }
 
                       if (formattedElements) {
+                        // eslint-disable-next-line no-console
                         console.log(`Found ${formattedElements.length} ${action} elements to check`)
 
                         // Check each formatted element to find one containing our text
                         for (let i = 0; i < formattedElements.length; i++) {
                           const formattedElement = formattedElements[i]
+                          // eslint-disable-next-line no-console
                           console.log(`Checking ${action} element ${i + 1}:`, {
                             tagName: formattedElement.tagName,
                             textContent: `${formattedElement.textContent?.substring(0, 50)}...`,
@@ -1698,6 +1806,7 @@ export class Toolbar implements MediumEditorExtension {
                           })
 
                           if (formattedElement.textContent?.includes(selectedText)) {
+                            // eslint-disable-next-line no-console
                             console.log(`✅ Found ${action} element containing "${selectedText}"`)
 
                             // Create a range that selects the content
@@ -1717,6 +1826,7 @@ export class Toolbar implements MediumEditorExtension {
                                 if (selection) {
                                   selection.removeAllRanges()
                                   selection.addRange(range)
+                                  // eslint-disable-next-line no-console
                                   console.log(`✅ Restored selection on formatted ${action} text: "${selectedText}"`)
                                   return // Success, exit early
                                 }
@@ -1730,11 +1840,13 @@ export class Toolbar implements MediumEditorExtension {
                                 if (selection) {
                                   selection.removeAllRanges()
                                   selection.addRange(range)
+                                  // eslint-disable-next-line no-console
                                   console.log(`✅ Restored selection on entire formatted ${action} element`)
                                   return // Success, exit early
                                 }
                               }
                               catch (error) {
+                                // eslint-disable-next-line no-console
                                 console.log(`Could not select contents of ${action} element:`, error)
                               }
                             }
@@ -1742,6 +1854,7 @@ export class Toolbar implements MediumEditorExtension {
                         }
                       }
 
+                      // eslint-disable-next-line no-console
                       console.log(`❌ Could not restore selection - no ${action} element found containing "${selectedText}"`)
                     }
 

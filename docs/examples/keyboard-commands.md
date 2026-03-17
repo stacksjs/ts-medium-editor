@@ -278,7 +278,7 @@ const options: KeyboardCommandsOptions = {
 const keyboardCommands = new KeyboardCommands(editor, options)
 ```
 
-**Parameters:**
+#### Parameters
 
 - `editor` - The MediumEditor instance
 - `options` - Configuration options
@@ -381,6 +381,7 @@ The extension works in all modern browsers that support:
 - Check out [Event Handling](/examples/events) for advanced interactions
 
 <script>
+/* eslint-disable markdown/reference-links-images, markdown/blanks-around-tables, markdown/table-pipe-style, markdown/no-reversed-links, markdown/single-title, markdown/link-image-reference-definitions, markdown/table-column-count */
 // Demo implementation for keyboard commands
 class DemoKeyboardCommands {
   constructor(editor, options = {}) {
@@ -583,9 +584,11 @@ if (document.readyState === 'loading') {
 } else {
   initializeKeyboardDemo()
 }
+/* eslint-enable markdown/reference-links-images, markdown/blanks-around-tables, markdown/table-pipe-style, markdown/no-reversed-links, markdown/single-title, markdown/link-image-reference-definitions, markdown/table-column-count */
 </script>
 
 <style>
+/* eslint-disable markdown/reference-links-images, markdown/blanks-around-tables, markdown/table-pipe-style, markdown/no-reversed-links, markdown/single-title, markdown/link-image-reference-definitions, markdown/table-column-count */
 .demo-container {
   border: 2px dashed #e9ecef;
   border-radius: 8px;
@@ -776,4 +779,5 @@ if (document.readyState === 'loading') {
     order: -1;
   }
 }
+/* eslint-enable markdown/reference-links-images, markdown/blanks-around-tables, markdown/table-pipe-style, markdown/no-reversed-links, markdown/single-title, markdown/link-image-reference-definitions, markdown/table-column-count */
 </style>

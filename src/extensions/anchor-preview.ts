@@ -157,7 +157,7 @@ export class AnchorPreview implements MediumEditorExtension {
     }
 
     const middleBoundary = relativeBoundary.left + relativeBoundary.width / 2
-    top + = buttonHeight + relativeBoundary.top + relativeBoundary.height - diffTop - this.anchorPreview.offsetHeight
+    top += buttonHeight + relativeBoundary.top + relativeBoundary.height - diffTop - this.anchorPreview.offsetHeight
 
     this.anchorPreview.style.top = `${Math.round(top)}px`
     this.anchorPreview.style.right = 'initial'

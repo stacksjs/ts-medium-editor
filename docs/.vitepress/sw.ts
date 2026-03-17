@@ -1,7 +1,3 @@
-/// <reference types="vite/client" />
-
-/// <reference lib="webworker" />
-
 import { CacheableResponsePlugin } from 'workbox-cacheable-response'
 import { ExpirationPlugin } from 'workbox-expiration'
 import { cleanupOutdatedCaches, createHandlerBoundToURL, precacheAndRoute } from 'workbox-precaching'
@@ -20,7 +16,7 @@ cleanupOutdatedCaches()
 
 let allowlist: undefined | RegExp[]
 if (import.meta.env.DEV)
-  allowlist = [/^\/$/]
+allowlist = [/^\/$/]
 
 if (import.meta.env.PROD) {
   const swPath = self.location.pathname.lastIndexOf('/')
@@ -29,91 +25,91 @@ if (import.meta.env.PROD) {
     // Escape characters with special meaning either inside or outside character sets.
     // Use a simple backslash escape when it’s always valid, and a `\xnn` escape when the simpler form would be disallowed by Unicode patterns’ stricter grammar.
     return value
-      .replace(/[|\\{}()[\]^$+*?.]/g, '\\$&')
-      .replace(/-/g, '\\x2d')
+    .replace(/[|\\ {}()[\]^$+*?.]/g, '\\$&')
+    .replace(/-/g, '\\x2d')
   }
   allowlist = entries.filter((page) => {
     return typeof page === 'string'
-      ? page.endsWith('.html')
-      : page.url.endsWith('.html')
+    ? page.endsWith('.html')
+    : page.url.endsWith('.html')
   }).map((page) => {
     const url = typeof page === 'string' ? page : page.url
     const regex = url === 'index.html'
-      ? escapeStringRegexp(base)
-      : escapeStringRegexp(`${base}${url.replace(/\.html$/, '')}`)
+    ? escapeStringRegexp(base)
+    : escapeStringRegexp(`${base}${url.replace(/\.html$/, '')}`)
     return new RegExp(`^${regex}(\\.html)?$`)
   })
   registerRoute(
-    ({ request, sameOrigin }) => {
-      return sameOrigin && request.mode === 'navigate'
-    },
-    new NetworkOnly({
-      plugins: [{
-        /* this callback will be called when the fetch call fails */
-        handlerDidError: async () => Response.redirect('404', 302),
-        /* this callback will prevent caching the response */
-        cacheWillUpdate: async () => null,
-      }],
-    }),
-    'GET',
+  ( { request, sameOrigin }) => {
+    return sameOrigin && request.mode === 'navigate'
+  },
+  new NetworkOnly( {
+    plugins: [ {
+      /* this callback will be called when the fetch call fails */
+      handlerDidError: async () => Response.redirect('404', 302),
+      /* this callback will prevent caching the response */
+      cacheWillUpdate: async () => null,
+    }],
+  }),
+  'GET',
   )
   // googleapis
   registerRoute(
-    /^https:\/\/fonts\.googleapis\.com\/.*/i,
-    new NetworkFirst({
-      cacheName: 'google-fonts-cache',
-      plugins: [
-        new CacheableResponsePlugin({ statuses: [0, 200] }),
-        // we only need a few entries
-        new ExpirationPlugin({
-          maxEntries: 10,
-          maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
-        }),
-      ],
+  /^https:\/\/fonts\.googleapis\.com\/.*/i,
+  new NetworkFirst( {
+    cacheName: 'google-fonts-cache',
+    plugins: [
+    new CacheableResponsePlugin( { statuses: [0, 200] }),
+    // we only need a few entries
+    new ExpirationPlugin( {
+      maxEntries: 10,
+      maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
     }),
+    ],
+  }),
   )
   // gstatic
   registerRoute(
-    /^https:\/\/fonts\.gstatic\.com\/.*/i,
-    new StaleWhileRevalidate({
-      cacheName: 'google-fonts-cache',
-      plugins: [
-        new CacheableResponsePlugin({ statuses: [0, 200] }),
-        // we only need a few entries
-        new ExpirationPlugin({
-          maxEntries: 10,
-          maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
-        }),
-      ],
+  /^https:\/\/fonts\.gstatic\.com\/.*/i,
+  new StaleWhileRevalidate( {
+    cacheName: 'google-fonts-cache',
+    plugins: [
+    new CacheableResponsePlugin( { statuses: [0, 200] }),
+    // we only need a few entries
+    new ExpirationPlugin( {
+      maxEntries: 10,
+      maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
     }),
+    ],
+  }),
   )
   // antfu sponsors
   registerRoute(
-    /^https:\/\/cdn\.jsdelivr\.net\/.*/i,
-    new NetworkFirst({
-      cacheName: 'jsdelivr-images-cache',
-      plugins: [
-        new CacheableResponsePlugin({ statuses: [0, 200] }),
-        // we only need a few entries
-        new ExpirationPlugin({
-          maxEntries: 10,
-          maxAgeSeconds: 60 * 60 * 24 * 7, // <== 7 days
-        }),
-      ],
+  /^https:\/\/cdn\.jsdelivr\.net\/.*/i,
+  new NetworkFirst( {
+    cacheName: 'jsdelivr-images-cache',
+    plugins: [
+    new CacheableResponsePlugin( { statuses: [0, 200] }),
+    // we only need a few entries
+    new ExpirationPlugin( {
+      maxEntries: 10,
+      maxAgeSeconds: 60 * 60 * 24 * 7, // <== 7 days
     }),
+    ],
+  }),
   )
 }
 
 // to allow work offline
 registerRoute(new NavigationRoute(
-  createHandlerBoundToURL('index.html'),
-  { allowlist },
+createHandlerBoundToURL('index.html'),
+{ allowlist },
 ))
 
 // Skip-Waiting Service Worker-based solution
 self.addEventListener('activate', async () => {
   // after we've taken over, iterate over all the current clients (windows)
-  const clients = await self.clients.matchAll({ type: 'window' })
+  const clients = await self.clients.matchAll( { type: 'window' })
   clients.forEach((client) => {
     // ...and refresh each one of them
     client.navigate(client.url)

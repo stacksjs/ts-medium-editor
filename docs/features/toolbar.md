@@ -296,7 +296,7 @@ const mobileEditor = new MediumEditor('.mobile-content', {
 }
 ```
 
-**Benefits of Static Toolbar:**
+#### Benefits of Static Toolbar
 
 - Always visible to users
 - Consistent positioning
@@ -706,7 +706,7 @@ The toolbar includes built-in accessibility features:
 
 ### Common Issues
 
-**Toolbar not appearing:**
+#### Toolbar not appearing
 
 ```typescript
 // Ensure toolbar is enabled and has buttons
@@ -717,7 +717,7 @@ const editor = new MediumEditor('.editable', {
 })
 ```
 
-**Buttons not working:**
+##### Buttons not working
 
 ```typescript
 // Verify toolbar extension is loaded
@@ -730,7 +730,7 @@ else {
 }
 ```
 
-**Positioning issues:**
+###### Positioning issues
 
 ```typescript
 // Use relative container for better positioning

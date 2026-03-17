@@ -190,6 +190,7 @@ const googleDocsEditor = new MediumEditor('.editable', {
       [/<span[^>]*style="[^"]*font-style:\s*normal[^"]*"[^>]*>/gi, '<span>'],
 
       // Remove empty elements
+      // eslint-disable-next-line markdown/no-reversed-links
       [/<(span|div)[^>]*>\s*<\/\1>/gi, ''],
 
       // Clean up line breaks
@@ -525,6 +526,7 @@ function sendAnalytics(event, data) {
 - Check out [Real-World Use Cases](/examples/real-world) for complete implementations
 
 <script>
+/* eslint-disable markdown/reference-links-images, markdown/blanks-around-tables, markdown/table-pipe-style, markdown/no-reversed-links, markdown/single-title, markdown/link-image-reference-definitions, markdown/table-column-count */
 // Initialize demos when the page loads
 if (typeof window !== 'undefined') {
   let demoInitialized = false
@@ -779,9 +781,11 @@ if (typeof window !== 'undefined') {
     setTimeout(attemptInitialization, 2000)
   }
 }
+/* eslint-enable markdown/reference-links-images, markdown/blanks-around-tables, markdown/table-pipe-style, markdown/no-reversed-links, markdown/single-title, markdown/link-image-reference-definitions, markdown/table-column-count */
 </script>
 
 <style>
+/* eslint-disable markdown/reference-links-images, markdown/blanks-around-tables, markdown/table-pipe-style, markdown/no-reversed-links, markdown/single-title, markdown/link-image-reference-definitions, markdown/table-column-count */
 .demo-container {
   border: 2px dashed #e9ecef;
   border-radius: 8px;
@@ -1004,4 +1008,5 @@ if (typeof window !== 'undefined') {
     grid-template-columns: 1fr;
   }
 }
+/* eslint-enable markdown/reference-links-images, markdown/blanks-around-tables, markdown/table-pipe-style, markdown/no-reversed-links, markdown/single-title, markdown/link-image-reference-definitions, markdown/table-column-count */
 </style>

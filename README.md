@@ -93,6 +93,7 @@ const editor = new MediumEditor('.editable', {
   </div>
 
   <script type="module">
+/_ eslint-disable markdown/reference-links-images, markdown/blanks-around-tables, markdown/table-pipe-style, markdown/no-reversed-links, markdown/single-title, markdown/link-image-reference-definitions, markdown/table-column-count _/
     import { MediumEditor } from './node_modules/ts-medium-editor/dist/index.js'
 
     const editor = new MediumEditor('.editable', {
@@ -533,7 +534,9 @@ We would like to extend our thanks to the following sponsors for funding Stacks 
 - [**JetBrains**](https://www.jetbrains.com/) - Professional development tools
 - [**The Solana Foundation**](https://solana.com/) - Blockchain infrastructure
 
-_[Become a sponsor](https://github.com/sponsors/stacksjs) and support open source development._
+### Become a Sponsor
+
+[Become a sponsor](https://github.com/sponsors/stacksjs) and support open source development.
 
 ## Credits
 

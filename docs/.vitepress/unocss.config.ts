@@ -7,7 +7,7 @@ import {
   transformerVariantGroup,
 } from 'unocss'
 
-export default defineConfig({
+export default defineConfig( {
   shortcuts: {
     'border-main': 'border-$vp-c-divider',
     'bg-main': 'bg-gray-400',
@@ -15,12 +15,12 @@ export default defineConfig({
   },
 
   presets: [
-    presetUno(),
-    presetAttributify(),
-    presetIcons({
-      scale: 1.2,
-      warn: true,
-    }),
+  presetUno(),
+  presetAttributify(),
+  presetIcons( {
+    scale: 1.2,
+    warn: true,
+  }),
   ],
 
   theme: {
@@ -34,7 +34,7 @@ export default defineConfig({
   },
 
   transformers: [
-    transformerDirectives(),
-    transformerVariantGroup(),
+  transformerDirectives(),
+  transformerVariantGroup(),
   ],
 })

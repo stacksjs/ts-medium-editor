@@ -338,6 +338,7 @@ const EditorComponent: React.FC = () => {
 
 ```vue
 <script setup lang="ts">
+/* eslint-disable markdown/reference-links-images, markdown/blanks-around-tables, markdown/table-pipe-style, markdown/no-reversed-links, markdown/single-title, markdown/link-image-reference-definitions, markdown/table-column-count */
 import { MediumEditor } from 'ts-medium-editor'
 import { onMounted, onUnmounted, ref } from 'vue'
 import 'ts-medium-editor/css/medium-editor.css'
@@ -360,6 +361,7 @@ onUnmounted(() => {
     editor.destroy()
   }
 })
+/* eslint-enable markdown/reference-links-images, markdown/blanks-around-tables, markdown/table-pipe-style, markdown/no-reversed-links, markdown/single-title, markdown/link-image-reference-definitions, markdown/table-column-count */
 </script>
 
 <template>

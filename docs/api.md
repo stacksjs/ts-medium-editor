@@ -14,12 +14,12 @@ class MediumEditor {
 }
 ```
 
-**Parameters:**
+#### Parameters
 
 - `elements`: CSS selector string, DOM element, NodeList, or array of elements (optional)
 - `options`: Configuration options (optional)
 
-**Example:**
+#### Example
 
 ```typescript
 const editor = new MediumEditor('.editable', {
@@ -65,7 +65,7 @@ Map of loaded extensions.
 
 ### Initialization Methods
 
-#### `init(elements: string | HTMLElement | HTMLElement[] | NodeList, options?: MediumEditorOptions): MediumEditor`
+#### `init(elements: string &#124; HTMLElement &#124; HTMLElement[] &#124; NodeList, options?: MediumEditorOptions): MediumEditor`
 
 Initialize the editor with elements and options.
 
@@ -79,17 +79,19 @@ Destroy the editor and clean up all resources.
 
 ### Content Methods
 
-#### `getContent(index?: number): string | null`
+#### `getContent(index?: number): string &#124; null`
 
 Get HTML content from editor elements.
 
-**Parameters:**
+##### Parameters
 
 - `index`: Optional index of specific element (returns all if omitted)
 
-**Returns:** HTML string content or null
+##### Returns
 
-**Example:**
+HTML string content or null
+
+##### Example
 
 ```typescript
 const content = editor.getContent()
@@ -100,12 +102,12 @@ const firstElementContent = editor.getContent(0)
 
 Set HTML content for editor elements.
 
-**Parameters:**
+##### Parameters
 
 - `html`: HTML string to set
 - `index`: Optional index of specific element (sets all if omitted)
 
-**Example:**
+##### Example
 
 ```typescript
 editor.setContent('<p>New content</p>')
@@ -116,13 +118,15 @@ editor.setContent('<p>Specific content</p>', 0)
 
 Serialize all editor elements to a key-value object.
 
-**Returns:** Object with element indices as keys and HTML content as values
+##### Returns
+
+Object with element indices as keys and HTML content as values
 
 #### `resetContent(element?: HTMLElement): void`
 
 Reset content to original state.
 
-**Parameters:**
+##### Parameters
 
 - `element`: Optional specific element to reset
 
@@ -130,19 +134,21 @@ Reset content to original state.
 
 Check if content has changed since initialization and trigger events.
 
-**Parameters:**
+##### Parameters
 
 - `editable`: Optional specific element to check
 
 ### Selection Methods
 
-#### `exportSelection(): SelectionState | null`
+#### `exportSelection(): SelectionState &#124; null`
 
 Export current selection state.
 
-**Returns:** Selection state object or null
+##### Returns
 
-**Example:**
+Selection state object or null
+
+##### Example
 
 ```typescript
 const selection = editor.exportSelection()
@@ -153,7 +159,7 @@ const selection = editor.exportSelection()
 
 Restore a previously exported selection.
 
-**Parameters:**
+##### Parameters
 
 - `selectionState`: Previously exported selection state
 - `favorLaterSelectionAnchor`: Optional preference for anchor position
@@ -174,11 +180,11 @@ Select all content in the currently focused element.
 
 Select a specific element.
 
-**Parameters:**
+##### Parameters
 
 - `element`: Element to select
 
-#### `getFocusedElement(): HTMLElement | null`
+#### `getFocusedElement(): HTMLElement &#124; null`
 
 Get the currently focused editor element.
 
@@ -204,14 +210,16 @@ Manually trigger selection checking and toolbar updates.
 
 Execute a formatting action.
 
-**Parameters:**
+##### Parameters
 
 - `action`: Action name ('bold', 'italic', 'underline', etc.)
 - `opts`: Optional action-specific options
 
-**Returns:** Boolean indicating success
+##### Returns
 
-**Available Actions:**
+Boolean indicating success
+
+##### Available Actions
 
 - `bold`, `italic`, `underline`
 - `h2`, `h3`
@@ -219,7 +227,7 @@ Execute a formatting action.
 - `createLink`
 - `unlink`
 
-**Example:**
+##### Example
 
 ```typescript
 editor.execAction('bold')
@@ -230,11 +238,13 @@ editor.execAction('createLink', { value: 'https://example.com' })
 
 Check if a formatting command is currently active.
 
-**Parameters:**
+##### Parameters
 
 - `action`: Command name to check
 
-**Returns:** Boolean indicating if command is active
+##### Returns
+
+Boolean indicating if command is active
 
 ### Event Methods
 
@@ -242,12 +252,12 @@ Check if a formatting command is currently active.
 
 Subscribe to editor events.
 
-**Parameters:**
+##### Parameters
 
 - `event`: Event name
 - `listener`: Event handler function
 
-**Example:**
+##### Example
 
 ```typescript
 editor.subscribe('editableInput', (data, editable) => {
@@ -263,21 +273,21 @@ Unsubscribe from editor events.
 
 Trigger a custom event.
 
-#### `on(target: HTMLElement | Document | Window, event: string, listener: EventListener, useCapture?: boolean): MediumEditor`
+#### `on(target: HTMLElement &#124; Document &#124; Window, event: string, listener: EventListener, useCapture?: boolean): MediumEditor`
 
 Attach DOM event listener (for internal use).
 
-#### `off(target: HTMLElement | Document | Window, event: string, listener: EventListener, useCapture?: boolean): MediumEditor`
+#### `off(target: HTMLElement &#124; Document &#124; Window, event: string, listener: EventListener, useCapture?: boolean): MediumEditor`
 
 Detach DOM event listener (for internal use).
 
 ### Element Management
 
-#### `addElements(selector: string | HTMLElement | HTMLElement[] | NodeList): MediumEditor`
+#### `addElements(selector: string &#124; HTMLElement &#124; HTMLElement[] &#124; NodeList): MediumEditor`
 
 Add elements to the editor.
 
-#### `removeElements(selector: string | HTMLElement | HTMLElement[] | NodeList): MediumEditor`
+#### `removeElements(selector: string &#124; HTMLElement &#124; HTMLElement[] &#124; NodeList): MediumEditor`
 
 Remove elements from the editor.
 
@@ -297,17 +307,19 @@ Check if the editor is currently active.
 
 ### Extension Methods
 
-#### `getExtensionByName(name: string): MediumEditorExtension | undefined`
+#### `getExtensionByName(name: string): MediumEditorExtension &#124; undefined`
 
 Get an extension instance by name.
 
-**Parameters:**
+##### Parameters
 
 - `name`: Extension name
 
-**Returns:** Extension instance or undefined
+##### Returns
 
-**Example:**
+Extension instance or undefined
+
+##### Example
 
 ```typescript
 const toolbar = editor.getExtensionByName('toolbar')
@@ -561,7 +573,7 @@ Create the toolbar DOM element.
 
 Create all toolbar buttons.
 
-#### `createButton(name: string): HTMLElement | null`
+#### `createButton(name: string): HTMLElement &#124; null`
 
 Create a specific button by name.
 
@@ -585,7 +597,7 @@ Update active states of all buttons.
 
 Check and update toolbar state.
 
-#### `getToolbarElement(): HTMLElement | null`
+#### `getToolbarElement(): HTMLElement &#124; null`
 
 Get the toolbar DOM element.
 
@@ -597,7 +609,7 @@ Get elements that should prevent external interaction events.
 
 ### Selection Utilities
 
-#### `selection.exportSelection(root: HTMLElement, doc: Document): SelectionState | null`
+#### `selection.exportSelection(root: HTMLElement, doc: Document): SelectionState &#124; null`
 
 Export selection state from a root element.
 
@@ -605,7 +617,7 @@ Export selection state from a root element.
 
 Import selection state to a root element.
 
-#### `selection.getSelectionElement(contentWindow: Window): HTMLElement | false`
+#### `selection.getSelectionElement(contentWindow: Window): HTMLElement &#124; false`
 
 Get the editor element containing the current selection.
 
@@ -623,11 +635,11 @@ Check if object is a DOM element.
 
 Check if node is descendant of another.
 
-#### `util.traverseUp(current: Node, testElementFunction: (node: Node) => boolean): Node | false`
+#### `util.traverseUp(current: Node, testElementFunction: (node: Node) => boolean): Node &#124; false`
 
 Traverse up DOM tree with test function.
 
-#### `util.getClosestBlockContainer(node: Node): HTMLElement | null`
+#### `util.getClosestBlockContainer(node: Node): HTMLElement &#124; null`
 
 Get closest block container element.
 

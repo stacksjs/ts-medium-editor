@@ -145,6 +145,6 @@ export class Placeholder implements MediumEditorExtension {
   }
 
   private isFirefox(): boolean {
-    return typeof navigator !== 'undefined' && /firefox / i.test(navigator.userAgent)
+    return typeof navigator !== 'undefined' && /firefox/i.test(navigator.userAgent)
   }
 }
