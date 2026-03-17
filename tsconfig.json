@@ -1,15 +1,22 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "lib": ["esnext", "dom"],
+    "lib": [
+      "esnext",
+      "dom"
+    ],
     "moduleDetection": "force",
     "module": "esnext",
     "moduleResolution": "bundler",
     "paths": {
-      "ts-medium-editor": ["./src/index.ts"]
+      "ts-medium-editor": [
+        "./src/index.ts"
+      ]
     },
     "resolveJsonModule": true,
-    "types": ["bun"],
+    "types": [
+      "bun"
+    ],
     "allowImportingTsExtensions": true,
     "strict": true,
     "strictNullChecks": true,
@@ -24,6 +31,12 @@
     "skipDefaultLibCheck": true,
     "skipLibCheck": true
   },
-  "include": ["src/**/*", "test/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "src/**/*",
+    "test/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

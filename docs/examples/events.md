@@ -52,6 +52,7 @@ editor.subscribe('blur', (event, editable) => {
 </div>
 
 ### HTML
+
 ```html
 <div class="word-counter-demo">
   <div class="editor-with-counter" data-placeholder="Start typing to see the word count...">
@@ -76,6 +77,7 @@ editor.subscribe('blur', (event, editable) => {
 ```
 
 ### TypeScript
+
 ```typescript
 import { MediumEditor } from 'ts-medium-editor'
 
@@ -118,6 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
 ```
 
 ### CSS
+
 ```css
 .word-counter-demo {
   max-width: 800px;
@@ -175,6 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 
 ### HTML
+
 ```html
 <div class="auto-save-editor" data-placeholder="Your content is automatically saved...">
   <p>This editor automatically saves your content to localStorage after you stop typing.</p>
@@ -186,6 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
 ```
 
 ### TypeScript
+
 ```typescript
 import { MediumEditor } from 'ts-medium-editor'
 
@@ -246,6 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
 ```
 
 ### CSS
+
 ```css
 .auto-save-editor {
   min-height: 150px;
@@ -288,6 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
 ## Form Validation
 
 ### HTML
+
 ```html
 <form class="validated-form">
   <div class="form-group">
@@ -311,6 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
 ```
 
 ### TypeScript
+
 ```typescript
 import { MediumEditor } from 'ts-medium-editor'
 
@@ -423,6 +431,7 @@ form?.addEventListener('submit', (event) => {
 ## Collaborative Editing Simulation
 
 ### HTML
+
 ```html
 <div class="collaborative-demo">
   <div class="user-info">
@@ -442,6 +451,7 @@ form?.addEventListener('submit', (event) => {
 ```
 
 ### TypeScript
+
 ```typescript
 import { MediumEditor } from 'ts-medium-editor'
 
@@ -511,6 +521,7 @@ function updateActivityLog() {
 ```
 
 ### CSS
+
 ```css
 .collaborative-demo {
   max-width: 800px;

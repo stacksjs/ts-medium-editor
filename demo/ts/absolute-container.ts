@@ -1,8 +1,6 @@
-// Import MediumEditor from the TypeScript source
 import { MediumEditor } from '../../src/index.ts'
 import { highlightAllCodeBlocks } from './syntax-highlighter.ts'
 
-// Declare editor for debugging
 declare global {
   interface Window {
     editor: any

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import type { AnchorOptions, MediumEditor, MediumEditorExtension } from '../types'
 
 export class Anchor implements MediumEditorExtension {
@@ -146,41 +145,41 @@ export class Anchor implements MediumEditorExtension {
 
   private getTemplate(): string {
     const template = [
-      `<input type="text" class="medium-editor-toolbar-input" placeholder="${this.placeholderText}">`,
+    `<input type="text" class="medium-editor-toolbar-input" placeholder="${this.placeholderText}">`,
     ]
 
     const buttonLabels = this.editor.options.buttonLabels
     template.push(
-      '<a href="#" class="medium-editor-toolbar-save">',
-      buttonLabels === 'fontawesome' ? '<i class="fa fa-check"></i>' : this.formSaveLabel,
-      '</a>',
+    '<a href="#" class="medium-editor-toolbar-save">',
+    buttonLabels === 'fontawesome' ? '<i class="fa fa-check"></i>' : this.formSaveLabel,
+    '</a>',
     )
 
     template.push(
-      '<a href="#" class="medium-editor-toolbar-close">',
-      buttonLabels === 'fontawesome' ? '<i class="fa fa-times"></i>' : this.formCloseLabel,
-      '</a>',
+    '<a href="#" class="medium-editor-toolbar-close">',
+    buttonLabels === 'fontawesome' ? '<i class="fa fa-times"></i>' : this.formCloseLabel,
+    '</a>',
     )
 
     if (this.targetCheckbox) {
       template.push(
-        '<div class="medium-editor-toolbar-form-row">',
-        `<input type="checkbox" class="medium-editor-toolbar-anchor-target" id="medium-editor-toolbar-anchor-target-field-${this.editor.id}">`,
-        `<label for="medium-editor-toolbar-anchor-target-field-${this.editor.id}">`,
-        this.targetCheckboxText,
-        '</label>',
-        '</div>',
+      '<div class="medium-editor-toolbar-form-row">',
+      `<input type="checkbox" class="medium-editor-toolbar-anchor-target" id="medium-editor-toolbar-anchor-target-field-${this.editor.id}">`,
+      `<label for="medium-editor-toolbar-anchor-target-field-${this.editor.id}">`,
+      this.targetCheckboxText,
+      '</label>',
+      '</div>',
       )
     }
 
     if (this.customClassOption) {
       template.push(
-        '<div class="medium-editor-toolbar-form-row">',
-        `<input type="checkbox" class="medium-editor-toolbar-anchor-button" id="medium-editor-toolbar-anchor-button-field-${this.editor.id}">`,
-        `<label for="medium-editor-toolbar-anchor-button-field-${this.editor.id}">`,
-        this.customClassOptionText,
-        '</label>',
-        '</div>',
+      '<div class="medium-editor-toolbar-form-row">',
+      `<input type="checkbox" class="medium-editor-toolbar-anchor-button" id="medium-editor-toolbar-anchor-button-field-${this.editor.id}">`,
+      `<label for="medium-editor-toolbar-anchor-button-field-${this.editor.id}">`,
+      this.customClassOptionText,
+      '</label>',
+      '</div>',
       )
     }
 
@@ -347,9 +346,9 @@ export class Anchor implements MediumEditorExtension {
 
   private checkLinkFormat(value: string): string {
     // eslint-disable-next-line regexp/no-unused-capturing-group
-    const urlSchemeRegex = /^([a-z]+:)?\/\/|^(mailto|tel|maps):|^#/i
+    const urlSchemeRegex = /^([a - z]+:)?\/\/|^(mailto|tel|maps):|^#/i
     const hasScheme = urlSchemeRegex.test(value)
-    const telRegex = /^\+?\s?\(?(?:\d\s?-?\)?){3,20}$/
+    const telRegex = /^\+?\s?\(?(?:\d\s?-?\)?) {3, 20}$/
 
     if (telRegex.test(value)) {
       return `tel:${value}`

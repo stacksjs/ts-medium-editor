@@ -1,9 +1,9 @@
-/// <reference lib="dom" />
+/// <reference lib='dom' />
 
 // Core interfaces for MediumEditor
 export interface MediumEditorOptions {
   activeButtonClass?: string
-  buttonLabels?: boolean | string | Record<string, string>
+  buttonLabels?: boolean | string | Record < string, string>
   delay?: number
   disableReturn?: boolean
   disableDoubleReturn?: boolean
@@ -14,7 +14,7 @@ export interface MediumEditorOptions {
   contentWindow?: Window
   ownerDocument?: Document
   targetBlank?: boolean
-  extensions?: Record<string, MediumEditorExtension | any>
+  extensions?: Record < string, MediumEditorExtension | any>
   spellcheck?: boolean
   toolbar?: ToolbarOptions | false
   anchorPreview?: AnchorPreviewOptions | false
@@ -28,7 +28,7 @@ export interface MediumEditorOptions {
 
 export interface ToolbarOptions {
   allowMultiParagraphSelection?: boolean
-  buttons?: Array<string | ToolbarButton>
+  buttons?: Array < string | ToolbarButton>
   diffLeft?: number
   diffTop?: number
   firstButtonClass?: string
@@ -54,7 +54,7 @@ export interface ToolbarButton {
   contentDefault?: string
   contentFA?: string
   classList?: string[]
-  attrs?: Record<string, string>
+  attrs?: Record < string, string>
 }
 
 export interface AnchorPreviewOptions {
@@ -82,8 +82,8 @@ export interface AnchorOptions {
 export interface PasteOptions {
   forcePlainText?: boolean
   cleanPastedHTML?: boolean
-  preCleanReplacements?: Array<[RegExp, string]>
-  cleanReplacements?: Array<[RegExp, string]>
+  preCleanReplacements?: Array < [RegExp, string]>
+  cleanReplacements?: Array < [RegExp, string]>
   cleanAttrs?: string[]
   cleanTags?: string[]
   unwrapTags?: string[]
@@ -152,7 +152,7 @@ export interface ButtonExtension extends MediumEditorExtension {
   contentDefault?: string
   contentFA?: string
   classList?: string[]
-  attrs?: Record<string, string>
+  attrs?: Record < string, string>
 }
 
 // Utility types
@@ -179,7 +179,7 @@ export interface DOMMatch {
 }
 
 // Event listener types
-export type MediumEditorEventListener = (data?: any, editable?: HTMLElement) => void
+export type MediumEditorEventListener = (_data?: any, _editable?: HTMLElement) => void
 export type CustomEventName = string
 
 // Main MediumEditor class interface
@@ -206,7 +206,7 @@ export interface MediumEditor {
   trigger: (name: CustomEventName, data?: any, editable?: HTMLElement) => MediumEditor
 
   // Content methods
-  serialize: () => Record<string, string>
+  serialize: () => Record < string, string>
   getContent: (index?: number) => string | null
   setContent: (html: string, index?: number) => void
   resetContent: (element?: HTMLElement) => void
@@ -299,7 +299,7 @@ export interface Util {
   getClosestTag: (el: HTMLElement, tag: string) => HTMLElement | false
   unwrap: (el: HTMLElement, doc: Document) => void
   guid: () => string
-  throttle: <T extends (...args: any[]) => any>(func: T, wait: number) => T
+  throttle: <T extends (...args: any[]) => any > (func: T, wait: number) => T
   findOrCreateMatchingTextNodes: (document: Document, element: HTMLElement, match: DOMMatch) => Text[]
   splitByBlockElements: (element: HTMLElement) => HTMLElement[]
   findAdjacentTextNodeWithContent: (rootNode: HTMLElement, targetNode: Node, ownerDocument: Document) => Text | null
@@ -359,7 +359,7 @@ declare global {
       util: Util
       selection: Selection
       parseVersionString: (release: string) => VersionInfo
-      extensions: Record<string, any>
+      extensions: Record < string, any>
     }
   }
 }

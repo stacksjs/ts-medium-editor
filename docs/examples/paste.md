@@ -65,6 +65,7 @@ const editor = new MediumEditor('.editable', {
 Strip all formatting from pasted content:
 
 ### HTML
+
 ```html
 <div class="plain-text-editor" data-placeholder="Paste formatted text here...">
   <p>All pasted content will be converted to plain text.</p>
@@ -72,6 +73,7 @@ Strip all formatting from pasted content:
 ```
 
 ### TypeScript
+
 ```typescript
 const plainTextEditor = new MediumEditor('.plain-text-editor', {
   paste: {
@@ -124,6 +126,7 @@ const cleanEditor = new MediumEditor('.editable', {
 Handle content pasted from Microsoft Word:
 
 ### HTML
+
 ```html
 <div class="word-editor" data-placeholder="Paste content from Microsoft Word...">
   <p>This editor cleans up messy Word formatting automatically.</p>
@@ -131,6 +134,7 @@ Handle content pasted from Microsoft Word:
 ```
 
 ### TypeScript
+
 ```typescript
 const wordEditor = new MediumEditor('.word-editor', {
   paste: {
@@ -200,6 +204,7 @@ const googleDocsEditor = new MediumEditor('.editable', {
 Add custom logic for paste processing:
 
 ### HTML
+
 ```html
 <div class="custom-paste-editor" data-placeholder="Paste content to see custom processing...">
   <p>This editor applies custom processing to pasted content.</p>
@@ -212,6 +217,7 @@ Add custom logic for paste processing:
 ```
 
 ### TypeScript
+
 ```typescript
 const customPasteEditor = new MediumEditor('.custom-paste-editor', {
   paste: {
@@ -257,7 +263,7 @@ function processCustomPaste(editable) {
   const textNodes = []
   const walker = document.createTreeWalker(
     editable,
-    NodeFilter.SHOW_TEXT,
+    NodeFilter.SHOW*TEXT,
     null,
     false
   )
@@ -279,6 +285,7 @@ function processCustomPaste(editable) {
 ```
 
 ### CSS
+
 ```css
 .paste-log {
   margin-top: 2rem;
@@ -486,7 +493,7 @@ analyticsEditor.subscribe('editablePaste', (event, editable) => {
   console.log('Paste Analytics:', pasteStats)
 
   // Send to analytics service
-  sendAnalytics('paste_event', {
+  sendAnalytics('paste*event', {
     hasHtml: !!htmlData,
     textLength: textData.length,
     source: detectSource(htmlData)

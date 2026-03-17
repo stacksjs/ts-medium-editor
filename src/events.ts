@@ -1,7 +1,7 @@
 import type { MediumEditorEventListener, MediumEditorExtension } from './types'
 import { util } from './util'
 
-function isElementDescendantOfExtension(extensions: Record<string, MediumEditorExtension> | MediumEditorExtension[] | undefined, element: HTMLElement): boolean {
+function isElementDescendantOfExtension(extensions: Record < string, MediumEditorExtension> | MediumEditorExtension[] | undefined, element: HTMLElement): boolean {
   if (!extensions) {
     return false
   }
@@ -39,10 +39,10 @@ export class Events {
   base: any
   options: any
   events: EventRecord[] = []
-  disabledEvents: Record<string, boolean> = {}
-  customEvents: Record<string, MediumEditorEventListener[]> = {}
-  listeners: Record<string, any> = {}
-  contentCache: Record<string, string> = {}
+  disabledEvents: Record < string, boolean> = {}
+  customEvents: Record < string, MediumEditorEventListener[]> = {}
+  listeners: Record < string, any> = {}
+  contentCache: Record < string, string> = {}
   eventsCache: any[] = []
   execCommandListener?: (execInfo: any) => void
   lastMousedownTarget: EventTarget | null = null
@@ -56,7 +56,7 @@ export class Events {
   }
 
   // DOM Event Handling
-  attachDOMEvent(targets: EventTarget | EventTarget[] | HTMLCollectionOf<Element>, event: string, listener: EventListener, useCapture = false): void {
+  attachDOMEvent(targets: EventTarget | EventTarget[] | HTMLCollectionOf < Element>, event: string, listener: EventListener, useCapture = false): void {
     let targetArray: EventTarget[]
 
     if (Array.isArray(targets)) {
@@ -71,11 +71,11 @@ export class Events {
 
     targetArray.forEach((target) => {
       target.addEventListener(event, listener, useCapture)
-      this.events.push({ target, event, listener, useCapture })
+      this.events.push( { target, event, listener, useCapture })
     })
   }
 
-  detachDOMEvent(targets: EventTarget | EventTarget[] | HTMLCollectionOf<Element>, event: string, listener: EventListener, useCapture = false): void {
+  detachDOMEvent(targets: EventTarget | EventTarget[] | HTMLCollectionOf < Element>, event: string, listener: EventListener, useCapture = false): void {
     let targetArray: EventTarget[]
 
     if (Array.isArray(targets)) {
@@ -191,67 +191,67 @@ export class Events {
 
     switch (name) {
       case 'externalInteraction':
-        // Detecting when user has interacted with elements outside of MediumEditor
-        this.attachDOMEvent(this.options.ownerDocument.body, 'mousedown', this.handleBodyMousedown.bind(this), true)
-        this.attachDOMEvent(this.options.ownerDocument.body, 'click', this.handleBodyClick.bind(this), true)
-        this.attachDOMEvent(this.options.ownerDocument.body, 'focus', this.handleBodyFocus.bind(this), true)
-        this.listeners[name] = true
-        break
+      // Detecting when user has interacted with elements outside of MediumEditor
+      this.attachDOMEvent(this.options.ownerDocument.body, 'mousedown', this.handleBodyMousedown.bind(this), true)
+      this.attachDOMEvent(this.options.ownerDocument.body, 'click', this.handleBodyClick.bind(this), true)
+      this.attachDOMEvent(this.options.ownerDocument.body, 'focus', this.handleBodyFocus.bind(this), true)
+      this.listeners[name] = true
+      break
       case 'blur':
-        // Detecting when focus is lost
-        this.setupListener('externalInteraction')
-        this.listeners[name] = true
-        break
+      // Detecting when focus is lost
+      this.setupListener('externalInteraction')
+      this.listeners[name] = true
+      break
       case 'focus':
-        // Detecting when focus moves into some part of MediumEditor
-        this.setupListener('externalInteraction')
-        // Also add direct focus listeners to each editor element since focus doesn't bubble
-        this.attachToEachElement('focus', this.handleElementFocus.bind(this))
-        this.listeners[name] = true
-        break
+      // Detecting when focus moves into some part of MediumEditor
+      this.setupListener('externalInteraction')
+      // Also add direct focus listeners to each editor element since focus doesn't bubble
+      this.attachToEachElement('focus', this.handleElementFocus.bind(this))
+      this.listeners[name] = true
+      break
       case 'editableInput':
-        // setup cache for knowing when the content has changed
-        this.contentCache = {}
-        this.base.elements.forEach((element: HTMLElement) => {
-          this.contentCache[element.getAttribute('medium-editor-index') || ''] = element.innerHTML
-        })
-        this.listeners[name] = this.handleInput.bind(this)
-        this.attachToEachElement('input', this.listeners[name])
-        break
+      // setup cache for knowing when the content has changed
+      this.contentCache = {}
+      this.base.elements.forEach((element: HTMLElement) => {
+        this.contentCache[element.getAttribute('medium-editor-index') || ''] = element.innerHTML
+      })
+      this.listeners[name] = this.handleInput.bind(this)
+      this.attachToEachElement('input', this.listeners[name])
+      break
       case 'editableClick':
-        this.listeners[name] = this.handleClick.bind(this)
-        this.attachToEachElement('click', this.listeners[name])
-        break
+      this.listeners[name] = this.handleClick.bind(this)
+      this.attachToEachElement('click', this.listeners[name])
+      break
       case 'editableBlur':
-        this.listeners[name] = this.handleBlur.bind(this)
-        this.attachToEachElement('blur', this.listeners[name])
-        break
+      this.listeners[name] = this.handleBlur.bind(this)
+      this.attachToEachElement('blur', this.listeners[name])
+      break
       case 'editableKeypress':
-        this.listeners[name] = this.handleKeypress.bind(this)
-        this.attachToEachElement('keypress', this.listeners[name])
-        break
+      this.listeners[name] = this.handleKeypress.bind(this)
+      this.attachToEachElement('keypress', this.listeners[name])
+      break
       case 'editableKeyup':
-        this.listeners[name] = this.handleKeyup.bind(this)
-        this.attachToEachElement('keyup', this.listeners[name])
-        break
+      this.listeners[name] = this.handleKeyup.bind(this)
+      this.attachToEachElement('keyup', this.listeners[name])
+      break
       case 'editableKeydown':
-        this.listeners[name] = this.handleKeydown.bind(this)
-        this.attachToEachElement('keydown', this.listeners[name])
-        break
+      this.listeners[name] = this.handleKeydown.bind(this)
+      this.attachToEachElement('keydown', this.listeners[name])
+      break
       case 'editablePaste':
-        this.listeners[name] = this.handlePaste.bind(this)
-        this.attachToEachElement('paste', this.listeners[name])
-        break
+      this.listeners[name] = this.handlePaste.bind(this)
+      this.attachToEachElement('paste', this.listeners[name])
+      break
       case 'editableDrag':
-        this.listeners[name] = this.handleDrag.bind(this)
-        this.attachToEachElement('dragstart', this.listeners[name])
-        this.attachToEachElement('dragover', this.listeners[name])
-        this.attachToEachElement('dragleave', this.listeners[name])
-        break
+      this.listeners[name] = this.handleDrag.bind(this)
+      this.attachToEachElement('dragstart', this.listeners[name])
+      this.attachToEachElement('dragover', this.listeners[name])
+      this.attachToEachElement('dragleave', this.listeners[name])
+      break
       case 'editableDrop':
-        this.listeners[name] = this.handleDrop.bind(this)
-        this.attachToEachElement('drop', this.listeners[name])
-        break
+      this.listeners[name] = this.handleDrop.bind(this)
+      this.attachToEachElement('drop', this.listeners[name])
+      break
     }
   }
 
@@ -260,7 +260,7 @@ export class Events {
       this.attachDOMEvent(element, name, handler.bind(this))
     })
 
-    this.eventsCache.push({ name, handler })
+    this.eventsCache.push( { name, handler })
   }
 
   // Event handlers
@@ -350,10 +350,10 @@ export class Events {
     // For clicks, we need to know if the mousedown that caused the click happened inside the existing focused element
     // or one of the extension elements. If so, we don't want to focus another element
     if (hadFocus
-      && (eventObj as any).type === 'click'
-      && this.lastMousedownTarget
-      && (util.isDescendant(hadFocus, this.lastMousedownTarget as Node, true)
-        || isElementDescendantOfExtension(this.base.extensions, this.lastMousedownTarget as HTMLElement))) {
+    && (eventObj as any).type === 'click'
+    && this.lastMousedownTarget
+    && (util.isDescendant(hadFocus, this.lastMousedownTarget as Node, true)
+    || isElementDescendantOfExtension(this.base.extensions, this.lastMousedownTarget as HTMLElement))) {
       toFocus = hadFocus
     }
 
@@ -370,7 +370,7 @@ export class Events {
 
     // Check if the target is external (not part of the editor, toolbar, or any other extension)
     const externalEvent = !util.isDescendant(hadFocus, target, true)
-      && !isElementDescendantOfExtension(this.base.extensions, target)
+    && !isElementDescendantOfExtension(this.base.extensions, target)
 
     if (toFocus !== hadFocus) {
       // If element has focus, and focus is going outside of editor
@@ -447,7 +447,7 @@ export class Events {
     const callListeners = (args: any[], result: any) => {
       if (doc.execCommand.listeners) {
         doc.execCommand.listeners.forEach((listener: any) => {
-          listener({ command: args[0], args, result })
+          listener( { command: args[0], args, result })
         })
       }
     }

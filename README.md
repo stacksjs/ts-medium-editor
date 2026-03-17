@@ -108,23 +108,27 @@ const editor = new MediumEditor('.editable', {
 Explore our comprehensive demo collection to see all features in action:
 
 ### Core Features
+
 - **[Basic Editor](demo/index.html)** - Simple setup with essential toolbar
 - **[Auto-Link Detection](demo/auto-link.html)** - Automatic URL to link conversion
 - **[Clean Paste](demo/clean-paste.html)** - Smart content cleaning from Word/Google Docs
 - **[Textarea Support](demo/textarea.html)** - Enhance HTML textareas with rich editing
 
 ### Advanced Configurations
+
 - **[Custom Toolbars](demo/custom-toolbar.html)** - 5 different toolbar configurations
 - **[Static Toolbar](demo/static-toolbar.html)** - Always-visible toolbars with alignment options
 - **[Button Examples](demo/button-example.html)** - Custom button creation with Rangy integration
 - **[Extension Examples](demo/extension-example.html)** - 4 powerful extensions with Shiki syntax highlighting
 
 ### Multiple Editors
+
 - **[Multi-Editor](demo/multi-editor.html)** - Multiple independent editor instances
 - **[Single Instance](demo/multi-one-instance.html)** - Dynamic element addition to existing editors
 - **[Nested Editable](demo/nested-editable.html)** - Complex nested contenteditable layouts
 
 ### Specialized Use Cases
+
 - **[Multi-Paragraph](demo/multi-paragraph.html)** - Toolbar behavior with paragraph selection
 - **[Relative Toolbar](demo/relative-toolbar.html)** - Constrained toolbar positioning
 - **[Absolute Container](demo/absolute-container.html)** - Absolute positioned container examples
@@ -319,9 +323,9 @@ const editor = new MediumEditor('.editable', {
     forcePlainText: false,
     cleanPastedHTML: true,
     cleanReplacements: [
-      [/\s*style\s*=\s*["'][^"']*["']/gi, ''], // Remove inline styles
-      [/<o:p\s*\/?>|<\/o:p>/gi, ''], // Remove Word tags
-      [/<xml>[\s\S]*?<\/xml>/gi, ''], // Remove XML
+      [/\s_style\s_=\s_["'][^"']_["']/gi, ''], // Remove inline styles
+      [/<o:p\s_\/?>|<\/o:p>/gi, ''], // Remove Word tags
+      [/<xml>[\s\S]_?<\/xml>/gi, ''], // Remove XML
       [/<!--[\s\S]*?-->/g, ''] // Remove comments
     ],
     cleanAttrs: ['class', 'style', 'dir'],

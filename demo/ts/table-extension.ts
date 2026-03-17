@@ -1,7 +1,6 @@
 import { MediumEditor } from '../../src/index.ts'
 import { highlightAllCodeBlocks } from './syntax-highlighter.ts'
 
-// Simple Table Extension
 class TableExtension {
   private button: HTMLButtonElement
   private base: any
@@ -20,27 +19,27 @@ class TableExtension {
 
   onClick() {
     const tableHTML = `
-      <table style="border-collapse: collapse; width: 100%; margin: 1rem 0;">
-        <thead>
-          <tr>
-            <th style="border: 1px solid #ddd; padding: 8px; background: #f5f5f5;">Header 1</th>
-            <th style="border: 1px solid #ddd; padding: 8px; background: #f5f5f5;">Header 2</th>
-            <th style="border: 1px solid #ddd; padding: 8px; background: #f5f5f5;">Header 3</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td style="border: 1px solid #ddd; padding: 8px;">Cell 1</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">Cell 2</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">Cell 3</td>
-          </tr>
-          <tr>
-            <td style="border: 1px solid #ddd; padding: 8px;">Cell 4</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">Cell 5</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">Cell 6</td>
-          </tr>
-        </tbody>
-      </table>
+    <table style = 'border-collapse: collapse; width: 100%; margin: 1rem 0;'>
+    <thead>
+    <tr>
+    <th style = 'border: 1px solid #ddd; padding: 8px; background: #f5f5f5;' > Header 1 < /th>
+    <th style = 'border: 1px solid #ddd; padding: 8px; background: #f5f5f5;' > Header 2 < /th>
+    <th style = 'border: 1px solid #ddd; padding: 8px; background: #f5f5f5;' > Header 3 < /th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td style = 'border: 1px solid #ddd; padding: 8px;' > Cell 1 < /td>
+    <td style = 'border: 1px solid #ddd; padding: 8px;' > Cell 2 < /td>
+    <td style = 'border: 1px solid #ddd; padding: 8px;' > Cell 3 < /td>
+    </tr>
+    <tr>
+    <td style = 'border: 1px solid #ddd; padding: 8px;' > Cell 4 < /td>
+    <td style = 'border: 1px solid #ddd; padding: 8px;' > Cell 5 < /td>
+    <td style = 'border: 1px solid #ddd; padding: 8px;' > Cell 6 < /td>
+    </tr>
+    </tbody>
+    </table>
     `
 
     // Insert table at current cursor position

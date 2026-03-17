@@ -4,29 +4,35 @@
 
 `ts-medium-editor` is a modern, type-safe WYSIWYG _(What You See Is What You Get)_ rich text editor inspired by Medium.com's clean and intuitive editing experience. Built from the ground up with TypeScript, it provides developers with a robust, extensible, and lightweight solution for rich text editing in web applications.
 
-## Why `ts-medium-editor`?
+## Why `ts-medium-editor`
 
 ### **Type Safety First**
+
 Unlike many JavaScript-based editors, `ts-medium-editor` is built with TypeScript from day one. This means:
+
 - Complete type definitions for all APIs
 - Enhanced IDE support with autocomplete and error detection
 - Reduced runtime errors through compile-time checking
 - Better refactoring capabilities
 
 ### **Modern Architecture**
+
 - **ES Modules**: Native support for modern module systems
 - **Zero Dependencies**: No jQuery or other heavy frameworks required
 - **Tree Shakable**: Import only what you need for optimal bundle size
 - **Framework Agnostic**: Works with React, Vue, Angular, or vanilla JavaScript
 
 ### **Extensible Design**
+
 The editor follows a plugin-based architecture that allows you to:
+
 - Create custom toolbar buttons
 - Add new formatting options
 - Implement custom extensions
 - Override default behaviors
 
 ### **Performance Focused**
+
 - Lightweight core (~76KB minified)
 - Efficient DOM manipulation
 - Optimized for mobile devices
@@ -35,6 +41,7 @@ The editor follows a plugin-based architecture that allows you to:
 ## Key Features
 
 ### Rich Text Editing
+
 - **Bold, Italic, Underline**: Standard text formatting options
 - **Headers**: H1, H2, H3 support for document structure
 - **Links**: Easy link creation and editing
@@ -42,18 +49,21 @@ The editor follows a plugin-based architecture that allows you to:
 - **Lists**: Ordered and unordered list support
 
 ### Toolbar System
+
 - **Contextual Toolbar**: Appears when text is selected
 - **Customizable Buttons**: Add, remove, or modify toolbar buttons
 - **Keyboard Shortcuts**: Standard shortcuts (Ctrl/Cmd + B, I, U)
 - **Mobile Optimized**: Touch-friendly interface
 
 ### Developer Experience
+
 - **TypeScript Support**: Full type definitions included
 - **Comprehensive API**: Programmatic control over editor content
 - **Event System**: Subscribe to editor events for custom behavior
 - **Extensible**: Plugin system for custom functionality
 
 ### Accessibility
+
 - **ARIA Support**: Proper accessibility attributes
 - **Keyboard Navigation**: Full keyboard support
 - **Screen Reader Friendly**: Semantic HTML structure
@@ -104,7 +114,7 @@ Explore our comprehensive demo collection to see the editor in action:
 - **[Extension Examples](https://github.com/stacksjs/ts-medium-editor/blob/main/demo/extension-example.html)** - Custom extensions and plugins
 - **[Multi-Editor Setup](https://github.com/stacksjs/ts-medium-editor/blob/main/demo/multi-editor.html)** - Multiple editor instances
 
-## Need Help?
+## Need Help
 
 - **[API Reference](/api)** - Complete API documentation
 - **[GitHub Issues](https://github.com/stacksjs/ts-medium-editor/issues)** - Report bugs or request features

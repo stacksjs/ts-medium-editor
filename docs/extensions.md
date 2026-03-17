@@ -22,6 +22,7 @@ const editor = new MediumEditor('.editable', {
 ```
 
 **Features:**
+
 - Contextual toolbar that appears on text selection
 - Customizable button set
 - Static toolbar option
@@ -42,6 +43,7 @@ const editor = new MediumEditor('.editable', {
 ```
 
 **Features:**
+
 - Customizable placeholder text
 - Hide on click or focus options
 - Automatic show/hide based on content
@@ -85,12 +87,14 @@ const editor = new MediumEditor('.editable', {
 ```
 
 **Features:**
+
 - Customizable keyboard shortcuts for any editor command
 - Support for modifier keys (Ctrl/Cmd, Shift, Alt)
 - Cross-platform compatibility (Ctrl on Windows/Linux, Cmd on Mac)
 - Default shortcuts for common formatting actions
 
 **Default Commands:**
+
 - `Ctrl/Cmd + B` - Bold
 - `Ctrl/Cmd + I` - Italic
 - `Ctrl/Cmd + U` - Underline
@@ -775,6 +779,7 @@ class ConsumerExtension implements MediumEditorExtension {
 ### Performance Considerations
 
 1. **Debounce expensive operations**:
+
 ```typescript
 class PerformantExtension implements MediumEditorExtension {
   name = 'performantExtension'
@@ -806,6 +811,7 @@ class PerformantExtension implements MediumEditorExtension {
 ```
 
 2. **Clean up resources**:
+
 ```typescript
 class CleanExtension implements MediumEditorExtension {
   name = 'cleanExtension'

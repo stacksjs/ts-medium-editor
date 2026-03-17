@@ -11,8 +11,8 @@ export class Paste implements MediumEditorExtension {
   // Paste Options
   forcePlainText = true
   cleanPastedHTML = false
-  preCleanReplacements: Array<[RegExp, string]> = []
-  cleanReplacements: Array<[RegExp, string]> = []
+  preCleanReplacements: Array < [RegExp, string]> = []
+  cleanReplacements: Array < [RegExp, string]> = []
   cleanAttrs: string[] = ['class', 'style', 'dir']
   cleanTags: string[] = ['meta']
   unwrapTags: string[] = []
@@ -113,7 +113,7 @@ export class Paste implements MediumEditorExtension {
       content = pastedPlain || ''
       // Convert plain text to HTML by escaping and adding line breaks
       content = this.htmlEntities(content)
-      content = content.replace(/\n/g, '<br>')
+      content = content.replace(/\n / g, '<br>')
     }
     else {
       content = pastedHTML
@@ -155,46 +155,46 @@ export class Paste implements MediumEditorExtension {
     return cleaned
   }
 
-  private createReplacements(): Array<[RegExp, string]> {
+  private createReplacements(): Array < [RegExp, string]> {
     return [
-      // Remove anything but the contents within the BODY element
-      [/^[\s\S]*<body[^>]*>\s*|\s*<\/body[^>]*>[\s\S]*$/g, ''],
+    // Remove anything but the contents within the BODY element
+    [/^[\s\S]*<body[^>]*>\s*|\s*<\/body[^>]* > [\s\S]*$/g, ''],
 
-      // cleanup comments added by Chrome when pasting html
-      [/<!--StartFragment-->|<!--EndFragment-->/g, ''],
+    // cleanup comments added by Chrome when pasting html
+    [/<!--StartFragment-->|<!--EndFragment-->/g, ''],
 
-      // Trailing BR elements
-      [/<br>$/i, ''],
+    // Trailing BR elements
+    [/<br>$/i, ''],
 
-      // replace two bogus tags that begin pastes from google docs
-      [/<[^>]*docs-internal-guid[^>]*>/gi, ''],
-      [/<\/b>(<br[^>]*>)?$/gi, ''],
+    // replace two bogus tags that begin pastes from google docs
+    [/<[^>]*docs - internal - guid[^>]*>/gi, ''],
+    [/<\/b > (<br[^>]*>)?$/gi, ''],
 
-      // un-html spaces and newlines inserted by OS X
-      [/<span class="Apple-converted-space">\s+<\/span>/g, ' '],
-      [/<br class="Apple-interchange-newline">/g, '<br>'],
+    // un-html spaces and newlines inserted by OS X
+    [/<span class = 'Apple-converted-space'>\s+<\/span>/g, ' '],
+    [/<br class = 'Apple-interchange-newline'>/g, '<br>'],
 
-      // replace google docs italics+bold with a span to be replaced once the html is inserted
-      [/<span[^>]*(font-style:italic;font-weight:(bold|700)|font-weight:(bold|700);font-style:italic)[^>]*>/gi, '<span class="replace-with italic bold">'],
+    // replace google docs italics+bold with a span to be replaced once the html is inserted
+    [new RegExp('<span[^>]*(font-style:italic;font-weight:(bold|700)|font-weight:(bold|700);font-style:italic)[^>]*>', 'gi'), '<span class="replace-with italic bold">'],
 
-      // replace google docs italics with a span to be replaced once the html is inserted
-      [/<span[^>]*font-style:italic[^>]*>/gi, '<span class="replace-with italic">'],
+    // replace google docs italics with a span to be replaced once the html is inserted
+    [/<span[^>]*font - style:italic[^>]*>/gi, '<span class="replace-with italic">'],
 
-      // replace google docs bolds with a span to be replaced once the html is inserted
-      [/<span[^>]*font-weight:(bold|700)[^>]*>/gi, '<span class="replace-with bold">'],
+    // replace google docs bolds with a span to be replaced once the html is inserted
+    [/<span[^>]*font - weight:(bold|700)[^>]*>/gi, '<span class="replace-with bold">'],
 
-      // replace manually entered b/i/a tags with real ones
-      [/&lt;(\/?)([iba])&gt;/gi, '<$1$2>'],
+    // replace manually entered b/i/a tags with real ones
+    [new RegExp('&lt;(\\/?)([iba])&gt;', 'gi'), '<$1$2>'],
 
-      // Newlines between paragraphs in html have no syntactic value
-      [/<\/p>\n+/gi, '</p>'],
-      [/\n+<p/gi, '<p'],
+    // Newlines between paragraphs in html have no syntactic value
+    [/<\/p>\n+/gi, '</p>'],
+    [/\n+<p / gi, '<p'],
 
-      // Microsoft Word makes these odd tags, like <o:p></o:p>
-      [/<\/?o:[a-z]*>/gi, ''],
+    // Microsoft Word makes these odd tags, like <o:p></o:p>
+    [/<\/?o:[a - z]*>/gi, ''],
 
-      // Microsoft Word adds some special elements around list items
-      [/<!\[if !supportLists\]>(((?!<!).)*)<!\[endif\]>/gi, '$1'],
+    // Microsoft Word adds some special elements around list items
+    [/<!\[if !supportLists\] > (((?!<!).)*) < !\[endif\]>/gi, '$1'],
     ]
   }
 
@@ -230,7 +230,7 @@ export class Paste implements MediumEditorExtension {
   private unwrap(element: HTMLElement): void {
     const parent = element.parentNode
     if (!parent)
-      return
+    return
 
     while (element.firstChild) {
       parent.insertBefore(element.firstChild, element)
@@ -240,11 +240,11 @@ export class Paste implements MediumEditorExtension {
 
   private htmlEntities(str: string): string {
     return str
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/\u0027 / g, '&#39;')
   }
 
   private pasteHTML(html: string, editable: HTMLElement): void {
@@ -252,7 +252,7 @@ export class Paste implements MediumEditorExtension {
     const selection = window.getSelection()
     if (!selection || selection.rangeCount === 0) {
       // No selection, append to the end
-      editable.innerHTML += html
+      editable.innerHTML + = html
       return
     }
 

@@ -11,12 +11,12 @@ declare global {
 
 // Variables to hold the imported modules
 let MediumEditor: any = null
-let highlightAllCodeBlocks: (() => Promise<void>) | null = null
+let highlightAllCodeBlocks: (() => Promise < void>) | null = null
 
 // Function to load MediumEditor with fallback approaches
-async function loadMediumEditor(): Promise<any> {
+async function loadMediumEditor(): Promise < any> {
   if (MediumEditor)
-    return MediumEditor
+  return MediumEditor
 
   try {
     // First try the built version
@@ -39,9 +39,9 @@ async function loadMediumEditor(): Promise<any> {
 }
 
 // Function to load syntax highlighter with error handling
-async function loadSyntaxHighlighter(): Promise<() => Promise<void>> {
+async function loadSyntaxHighlighter(): Promise < () => Promise < void>> {
   if (highlightAllCodeBlocks)
-    return highlightAllCodeBlocks
+  return highlightAllCodeBlocks
 
   try {
     const syntaxModule = await import('./syntax-highlighter.ts')
@@ -92,9 +92,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const statusIndicator = document.getElementById('status-indicator')
     if (statusIndicator) {
       statusIndicator.innerHTML = `
-        <div class="status-indicator status-success">
-          ✅ Multi-Paragraph Demo initialized successfully! Try selecting text within a single paragraph vs across multiple paragraphs.
-        </div>
+      <div class = 'status-indicator status-success'>
+      ✅ Multi - Paragraph Demo initialized successfully! Try selecting text within a single paragraph vs across multiple paragraphs.
+      </div>
       `
     }
 
@@ -118,14 +118,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     const statusIndicator = document.getElementById('status-indicator')
     if (statusIndicator) {
       statusIndicator.innerHTML = `
-        <div class="status-indicator status-error">
-          <strong>Error:</strong> Failed to initialize Medium Editor.
-          Please check the browser console for more details.
-          <br><br>
-          <em>Error: ${error instanceof Error ? error.message : String(error)}</em>
-          <br><br>
-          <small>Try running the demo server with: <code>bun run serve-demo.ts</code></small>
-        </div>
+      <div class = 'status-indicator status-error'>
+      <strong > Error:</strong> Failed to initialize Medium Editor.
+      Please check the browser console for more details.
+      <br><br>
+      <em > Error: $ {error instanceof Error ? error.message : String(error)}</em>
+      <br><br>
+      <small > Try running the demo server with: <code > bun run serve - demo.ts < /code></small>
+      </div>
       `
     }
   }

@@ -109,8 +109,8 @@ export class FontName extends FormExtension {
     save.setAttribute('href', '#')
     save.className = 'medium-editor-toolbar-save'
     save.innerHTML = this.getEditorOption('buttonLabels') === 'fontawesome'
-      ? '<i class="fa fa-check"></i>'
-      : '&#10003;'
+    ? '<i class="fa fa-check"></i>'
+    : '&#10003;'
     form.appendChild(save)
 
     // Handle save button clicks
@@ -120,8 +120,8 @@ export class FontName extends FormExtension {
     close.setAttribute('href', '#')
     close.className = 'medium-editor-toolbar-close'
     close.innerHTML = this.getEditorOption('buttonLabels') === 'fontawesome'
-      ? '<i class="fa fa-times"></i>'
-      : '&times;'
+    ? '<i class="fa fa-times"></i>'
+    : '&times;'
     form.appendChild(close)
 
     // Handle close button clicks
@@ -138,20 +138,20 @@ export class FontName extends FormExtension {
     // Get selected elements and clear font face attribute
     const selection = window.getSelection()
     if (!selection || selection.rangeCount === 0)
-      return
+    return
 
     const range = selection.getRangeAt(0)
     const walker = document.createTreeWalker(
-      range.commonAncestorContainer,
-      NodeFilter.SHOW_ELEMENT,
-      {
-        acceptNode: (node) => {
-          const element = node as HTMLElement
-          return element.tagName.toLowerCase() === 'font' && element.hasAttribute('face')
-            ? NodeFilter.FILTER_ACCEPT
-            : NodeFilter.FILTER_SKIP
-        },
+    range.commonAncestorContainer,
+    NodeFilter.SHOW_ELEMENT,
+    {
+      acceptNode: (node) => {
+        const element = node as HTMLElement
+        return element.tagName.toLowerCase() === 'font' && element.hasAttribute('face')
+        ? NodeFilter.FILTER_ACCEPT
+        : NodeFilter.FILTER_SKIP
       },
+    },
     )
 
     const fontElements: HTMLElement[] = []
@@ -169,7 +169,7 @@ export class FontName extends FormExtension {
   private handleFontChange(): void {
     const select = this.getSelect()
     if (!select)
-      return
+    return
 
     const font = select.value
     if (font === '') {

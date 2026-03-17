@@ -53,7 +53,7 @@ export class Placeholder implements MediumEditorExtension {
 
   handleRemoveElement(_event: Event, editable?: HTMLElement): void {
     if (!editable)
-      return
+    return
     this.cleanupElement(editable)
   }
 
@@ -117,7 +117,7 @@ export class Placeholder implements MediumEditorExtension {
 
   handleInput(_event: Event, element?: HTMLElement): void {
     if (!element)
-      return
+    return
 
     // If the placeholder should be hidden on focus and the element has focus, don't show the placeholder
     const dontShow = this.hideOnFocus && (element === this.editor.getFocusedElement())
@@ -128,7 +128,7 @@ export class Placeholder implements MediumEditorExtension {
 
   handleFocus(_event: Event, element?: HTMLElement): void {
     if (!element)
-      return
+    return
 
     // Editor has focus, hide the placeholder if hideOnFocus is enabled
     if (this.hideOnFocus) {
@@ -138,13 +138,13 @@ export class Placeholder implements MediumEditorExtension {
 
   handleBlur(_event: Event, element?: HTMLElement): void {
     if (!element)
-      return
+    return
 
     // Editor has lost focus, check if the placeholder should be shown
     this.updatePlaceholder(element)
   }
 
   private isFirefox(): boolean {
-    return typeof navigator !== 'undefined' && /firefox/i.test(navigator.userAgent)
+    return typeof navigator !== 'undefined' && /firefox / i.test(navigator.userAgent)
   }
 }

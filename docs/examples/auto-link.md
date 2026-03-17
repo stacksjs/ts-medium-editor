@@ -16,8 +16,8 @@ Type or paste URLs, email addresses, and social media links in the editors below
   <div class="demo-autolink-grid">
     <div class="demo-autolink-card">
       <h4>🔗 Basic Auto-Link</h4>
-      <div class="demo-basic-autolink" data-placeholder="Type: https://example.com or user@email.com" contenteditable="true">
-        <p>Try typing: https://github.com or contact@example.com</p>
+      <div class="demo-basic-autolink" data-placeholder="Type: <https://example.com> or user@email.com" contenteditable="true">
+        <p>Try typing: <https://github.com> or contact@example.com</p>
         <p>Email test: support@company.org</p>
       </div>
       <div class="autolink-info">Detects URLs and email addresses automatically</div>
@@ -25,15 +25,15 @@ Type or paste URLs, email addresses, and social media links in the editors below
     <div class="demo-autolink-card">
       <h4>🎨 Social Media Links</h4>
       <div class="demo-social-autolink" data-placeholder="Type social media URLs..." contenteditable="true">
-        <p>Follow us: https://twitter.com/handle</p>
-        <p>Connect: https://linkedin.com/company/name</p>
+        <p>Follow us: <https://twitter.com/handle></p>
+        <p>Connect: <https://linkedin.com/company/name></p>
       </div>
       <div class="autolink-info">Auto-styles Twitter, LinkedIn, GitHub links</div>
     </div>
     <div class="demo-autolink-card">
       <h4>👁️ Link Preview</h4>
       <div class="demo-preview-autolink" data-placeholder="Type URLs to see previews..." contenteditable="true">
-        <p>Hover over: https://docs.github.com</p>
+        <p>Hover over: <https://docs.github.com></p>
       </div>
       <div class="autolink-info">Shows link previews on hover</div>
     </div>
@@ -83,8 +83,9 @@ const editor = new MediumEditor('.editable', {
 ### What Gets Auto-Linked
 
 The editor automatically detects and converts:
-- `https://example.com` → becomes a clickable link
-- `http://example.com` → becomes a clickable link
+
+- `<https://example.com>` → becomes a clickable link
+- `<http://example.com>` → becomes a clickable link
 - `www.example.com` → becomes a clickable link
 - `example@email.com` → becomes a mailto link
 
@@ -112,6 +113,7 @@ const editor = new MediumEditor('.editable', {
 ## Email Auto-Link Example
 
 ### HTML
+
 ```html
 <div class="email-editor" data-placeholder="Type email addresses...">
   <p>Contact us at support@example.com or sales@company.org</p>
@@ -120,6 +122,7 @@ const editor = new MediumEditor('.editable', {
 ```
 
 ### TypeScript
+
 ```typescript
 const emailEditor = new MediumEditor('.email-editor', {
   autoLink: true,
@@ -143,6 +146,7 @@ const emailEditor = new MediumEditor('.email-editor', {
 Automatically detect and style social media links:
 
 ### HTML
+
 ```html
 <div class="social-editor" data-placeholder="Share your social links...">
   <p>Follow us on:</p>
@@ -155,6 +159,7 @@ Automatically detect and style social media links:
 ```
 
 ### TypeScript
+
 ```typescript
 const socialEditor = new MediumEditor('.social-editor', {
   autoLink: true,
@@ -185,6 +190,7 @@ socialEditor.subscribe('editableInput', (event, editable) => {
 ```
 
 ### CSS
+
 ```css
 .twitter-link {
   color: #1da1f2;
@@ -243,7 +249,7 @@ editor.subscribe('editableInput', (event, editable) => {
     // Add security attributes for external links
     if (href && (href.startsWith('http') || href.startsWith('https'))) {
       link.setAttribute('rel', 'noopener noreferrer')
-      link.setAttribute('target', '_blank')
+      link.setAttribute('target', '*blank')
     }
 
     // Add tracking for analytics
@@ -260,6 +266,7 @@ editor.subscribe('editableInput', (event, editable) => {
 Show link previews when hovering:
 
 ### HTML
+
 ```html
 <div class="preview-editor" data-placeholder="Add links to see previews...">
   <p>Check out this article: https://example.com/great-article</p>
@@ -276,6 +283,7 @@ Show link previews when hovering:
 ```
 
 ### TypeScript
+
 ```typescript
 const previewEditor = new MediumEditor('.preview-editor', {
   autoLink: true,
@@ -318,6 +326,7 @@ function hideLinkPreview() {
 ```
 
 ### CSS
+
 ```css
 .link-preview {
   position: absolute;
@@ -393,9 +402,9 @@ editor.subscribe('editableInput', (event, editable) => {
   if (currentLinks > linkCount) {
     console.log('New link auto-created')
     // Send analytics event
-    trackEvent('auto_link_created', {
-      editor_id: 'main_editor',
-      link_count: currentLinks
+    trackEvent('auto*link*created', {
+      editor*id: 'main*editor',
+      link*count: currentLinks
     })
   }
 
@@ -408,7 +417,7 @@ editor.subscribe('editableClick', (event) => {
     const href = event.target.getAttribute('href')
     console.log('Link clicked:', href)
 
-    trackEvent('link_clicked', {
+    trackEvent('link*clicked', {
       url: href,
       text: event.target.textContent
     })
@@ -534,14 +543,14 @@ if (typeof window !== 'undefined') {
     // Get all text nodes that aren't already in links
     const walker = document.createTreeWalker(
       editable,
-      NodeFilter.SHOW_TEXT,
+      NodeFilter.SHOW*TEXT,
       {
         acceptNode(node) {
           // Skip if already inside a link or if parent is a link
           if (node.parentNode.tagName === 'A' || node.parentNode.closest('a')) {
-            return NodeFilter.FILTER_REJECT
+            return NodeFilter.FILTER*REJECT
           }
-          return NodeFilter.FILTER_ACCEPT
+          return NodeFilter.FILTER*ACCEPT
         }
       },
       false
@@ -560,8 +569,8 @@ if (typeof window !== 'undefined') {
       if (urlRegex.test(text)) {
         const newHTML = text.replace(urlRegex, (match) => {
           // Add protocol if missing
-          const href = match.startsWith('www.') ? `https://${match}` : match
-          return `<a href="${href}" target="_blank" rel="noopener noreferrer">${match}</a>`
+          const href = match.startsWith('www.') ? `<https://${match}>` : match
+          return `<a href="${href}" target="*blank" rel="noopener noreferrer">${match}</a>`
         })
         const tempDiv = document.createElement('div')
         tempDiv.innerHTML = newHTML
@@ -578,17 +587,17 @@ if (typeof window !== 'undefined') {
 
   function convertEmailsToLinks(editable) {
     // Email regex pattern - require at least 3 characters in TLD to avoid premature matching
-    const emailRegex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{3,}\b/g
+    const emailRegex = /\b[A-Za-z0-9.*%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{3,}\b/g
 
     // Get all text nodes that aren't already in links
     const walker = document.createTreeWalker(
       editable,
-      NodeFilter.SHOW_TEXT,
+      NodeFilter.SHOW*TEXT,
       {
         acceptNode(node) {
           // Skip if already inside a link or if parent is a link
           if (node.parentNode.tagName === 'A' || node.parentNode.closest('a')) {
-            return NodeFilter.FILTER_REJECT
+            return NodeFilter.FILTER*REJECT
           }
           return NodeFilter.FILTER_ACCEPT
         }

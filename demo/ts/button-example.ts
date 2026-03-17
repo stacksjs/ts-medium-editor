@@ -2,9 +2,6 @@ import rangy from 'rangy'
 import { MediumEditor } from '../../src/index.ts'
 import { highlightAllCodeBlocks } from './syntax-highlighter.ts'
 
-// Highlighter styles are now in the core CSS files
-
-// Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', async () => {
   // Initialize rangy
   rangy.init()

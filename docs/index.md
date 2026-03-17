@@ -33,5 +33,3 @@ features:
   - title: "🧪 Well Tested"
     details: "Comprehensive test suite with 220+ tests ensuring reliability and stability."
 ---
-
-<Home />

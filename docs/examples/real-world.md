@@ -60,6 +60,7 @@ A complete blog editing interface with multiple editors and features.
 </div>
 
 ### HTML
+
 ```html
 <div class="blog-platform">
   <header class="blog-header">
@@ -116,6 +117,7 @@ A complete blog editing interface with multiple editors and features.
 ```
 
 ### TypeScript
+
 ```typescript
 class BlogPlatform {
   constructor() {
@@ -315,6 +317,7 @@ const editor = new MediumEditor('.editable', {
 </div>
 
 ### HTML
+
 ```html
 <div class="docs-system">
   <nav class="docs-nav">
@@ -349,6 +352,7 @@ const editor = new MediumEditor('.editable', {
 ```
 
 ### TypeScript
+
 ```typescript
 class DocumentationSystem {
   constructor() {
@@ -473,6 +477,7 @@ const docsSystem = new DocumentationSystem()
 </div>
 
 ### HTML
+
 ```html
 <div class="comment-system">
   <div class="comments-list" id="comments-list">
@@ -513,6 +518,7 @@ const docsSystem = new DocumentationSystem()
 ```
 
 ### TypeScript
+
 ```typescript
 class CommentSystem {
   constructor() {
@@ -628,6 +634,7 @@ const commentSystem = new CommentSystem()
 ```
 
 ### CSS
+
 ```css
 .blog-platform {
   display: grid;

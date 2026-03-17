@@ -17,6 +17,7 @@ Convert textareas to rich text editors while maintaining form compatibility.
 </div>
 
 ### HTML
+
 ```html
 <form class="textarea-form">
   <label for="content">Article Content:</label>
@@ -28,6 +29,7 @@ Convert textareas to rich text editors while maintaining form compatibility.
 ```
 
 ### TypeScript
+
 ```typescript
 const editor = new MediumEditor('textarea', {
   toolbar: {
@@ -68,6 +70,7 @@ document.querySelector('.textarea-form').addEventListener('submit', (event) => {
 </div>
 
 ### HTML
+
 ```html
 <form class="blog-form">
   <div class="form-group">
@@ -85,6 +88,7 @@ document.querySelector('.textarea-form').addEventListener('submit', (event) => {
 ```
 
 ### TypeScript
+
 ```typescript
 const contentEditor = new MediumEditor('#blog-content', {
   toolbar: {

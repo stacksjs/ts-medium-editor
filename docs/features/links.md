@@ -5,6 +5,7 @@
 ## Overview
 
 The anchor functionality allows users to:
+
 - Create new links from selected text
 - Edit existing links
 - Remove links
@@ -24,6 +25,7 @@ const editor = new MediumEditor('.editable', {
 ```
 
 **User Workflow:**
+
 1. Select text in the editor
 2. Click the anchor button in the toolbar
 3. Enter the URL in the prompt
@@ -44,6 +46,7 @@ editor.createLink({
 ```
 
 **Note**: The `createLink` method signature in the actual implementation is:
+
 ```typescript
 function createLink(opts: { value: string, target?: string, buttonClass?: string }): void {
   // Implementation details
@@ -119,10 +122,10 @@ const validationPatterns = {
   web: /^https?:\/\/.+/,
 
   // Email addresses
-  email: /^mailto:.[^\n\r@\u2028\u2029]*@.+\..+/,
+  email: /^mailto:.[^\n\r@\u2028\u2029]_@.+\..+/,
 
   // Internal links only
-  internal: /^\/[^/].*/,
+  internal: /^\/[^/]._/,
 
   // Custom validation function
   custom: (url: string) => {
@@ -278,7 +281,7 @@ class AutoLinker extends Extension {
 ### Default Link Styles
 
 ```css
-/* Basic link styling */
+/_ Basic link styling _/
 .medium-editor-element a {
   color: #3498db;
   text-decoration: underline;
@@ -294,7 +297,7 @@ class AutoLinker extends Extension {
   color: #8e44ad;
 }
 
-/* Link being edited */
+/_ Link being edited _/
 .medium-editor-element a.medium-editor-link-editing {
   background-color: #f39c12;
   color: white;
@@ -306,7 +309,7 @@ class AutoLinker extends Extension {
 ### Custom Link Styles
 
 ```css
-/* Button-style links */
+/_ Button-style links _/
 .medium-editor-element a.btn {
   display: inline-block;
   padding: 8px 16px;
@@ -321,14 +324,14 @@ class AutoLinker extends Extension {
   background-color: #2980b9;
 }
 
-/* External link indicators */
+/_ External link indicators _/
 .medium-editor-element a[target="_blank"]:after {
   content: " ↗";
   font-size: 0.8em;
   opacity: 0.7;
 }
 
-/* Email link styling */
+/_ Email link styling _/
 .medium-editor-element a[href^="mailto:"]:before {
   content: "✉ ";
   opacity: 0.7;
@@ -553,6 +556,7 @@ class AccessibleLinks extends Extension {
 ### Common Link Issues
 
 **Links not working:**
+
 ```typescript
 // Check if anchor extension is enabled
 const editor = new MediumEditor('.editable', {
@@ -568,6 +572,7 @@ editor.subscribe('linkCreated', (event, data) => {
 ```
 
 **URL validation failing:**
+
 ```typescript
 // Debug URL validation
 const editor = new MediumEditor('.editable', {
@@ -583,16 +588,17 @@ const editor = new MediumEditor('.editable', {
 ```
 
 **Link styling issues:**
+
 ```css
-/* Ensure link styles are applied */
+/_ Ensure link styles are applied _/
 .medium-editor-element a {
   color: #3498db !important;
   text-decoration: underline !important;
 }
 
-/* Check for conflicting styles */
+/_ Check for conflicting styles _/
 .medium-editor-element a:not([class]) {
-  /* Styles for links without classes */
+  /_ Styles for links without classes _/
 }
 ```
 

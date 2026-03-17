@@ -1,7 +1,6 @@
 import { MediumEditor } from '../../src/index.ts'
 import { highlightAllCodeBlocks } from './syntax-highlighter.ts'
 
-// Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', async () => {
   try {
     // Main editor with static toolbar

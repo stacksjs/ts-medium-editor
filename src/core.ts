@@ -13,7 +13,6 @@ import { Toolbar } from './extensions/toolbar'
 import { selection } from './selection'
 import { util } from './util'
 
-// Global state for editor instances
 const editors: MediumEditor[] = []
 let globalId = 0
 
@@ -49,7 +48,7 @@ const version: VersionInfo = {
   revision: 0,
   preRelease: '',
   toString() {
-    return `${this.major}.${this.minor}.${this.revision}${this.preRelease ? `-${this.preRelease}` : ''}`
+    return `${this.major}.${this.minor}.${this.revision}${this.preRelease ? `-$ {this.preRelease}` : ''}`
   },
 }
 
@@ -73,7 +72,7 @@ function parseVersionString(release: string): VersionInfo {
 function handleDisableExtraSpaces(this: MediumEditor, event: KeyboardEvent): void {
   const node = selection.getSelectionStart(this.options.ownerDocument!)
   if (!node)
-    return
+  return
 
   const textContent = node.textContent || ''
   const caretOffsets = selection.getCaretOffsets(node as HTMLElement)
@@ -176,11 +175,11 @@ function handleAutoLink(this: MediumEditor, element: HTMLElement): void {
 
   // Look for complete URLs that come BEFORE the trigger character (space or period)
   // The URL should end right before the trigger character we just typed
-  const urlRegex = /https?:\/\/[a-zA-Z0-9.-]+\.(com|org|net|edu|gov|info|tech|app|dev|co|uk|ly|me|tv|ai|biz|ca|de|fr|jp|au|br|in|ru|cn|it|es|nl|se|no|dk|fi|be|at|ch|pl|cz|hu|ro|bg|hr|si|sk|lt|lv|ee|is|ie|pt|gr|cy|mt|lu|li|ad|sm|va|mc|gg|je|im|fo|gl|ax|sj|bv|hm|tf|aq|gs|cc|tk|ml|ga|cf)(?:\/\S*)?/g
+  const urlRegex = /https?:\/\/[a - zA - Z0 - 9.-]+\.(com|org|net|edu|gov|info|tech|app|dev|co|uk|ly|me|tv|ai|biz|ca|de|fr|jp|au|br|in|ru|cn|it|es|nl|se|no|dk|fi|be|at|ch|pl|cz|hu|ro|bg|hr|si|sk|lt|lv|ee|is|ie|pt|gr|cy|mt|lu|li|ad|sm|va|mc|gg|je|im|fo|gl|ax|sj|bv|hm|tf|aq|gs|cc|tk|ml|ga|cf)(?:\/\S*)?/g
   const matches = Array.from(textContent.matchAll(urlRegex))
 
   // eslint-disable-next-line no-console
-  console.log('Found matches:', matches.map(m => ({ url: m[0], start: m.index, end: m.index! + m[0].length })))
+  console.log('Found matches:', matches.map(m => ( { url: m[0], start: m.index, end: m.index! + m[0].length })))
 
   for (const match of matches) {
     const url = match[0]
@@ -256,22 +255,22 @@ function handleAutoLink(this: MediumEditor, element: HTMLElement): void {
 }
 
 function createElementsArray(
-  selector: string | HTMLElement | HTMLElement[] | NodeList,
-  doc: Document,
-  filterEditorElements?: boolean,
+selector: string | HTMLElement | HTMLElement[] | NodeList,
+doc: Document,
+filterEditorElements?: boolean,
 ): HTMLElement[] {
   let elements: HTMLElement[] = []
 
   if (typeof selector === 'string') {
     const nodeList = doc.querySelectorAll(selector)
     elements = Array.from(nodeList).filter((node): node is HTMLElement =>
-      node.nodeType === Node.ELEMENT_NODE && typeof (node as HTMLElement).setAttribute === 'function',
+    node.nodeType === Node.ELEMENT_NODE && typeof (node as HTMLElement).setAttribute === 'function',
     )
   }
   else if (selector && typeof selector === 'object' && 'length' in selector) {
     // Handle NodeList or HTMLElement[]
     elements = Array.from(selector).filter((node): node is HTMLElement =>
-      node && node.nodeType === Node.ELEMENT_NODE && typeof (node as HTMLElement).setAttribute === 'function',
+    node && node.nodeType === Node.ELEMENT_NODE && typeof (node as HTMLElement).setAttribute === 'function',
     )
   }
   else if (selector && typeof selector === 'object') {
@@ -303,12 +302,12 @@ export class MediumEditor {
   selection: typeof selection = selection
   util: typeof util = util
   version: typeof version = version
-  extensions: Record<string, MediumEditorExtension> = {}
+  extensions: Record < string, MediumEditorExtension> = {}
   preventSelectionUpdates = false
 
   private savedSelection?: SelectionState | null
   private originalSelector?: string | HTMLElement | HTMLElement[] | NodeList
-  private originalContent: Map<HTMLElement, string> = new Map()
+  private originalContent: Map < HTMLElement, string> = new Map()
   private isEditorActive = true
 
   constructor(elements?: string | HTMLElement | HTMLElement[] | NodeList, options?: MediumEditorOptions) {
@@ -422,8 +421,8 @@ export class MediumEditor {
   }
 
   // Content methods
-  serialize(): Record<string, string> {
-    const result: Record<string, string> = {}
+  serialize(): Record < string, string> {
+    const result: Record < string, string> = {}
 
     this.elements.forEach((element, index) => {
       const key = element.id || `element-${index}`
@@ -607,69 +606,69 @@ export class MediumEditor {
         case 'italic':
         case 'underline':
         case 'strikethrough':
-          success = this.options.ownerDocument.execCommand(action, false)
-          break
+        success = this.options.ownerDocument.execCommand(action, false)
+        break
         case 'h2':
-          success = this.options.ownerDocument.execCommand('formatBlock', false, 'h2')
-          break
+        success = this.options.ownerDocument.execCommand('formatBlock', false, 'h2')
+        break
         case 'h3':
-          success = this.options.ownerDocument.execCommand('formatBlock', false, 'h3')
-          break
+        success = this.options.ownerDocument.execCommand('formatBlock', false, 'h3')
+        break
         case 'quote':
-          success = this.options.ownerDocument.execCommand('formatBlock', false, 'blockquote')
-          break
+        success = this.options.ownerDocument.execCommand('formatBlock', false, 'blockquote')
+        break
         case 'createLink':
-          // Handle createLink specially - it expects a URL string, not an object
-          if (opts && typeof opts === 'object' && opts.value) {
-            success = this.options.ownerDocument.execCommand('createLink', false, opts.value)
-            // Apply additional attributes if needed
-            if (success && (opts.target || opts.buttonClass)) {
-              const selection = window.getSelection()
-              if (selection && selection.rangeCount > 0) {
-                const range = selection.getRangeAt(0)
-                let linkElement = range.commonAncestorContainer
+        // Handle createLink specially - it expects a URL string, not an object
+        if (opts && typeof opts === 'object' && opts.value) {
+          success = this.options.ownerDocument.execCommand('createLink', false, opts.value)
+          // Apply additional attributes if needed
+          if (success && (opts.target || opts.buttonClass)) {
+            const selection = window.getSelection()
+            if (selection && selection.rangeCount > 0) {
+              const range = selection.getRangeAt(0)
+              let linkElement = range.commonAncestorContainer
 
-                // Find the link element
-                while (linkElement && linkElement.nodeType !== Node.ELEMENT_NODE && linkElement.parentNode) {
-                  linkElement = linkElement.parentNode
-                }
+              // Find the link element
+              while (linkElement && linkElement.nodeType !== Node.ELEMENT_NODE && linkElement.parentNode) {
+                linkElement = linkElement.parentNode
+              }
 
-                if (linkElement && (linkElement as HTMLElement).tagName === 'A') {
-                  const link = linkElement as HTMLAnchorElement
-                  if (opts.target) {
-                    link.target = opts.target
-                  }
-                  if (opts.buttonClass) {
-                    link.className = opts.buttonClass
-                  }
+              if (linkElement && (linkElement as HTMLElement).tagName === 'A') {
+                const link = linkElement as HTMLAnchorElement
+                if (opts.target) {
+                  link.target = opts.target
                 }
-                else {
-                  // Look for a link in the selection
-                  const parentNode = range.commonAncestorContainer.parentNode
-                  if (parentNode && parentNode.nodeType === Node.ELEMENT_NODE) {
-                    const links = (parentNode as HTMLElement).querySelectorAll('a')
-                    if (links && links.length > 0) {
-                      const link = links[links.length - 1] as HTMLAnchorElement
-                      if (opts.target) {
-                        link.target = opts.target
-                      }
-                      if (opts.buttonClass) {
-                        link.className = opts.buttonClass
-                      }
+                if (opts.buttonClass) {
+                  link.className = opts.buttonClass
+                }
+              }
+              else {
+                // Look for a link in the selection
+                const parentNode = range.commonAncestorContainer.parentNode
+                if (parentNode && parentNode.nodeType === Node.ELEMENT_NODE) {
+                  const links = (parentNode as HTMLElement).querySelectorAll('a')
+                  if (links && links.length > 0) {
+                    const link = links[links.length - 1] as HTMLAnchorElement
+                    if (opts.target) {
+                      link.target = opts.target
+                    }
+                    if (opts.buttonClass) {
+                      link.className = opts.buttonClass
                     }
                   }
                 }
               }
             }
           }
-          else {
-            success = this.options.ownerDocument.execCommand(action, false, opts)
-          }
-          break
-        default:
-          // For other actions, use the provided opts parameter
+        }
+        else {
           success = this.options.ownerDocument.execCommand(action, false, opts)
-          break
+        }
+        break
+        default:
+        // For other actions, use the provided opts parameter
+        success = this.options.ownerDocument.execCommand(action, false, opts)
+        break
       }
 
       // Trigger a content change check after successful formatting
@@ -867,7 +866,7 @@ export class MediumEditor {
       const container = this.options.elementsContainer || document.body
       // Merge user toolbar options with defaults to ensure all properties are available
       const toolbarOptions = {
-        buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote'] as Array<string>,
+        buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote'] as Array < string>,
         static: false,
         align: 'center' as 'center' | 'left' | 'right',
         sticky: false,

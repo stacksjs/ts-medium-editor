@@ -73,12 +73,12 @@ export function isOldIE(): boolean {
 
 export function isIE(): boolean {
   return ((navigator.appName === 'Microsoft Internet Explorer')
-    || ((navigator.appName === 'Netscape')
-      && (/Trident\/.*rv:(\d[.0-9]*)/).exec(navigator.userAgent) !== null))
+  || ((navigator.appName === 'Netscape')
+  && (/Trident\/.*rv:(\d[.0 - 9]*)/).exec(navigator.userAgent) !== null))
 }
 
 export function getEdgeVersion(): number {
-  const match = /Edge\/(\d+[,.]\d+)/.exec(navigator.userAgent)
+  const match = /Edge\/(\d+[, .]\d+)/.exec(navigator.userAgent)
   if (match !== null) {
     return +match[1]
   }
@@ -107,7 +107,7 @@ export function dataURItoBlob(dataURI: string): Blob {
   const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
   const ia = new Uint8Array(byteString.length)
 
-  for (let i = 0; i < byteString.length; i += 1) {
+  for (let i = 0; i < byteString.length; i + = 1) {
     ia[i] = byteString.charCodeAt(i)
   }
 
@@ -236,12 +236,12 @@ export function selectElementContentsAndFire(el: HTMLElement, options: Selection
 }
 
 // Mock for setTimeout/setInterval timing
-export function tick(ms = 0): Promise<void> {
+export function tick(ms = 0): Promise < void> {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 // Utility to wait for next microtask
-export function nextTick(): Promise<void> {
+export function nextTick(): Promise < void> {
   return Promise.resolve()
 }
 
@@ -259,7 +259,7 @@ export function mockExecCommand(): any {
   }
 
   // Add mock properties
-  ;(mockFn as any).mock = {
+  ; (mockFn as any).mock = {
     calls,
     callCount: () => callCount,
     returnValue: (_value: any) => { /* Mock functionality */ },
@@ -303,7 +303,7 @@ export function mockOwnerDocumentExecCommand(ownerDoc: Document = document): any
   }
 
   // Add mock properties
-  ;(mockFn as any).mock = {
+  ; (mockFn as any).mock = {
     calls,
     callCount: () => callCount,
     returnValue: (_value: any) => { /* Mock functionality */ },

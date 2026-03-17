@@ -1,8 +1,6 @@
-// Import MediumEditor from the TypeScript source
 import { MediumEditor } from '../../src/index.ts'
 import { highlightAllCodeBlocks } from './syntax-highlighter.ts'
 
-// Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', async () => {
   try {
     // Create editor instance first
@@ -24,7 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // Make it globally available for debugging
-    ;(window as any).editor = editor
+    ; (window as any).editor = editor
 
     // Debug: Check if anchor extension is loaded
     // eslint-disable-next-line no-console

@@ -81,6 +81,7 @@ const editor = new MediumEditor('.editable', {
 Make the toolbar always visible instead of appearing on text selection:
 
 ### HTML
+
 ```html
 <div class="toolbar-container">
   <div class="static-editor" data-placeholder="Toolbar is always visible...">
@@ -90,6 +91,7 @@ Make the toolbar always visible instead of appearing on text selection:
 ```
 
 ### TypeScript
+
 ```typescript
 const editor = new MediumEditor('.static-editor', {
   toolbar: {
@@ -101,6 +103,7 @@ const editor = new MediumEditor('.static-editor', {
 ```
 
 ### CSS
+
 ```css
 .toolbar-container {
   max-width: 600px;
@@ -149,6 +152,7 @@ const minimalEditor = new MediumEditor('.minimal-toolbar', {
 Style toolbar buttons with custom CSS:
 
 ### TypeScript
+
 ```typescript
 const styledEditor = new MediumEditor('.styled-toolbar', {
   toolbar: {
@@ -174,6 +178,7 @@ const styledEditor = new MediumEditor('.styled-toolbar', {
 ```
 
 ### CSS
+
 ```css
 .custom-bold-btn {
   background: #dc3545 !important;
@@ -209,6 +214,7 @@ const styledEditor = new MediumEditor('.styled-toolbar', {
 Control where the toolbar appears:
 
 ### Relative Container
+
 ```typescript
 const editor = new MediumEditor('.editable', {
   toolbar: {
@@ -219,6 +225,7 @@ const editor = new MediumEditor('.editable', {
 ```
 
 ### Disable Toolbar for Specific Elements
+
 ```html
 <div class="editable">This element has a toolbar</div>
 <div class="editable" data-disable-toolbar="true">
@@ -295,6 +302,7 @@ const themedEditor = new MediumEditor('.themed-editor', {
 Create a toolbar that adapts to screen size:
 
 ### CSS
+
 ```css
 @media (max-width: 768px) {
   .medium-editor-toolbar {
@@ -323,6 +331,7 @@ Create a toolbar that adapts to screen size:
 ```
 
 ### TypeScript
+
 ```typescript
 const responsiveEditor = new MediumEditor('.responsive-editor', {
   toolbar: {

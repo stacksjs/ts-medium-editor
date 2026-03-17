@@ -14,6 +14,7 @@ Extend the editor with custom functionality using the extension system.
 </div>
 
 ### Implementation
+
 ```typescript
 class WordCounterExtension {
   name = 'word-counter'
@@ -69,6 +70,7 @@ const editor = new MediumEditor('.editable', {
 </div>
 
 ### Implementation
+
 ```typescript
 class AutoSaveExtension {
   name = 'auto-save'
@@ -140,6 +142,7 @@ class AutoSaveExtension {
 </div>
 
 ### HTML
+
 ```html
 <div class="full-featured-editor" data-placeholder="Try all the extensions...">
   <p>This editor includes multiple extensions:</p>
@@ -151,6 +154,7 @@ class AutoSaveExtension {
 ```
 
 ### TypeScript
+
 ```typescript
 const fullEditor = new MediumEditor('.full-featured-editor', {
   toolbar: {

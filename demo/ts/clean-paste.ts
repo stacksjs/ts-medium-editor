@@ -1,7 +1,6 @@
 import { MediumEditor } from '../../src/index.ts'
 import { highlightAllCodeBlocks } from './syntax-highlighter.ts'
 
-// Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', async () => {
   try {
     // Get comparison display elements
@@ -15,13 +14,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         cleanPastedHTML: true,
         forcePlainText: false,
         cleanReplacements: [
-          // Remove common unwanted elements
-          [/<o:p\s*\/?>|<\/o:p>/gi, ''], // Remove Word's <o:p> tags
-          [/<span\s+style\s*=\s*["'][^"']*mso-[^"']*["'][^>]*>/gi, '<span>'], // Remove Word styles
-          [/<(\w+)\s+class\s*=\s*["'][^"']*Mso[^"']*["'][^>]*>/gi, '<$1>'], // Remove Word classes
-          [/<!--\[if [^>]*>.*?<!\[endif\]-->/gi, ''], // Remove Word conditionals
-          [/<style[^>]*>[\s\S]*?<\/style>/gi, ''], // Remove style blocks
-          [/<script[^>]*>[\s\S]*?<\/script>/gi, ''], // Remove script blocks
+        // Remove common unwanted elements
+        [/<o:p\s*\/?>|<\/o:p>/gi, ''], // Remove Word's <o:p> tags
+        [/<span\s + style\s* = \s*['"][^'']*mso-[^"']*["'][^>]*>/gi, '<span>'], // Remove Word styles
+        [/<(\w+)\s + class\s* = \s*['"][^'']*Mso[^"']*["'][^>]*>/gi, '<$1>'], // Remove Word classes
+        [/<!--\[if [^>]*>.*?<!\[endif\]-->/gi, ''], // Remove Word conditionals
+        [/<style[^>]* > [\s\S]*?<\/style>/gi, ''], // Remove style blocks
+        [/<script[^>]* > [\s\S]*?<\/script>/gi, ''], // Remove script blocks
         ],
         cleanAttrs: ['class', 'style', 'dir', 'lang'], // Remove these attributes
         cleanTags: ['meta', 'link', 'style', 'script'], // Remove these tags completely
@@ -85,9 +84,9 @@ function updateCleanHtml(editableElement: Element, cleanHtmlDisplay: HTMLElement
 function formatHtml(html: string): string {
   // Simple HTML formatting for better readability
   return html
-    .replace(/></g, '>\n<') // Add line breaks between tags
-    .replace(/^\s+|\s+$/g, '') // Trim whitespace
-    .replace(/\n\s*\n/g, '\n') // Remove empty lines
+  .replace(/></g, '>\n<') // Add line breaks between tags
+  .replace(/^\s+|\s+$/g, '') // Trim whitespace
+  .replace(/\n\s*\n / g, '\n') // Remove empty lines
 }
 
 function showPasteNotification() {
@@ -96,20 +95,20 @@ function showPasteNotification() {
   notification.className = 'paste-notification'
   notification.textContent = 'Content cleaned and pasted!'
   notification.style.cssText = `
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: #4CAF50;
-    color: white;
-    padding: 12px 20px;
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    z-index: 10000;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    font-size: 14px;
-    opacity: 0;
-    transform: translateX(100%);
-    transition: all 0.3s ease;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border - radius: 4px;
+  box - shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z - index: 10000;
+  font - family: -apple - system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans - serif;
+  font - size: 14px;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: all 0.3s ease;
   `
 
   document.body.appendChild(notification)

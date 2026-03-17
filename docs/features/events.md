@@ -67,6 +67,7 @@ editor.subscribe('editableInput', (data, editable) => {
 ```
 
 **Use Cases:**
+
 - Auto-save functionality
 - Real-time content validation
 - Character/word counting
@@ -91,6 +92,7 @@ editor.subscribe('editableKeydown', (data, editable) => {
 ```
 
 **Use Cases:**
+
 - Custom keyboard shortcuts
 - Input validation
 - Character restrictions
@@ -112,6 +114,7 @@ editor.subscribe('editableKeyup', (data, editable) => {
 ```
 
 **Use Cases:**
+
 - Markdown syntax detection
 - Auto-formatting
 - Delayed content processing
@@ -197,6 +200,7 @@ editor.subscribe('focus', (data, editable) => {
 ```
 
 **Use Cases:**
+
 - UI state management
 - User analytics
 - Contextual help display
@@ -221,6 +225,7 @@ editor.subscribe('blur', (data, editable) => {
 ```
 
 **Use Cases:**
+
 - Auto-save triggers
 - Content validation
 - UI cleanup
@@ -240,6 +245,7 @@ editor.subscribe('externalInteraction', (data) => {
 ```
 
 **Use Cases:**
+
 - Hide floating UI elements
 - Auto-save on external interaction
 - Close popups or modals

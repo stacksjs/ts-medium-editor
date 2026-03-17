@@ -25,12 +25,12 @@ const config: BuddyBotConfig = {
   packages: {
     strategy: 'all',
     ignore: [
-      // Add packages to ignore here
-      // Example: '@types/node', 'eslint'
+    // Add packages to ignore here
+    // Example: '@types/node', 'eslint'
     ],
     ignorePaths: [
-      // Add file/directory paths to ignore using glob patterns
-      // Example: 'packages/test-*/**', '**/*test-envs/**', 'apps/legacy/**'
+    // Add file/directory paths to ignore using glob patterns
+    // Example: 'packages/test-*/**', '**/*test-envs/**', 'apps/legacy/**'
     ],
   },
   verbose: false,

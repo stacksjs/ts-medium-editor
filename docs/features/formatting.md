@@ -20,10 +20,12 @@ editor.execAction('bold')
 ```
 
 **HTML Output:**
+
 - Primary: `<strong>bold text</strong>`
 - Alternative: `<b>bold text</b>`
 
 **Usage Example:**
+
 ```typescript
 const editor = new MediumEditor('.editable', {
   toolbar: {
@@ -49,6 +51,7 @@ editor.execAction('italic')
 ```
 
 **HTML Output:**
+
 - Primary: `<em>italic text</em>`
 - Alternative: `<i>italic text</i>`
 
@@ -64,6 +67,7 @@ editor.execAction('underline')
 ```
 
 **HTML Output:**
+
 - `<u>underlined text</u>`
 
 ## Heading Formatting
@@ -78,9 +82,11 @@ editor.execAction('h2')
 ```
 
 **HTML Output:**
+
 - `<h2>Heading Text</h2>`
 
 **Use Cases:**
+
 - Section titles
 - Major topic divisions
 - Article subsections
@@ -95,9 +101,11 @@ editor.execAction('h3')
 ```
 
 **HTML Output:**
+
 - `<h3>Heading Text</h3>`
 
 **Use Cases:**
+
 - Subsection titles
 - Topic subdivisions
 - Detailed breakdowns
@@ -112,9 +120,11 @@ editor.execAction('quote')
 ```
 
 **HTML Output:**
+
 - `<blockquote><p>quoted text</p></blockquote>`
 
 **Use Cases:**
+
 - Citations and references
 - Highlighting key points
 - Pull quotes
@@ -404,24 +414,24 @@ class ContentFormatDetector extends Extension {
 ### Default Format Styles
 
 ```css
-/* Bold formatting */
+/_ Bold formatting _/
 .medium-editor-element strong,
 .medium-editor-element b {
   font-weight: 700;
 }
 
-/* Italic formatting */
+/_ Italic formatting _/
 .medium-editor-element em,
 .medium-editor-element i {
   font-style: italic;
 }
 
-/* Underline formatting */
+/_ Underline formatting _/
 .medium-editor-element u {
   text-decoration: underline;
 }
 
-/* Headings */
+/_ Headings _/
 .medium-editor-element h2 {
   font-size: 2em;
   font-weight: 600;
@@ -436,7 +446,7 @@ class ContentFormatDetector extends Extension {
   line-height: 1.3;
 }
 
-/* Blockquotes */
+/_ Blockquotes _/
 .medium-editor-element blockquote {
   border-left: 4px solid #ddd;
   margin: 1em 0;
@@ -449,19 +459,19 @@ class ContentFormatDetector extends Extension {
 ### Custom Format Styles
 
 ```css
-/* Custom bold style */
+/_ Custom bold style _/
 .custom-theme .medium-editor-element strong {
   font-weight: 800;
   color: #2c3e50;
 }
 
-/* Custom italic style */
+/_ Custom italic style _/
 .custom-theme .medium-editor-element em {
   font-style: italic;
   color: #7f8c8d;
 }
 
-/* Custom heading styles */
+/_ Custom heading styles _/
 .custom-theme .medium-editor-element h2 {
   font-family: 'Georgia', serif;
   color: #2c3e50;
@@ -475,7 +485,7 @@ class ContentFormatDetector extends Extension {
   margin-top: 1.5em;
 }
 
-/* Custom blockquote style */
+/_ Custom blockquote style _/
 .custom-theme .medium-editor-element blockquote {
   border-left: 4px solid #3498db;
   background: #ecf0f1;
@@ -591,6 +601,7 @@ class OptimizedFormatting extends Extension {
 ### Common Formatting Issues
 
 **Formatting not applying:**
+
 ```typescript
 // Check if text is selected
 const selection = window.getSelection()
@@ -605,6 +616,7 @@ if (!editor.isActive()) {
 ```
 
 **Inconsistent format detection:**
+
 ```typescript
 // Use content-based detection as fallback
 function detectFormatFallback(format: string): boolean {
@@ -632,6 +644,7 @@ function detectFormatFallback(format: string): boolean {
 ```
 
 **Format state synchronization:**
+
 ```typescript
 // Manually sync format states
 function syncFormatStates() {

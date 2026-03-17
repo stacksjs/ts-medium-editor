@@ -57,7 +57,7 @@ export class AnchorPreview implements MediumEditorExtension {
 
   private getTemplate(): string {
     return `<div class="medium-editor-toolbar-anchor-preview" id="medium-editor-toolbar-anchor-preview">
-      <a class="medium-editor-toolbar-anchor-preview-inner"></a>
+    <a class = 'medium-editor-toolbar-anchor-preview-inner'></a>
     </div>`
   }
 
@@ -70,13 +70,13 @@ export class AnchorPreview implements MediumEditorExtension {
 
   private showPreview(anchorEl: HTMLAnchorElement): this {
     if (this.anchorPreview.classList.contains('medium-editor-anchor-preview-active')
-      || anchorEl.getAttribute('data-disable-preview')) {
+    || anchorEl.getAttribute('data-disable-preview')) {
       return this
     }
 
     const href = anchorEl.getAttribute('href')
     if (!href)
-      return this
+    return this
 
     // Check if we should show on empty links
     if (!this.showOnEmptyLinks && (href === '' || href === '#' || href.startsWith('#'))) {
@@ -108,7 +108,7 @@ export class AnchorPreview implements MediumEditorExtension {
   private positionPreview(activeAnchor?: HTMLAnchorElement): void {
     activeAnchor = activeAnchor || this.activeAnchor || undefined
     if (!activeAnchor)
-      return
+    return
 
     const containerWidth = window.innerWidth
     const buttonHeight = this.anchorPreview.offsetHeight
@@ -118,7 +118,7 @@ export class AnchorPreview implements MediumEditorExtension {
 
     const elementsContainer = this.editor.options.elementsContainer || document.body
     const elementsContainerAbsolute = ['absolute', 'fixed'].includes(
-      window.getComputedStyle(elementsContainer).getPropertyValue('position'),
+    window.getComputedStyle(elementsContainer).getPropertyValue('position'),
     )
 
     let relativeBoundary: DOMRect = boundary
@@ -157,7 +157,7 @@ export class AnchorPreview implements MediumEditorExtension {
     }
 
     const middleBoundary = relativeBoundary.left + relativeBoundary.width / 2
-    top += buttonHeight + relativeBoundary.top + relativeBoundary.height - diffTop - this.anchorPreview.offsetHeight
+    top + = buttonHeight + relativeBoundary.top + relativeBoundary.height - diffTop - this.anchorPreview.offsetHeight
 
     this.anchorPreview.style.top = `${Math.round(top)}px`
     this.anchorPreview.style.right = 'initial'
@@ -207,7 +207,8 @@ export class AnchorPreview implements MediumEditorExtension {
               target: activeAnchor.getAttribute('target') || '',
               buttonClass: activeAnchor.getAttribute('class') || '',
             }
-            ;(anchorExtension as any).showForm(opts)
+            const ext = anchorExtension as any
+            ext.showForm(opts)
           }
         })
       }

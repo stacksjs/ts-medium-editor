@@ -2,11 +2,11 @@ import { createHighlighter } from 'shiki'
 
 let highlighter: any = null
 
-export async function initSyntaxHighlighter(): Promise<any> {
+export async function initSyntaxHighlighter(): Promise < any> {
   if (highlighter)
-    return highlighter
+  return highlighter
 
-  highlighter = await createHighlighter({
+  highlighter = await createHighlighter( {
     themes: ['github-light', 'github-dark'],
     langs: ['typescript', 'javascript', 'html', 'css', 'json'],
   })
@@ -14,7 +14,7 @@ export async function initSyntaxHighlighter(): Promise<any> {
   return highlighter
 }
 
-export async function highlightCode(code: string, lang: string = 'typescript', theme: string = 'github-light'): Promise<string> {
+export async function highlightCode(code: string, lang: string = 'typescript', theme: string = 'github-light'): Promise < string> {
   if (!highlighter) {
     await initSyntaxHighlighter()
   }
@@ -24,21 +24,21 @@ export async function highlightCode(code: string, lang: string = 'typescript', t
       lang,
       theme,
       transformers: [
-        {
-          name: 'remove-pre-wrapper',
-          root(node: any) {
-            // Remove the outer <pre> wrapper and just return the <code> content
-            if (node.type === 'element' && node.tagName === 'pre') {
-              const codeElement = node.children.find((child: any) =>
-                child.type === 'element' && child.tagName === 'code',
-              )
-              if (codeElement) {
-                return codeElement.children
-              }
+      {
+        name: 'remove-pre-wrapper',
+        root(node: any) {
+          // Remove the outer <pre> wrapper and just return the <code> content
+          if (node.type === 'element' && node.tagName === 'pre') {
+            const codeElement = node.children.find((child: any) =>
+            child.type === 'element' && child.tagName === 'code',
+            )
+            if (codeElement) {
+              return codeElement.children
             }
-            return node
-          },
+          }
+          return node
         },
+      },
       ],
     })
   }
@@ -54,7 +54,7 @@ function escapeHtml(text: string): string {
   return div.innerHTML
 }
 
-export async function highlightAllCodeBlocks(): Promise<void> {
+export async function highlightAllCodeBlocks(): Promise < void> {
   const codeBlocks = document.querySelectorAll('.code-example')
   const loadingIndicator = document.getElementById('syntax-loading')
 

@@ -1,7 +1,5 @@
-// Import MediumEditor from the TypeScript source
 import { MediumEditor } from '../../src/index.ts'
 
-// Initialize demo when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
   try {
     // Initialize demo editors with full toolbar functionality

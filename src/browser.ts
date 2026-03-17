@@ -3,15 +3,13 @@ import { Events } from './events'
 import { selection } from './selection'
 import { util } from './util'
 
-// Make MediumEditor available globally
-;
-
-(window as any).MediumEditor = MediumEditor
+const w = window as any
+w.MediumEditor = MediumEditor
 
 // Also expose utilities for advanced usage
-;(window as any).MediumEditor.Events = Events
-;(window as any).MediumEditor.selection = selection
-;(window as any).MediumEditor.util = util
+w.MediumEditor.Events = Events
+w.MediumEditor.selection = selection
+w.MediumEditor.util = util
 
 export { MediumEditor as default }
 export { Events, MediumEditor, selection, util }

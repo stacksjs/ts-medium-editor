@@ -18,6 +18,7 @@ The simplest way to get started with `ts-medium-editor`.
 </div>
 
 ### HTML
+
 ```html
 <div class="editable" data-placeholder="Start typing here...">
   <p>This is a <strong>basic editor</strong> with <em>formatting capabilities</em>.</p>
@@ -26,6 +27,7 @@ The simplest way to get started with `ts-medium-editor`.
 ```
 
 ### TypeScript
+
 ```typescript
 import { MediumEditor } from 'ts-medium-editor'
 import 'ts-medium-editor/css/medium-editor.css'
@@ -70,6 +72,7 @@ const editor = new MediumEditor('.editable')
 A more complete setup for article writing:
 
 ### HTML
+
 ```html
 <article class="article-editor">
   <h1 class="article-title" data-placeholder="Enter your title...">
@@ -91,6 +94,7 @@ A more complete setup for article writing:
 ```
 
 ### TypeScript
+
 ```typescript
 const articleEditor = new MediumEditor(['.article-title', '.article-content'], {
   toolbar: {
@@ -105,6 +109,7 @@ const articleEditor = new MediumEditor(['.article-title', '.article-content'], {
 ```
 
 ### CSS
+
 ```css
 .article-editor {
   max-width: 700px;
@@ -162,6 +167,7 @@ const articleEditor = new MediumEditor(['.article-title', '.article-content'], {
 Show content updates in real-time:
 
 ### HTML
+
 ```html
 <div class="editor-container">
   <div class="editor-panel">
@@ -179,6 +185,7 @@ Show content updates in real-time:
 ```
 
 ### TypeScript
+
 ```typescript
 const editor = new MediumEditor('.editable-preview', {
   toolbar: {
@@ -201,6 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
 ```
 
 ### CSS
+
 ```css
 .editor-container {
   display: grid;
@@ -223,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
   padding: 1rem;
 }
 
-#live-preview {
+# live-preview {
   min-height: 200px;
   background: #f8f9fa;
   border-radius: 6px;
@@ -534,7 +542,8 @@ if (typeof window !== 'undefined') {
   padding-bottom: 0.5rem;
 }
 
-#demo-live-preview {
+# demo-live-preview {
+
   min-height: 120px;
   background: #f8f9fa;
   border-radius: 4px;

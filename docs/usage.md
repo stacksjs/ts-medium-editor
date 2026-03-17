@@ -36,6 +36,7 @@ const editor = new MediumEditor(elements, options)
 ### Elements Parameter
 
 The first parameter can be:
+
 - **CSS Selector**: `'.editable'` or `'#editor'`
 - **DOM Element**: `document.getElementById('editor')`
 - **NodeList**: `document.querySelectorAll('.editable')`

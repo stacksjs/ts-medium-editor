@@ -11,12 +11,12 @@ declare global {
 
 // Variables to hold the imported modules
 let MediumEditor: any = null
-let highlightAllCodeBlocks: (() => Promise<void>) | null = null
+let highlightAllCodeBlocks: (() => Promise < void>) | null = null
 
 // Function to load MediumEditor with fallback approaches
-async function loadMediumEditor(): Promise<any> {
+async function loadMediumEditor(): Promise < any> {
   if (MediumEditor)
-    return MediumEditor
+  return MediumEditor
 
   try {
     // First try the built version
@@ -39,9 +39,9 @@ async function loadMediumEditor(): Promise<any> {
 }
 
 // Function to load syntax highlighter with error handling
-async function loadSyntaxHighlighter(): Promise<() => Promise<void>> {
+async function loadSyntaxHighlighter(): Promise < () => Promise < void>> {
   if (highlightAllCodeBlocks)
-    return highlightAllCodeBlocks
+  return highlightAllCodeBlocks
 
   try {
     const syntaxModule = await import('./syntax-highlighter.ts')
@@ -114,14 +114,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (container) {
       const errorDiv = document.createElement('div')
       errorDiv.innerHTML = `
-        <div style="background: #f8d7da; color: #721c24; padding: 1rem; margin: 1rem 0; border-radius: 4px; border: 1px solid #f5c6cb;">
-          <strong>Error:</strong> Failed to initialize Medium Editor.
-          Please check the browser console for more details.
-          <br><br>
-          <em>Error: ${error instanceof Error ? error.message : String(error)}</em>
-          <br><br>
-          <small>Try running the demo server with: <code>bun run serve-demo.ts</code></small>
-        </div>
+      <div style = 'background: #f8d7da; color: #721c24; padding: 1rem; margin: 1rem 0; border-radius: 4px; border: 1px solid #f5c6cb;'>
+      <strong > Error:</strong> Failed to initialize Medium Editor.
+      Please check the browser console for more details.
+      <br><br>
+      <em > Error: $ {error instanceof Error ? error.message : String(error)}</em>
+      <br><br>
+      <small > Try running the demo server with: <code > bun run serve - demo.ts < /code></small>
+      </div>
       `
       container.insertBefore(errorDiv, container.firstChild)
     }

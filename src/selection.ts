@@ -148,7 +148,7 @@ export const selection = {
           let i = node.childNodes.length - 1
           while (i >= 0) {
             nodeStack.push(node.childNodes[i])
-            i -= 1
+            i - = 1
           }
         }
       }
@@ -186,8 +186,8 @@ export const selection = {
     }
 
     if (selectionState.start === selectionState.end
-      && range.startContainer.nodeType === 3
-      && range.startOffset === (range.startContainer as Text).nodeValue!.length) {
+    && range.startContainer.nodeType === 3
+    && range.startOffset === (range.startContainer as Text).nodeValue!.length) {
       const nodeInsideAnchorTag = util.traverseUp(range.startContainer, nodeInsideAnchorTagFunction)
       if (nodeInsideAnchorTag) {
         const nextNode = nodeInsideAnchorTag.nextSibling
@@ -270,7 +270,7 @@ export const selection = {
     while (treeWalker.nextNode()) {
       const blockIsEmpty = treeWalker.currentNode.textContent === ''
       if (blockIsEmpty || emptyBlocksCount > 0) {
-        emptyBlocksCount += 1
+        emptyBlocksCount + = 1
       }
       if (treeWalker.currentNode === closestBlock) {
         return emptyBlocksCount
@@ -294,16 +294,16 @@ export const selection = {
     }
 
     const walker = doc.createTreeWalker(
-      range.commonAncestorContainer,
-      NodeFilter.SHOW_ALL,
-      {
-        acceptNode(node: Node): number {
-          if (range.intersectsNode(node)) {
-            return NodeFilter.FILTER_ACCEPT
-          }
-          return NodeFilter.FILTER_SKIP
-        },
+    range.commonAncestorContainer,
+    NodeFilter.SHOW_ALL,
+    {
+      acceptNode(node: Node): number {
+        if (range.intersectsNode(node)) {
+          return NodeFilter.FILTER_ACCEPT
+        }
+        return NodeFilter.FILTER_SKIP
       },
+    },
     )
 
     walker.currentNode = range.startContainer

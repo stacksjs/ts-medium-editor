@@ -94,6 +94,7 @@ const editor = new MediumEditor('.editable', {
 ```
 
 The extension comes with default shortcuts:
+
 - `Ctrl/Cmd + B` - Bold
 - `Ctrl/Cmd + I` - Italic
 - `Ctrl/Cmd + U` - Underline
@@ -278,6 +279,7 @@ const keyboardCommands = new KeyboardCommands(editor, options)
 ```
 
 **Parameters:**
+
 - `editor` - The MediumEditor instance
 - `options` - Configuration options
 
@@ -304,36 +306,47 @@ interface KeyboardCommand {
 ### Methods
 
 #### `init(): void`
+
 Initializes the extension and sets up event listeners.
 
 #### `destroy(): void`
+
 Cleans up the extension (no cleanup needed for this extension).
 
 #### `handleKeydown(event: KeyboardEvent): void`
+
 Handles keydown events and executes matching commands.
 
 ## Tips and Best Practices
 
 ### 1. Use Standard Shortcuts
+
 Stick to familiar keyboard shortcuts when possible:
+
 - `Ctrl/Cmd + B` for bold
 - `Ctrl/Cmd + I` for italic
 - `Ctrl/Cmd + U` for underline
 
 ### 2. Avoid Conflicts
+
 Be careful not to override browser shortcuts:
+
 - Avoid `Ctrl/Cmd + S` (save)
 - Avoid `Ctrl/Cmd + R` (refresh)
 - Avoid `Ctrl/Cmd + T` (new tab)
 
 ### 3. Group Related Commands
+
 Use modifier combinations logically:
+
 - Base command: `Ctrl/Cmd + Key`
 - Variant: `Ctrl/Cmd + Shift + Key`
 - Alternative: `Ctrl/Cmd + Alt + Key`
 
 ### 4. Document Your Shortcuts
+
 Always provide users with a way to discover available shortcuts:
+
 - Help tooltips
 - Keyboard shortcut reference
 - Context menus
@@ -341,18 +354,22 @@ Always provide users with a way to discover available shortcuts:
 ## Troubleshooting
 
 ### Shortcuts Not Working
+
 1. Verify the command name is correct
 2. Check for browser shortcut conflicts
 3. Ensure the editor has focus
 4. Verify modifier key combinations
 
 ### Commands Not Executing
+
 1. Check that the editor supports the command
 2. Ensure text is selected for formatting commands
 3. Verify the command is spelled correctly
 
 ### Browser Compatibility
+
 The extension works in all modern browsers that support:
+
 - `KeyboardEvent` API
 - `event.preventDefault()`
 - `event.stopPropagation()`

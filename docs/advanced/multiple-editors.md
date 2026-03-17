@@ -5,6 +5,7 @@
 ## Overview
 
 Multiple editor instances can be created and managed independently, allowing for:
+
 - Different configurations per editor
 - Independent content management
 - Separate event handling

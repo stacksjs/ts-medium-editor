@@ -14,7 +14,7 @@ export class Button implements ButtonExtension {
   contentDefault?: string
   contentFA?: string
   classList?: string[]
-  attrs?: Record<string, string>
+  attrs?: Record < string, string>
   button?: HTMLElement
 
   private editor: MediumEditor
@@ -43,7 +43,7 @@ export class Button implements ButtonExtension {
   }
 
   private initBuiltInButton(name: string): void {
-    const builtInButtons: Record<string, Partial<ButtonExtension>> = {
+    const builtInButtons: Record < string, Partial < ButtonExtension>> = {
       bold: {
         action: 'bold',
         aria: 'Bold',
@@ -199,21 +199,21 @@ export class Button implements ButtonExtension {
 
   isActive(): boolean {
     if (!this.button)
-      return false
+    return false
     const activeClass = this.editor.options.activeButtonClass || 'medium-editor-button-active'
     return this.button.classList.contains(activeClass)
   }
 
   setActive(): void {
     if (!this.button)
-      return
+    return
     const activeClass = this.editor.options.activeButtonClass || 'medium-editor-button-active'
     this.button.classList.add(activeClass)
   }
 
   setInactive(): void {
     if (!this.button)
-      return
+    return
     const activeClass = this.editor.options.activeButtonClass || 'medium-editor-button-active'
     this.button.classList.remove(activeClass)
   }

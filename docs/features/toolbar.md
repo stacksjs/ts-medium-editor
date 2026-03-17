@@ -75,36 +75,42 @@ const blogEditor = new MediumEditor(['.post-title', '.post-content'], {
 The toolbar supports the following built-in buttons (as implemented in the source code):
 
 #### Text Formatting
+
 - **`bold`**: Bold text formatting
 - **`italic`**: Italic text formatting
 - **`underline`**: Underline text formatting
 - **`strikethrough`**: Strikethrough text formatting
 
 #### Structure and Layout
+
 - **`h2`**: Heading 2 formatting
 - **`h3`**: Heading 3 formatting
 - **`quote`**: Blockquote formatting
 - **`anchor`**: Link creation and editing
 
 #### Lists and Layout
+
 - **`orderedlist`**: Numbered list
 - **`unorderedlist`**: Bullet list
 - **`indent`**: Increase indentation
 - **`outdent`**: Decrease indentation
 
 #### Alignment
+
 - **`justifyLeft`**: Align text left
 - **`justifyCenter`**: Center text
 - **`justifyRight`**: Align text right
 - **`justifyFull`**: Justify text
 
 #### Script and Code
+
 - **`superscript`**: Superscript formatting
 - **`subscript`**: Subscript formatting
 - **`pre`**: Code block formatting
 - **`html`**: HTML editing
 
 #### Media and Utilities
+
 - **`image`**: Image insertion
 - **`removeFormat`**: Remove all formatting
 
@@ -291,6 +297,7 @@ const mobileEditor = new MediumEditor('.mobile-content', {
 ```
 
 **Benefits of Static Toolbar:**
+
 - Always visible to users
 - Consistent positioning
 - Better for mobile interfaces
@@ -700,6 +707,7 @@ The toolbar includes built-in accessibility features:
 ### Common Issues
 
 **Toolbar not appearing:**
+
 ```typescript
 // Ensure toolbar is enabled and has buttons
 const editor = new MediumEditor('.editable', {
@@ -710,6 +718,7 @@ const editor = new MediumEditor('.editable', {
 ```
 
 **Buttons not working:**
+
 ```typescript
 // Verify toolbar extension is loaded
 const toolbar = editor.getExtensionByName('toolbar')
@@ -722,6 +731,7 @@ else {
 ```
 
 **Positioning issues:**
+
 ```typescript
 // Use relative container for better positioning
 const editor = new MediumEditor('.editable', {

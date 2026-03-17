@@ -40,6 +40,7 @@ Select text in any editor below to see different toolbar configurations for each
 </div>
 
 ### HTML
+
 ```html
 <div class="editors-container">
   <!-- Title Editor -->
@@ -69,6 +70,7 @@ Select text in any editor below to see different toolbar configurations for each
 ```
 
 ### TypeScript
+
 ```typescript
 import { MediumEditor } from 'ts-medium-editor'
 import 'ts-medium-editor/css/medium-editor.css'
@@ -114,6 +116,7 @@ const summaryEditor = new MediumEditor('.summary-editor', {
 A complete blog post editing interface:
 
 ### HTML
+
 ```html
 <form class="blog-post-form">
   <div class="form-group">
@@ -151,6 +154,7 @@ A complete blog post editing interface:
 ```
 
 ### TypeScript
+
 ```typescript
 // Initialize all editors
 const editors = {
@@ -206,6 +210,7 @@ document.querySelector('.blog-post-form').addEventListener('submit', (e) => {
 Multiple editors for a comment system:
 
 ### HTML
+
 ```html
 <div class="comment-system">
   <div class="new-comment">
@@ -249,6 +254,7 @@ Multiple editors for a comment system:
 ```
 
 ### TypeScript
+
 ```typescript
 // Main comment editor
 const commentEditor = new MediumEditor('.comment-editor', {
@@ -315,6 +321,7 @@ document.querySelector('.post-comment-btn').addEventListener('click', () => {
 Sync content between multiple editors:
 
 ### HTML
+
 ```html
 <div class="sync-demo">
   <div class="sync-editors">
@@ -341,6 +348,7 @@ Sync content between multiple editors:
 ```
 
 ### TypeScript
+
 ```typescript
 let syncEnabled = true
 

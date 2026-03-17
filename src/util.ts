@@ -1,7 +1,5 @@
 import type { DOMMatch, KeyCodes } from './types'
 
-// Browser detection utilities
-// eslint-disable-next-line prefer-regex-literals
 const isIE = ((navigator.appName === 'Microsoft Internet Explorer') || ((navigator.appName === 'Netscape') && (new RegExp('Trident/.*rv:(\\d[.0-9]*)').exec(navigator.userAgent) !== null)))
 
 const isEdge = (/Edge\/\d+/).exec(navigator.userAgent) !== null
@@ -22,48 +20,48 @@ const keyCode: KeyCodes = {
 }
 
 const blockContainerElementNames = [
-  // elements our editor generates
-  'p',
-  'h1',
-  'h2',
-  'h3',
-  'h4',
-  'h5',
-  'h6',
-  'blockquote',
-  'pre',
-  'ul',
-  'li',
-  'ol',
-  // all other known block elements
-  'address',
-  'article',
-  'aside',
-  'audio',
-  'canvas',
-  'dd',
-  'dl',
-  'dt',
-  'fieldset',
-  'figcaption',
-  'figure',
-  'footer',
-  'form',
-  'header',
-  'hgroup',
-  'main',
-  'nav',
-  'noscript',
-  'output',
-  'section',
-  'video',
-  'table',
-  'thead',
-  'tbody',
-  'tfoot',
-  'tr',
-  'th',
-  'td',
+// elements our editor generates
+'p',
+'h1',
+'h2',
+'h3',
+'h4',
+'h5',
+'h6',
+'blockquote',
+'pre',
+'ul',
+'li',
+'ol',
+// all other known block elements
+'address',
+'article',
+'aside',
+'audio',
+'canvas',
+'dd',
+'dl',
+'dt',
+'fieldset',
+'figcaption',
+'figure',
+'footer',
+'form',
+'header',
+'hgroup',
+'main',
+'nav',
+'noscript',
+'output',
+'section',
+'video',
+'table',
+'thead',
+'tbody',
+'tfoot',
+'tr',
+'th',
+'td',
 ]
 
 const emptyElementNames = ['br', 'col', 'colgroup', 'hr', 'img', 'input', 'source', 'wbr']
@@ -88,8 +86,8 @@ function copyInto(overwrite: boolean, dest: any, ...sources: any[]): any {
     if (source) {
       for (const prop in source) {
         if (Object.prototype.hasOwnProperty.call(source, prop)
-          && typeof source[prop] !== 'undefined'
-          && (overwrite || !Object.prototype.hasOwnProperty.call(dest, prop) || typeof dest[prop] === 'undefined')) {
+        && typeof source[prop] !== 'undefined'
+        && (overwrite || !Object.prototype.hasOwnProperty.call(dest, prop) || typeof dest[prop] === 'undefined')) {
           dest[prop] = source[prop]
         }
       }
@@ -100,7 +98,7 @@ function copyInto(overwrite: boolean, dest: any, ...sources: any[]): any {
 
 function extend(...sources: any[]): any {
   if (sources.length === 0)
-    return {}
+  return {}
   const target = sources[0] || {}
   const extendSources = sources.slice(1)
   return copyInto(true, target, ...extendSources)
@@ -108,7 +106,7 @@ function extend(...sources: any[]): any {
 
 function defaults(...sources: any[]): any {
   if (sources.length === 0)
-    return {}
+  return {}
   const target = sources[0] || {}
   const defaultSources = sources.slice(1)
   return copyInto(false, target, ...defaultSources)
@@ -189,10 +187,10 @@ function traverseUp(current: Node, testElementFunction: (node: Node) => boolean)
 
 function htmlEntities(str: string): string {
   return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
 }
 
 function insertHTMLCommand(doc: Document, html: string): void {
@@ -382,7 +380,7 @@ function isMediumEditorElement(element: HTMLElement): boolean {
 
 function getContainerEditorElement(element: HTMLElement): HTMLElement | null {
   return traverseUp(element, node =>
-    isMediumEditorElement(node as HTMLElement)) as HTMLElement | null
+  isMediumEditorElement(node as HTMLElement)) as HTMLElement | null
 }
 
 function isBlockContainer(element: HTMLElement): boolean {
@@ -391,7 +389,7 @@ function isBlockContainer(element: HTMLElement): boolean {
 
 function getClosestBlockContainer(node: Node): HTMLElement | null {
   return traverseUp(node, testNode =>
-    isBlockContainer(testNode as HTMLElement)) as HTMLElement | null
+  isBlockContainer(testNode as HTMLElement)) as HTMLElement | null
 }
 
 function getTopBlockContainer(element: HTMLElement): HTMLElement {
@@ -412,22 +410,22 @@ function getTopBlockContainer(element: HTMLElement): HTMLElement {
 
 function getFirstSelectableLeafNode(element: HTMLElement): Node | null {
   const walker = document.createTreeWalker(
-    element,
-    NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT,
-    {
-      acceptNode(node: Node): number {
-        if (node.nodeType === Node.TEXT_NODE) {
-          return NodeFilter.FILTER_ACCEPT
-        }
+  element,
+  NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT,
+  {
+    acceptNode(node: Node): number {
+      if (node.nodeType === Node.TEXT_NODE) {
+        return NodeFilter.FILTER_ACCEPT
+      }
 
-        const el = node as Element
-        if (emptyElementNames.includes(el.tagName.toLowerCase())) {
-          return NodeFilter.FILTER_ACCEPT
-        }
+      const el = node as Element
+      if (emptyElementNames.includes(el.tagName.toLowerCase())) {
+        return NodeFilter.FILTER_ACCEPT
+      }
 
-        return NodeFilter.FILTER_SKIP
-      },
+      return NodeFilter.FILTER_SKIP
     },
+  },
   )
 
   return walker.nextNode()
@@ -435,9 +433,9 @@ function getFirstSelectableLeafNode(element: HTMLElement): Node | null {
 
 function getFirstTextNode(element: HTMLElement): Text | null {
   const walker = document.createTreeWalker(
-    element,
-    NodeFilter.SHOW_TEXT,
-    null,
+  element,
+  NodeFilter.SHOW_TEXT,
+  null,
   )
 
   return walker.nextNode() as Text | null
@@ -461,7 +459,7 @@ function deprecated(oldName: string, newName: string, version: string): void {
   warn(message)
 }
 
-function deprecatedMethod(oldName: string, newName: string, args: any[], version: string): any {
+function deprecatedMethod(oldName: string, newName: string, _args: any[], version: string): any {
   deprecated(oldName, newName, version)
   // Return undefined as we're not implementing the old method
   return undefined
@@ -501,7 +499,7 @@ function getClosestTag(el: HTMLElement, tag: string): HTMLElement | false {
 function unwrap(el: HTMLElement, doc: Document): void {
   const parent = el.parentNode
   if (!parent)
-    return
+  return
 
   const frag = doc.createDocumentFragment()
   while (el.firstChild) {
@@ -514,17 +512,17 @@ function unwrap(el: HTMLElement, doc: Document): void {
 function guid(): string {
   function s4() {
     return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1)
+    .toString(16)
+    .substring(1)
   }
   return `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`
 }
 
-function throttle<T extends (...args: any[]) => any>(func: T, wait: number): T {
-  let timeout: ReturnType<typeof setTimeout> | null = null
+function throttle < T extends (...args: any[]) => any > (func: T, wait: number): T {
+  let timeout: ReturnType < typeof setTimeout> | null = null
   let previous = 0
 
-  const throttled = function (this: any, ...args: Parameters<T>) {
+  const throttled = function (this: any, ...args: Parameters < T>) {
     const now = Date.now()
     const remaining = wait - (now - previous)
 
@@ -551,9 +549,9 @@ function throttle<T extends (...args: any[]) => any>(func: T, wait: number): T {
 // Advanced DOM manipulation functions
 function findOrCreateMatchingTextNodes(document: Document, element: HTMLElement, match: DOMMatch): Text[] {
   const treeWalker = document.createTreeWalker(
-    element,
-    NodeFilter.SHOW_TEXT,
-    null,
+  element,
+  NodeFilter.SHOW_TEXT,
+  null,
   )
 
   const matchedNodes: Text[] = []
@@ -568,7 +566,7 @@ function findOrCreateMatchingTextNodes(document: Document, element: HTMLElement,
       const matchStartIndex = match.start - currentTextIndex
       if (matchStartIndex > 0) {
         currentNode = currentNode.splitText(matchStartIndex)
-        currentTextIndex += matchStartIndex
+        currentTextIndex + = matchStartIndex
       }
       startReached = true
     }
@@ -595,17 +593,17 @@ function findOrCreateMatchingTextNodes(document: Document, element: HTMLElement,
 function splitByBlockElements(element: HTMLElement): HTMLElement[] {
   const blocks: HTMLElement[] = []
   const walker = document.createTreeWalker(
-    element,
-    NodeFilter.SHOW_ELEMENT,
-    {
-      acceptNode(node: Node): number {
-        const el = node as Element
-        if (isBlockContainer(el as HTMLElement)) {
-          return NodeFilter.FILTER_ACCEPT
-        }
-        return NodeFilter.FILTER_SKIP
-      },
+  element,
+  NodeFilter.SHOW_ELEMENT,
+  {
+    acceptNode(node: Node): number {
+      const el = node as Element
+      if (isBlockContainer(el as HTMLElement)) {
+        return NodeFilter.FILTER_ACCEPT
+      }
+      return NodeFilter.FILTER_SKIP
     },
+  },
   )
 
   let node: HTMLElement | null = walker.nextNode() as HTMLElement | null
@@ -619,17 +617,17 @@ function splitByBlockElements(element: HTMLElement): HTMLElement[] {
 
 function findAdjacentTextNodeWithContent(rootNode: HTMLElement, targetNode: Node, _ownerDocument: Document): Text | null {
   const walker = document.createTreeWalker(
-    rootNode,
-    NodeFilter.SHOW_TEXT,
-    {
-      acceptNode(node: Node): number {
-        const textNode = node as Text
-        if (textNode.textContent && textNode.textContent.trim().length > 0) {
-          return NodeFilter.FILTER_ACCEPT
-        }
-        return NodeFilter.FILTER_SKIP
-      },
+  rootNode,
+  NodeFilter.SHOW_TEXT,
+  {
+    acceptNode(node: Node): number {
+      const textNode = node as Text
+      if (textNode.textContent && textNode.textContent.trim().length > 0) {
+        return NodeFilter.FILTER_ACCEPT
+      }
+      return NodeFilter.FILTER_SKIP
     },
+  },
   )
 
   let node: Text | null = walker.nextNode() as Text | null

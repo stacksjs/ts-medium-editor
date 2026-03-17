@@ -68,21 +68,21 @@ export class KeyboardCommands implements MediumEditorExtension {
 
   private getDefaultCommands(): KeyboardCommand[] {
     return [
-      {
-        command: 'bold',
-        key: 'b',
-        meta: true,
-      },
-      {
-        command: 'italic',
-        key: 'i',
-        meta: true,
-      },
-      {
-        command: 'underline',
-        key: 'u',
-        meta: true,
-      },
+    {
+      command: 'bold',
+      key: 'b',
+      meta: true,
+    },
+    {
+      command: 'italic',
+      key: 'i',
+      meta: true,
+    },
+    {
+      command: 'underline',
+      key: 'u',
+      meta: true,
+    },
     ]
   }
 }

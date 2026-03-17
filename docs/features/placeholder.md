@@ -327,6 +327,7 @@ class PlaceholderWithAutoSave extends Extension {
 ### Common Issues
 
 **Placeholder not showing:**
+
 ```typescript
 // Ensure the editor element is empty
 const editor = new MediumEditor('.editable', {
@@ -340,6 +341,7 @@ console.log('Element content:', editor.elements[0].innerHTML)
 ```
 
 **Placeholder not hiding:**
+
 ```typescript
 // Check hideOnClick and hideOnFocus settings
 const editor = new MediumEditor('.editable', {
@@ -352,6 +354,7 @@ const editor = new MediumEditor('.editable', {
 ```
 
 **Styling issues:**
+
 ```css
 /* Ensure placeholder CSS is loaded */
 .medium-editor-placeholder:after {
@@ -382,6 +385,7 @@ debugPlaceholder(editor)
 ### Writing Effective Placeholders
 
 1. **Be specific and helpful:**
+
    ```typescript
    // Good
    placeholder: {
@@ -395,6 +399,7 @@ debugPlaceholder(editor)
    ```
 
 2. **Match your content type:**
+
    ```typescript
    // For blog posts
    placeholder: {
@@ -413,6 +418,7 @@ debugPlaceholder(editor)
    ```
 
 3. **Keep it concise:**
+
    ```typescript
    // Good
    placeholder: {

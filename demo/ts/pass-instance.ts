@@ -15,12 +15,12 @@ declare global {
 
 // Variables to hold the imported modules
 let MediumEditor: any = null
-let highlightAllCodeBlocks: (() => Promise<void>) | null = null
+let highlightAllCodeBlocks: (() => Promise < void>) | null = null
 
 // Function to load MediumEditor with fallback approaches
-async function loadMediumEditor(): Promise<any> {
+async function loadMediumEditor(): Promise < any> {
   if (MediumEditor)
-    return MediumEditor
+  return MediumEditor
 
   try {
     // First try the built version
@@ -43,9 +43,9 @@ async function loadMediumEditor(): Promise<any> {
 }
 
 // Function to load syntax highlighter with error handling
-async function loadSyntaxHighlighter(): Promise<() => Promise<void>> {
+async function loadSyntaxHighlighter(): Promise < () => Promise < void>> {
   if (highlightAllCodeBlocks)
-    return highlightAllCodeBlocks
+  return highlightAllCodeBlocks
 
   try {
     const syntaxModule = await import('./syntax-highlighter.ts')
@@ -124,15 +124,15 @@ class CustomExtension {
 
     const message = `🎯 Custom Extension Info:
 
-Editor Instance ID: #${editorInfo.id}
-Number of Elements: ${editorInfo.elements}
-Is Active: ${editorInfo.isActive}
-Version: ${editorInfo.version}
+    Editor Instance ID: #$ {editorInfo.id}
+    Number of Elements: $ {editorInfo.elements}
+    Is Active: $ {editorInfo.isActive}
+    Version: $ {editorInfo.version}
 
-Current Content Preview:
-"${editorInfo.content}"
+    Current Content Preview:
+    '${editorInfo.content}'
 
-Click OK to see more details in console.`
+    Click OK to see more details in console.`
 
     // eslint-disable-next-line no-alert
     alert(message)
@@ -252,9 +252,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const statusIndicator = document.getElementById('status-indicator')
     if (statusIndicator) {
       statusIndicator.innerHTML = `
-        <div class="status-indicator status-success">
-          ✅ Custom Extension Demo initialized successfully! Select text in either editor and use the formatting buttons. The green 🎯 button shows extension functionality. Check console for debugging info.
-        </div>
+      <div class = 'status-indicator status-success'>
+      ✅ Custom Extension Demo initialized successfully! Select text in either editor and use the formatting buttons. The green 🎯 button shows extension functionality. Check console for debugging info.
+      </div>
       `
     }
 
@@ -281,14 +281,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     const statusIndicator = document.getElementById('status-indicator')
     if (statusIndicator) {
       statusIndicator.innerHTML = `
-        <div class="status-indicator status-error">
-          <strong>Error:</strong> Failed to initialize Medium Editor.
-          Please check the browser console for more details.
-          <br><br>
-          <em>Error: ${error instanceof Error ? error.message : String(error)}</em>
-          <br><br>
-          <small>Try running the demo server with: <code>bun run serve-demo.ts</code></small>
-        </div>
+      <div class = 'status-indicator status-error'>
+      <strong > Error:</strong> Failed to initialize Medium Editor.
+      Please check the browser console for more details.
+      <br><br>
+      <em > Error: $ {error instanceof Error ? error.message : String(error)}</em>
+      <br><br>
+      <small > Try running the demo server with: <code > bun run serve - demo.ts < /code></small>
+      </div>
       `
     }
   }
