@@ -107,7 +107,7 @@ export function dataURItoBlob(dataURI: string): Blob {
   const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
   const ia = new Uint8Array(byteString.length)
 
-  for (let i = 0; i < byteString.length; i + = 1) {
+  for (let i = 0; i < byteString.length; i += 1) {
     ia[i] = byteString.charCodeAt(i)
   }
 

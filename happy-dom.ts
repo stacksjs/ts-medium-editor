@@ -1,3 +1,10 @@
-import { GlobalRegistrator } from 'very-happy-dom'
+import { GlobalWindow } from 'very-happy-dom'
 
-GlobalRegistrator.register()
+const window = new GlobalWindow()
+
+// Register browser globals for test environment
+for (const key of Object.getOwnPropertyNames(window)) {
+  if (!(key in globalThis)) {
+    window.setGlobal(key, (window as any)[key])
+  }
+}
