@@ -60,11 +60,11 @@ export function setupTestHelpers(): TestHelpers {
 
 // Browser detection utilities
 export function isIE9(): boolean {
-  return navigator.appName.includes('Internet Explorer') && navigator.appVersion.includes('MSIE 9')
+  return (navigator.appName || '').includes('Internet Explorer') && (navigator.appVersion || '').includes('MSIE 9')
 }
 
 export function isIE10(): boolean {
-  return navigator.appName.includes('Internet Explorer') && navigator.appVersion.includes('MSIE 10')
+  return (navigator.appName || '').includes('Internet Explorer') && (navigator.appVersion || '').includes('MSIE 10')
 }
 
 export function isOldIE(): boolean {
