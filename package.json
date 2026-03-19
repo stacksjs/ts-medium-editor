@@ -61,7 +61,7 @@
     "format:fix": "bunx --bun pickier . --format --write"
   },
   "dependencies": {
-    "shiki": "^3.22.0"
+    "shiki": "^4.0.2"
   },
   "devDependencies": {
     "@happy-dom/global-registrator": "^20.6.1",
