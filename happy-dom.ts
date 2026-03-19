@@ -90,3 +90,6 @@ if (!(globalThis as any).window.getSelection) {
 if (!(globalThis as any).getSelection) {
   ;(globalThis as any).getSelection = () => mockSelection
 }
+if (doc && !doc.getSelection) {
+  doc.getSelection = () => mockSelection
+}
