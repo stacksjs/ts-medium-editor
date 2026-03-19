@@ -16,6 +16,7 @@ concurrency:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - uses: actions/checkout@v6.0.2
@@ -39,6 +40,7 @@ jobs:
 
   typecheck:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - uses: actions/checkout@v6.0.2
@@ -62,6 +64,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - uses: actions/checkout@v6.0.2
@@ -81,11 +84,12 @@ jobs:
         run: bun install
 
       - name: Unit Test
-        run: bun test
+        run: bun test --timeout 30000 --bail
 
   publish-commit:
     needs: [lint, typecheck, test]
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - uses: actions/checkout@v6
