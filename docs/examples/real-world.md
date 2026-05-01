@@ -1915,7 +1915,6 @@ if (document.readyState === 'loading') {
 }
 
 /* Placeholder styles */
-[contenteditable]:empty:before {
   content: attr(data-placeholder);
   color: #6c757d;
   font-style: italic;

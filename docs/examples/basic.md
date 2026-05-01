@@ -545,7 +545,7 @@ if (typeof window !== 'undefined') {
   padding-bottom: 0.5rem;
 }
 
-# demo-live-preview {
+## demo-live-preview {
 
   min-height: 120px;
   background: #f8f9fa;
