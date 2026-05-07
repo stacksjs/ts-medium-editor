@@ -192,7 +192,7 @@
 
   constructor() {
     this.button = document.createElement('button')
-    this.button.className = 'medium-editor-action custom-extension'
+    this.button.className = 'custom-extension medium-editor-action'
     this.button.innerHTML = '🎯'
     this.button.title = 'Custom Extension Action'
     this.button.onclick = this.onClick.bind(this)
@@ -284,7 +284,7 @@ const editorTwo = new MediumEditor('.two', {
             constructor() {
                 this.name = 'customExtension';
                 this.button = document.createElement('button');
-                this.button.className = 'medium-editor-action custom-extension';
+                this.button.className = 'custom-extension medium-editor-action';
                 this.button.innerHTML = '🎯';
                 this.button.title = 'Custom Extension Action - Click to see editor info';
                 this.button.setAttribute('data-action', 'customExtension');
@@ -382,7 +382,7 @@ const editorTwo = new MediumEditor('.two', {
 
             function showStatus(message, isError = false) {
                 statusIndicator.innerHTML = `
-                    <div class="status-indicator ${isError ? 'status-error' : 'status-success'}">
+                    <div class=": ? 'status-error' 'status-success'} ${isError status-indicator">
                         ${message}
                     </div>
                 `;

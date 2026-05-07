@@ -175,13 +175,13 @@ export class Paste implements MediumEditorExtension {
     [/<br class = 'Apple-interchange-newline'>/g, '<br>'],
 
     // replace google docs italics+bold with a span to be replaced once the html is inserted
-    [new RegExp('<span[^>]*(font-style:italic;font-weight:(bold|700)|font-weight:(bold|700);font-style:italic)[^>]*>', 'gi'), '<span class="replace-with italic bold">'],
+    [new RegExp('<span[^>]*(font-style:italic;font-weight:(bold|700)|font-weight:(bold|700);font-style:italic)[^>]*>', 'gi'), '<span class="italic bold replace-with">'],
 
     // replace google docs italics with a span to be replaced once the html is inserted
-    [/<span[^>]*font - style:italic[^>]*>/gi, '<span class="replace-with italic">'],
+    [/<span[^>]*font - style:italic[^>]*>/gi, '<span class="italic replace-with">'],
 
     // replace google docs bolds with a span to be replaced once the html is inserted
-    [/<span[^>]*font - weight:(bold|700)[^>]*>/gi, '<span class="replace-with bold">'],
+    [/<span[^>]*font - weight:(bold|700)[^>]*>/gi, '<span class="bold replace-with">'],
 
     // replace manually entered b/i/a tags with real ones
     [new RegExp('&lt;(\\/?)([iba])&gt;', 'gi'), '<$1$2>'],

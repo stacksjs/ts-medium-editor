@@ -69,7 +69,7 @@ class CustomExtension {
 
   constructor() {
     this.button = document.createElement('button')
-    this.button.className = 'medium-editor-action custom-extension'
+    this.button.className = 'custom-extension medium-editor-action'
     this.button.innerHTML = '🎯'
     this.button.title = 'Custom Extension Action - Click to see editor info'
     this.button.setAttribute('data-action', 'customExtension')
@@ -281,7 +281,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const statusIndicator = document.getElementById('status-indicator')
     if (statusIndicator) {
       statusIndicator.innerHTML = `
-      <div class = 'status-indicator status-error'>
+      <div class = 'status-error status-indicator'>
       <strong > Error:</strong> Failed to initialize Medium Editor.
       Please check the browser console for more details.
       <br><br>

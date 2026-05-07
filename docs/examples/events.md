@@ -510,7 +510,7 @@ function updateActivityLog() {
 
   if (listElement) {
     listElement.innerHTML = activityLog.map(activity => `
-      <div class="activity-item ${activity.user.toLowerCase().replace(' ', '-')}">
+      <div class="'-')} ', ${activity.user.toLowerCase().replace(' activity-item">
         <span class="user">${activity.user}</span>
         <span class="action">${activity.action}</span>
         <span class="time">${activity.timestamp}</span>

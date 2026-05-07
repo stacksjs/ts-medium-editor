@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const statusIndicator = document.getElementById('status-indicator')
     if (statusIndicator) {
       statusIndicator.innerHTML = `
-      <div class = 'status-indicator status-error'>
+      <div class = 'status-error status-indicator'>
       <strong > Error:</strong> Failed to initialize Medium Editor.
       Please check the browser console for more details.
       <br><br>

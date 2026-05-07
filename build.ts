@@ -1,3 +1,4 @@
+import { cp } from 'node:fs/promises'
 import { dts } from 'bun-plugin-dtsx'
 
 async function build(): Promise < void> {
@@ -16,6 +17,10 @@ async function build(): Promise < void> {
     outdir: './dist',
     naming: 'medium-editor.umd.js',
   })
+
+  // Copy stylesheets so `ts-medium-editor/css/*` imports (mapped via
+  // package.json exports to `./dist/css/*`) resolve.
+  await cp('src/css', 'dist/css', { recursive: true })
 }
 
 build()
