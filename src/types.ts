@@ -28,6 +28,12 @@ export interface MediumEditorOptions {
 
 export interface ToolbarOptions {
   allowMultiParagraphSelection?: boolean
+  /**
+   * Accessible name announced for the toolbar element via `aria-label`.
+   * Override this when an editor's purpose isn't generic text formatting
+   * (e.g. `'Comment formatting'`). Defaults to `'Text formatting'`.
+   */
+  ariaLabel?: string
   buttons?: Array < string | ToolbarButton>
   diffLeft?: number
   diffTop?: number
@@ -55,6 +61,13 @@ export interface ToolbarButton {
   contentFA?: string
   classList?: string[]
   attrs?: Record < string, string>
+  /**
+   * If `true`, the button is rendered with `aria-pressed` reflecting its
+   * active state — use this for toggle-style custom buttons (e.g. a custom
+   * "highlight" formatter). One-shot custom buttons (link, image insert,
+   * etc.) should leave this off.
+   */
+  toggle?: boolean
 }
 
 export interface AnchorPreviewOptions {

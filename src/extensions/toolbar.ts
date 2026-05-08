@@ -1,5 +1,30 @@
 import type { MediumEditorExtension, ToolbarOptions } from '../types'
 
+// Built-in actions that represent a toggleable formatting state. Buttons
+// for these actions get `aria-pressed`, kept in sync with the active class
+// in updateButtonStates(). One-shot actions (anchor, image, html,
+// removeFormat, outdent, indent) intentionally don't get aria-pressed —
+// announcing "not pressed" on a button that just inserts a link is
+// confusing for screen-reader users.
+const TOGGLE_ACTIONS = new Set([
+  'bold',
+  'italic',
+  'underline',
+  'strikethrough',
+  'h2',
+  'h3',
+  'quote',
+  'pre',
+  'orderedlist',
+  'unorderedlist',
+  'superscript',
+  'subscript',
+  'justifyLeft',
+  'justifyCenter',
+  'justifyRight',
+  'justifyFull',
+])
+
 export class Toolbar implements MediumEditorExtension {
   name = 'toolbar'
   options: ToolbarOptions
@@ -11,6 +36,12 @@ export class Toolbar implements MediumEditorExtension {
   private lastClickTime = 0 // Debouncing mechanism
   private minClickInterval = 100 // Reduced from 300ms to 100ms for better responsiveness
   private isFormattingInProgress = false // Flag to prevent flickering during formatting
+  // Bound handlers for window-level reposition listeners (visualViewport
+  // changes when the iOS keyboard opens/closes or the user pinch-zooms,
+  // and touchend after the user finishes dragging the iOS selection
+  // handles). Held on the instance so destroy() can remove them.
+  private boundReposition?: () => void
+  private boundTouchReposition?: () => void
 
   constructor(options: ToolbarOptions = {}, container: HTMLElement = document.body, editor?: any) {
     this.options = {
@@ -38,6 +69,14 @@ export class Toolbar implements MediumEditorExtension {
   }
 
   destroy(): void {
+    const vv = typeof window !== 'undefined' ? window.visualViewport : null
+    if (vv && this.boundReposition) {
+      vv.removeEventListener('resize', this.boundReposition)
+      vv.removeEventListener('scroll', this.boundReposition)
+    }
+    if (this.boundTouchReposition && typeof document !== 'undefined') {
+      document.removeEventListener('touchend', this.boundTouchReposition, true)
+    }
     if (this.toolbar) {
       this.toolbar.remove()
     }
@@ -51,6 +90,11 @@ export class Toolbar implements MediumEditorExtension {
     this.toolbar = document.createElement('div')
     this.toolbar.className = 'medium-editor-toolbar'
     this.toolbar.setAttribute('data-static-toolbar', this.options.static ? 'true' : 'false')
+    // ARIA toolbar pattern — gives the group of formatting buttons a
+    // meaningful name and tells assistive tech to expose them as a single
+    // navigable widget. Consumers can override the label via options.
+    this.toolbar.setAttribute('role', 'toolbar')
+    this.toolbar.setAttribute('aria-label', this.options.ariaLabel || 'Text formatting')
 
     // Set initial styles based on static option
     if (this.options.static) {
@@ -134,8 +178,12 @@ export class Toolbar implements MediumEditorExtension {
         }
       })
 
-      // eslint-disable-next-line no-console
-      // console.log(`Total buttons created: ${this.buttons.length}`)
+      // First button is the toolbar's tab-stop. Arrow keys (handled in
+      // attachEventListeners) move focus to siblings and migrate the
+      // tab-stop with them — the standard "roving tabindex" pattern.
+      if (this.buttons.length > 0) {
+        this.buttons[0].tabIndex = 0
+      }
     }
 
     addExtensionForms(): void {
@@ -178,6 +226,11 @@ export class Toolbar implements MediumEditorExtension {
 
     createButton(name: string): HTMLElement | null {
       const button = document.createElement('button')
+      button.type = 'button' // Avoid accidental form submission when toolbar lives inside a <form>
+      // Roving tabindex — every button starts at -1; createButtons() sets
+      // the first one to 0 so Tab into the toolbar lands there, then
+      // arrow keys move focus between siblings (handled in keydown listener).
+      button.tabIndex = -1
       button.className = `medium-editor-action medium-editor-action-${name}`
       button.setAttribute('data-action', name)
 
@@ -277,11 +330,26 @@ export class Toolbar implements MediumEditorExtension {
         return null
       }
 
+      // Mirror the title onto aria-label — title alone isn't reliably
+      // announced by screen readers, especially mobile (VoiceOver, TalkBack).
+      // Hide the visual content from assistive tech so the label isn't
+      // announced twice (e.g. "Bold B" or "Link link emoji").
+      button.setAttribute('aria-label', button.title)
+      button.innerHTML = `<span aria-hidden="true">${button.innerHTML}</span>`
+
+      // Toggleable actions get aria-pressed so the active formatting state
+      // is exposed semantically; one-shot actions don't.
+      if (TOGGLE_ACTIONS.has(name)) {
+        button.setAttribute('aria-pressed', 'false')
+      }
+
       return button
     }
 
     createCustomButton(buttonConfig: any): HTMLElement | null {
       const button = document.createElement('button')
+      button.type = 'button'
+      button.tabIndex = -1
       button.className = `medium-editor-action medium-editor-action-${buttonConfig.name}`
       button.setAttribute('data-action', buttonConfig.name)
 
@@ -290,15 +358,23 @@ export class Toolbar implements MediumEditorExtension {
         this.customActions.set(buttonConfig.name, buttonConfig.action)
       }
 
-      // Set custom content
+      // Set custom content. Wrapped in an aria-hidden span so screen
+      // readers announce only the aria-label, not the visual glyph.
       if (buttonConfig.contentDefault) {
-        button.innerHTML = buttonConfig.contentDefault
+        button.innerHTML = `<span aria-hidden="true">${buttonConfig.contentDefault}</span>`
       }
 
       // Set title/aria label
       if (buttonConfig.aria) {
         button.title = buttonConfig.aria
         button.setAttribute('aria-label', buttonConfig.aria)
+      }
+
+      // Custom buttons can opt into the toggle pattern by setting
+      // `buttonConfig.toggle = true`. Defaults off so one-shot custom
+      // actions don't get a misleading "not pressed" announcement.
+      if (buttonConfig.toggle) {
+        button.setAttribute('aria-pressed', 'false')
       }
 
       // Add custom classes
@@ -334,8 +410,90 @@ export class Toolbar implements MediumEditorExtension {
         this.handleToolbarClick(event)
       })
 
-      // eslint-disable-next-line no-console
-      // console.log('✓ Event listeners attached to toolbar')
+      // ARIA toolbar keyboard pattern: arrow keys cycle focus between
+      // buttons, Home/End jump to ends, and the tab-stop (tabindex=0)
+      // moves with focus so Tab still exits the toolbar in one step.
+      this.toolbar.addEventListener('keydown', (event) => {
+        this.handleToolbarKeydown(event as KeyboardEvent)
+      })
+
+      // Static toolbars don't need viewport-aware repositioning — they sit
+      // in normal flow and never use absolute coordinates.
+      if (!this.options.static) {
+        // Reposition while the visual viewport changes. iOS soft keyboard
+        // opening/closing and pinch-zoom both fire these events, and without
+        // them the toolbar can end up under the keyboard or off-screen.
+        const reposition = () => {
+          if (this.toolbar && this.toolbar.style.display !== 'none') {
+            this.positionToolbar()
+          }
+        }
+        this.boundReposition = reposition
+        const vv = typeof window !== 'undefined' ? window.visualViewport : null
+        if (vv) {
+          vv.addEventListener('resize', reposition)
+          vv.addEventListener('scroll', reposition)
+        }
+
+        // After a user drags the native iOS selection handles, the
+        // selectionchange / mouseup events alone don't reliably re-trigger
+        // toolbar repositioning. Re-running on touchend (deferred one frame
+        // so the selection has settled) closes that gap.
+        const touchReposition = () => {
+          if (this.toolbar && this.toolbar.style.display !== 'none') {
+            requestAnimationFrame(() => this.positionToolbar())
+          }
+        }
+        this.boundTouchReposition = touchReposition
+        if (typeof document !== 'undefined') {
+          document.addEventListener('touchend', touchReposition, true)
+        }
+      }
+    }
+
+    handleToolbarKeydown(event: KeyboardEvent): void {
+      // Implements WAI-ARIA Authoring Practices toolbar pattern:
+      // https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
+      const buttons = this.buttons.filter(b => !b.hasAttribute('disabled'))
+      if (buttons.length === 0) {
+        return
+      }
+
+      const currentIndex = buttons.indexOf(event.target as HTMLElement)
+      if (currentIndex === -1) {
+        return
+      }
+
+      let nextIndex: number | null = null
+      switch (event.key) {
+        case 'ArrowRight':
+        case 'ArrowDown':
+          nextIndex = (currentIndex + 1) % buttons.length
+          break
+        case 'ArrowLeft':
+        case 'ArrowUp':
+          nextIndex = (currentIndex - 1 + buttons.length) % buttons.length
+          break
+        case 'Home':
+          nextIndex = 0
+          break
+        case 'End':
+          nextIndex = buttons.length - 1
+          break
+        default:
+          return
+      }
+
+      if (nextIndex === null || nextIndex === currentIndex) {
+        return
+      }
+
+      event.preventDefault()
+      // Migrate the tab-stop so future Tab key presses leave the toolbar
+      // from wherever the user last had focus.
+      buttons[currentIndex].tabIndex = -1
+      buttons[nextIndex].tabIndex = 0
+      buttons[nextIndex].focus()
     }
 
     handleToolbarClick(event: Event): void {
@@ -1173,11 +1331,39 @@ export class Toolbar implements MediumEditorExtension {
 
               // Position the toolbar above the selection
               const toolbarHeight = this.toolbar.offsetHeight || 40 // Default height
-              const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0
-              const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft || 0
+              const scrollTop = window.scrollY || document.documentElement.scrollTop || 0
+              const scrollLeft = window.scrollX || document.documentElement.scrollLeft || 0
 
-              // Calculate base position relative to the document (not viewport)
-              let top = Math.max(10, rect.top + scrollTop - toolbarHeight - 10) // 10px gap, min 10px from top
+              // Use visualViewport (where supported) so positioning tracks the iOS
+              // soft keyboard, pinch-zoom, and any other visual-vs-layout viewport
+              // divergence. Falls back to the layout viewport on older engines.
+              const vv = typeof window !== 'undefined' ? window.visualViewport : null
+              const viewportOffsetTop = vv ? vv.offsetTop : 0
+              const viewportOffsetLeft = vv ? vv.offsetLeft : 0
+              const viewportWidth = vv ? vv.width : window.innerWidth
+              const viewportHeight = vv ? vv.height : window.innerHeight
+              const viewportDocTop = scrollTop + viewportOffsetTop
+              const viewportDocBottom = viewportDocTop + viewportHeight
+
+              // Calculate base position relative to the document. Prefer placing
+              // the toolbar above the selection; flip below when there isn't
+              // enough room (e.g. selection near top of screen, or the keyboard
+              // has shrunk the visible area on mobile).
+              const gap = 10
+              const aboveTop = rect.top + scrollTop - toolbarHeight - gap
+              const belowTop = rect.bottom + scrollTop + gap
+              let top: number
+              if (aboveTop >= viewportDocTop + gap) {
+                top = aboveTop
+              }
+              else if (belowTop + toolbarHeight <= viewportDocBottom - gap) {
+                top = belowTop
+              }
+              else {
+                // Neither above nor below fits cleanly — clamp to whichever side
+                // has more room so the toolbar at least stays on-screen.
+                top = aboveTop >= viewportDocTop ? aboveTop : Math.max(viewportDocTop + gap, viewportDocBottom - toolbarHeight - gap)
+              }
               let left: number
 
               // Apply alignment
@@ -1225,10 +1411,15 @@ export class Toolbar implements MediumEditorExtension {
                 top -= containerOffset.top
                 left -= containerOffset.left
 
-                // Ensure toolbar stays within viewport bounds
-                left = Math.max(10, Math.min(
+                // Ensure toolbar stays within the visual viewport. Using
+                // visualViewport metrics keeps the toolbar on-screen when the
+                // page is pinch-zoomed (where window.innerWidth no longer
+                // matches the visible width).
+                const visualLeftEdge = scrollLeft + viewportOffsetLeft
+                const visualRightEdge = visualLeftEdge + viewportWidth
+                left = Math.max(visualLeftEdge + gap, Math.min(
                 left,
-                window.innerWidth + scrollLeft - this.toolbar.offsetWidth - 10,
+                visualRightEdge - this.toolbar.offsetWidth - gap,
                 ))
 
                 this.toolbar.style.position = 'absolute'
@@ -1350,6 +1541,9 @@ export class Toolbar implements MediumEditorExtension {
               // If no selection, clear all active states
               this.buttons.forEach((button) => {
                 button.classList.remove('medium-editor-button-active')
+                if (button.hasAttribute('aria-pressed')) {
+                  button.setAttribute('aria-pressed', 'false')
+                }
               })
               return
             }
@@ -1371,9 +1565,15 @@ export class Toolbar implements MediumEditorExtension {
 
                   if (isActive) {
                     button.classList.add('medium-editor-button-active')
+                    if (button.hasAttribute('aria-pressed')) {
+                      button.setAttribute('aria-pressed', 'true')
+                    }
                   }
                   else {
                     button.classList.remove('medium-editor-button-active')
+                    if (button.hasAttribute('aria-pressed')) {
+                      button.setAttribute('aria-pressed', 'false')
+                    }
                   }
                 }
               })

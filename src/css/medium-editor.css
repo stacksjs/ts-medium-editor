@@ -122,9 +122,24 @@
   color: white;
 }
 
-.medium-editor-action:focus {
+/*
+ * Use :focus-visible so the focus ring only appears for keyboard users.
+ * The previous :focus selector also fired on mouse clicks, leaving a
+ * persistent outline on the last-clicked button — visually noisy and
+ * not what sighted mouse users expect. :focus-visible is the modern
+ * a11y-friendly default; older browsers without support fall back to
+ * the bare :focus styles below for safety.
+ */
+.medium-editor-action:focus-visible {
   outline: 2px solid #4dabf7;
   outline-offset: 2px;
+}
+
+@supports not selector(:focus-visible) {
+  .medium-editor-action:focus {
+    outline: 2px solid #4dabf7;
+    outline-offset: 2px;
+  }
 }
 
 /* Placeholder styles */
@@ -150,9 +165,26 @@
     font-size: 18px;
     padding: 15px;
   }
+}
+
+/*
+ * Touch-input devices (phones, tablets, most stylus-only setups). Bump tap
+ * targets to the WCAG 2.5.5 / Apple HIG minimum of 44x44 CSS pixels and
+ * loosen spacing so adjacent buttons don't get fat-fingered. Desktop users
+ * with a fine pointer keep the denser default.
+ */
+@media (pointer: coarse) {
+  .medium-editor-action {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 10px 14px;
+    margin: 0 4px;
+  }
 
   .medium-editor-toolbar {
-    transform: scale(0.9);
-    transform-origin: center top;
+    /* Prevent the toolbar from running off the side of small viewports
+       when many buttons are configured; users can scroll horizontally. */
+    max-width: calc(100vw - 16px);
+    overflow-x: auto;
   }
 }
