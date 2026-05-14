@@ -55,6 +55,28 @@ function defaultCommands(): SlashCommand[] {
       action: (_e, el) => formatBlock(el, 'blockquote'),
     },
     {
+      id: 'task-list',
+      label: 'Task list',
+      description: 'Track to-dos with checkboxes',
+      keywords: ['todo', 'checklist', 'check'],
+      action: (editor, el) => {
+        const ext = editor.getExtensionByName('taskList') as { insert?: (el: HTMLElement) => void } | undefined
+        if (ext?.insert)
+          ext.insert(el)
+      },
+    },
+    {
+      id: 'table',
+      label: 'Table',
+      description: 'Insert a table',
+      keywords: ['grid'],
+      action: (editor, el) => {
+        const ext = editor.getExtensionByName('tables') as { insert?: (el: HTMLElement) => void } | undefined
+        if (ext?.insert)
+          ext.insert(el)
+      },
+    },
+    {
       id: 'code',
       label: 'Code block',
       description: 'A monospaced block for code',
@@ -107,6 +129,7 @@ export class SlashCommands implements MediumEditorExtension {
   private menuClass: string
 
   private menu: HTMLElement | null = null
+  private menuId = ''
   private query = ''
   private filtered: SlashCommand[] = []
   private highlightIndex = 0
@@ -115,6 +138,7 @@ export class SlashCommands implements MediumEditorExtension {
   private slashOffset = -1
   private slashNode: Text | null = null
   private boundDocClick: ((event: MouseEvent) => void) | null = null
+  private boundReposition: (() => void) | null = null
 
   constructor(editor: MediumEditor, options: SlashCommandsOptions = {}) {
     this.editor = editor
@@ -142,6 +166,11 @@ export class SlashCommands implements MediumEditorExtension {
         return
       }
       if (event.key === 'ArrowUp') {
+        event.preventDefault()
+        this.moveHighlight(-1)
+        return
+      }
+      if (event.key === 'Tab' && event.shiftKey) {
         event.preventDefault()
         this.moveHighlight(-1)
         return
@@ -242,6 +271,16 @@ export class SlashCommands implements MediumEditorExtension {
         this.closeMenu()
     }
     doc.addEventListener('mousedown', this.boundDocClick, true)
+
+    this.boundReposition = () => this.positionMenu()
+    window.addEventListener('scroll', this.boundReposition, true)
+    window.addEventListener('resize', this.boundReposition)
+
+    // Wire the editable's accessible-state to the open menu so screen readers
+    // announce the highlighted row.
+    editable.setAttribute('aria-controls', this.menuId)
+    editable.setAttribute('aria-expanded', 'true')
+    this.updateActiveDescendant()
   }
 
   private refilter(): void {
@@ -268,6 +307,8 @@ export class SlashCommands implements MediumEditorExtension {
   private renderMenu(): void {
     const doc = this.editor.options.ownerDocument!
     const menu = doc.createElement('div')
+    this.menuId = `medium-editor-slash-menu-${util.guid()}`
+    menu.id = this.menuId
     menu.className = this.menuClass
     menu.setAttribute('role', 'listbox')
     menu.setAttribute('aria-label', 'Insert block')
@@ -304,6 +345,7 @@ export class SlashCommands implements MediumEditorExtension {
 
     this.filtered.forEach((cmd, idx) => {
       const row = doc.createElement('div')
+      row.id = `${this.menuId}-row-${idx}`
       row.setAttribute('role', 'option')
       row.dataset.id = cmd.id
       row.style.display = 'flex'
@@ -315,6 +357,9 @@ export class SlashCommands implements MediumEditorExtension {
       if (idx === this.highlightIndex) {
         row.style.background = 'rgba(0, 0, 0, 0.06)'
         row.setAttribute('aria-selected', 'true')
+      }
+      else {
+        row.setAttribute('aria-selected', 'false')
       }
 
       if (cmd.icon) {
@@ -386,6 +431,32 @@ export class SlashCommands implements MediumEditorExtension {
     const next = (this.highlightIndex + delta + this.filtered.length) % this.filtered.length
     this.highlightIndex = next
     this.paintMenu()
+    this.scrollHighlightIntoView()
+    this.updateActiveDescendant()
+  }
+
+  private scrollHighlightIntoView(): void {
+    if (!this.menu)
+      return
+    const row = this.menu.children[this.highlightIndex] as HTMLElement | undefined
+    if (!row)
+      return
+    const top = row.offsetTop
+    const bottom = top + row.offsetHeight
+    if (top < this.menu.scrollTop)
+      this.menu.scrollTop = top
+    else if (bottom > this.menu.scrollTop + this.menu.clientHeight)
+      this.menu.scrollTop = bottom - this.menu.clientHeight
+  }
+
+  private updateActiveDescendant(): void {
+    if (!this.activeEditable)
+      return
+    const row = this.menu?.children[this.highlightIndex] as HTMLElement | undefined
+    if (row?.id)
+      this.activeEditable.setAttribute('aria-activedescendant', row.id)
+    else
+      this.activeEditable.removeAttribute('aria-activedescendant')
   }
 
   private commit(): void {
@@ -424,6 +495,17 @@ export class SlashCommands implements MediumEditorExtension {
       this.editor.options.ownerDocument!.removeEventListener('mousedown', this.boundDocClick, true)
       this.boundDocClick = null
     }
+    if (this.boundReposition) {
+      window.removeEventListener('scroll', this.boundReposition, true)
+      window.removeEventListener('resize', this.boundReposition)
+      this.boundReposition = null
+    }
+    if (this.activeEditable) {
+      this.activeEditable.removeAttribute('aria-controls')
+      this.activeEditable.removeAttribute('aria-expanded')
+      this.activeEditable.removeAttribute('aria-activedescendant')
+    }
+    this.menuId = ''
     this.query = ''
     this.filtered = []
     this.highlightIndex = 0

@@ -11,6 +11,8 @@ import { MarkdownShortcuts } from './extensions/markdown-shortcuts'
 import { Paste } from './extensions/paste'
 import { Placeholder } from './extensions/placeholder'
 import { SlashCommands } from './extensions/slash-commands'
+import { Tables } from './extensions/tables'
+import { TaskList } from './extensions/task-list'
 import { Toolbar } from './extensions/toolbar'
 import { selection } from './selection'
 import { util } from './util'
@@ -899,6 +901,20 @@ export class MediumEditor {
       const md = new MarkdownShortcuts(this, opts)
       md.init()
       this.extensions.markdownShortcuts = md
+    }
+
+    if (this.options.taskList) {
+      const opts = this.options.taskList === true ? {} : this.options.taskList
+      const tl = new TaskList(this, opts)
+      tl.init()
+      this.extensions.taskList = tl
+    }
+
+    if (this.options.tables) {
+      const opts = this.options.tables === true ? {} : this.options.tables
+      const tables = new Tables(this, opts)
+      tables.init()
+      this.extensions.tables = tables
     }
 
     if (this.options.slashCommands) {

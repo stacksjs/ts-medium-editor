@@ -16,4 +16,6 @@ export { Paste } from './paste'
 // Extensions
 export { Placeholder } from './placeholder'
 export { SlashCommands } from './slash-commands'
+export { Tables } from './tables'
+export { TaskList } from './task-list'
 export { Toolbar } from './toolbar'

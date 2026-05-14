@@ -26,6 +26,19 @@ export interface MediumEditorOptions {
   fileDragging?: boolean
   markdownShortcuts?: MarkdownShortcutsOptions | boolean
   slashCommands?: SlashCommandsOptions | boolean
+  taskList?: TaskListOptions | boolean
+  tables?: TablesOptions | boolean
+}
+
+export interface TaskListOptions {
+  listClass?: string
+  itemClass?: string
+}
+
+export interface TablesOptions {
+  tableClass?: string
+  defaultRows?: number
+  defaultCols?: number
 }
 
 export interface MarkdownShortcutsOptions {
@@ -33,6 +46,7 @@ export interface MarkdownShortcutsOptions {
   lists?: ListShortcut[] | false
   inline?: InlineShortcut[] | false
   hr?: boolean
+  codeBlock?: boolean
 }
 
 export interface BlockShortcut {

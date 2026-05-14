@@ -34,6 +34,15 @@ export class MarkdownShortcuts implements MediumEditorExtension {
   private lists: ListShortcut[]
   private inline: InlineShortcut[]
   private hrEnabled: boolean
+  private codeBlockEnabled: boolean
+  /**
+   * True while the user is mid-IME-composition (Korean, Japanese, Chinese,
+   * etc.). Markdown shortcuts must not trigger during composition — the
+   * keyup events fire for partial syllables and would corrupt the buffer.
+   */
+  private composing = false
+  private boundCompositionStart = (): void => { this.composing = true }
+  private boundCompositionEnd = (): void => { this.composing = false }
 
   constructor(editor: MediumEditor, options: MarkdownShortcutsOptions = {}) {
     this.editor = editor
@@ -41,18 +50,26 @@ export class MarkdownShortcuts implements MediumEditorExtension {
     this.lists = options.lists === false ? [] : (options.lists || DEFAULT_LISTS)
     this.inline = options.inline === false ? [] : (options.inline || DEFAULT_INLINE)
     this.hrEnabled = options.hr !== false
+    this.codeBlockEnabled = options.codeBlock !== false
   }
 
   init(): void {
     this.editor.subscribe('editableKeyup', this.handleKeyup.bind(this))
+    this.editor.elements.forEach((el) => {
+      el.addEventListener('compositionstart', this.boundCompositionStart)
+      el.addEventListener('compositionend', this.boundCompositionEnd)
+    })
   }
 
   destroy(): void {
-    // subscriptions are torn down by the editor
+    this.editor.elements.forEach((el) => {
+      el.removeEventListener('compositionstart', this.boundCompositionStart)
+      el.removeEventListener('compositionend', this.boundCompositionEnd)
+    })
   }
 
   private handleKeyup(event: KeyboardEvent, editable?: HTMLElement): void {
-    if (!editable)
+    if (!editable || this.composing)
       return
 
     if (event.key === ' ') {
@@ -61,9 +78,36 @@ export class MarkdownShortcuts implements MediumEditorExtension {
       return
     }
 
-    if (event.key === 'Enter' && this.hrEnabled) {
-      this.tryHorizontalRule(editable)
+    if (event.key === 'Enter') {
+      if (this.hrEnabled)
+        this.tryHorizontalRule(editable)
+      if (this.codeBlockEnabled)
+        this.tryCodeBlock(editable)
     }
+  }
+
+  private tryCodeBlock(editable: HTMLElement): void {
+    const block = this.getCurrentBlock(editable)
+    if (!block)
+      return
+    // The "trigger" line is the previous block — Enter just split it from us.
+    const prev = block.previousElementSibling as HTMLElement | null
+    if (!prev)
+      return
+    const text = (prev.textContent || '').trim()
+    if (text !== '```')
+      return
+
+    const doc = this.editor.options.ownerDocument!
+    const pre = doc.createElement('pre')
+    const code = doc.createElement('code')
+    code.appendChild(doc.createElement('br'))
+    pre.appendChild(code)
+    prev.replaceWith(pre)
+    // Move the caret into the (now empty) code block. The block we were in
+    // before Enter is left alone — the user can keep typing there or delete it.
+    selection.moveCursor(doc, code, 0)
+    this.notifyChange(editable)
   }
 
   private tryBlockTransform(editable: HTMLElement): void {

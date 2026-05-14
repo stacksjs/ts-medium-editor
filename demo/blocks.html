@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Medium Editor - Tables, Task Lists, Code Blocks</title>
+    <link rel='stylesheet' href='css/demo.css'>
+    <link rel='stylesheet' href='../src/css/medium-editor-compiled.css'>
+    <link rel='stylesheet' href='../src/css/themes/default.css'>
+    <style>
+        .demo-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .editable {
+            min-height: 280px;
+            border: 2px dashed #dee2e6;
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            line-height: 1.6;
+        }
+        .editable:focus { border-color: #007bff; outline: none; }
+        kbd {
+            background: #f1f3f5;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            padding: 1px 6px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 12px;
+        }
+
+        /* Task list */
+        .medium-editor-task-list {
+            list-style: none;
+            padding-left: 0.25rem;
+        }
+        .medium-editor-task-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            padding: 0.15rem 0;
+        }
+        .medium-editor-task-item > input[type='checkbox'] {
+            margin-top: 0.4rem;
+            cursor: pointer;
+        }
+        .medium-editor-task-item[data-checked='true'] > .task-text {
+            color: #adb5bd;
+            text-decoration: line-through;
+        }
+
+        /* Tables */
+        .medium-editor-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        .medium-editor-table td {
+            border: 1px solid #dee2e6;
+            padding: 0.5rem 0.75rem;
+            min-width: 60px;
+            vertical-align: top;
+        }
+
+        /* Code blocks */
+        pre {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 0.75rem 1rem;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+        }
+        pre > code {
+            display: block;
+            white-space: pre;
+        }
+    </style>
+</head>
+<body>
+    <div class='container' style='max-width: 880px; margin: 2rem auto; padding: 0 1rem;'>
+        <h1>Tables · Task lists · Code blocks</h1>
+        <p class='lead'>
+            All three are slash commands. Type <kbd>/</kbd> on an empty line to pick one,
+            or type the markdown shortcut (<kbd>```</kbd> + Enter for a code block).
+        </p>
+
+        <div class='demo-section'>
+            <h3>Try it</h3>
+            <p>Tables · Tab moves between cells. Tab from the last cell appends a row.</p>
+            <p>Task lists · Click the checkbox to toggle. Enter on a non-empty item adds another; Enter on an empty item exits the list.</p>
+            <p>Code blocks · Type three backticks then Enter, or pick "Code block" from the slash menu.</p>
+            <div class='editable'>
+                <p>Try it: hit Enter to start a new line, then type <code>/</code>.</p>
+                <p><br></p>
+            </div>
+        </div>
+    </div>
+
+    <script type='module' src='ts/blocks.ts'></script>
+</body>
+</html>
