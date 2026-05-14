@@ -24,6 +24,47 @@ export interface MediumEditorOptions {
   keyboardCommands?: KeyboardCommandsOptions | false
   imageDragging?: boolean
   fileDragging?: boolean
+  markdownShortcuts?: MarkdownShortcutsOptions | boolean
+  slashCommands?: SlashCommandsOptions | boolean
+}
+
+export interface MarkdownShortcutsOptions {
+  blocks?: BlockShortcut[] | false
+  lists?: ListShortcut[] | false
+  inline?: InlineShortcut[] | false
+  hr?: boolean
+}
+
+export interface BlockShortcut {
+  pattern: RegExp
+  block: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote' | 'pre'
+}
+
+export interface ListShortcut {
+  pattern: RegExp
+  list: 'ul' | 'ol'
+}
+
+export interface InlineShortcut {
+  open: string
+  close: string
+  tag: 'b' | 'i' | 'u' | 's' | 'code'
+}
+
+export interface SlashCommand {
+  id: string
+  label: string
+  description?: string
+  keywords?: string[]
+  icon?: string
+  action: (editor: MediumEditor, editable: HTMLElement) => void
+}
+
+export interface SlashCommandsOptions {
+  commands?: SlashCommand[]
+  extraCommands?: SlashCommand[]
+  maxResults?: number
+  menuClass?: string
 }
 
 export interface ToolbarOptions {

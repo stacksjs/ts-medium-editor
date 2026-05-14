@@ -7,8 +7,10 @@ import { FileDragging } from './extensions/file-dragging'
 import { FontName } from './extensions/fontname'
 import { FontSize } from './extensions/fontsize'
 import { KeyboardCommands } from './extensions/keyboard-commands'
+import { MarkdownShortcuts } from './extensions/markdown-shortcuts'
 import { Paste } from './extensions/paste'
 import { Placeholder } from './extensions/placeholder'
+import { SlashCommands } from './extensions/slash-commands'
 import { Toolbar } from './extensions/toolbar'
 import { selection } from './selection'
 import { util } from './util'
@@ -890,6 +892,20 @@ export class MediumEditor {
       const placeholder = new Placeholder(this, this.options.placeholder)
       placeholder.init()
       this.extensions.placeholder = placeholder
+    }
+
+    if (this.options.markdownShortcuts) {
+      const opts = this.options.markdownShortcuts === true ? {} : this.options.markdownShortcuts
+      const md = new MarkdownShortcuts(this, opts)
+      md.init()
+      this.extensions.markdownShortcuts = md
+    }
+
+    if (this.options.slashCommands) {
+      const opts = this.options.slashCommands === true ? {} : this.options.slashCommands
+      const slash = new SlashCommands(this, opts)
+      slash.init()
+      this.extensions.slashCommands = slash
     }
 
     // Initialize custom extensions

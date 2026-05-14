@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Medium Editor - Slash Commands Demo</title>
+    <link rel='stylesheet' href='css/demo.css'>
+    <link rel='stylesheet' href='../src/css/medium-editor-compiled.css'>
+    <link rel='stylesheet' href='../src/css/themes/default.css'>
+    <style>
+        .demo-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .editable {
+            min-height: 300px;
+            border: 2px dashed #dee2e6;
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            line-height: 1.6;
+        }
+        .editable:focus { border-color: #007bff; outline: none; }
+        .demo-instructions {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .demo-instructions h4 { margin: 0 0 0.5rem 0; color: #856404; }
+        kbd {
+            background: #f1f3f5;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            padding: 1px 6px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class='container' style='max-width: 880px; margin: 2rem auto; padding: 0 1rem;'>
+        <h1>Slash Commands</h1>
+        <p class='lead'>Type <kbd>/</kbd> at the start of an empty line to open a block picker.</p>
+
+        <div class='demo-section'>
+            <h3>Try it</h3>
+
+            <div class='demo-instructions'>
+                <h4>How it works:</h4>
+                <ul>
+                    <li>Make a new line, type <kbd>/</kbd>.</li>
+                    <li>Continue typing to filter — e.g. <kbd>/head</kbd> narrows to headings.</li>
+                    <li><kbd>↑</kbd> / <kbd>↓</kbd> to navigate, <kbd>Enter</kbd> to select, <kbd>Esc</kbd> to close.</li>
+                </ul>
+                <h4>Built-in commands:</h4>
+                <ul>
+                    <li>Heading 1, 2, 3 · Paragraph</li>
+                    <li>Bulleted list · Numbered list</li>
+                    <li>Quote · Code block · Divider</li>
+                </ul>
+            </div>
+
+            <div class='editable'>
+                <p>Hit Enter to start a new line, then type <code>/</code> to open the menu.</p>
+                <p><br></p>
+            </div>
+        </div>
+
+        <div class='demo-section'>
+            <h3>With a custom command</h3>
+            <p>This editor has an extra <code>Mention</code> command appended to the defaults.</p>
+            <div class='editable' id='custom-editor'>
+                <p>Try typing <code>/mention</code> here.</p>
+                <p><br></p>
+            </div>
+        </div>
+    </div>
+
+    <script type='module' src='ts/slash-commands.ts'></script>
+</body>
+</html>

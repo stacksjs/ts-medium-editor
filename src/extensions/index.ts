@@ -11,7 +11,9 @@ export { FontSize } from './fontsize'
 // Base classes
 export { FormExtension } from './form'
 export { KeyboardCommands } from './keyboard-commands'
+export { MarkdownShortcuts } from './markdown-shortcuts'
 export { Paste } from './paste'
 // Extensions
 export { Placeholder } from './placeholder'
+export { SlashCommands } from './slash-commands'
 export { Toolbar } from './toolbar'
