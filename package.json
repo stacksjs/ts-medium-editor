@@ -25,6 +25,10 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./stx": {
+      "types": "./dist/stx/index.d.ts",
+      "import": "./dist/stx/index.js"
+    },
     "./css/*": {
       "import": "./dist/css/*"
     },

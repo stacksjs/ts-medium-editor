@@ -2,9 +2,12 @@ import { cp } from 'node:fs/promises'
 import { dts } from 'bun-plugin-dtsx'
 
 async function build(): Promise < void> {
-  // Build the main library
+  // Build all distinct entrypoints in one pass so they emit as sibling
+  // chunks (not bundled into index.js) and the package.json `exports`
+  // map can route imports without a second roundtrip. Adding a new
+  // entrypoint here is the only step required for a new subpath export.
   await Bun.build( {
-    entrypoints: ['src/index.ts'],
+    entrypoints: ['src/index.ts', 'src/stx/index.ts'],
     target: 'browser',
     outdir: './dist',
     plugins: [dts()],
