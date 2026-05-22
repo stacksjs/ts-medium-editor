@@ -50,7 +50,7 @@
     "lint:fix": "bunx --bun pickier . --fix",
     "changelog": "bunx logsmith --verbose",
     "changelog:generate": "bunx logsmith --output CHANGELOG.md",
-    "release": "bun --bun run changelog:generate && bunx --bun bumpx prompt --recursive",
+    "release": "bunx --bun bumpx prompt --recursive",
     "postinstall": "bunx git-hooks",
     "test": "bun test test/",
     "test:watch": "bun test --watch test/",
