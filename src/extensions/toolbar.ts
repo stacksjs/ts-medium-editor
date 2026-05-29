@@ -608,13 +608,6 @@ export class Toolbar implements MediumEditorExtension {
             }
 
             const range = selection.getRangeAt(0)
-            const selectedText = range.toString().trim()
-
-            if (!selectedText) {
-              // eslint-disable-next-line no-console
-              console.warn('No text selected')
-              return
-            }
 
             // Ensure the selection is within our editor
             if (!this.isSelectionInEditor(selection)) {
@@ -622,6 +615,12 @@ export class Toolbar implements MediumEditorExtension {
               console.warn('Selection not in editor')
               return
             }
+
+            // A collapsed caret (no highlighted range) is a valid click target:
+            // inline formats toggle the pending-format bit and block commands
+            // (justify/list/indent) act on the caret's paragraph. selectedText is
+            // only used for logging/restore below — it must not gate the action.
+            const selectedText = range.toString().trim()
 
             // eslint-disable-next-line no-console
             console.log(`✓ Valid selection found: "${selectedText}"`)

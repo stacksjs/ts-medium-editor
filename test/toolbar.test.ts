@@ -165,6 +165,62 @@ describe('Toolbar', () => {
     })
   })
 
+  describe('Collapsed selection (caret) — regression for #1889', () => {
+    it('fires the format action on a collapsed caret (no highlighted text)', () => {
+      const editor = helpers.newMediumEditor('.editor', {
+        toolbar: { buttons: ['bold'], static: true },
+      })
+
+      // Place a collapsed caret inside the editor — no highlighted range.
+      const range = document.createRange()
+      range.setStart(el.firstChild as Node, 3)
+      range.collapse(true)
+      const selection = window.getSelection() as Selection
+      selection.removeAllRanges()
+      selection.addRange(range)
+
+      const execActionSpy = spyOn(editor, 'execAction').mockReturnValue(true)
+      const warnSpy = spyOn(console, 'warn')
+
+      // Scope to this editor's own toolbar — a global querySelector could match a
+      // leftover button from another test file when the whole suite runs.
+      const toolbarEl = (editor.getExtensionByName('toolbar') as any).getToolbarElement() as HTMLElement
+      const boldButton = toolbarEl.querySelector('[data-action="bold"]') as HTMLElement
+      fireEvent(boldButton, 'click')
+
+      // Before the fix this early-returned at the "No text selected" gate, so
+      // execAction was never reached and the format silently no-opped.
+      expect(warnSpy).not.toHaveBeenCalledWith('No text selected')
+      expect(execActionSpy).toHaveBeenCalledWith('bold')
+
+      execActionSpy.mockRestore()
+      warnSpy.mockRestore()
+    })
+
+    it('fires a second inline format (italic) on a collapsed caret', () => {
+      const editor = helpers.newMediumEditor('.editor', {
+        toolbar: { buttons: ['italic'], static: true },
+      })
+
+      const range = document.createRange()
+      range.setStart(el.firstChild as Node, 3)
+      range.collapse(true)
+      const selection = window.getSelection() as Selection
+      selection.removeAllRanges()
+      selection.addRange(range)
+
+      const execActionSpy = spyOn(editor, 'execAction').mockReturnValue(true)
+
+      const toolbarEl = (editor.getExtensionByName('toolbar') as any).getToolbarElement() as HTMLElement
+      const italicButton = toolbarEl.querySelector('[data-action="italic"]') as HTMLElement
+      fireEvent(italicButton, 'click')
+
+      expect(execActionSpy).toHaveBeenCalledWith('italic')
+
+      execActionSpy.mockRestore()
+    })
+  })
+
   describe('Custom Buttons', () => {
     it('should support custom button configuration', () => {
       const _editor = helpers.newMediumEditor('.editor', {
