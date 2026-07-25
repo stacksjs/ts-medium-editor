@@ -119,4 +119,4 @@ Explore our comprehensive demo collection to see the editor in action:
 - **[API Reference](/api)** - Complete API documentation
 - **[GitHub Issues](https://github.com/stacksjs/ts-medium-editor/issues)** - Report bugs or request features
 - **[Discussions](https://github.com/stacksjs/stacks/discussions)** - Ask questions and share ideas
-- **[Discord](https://discord.gg/stacksjs)** - Chat with the community
+- **[Discord](https://stacksjs.com/discord)** - Chat with the community
