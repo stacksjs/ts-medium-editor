@@ -1,3 +1,22 @@
+[Compare changes](https://github.com/stacksjs/ts-medium-editor/compare/v0.1.4...v0.1.5)
+
+## 🐛 Bug Fixes
+
+- drop `sideEffects: false` so the ESM entrypoint is not miscompiled ([6348b9f](https://github.com/stacksjs/ts-medium-editor/commit/6348b9f)) _(by Chris <chrisbreuer93@gmail.com>)_
+
+## 📚 Documentation
+
+- link the community as stacksjs.com/discord ([3706107](https://github.com/stacksjs/ts-medium-editor/commit/3706107)) _(by Chris <chrisbreuer93@gmail.com>)_
+
+## 🧹 Chores
+
+- release v0.1.5 ([e08de25](https://github.com/stacksjs/ts-medium-editor/commit/e08de25)) _(by Chris <chrisbreuer93@gmail.com>)_
+- **deps**: declare bun ^1.3.14 in deps.yaml ([a7481ee](https://github.com/stacksjs/ts-medium-editor/commit/a7481ee)) _(by Chris <chrisbreuer93@gmail.com>)_
+
+## Contributors
+
+- _Chris <chrisbreuer93@gmail.com>_
+
 ## ...main
 
 ### 🏡 Chore
