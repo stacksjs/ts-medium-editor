@@ -1,3 +1,17 @@
+[Compare changes](https://github.com/stacksjs/ts-medium-editor/compare/v0.1.5...v0.1.6)
+
+## 🚀 Features
+
+- add HTML to Markdown serialization ([c960017](https://github.com/stacksjs/ts-medium-editor/commit/c960017)) _(by Chris <chrisbreuer93@gmail.com>)_
+
+## 🧹 Chores
+
+- release v0.1.6 ([0c8d3ae](https://github.com/stacksjs/ts-medium-editor/commit/0c8d3ae)) _(by Chris <chrisbreuer93@gmail.com>)_
+
+## Contributors
+
+- _Chris <chrisbreuer93@gmail.com>_
+
 [Compare changes](https://github.com/stacksjs/ts-medium-editor/compare/v0.1.4...v0.1.5)
 
 ## 🐛 Bug Fixes
