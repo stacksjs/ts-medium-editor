@@ -1,12 +1,14 @@
-import type { BunpressConfig } from 'bunpress'
+import type { BunPressConfig } from '@stacksjs/bunpress'
 
-const config: BunpressConfig = {
-  name: 'ts-medium-editor',
+const config: BunPressConfig = {
+  title: 'ts-medium-editor',
   description: 'A modern, minimal & performant Medium-like rich text editor',
   url: 'https://ts-medium-editor.netlify.app',
 
-  theme: {
-    primaryColor: '#00ab6c',
+  themeConfig: {
+    colors: {
+      primary: '#00ab6c',
+    },
   },
 
   sidebar: [
@@ -42,7 +44,7 @@ const config: BunpressConfig = {
     { text: 'Configuration', link: '/config' },
   ],
 
-  navbar: [
+  nav: [
     { text: 'Guide', link: '/guide/getting-started' },
     { text: 'API', link: '/api' },
     { text: 'Examples', link: '/examples/basic' },
