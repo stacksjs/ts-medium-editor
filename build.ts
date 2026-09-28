@@ -7,7 +7,7 @@ async function build(): Promise < void> {
   // map can route imports without a second roundtrip. Adding a new
   // entrypoint here is the only step required for a new subpath export.
   await Bun.build( {
-    entrypoints: ['src/index.ts', 'src/stx/index.ts'],
+    entrypoints: ['src/index.ts', 'src/stx/index.ts', 'src/article/index.ts'],
     target: 'browser',
     outdir: './dist',
     plugins: [dts()],

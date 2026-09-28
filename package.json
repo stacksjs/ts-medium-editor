@@ -29,6 +29,10 @@
       "types": "./dist/stx/index.d.ts",
       "import": "./dist/stx/index.js"
     },
+    "./article": {
+      "types": "./dist/article/index.d.ts",
+      "import": "./dist/article/index.js"
+    },
     "./css/*": {
       "import": "./dist/css/*"
     },

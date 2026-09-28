@@ -36,6 +36,7 @@
 - 📋 **Smart Paste** - Cleans up pasted content from Word, Google Docs, etc.
 - 🔄 **Event System** - Comprehensive event handling for content changes
 - 🎛️ **Flexible Toolbars** - Static, floating, or custom positioned toolbars
+- 🖼️ **Published Articles** - Medium-style figures, image grids, click-to-zoom and embeds for the reading side
 
 ## Installation
 
@@ -135,6 +136,33 @@ Explore our comprehensive demo collection to see all features in action:
 - **[Absolute Container](demo/absolute-container.html)** - Absolute positioned container examples
 - **[Custom Extensions](demo/pass-instance.html)** - Instance-aware extension development
 - **[Table Extension](demo/table-extension.html)** - Custom table insertion functionality
+
+## Publishing Articles
+
+The editor writes content; `ts-medium-editor/article` shows it to readers the way Medium does. `renderArticle` is a pure HTML-to-HTML transform with no DOM, so it runs on the server or at build time, over the editor's output or over whatever a markdown renderer produced:
+
+```typescript
+import { mountArticle, renderArticle } from 'ts-medium-editor/article'
+import 'ts-medium-editor/css/article.css'
+
+const html = renderArticle(markdownHtml, {
+  // Optional: sizes let grids line images up exactly, with nothing cropped.
+  resolveImage: src => imageSizes[src],
+})
+
+// In the browser, once: click-to-zoom and auto-sizing embeds.
+mountArticle()
+```
+
+What it does:
+
+- **Figures.** An image alone in its paragraph becomes a `<figure>`, and its title (`![alt](src "A caption")`) becomes the `<figcaption>`.
+- **Grids.** Adjacent images are laid out together: two side by side, three with the tallest on the left and the other two stacked on its right, four as a 2x2, more in rows of three and two. With sizes known, columns are proportioned so every image shows whole at one shared height.
+- **Loading.** `loading="lazy"` after the first image, `decoding="async"`, and width and height when known, so nothing shifts as images arrive.
+- **Zoom.** Images get `data-zoomable`; `mountArticle()` zooms them to fit the viewport on click or Enter, and closes on click, Escape or scroll. It respects reduced motion.
+- **Embeds.** A link alone on its own line becomes an embed when a provider recognizes it: YouTube, Vimeo and HQ.training activities out of the box, or your own `EmbedProvider`s. Auto-height embeds resize to the height their frame posts as `{ type: 'embed:height', height }`.
+
+Everything is optional (`grids`, `zoom`, `lazy`, `embeds`), and the output is stable: rendering it again changes nothing. `toMarkdown` reads captions back as image titles and embeds back as their links, so content round-trips between the editor, markdown and the published page.
 
 ## TypeScript Configuration
 

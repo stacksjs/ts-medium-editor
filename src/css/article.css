@@ -1,0 +1,188 @@
+/*
+ * Published article styles for the markup `renderArticle` produces:
+ * figures, image grids, embeds, and click-to-zoom.
+ *
+ * Tune with custom properties on any ancestor:
+ *   --me-gap             space between images in a grid (default 6px)
+ *   --me-radius          image corner radius (default 6px)
+ *   --me-caption-color   figcaption color (default: currentColor at 60%)
+ *   --me-block-space     space above and below a figure or grid (default 1.75rem)
+ *   --me-breakout        how far grids may extend past the text column on
+ *                        wide screens, each side (default 0)
+ *   --me-zoom-backdrop   zoom overlay color (default: the page background)
+ */
+
+.me-figure,
+.me-grid,
+.me-gallery,
+.me-embed {
+  margin: var(--me-block-space, 1.75rem) 0;
+}
+
+.me-figure {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.me-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--me-radius, 6px);
+}
+
+.me-figure figcaption,
+.me-embed figcaption {
+  font-size: 0.85em;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--me-caption-color, color-mix(in srgb, currentColor 60%, transparent));
+}
+
+/* Grids ---------------------------------------------------------------- */
+
+.me-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: var(--me-gap, 6px);
+}
+
+.me-gallery > .me-grid {
+  margin: 0;
+}
+
+.me-grid,
+.me-gallery {
+  margin-inline: calc(-1 * var(--me-breakout, 0px));
+}
+
+.me-gallery > .me-grid {
+  margin-inline: 0;
+}
+
+.me-grid {
+  display: grid;
+  gap: var(--me-gap, 6px);
+  grid-template-columns: var(--me-cols, repeat(2, 1fr));
+  align-items: stretch;
+}
+
+.me-grid .me-figure {
+  margin: 0;
+  min-width: 0;
+}
+
+/*
+ * In a row every image takes its own aspect ratio, and the columns are sized
+ * in proportion to those ratios, so they come out one shared height with
+ * nothing cropped. Without known sizes they fall back to 4:3 and `cover`.
+ */
+.me-grid .me-figure img {
+  object-fit: cover;
+}
+
+.me-grid--row .me-figure img {
+  aspect-ratio: var(--me-aspect, 4 / 3);
+}
+
+/*
+ * Three images: the tallest spans both rows on the left, two stack right.
+ * The stacked pair decides the height; the feature fills it without adding
+ * height of its own (flex-basis 0 and no minimum), so a feature whose size is
+ * unknown crops to fit rather than stretching the grid.
+ */
+.me-grid--feature {
+  grid-template-rows: auto auto;
+}
+
+.me-grid--feature .me-grid__feature {
+  grid-row: 1 / span 2;
+}
+
+.me-grid--feature .me-grid__feature img {
+  flex: 1 1 0;
+  min-height: 0;
+  height: 0;
+}
+
+.me-grid--feature .me-figure:not(.me-grid__feature) img {
+  aspect-ratio: var(--me-aspect, 4 / 3);
+}
+
+/* Captions inside grids stay small and never push rows apart unevenly. */
+.me-grid .me-figure figcaption {
+  font-size: 0.78em;
+}
+
+/* Embeds ---------------------------------------------------------------- */
+
+.me-embed iframe {
+  display: block;
+  width: 100%;
+  border: 0;
+  border-radius: var(--me-radius, 6px);
+  background: transparent;
+}
+
+.me-embed--ratio iframe {
+  aspect-ratio: var(--me-aspect, 16 / 9);
+  height: auto;
+}
+
+.me-embed--auto iframe {
+  height: var(--me-embed-height, 400px);
+  transition: height 0.2s ease;
+}
+
+/* Zoom ------------------------------------------------------------------ */
+
+img[data-zoomable] {
+  cursor: zoom-in;
+}
+
+img[data-zoomable]:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.me-zoom-image--open {
+  position: relative;
+  z-index: 1001;
+  cursor: zoom-out;
+  transition: transform 0.3s cubic-bezier(0.2, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.me-zoom-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: var(--me-zoom-backdrop, Canvas);
+  opacity: 0;
+  cursor: zoom-out;
+  transition: opacity 0.3s ease;
+}
+
+.me-zoom-overlay--open {
+  opacity: 0.96;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .me-zoom-image--open,
+  .me-zoom-overlay,
+  .me-embed--auto iframe {
+    transition: none;
+  }
+}
+
+/* On narrow screens a three-up grid keeps its shape; captions give way. */
+@media (max-width: 480px) {
+  .me-grid {
+    gap: var(--me-gap-mobile, 4px);
+  }
+
+  .me-grid .me-figure figcaption {
+    display: none;
+  }
+}
