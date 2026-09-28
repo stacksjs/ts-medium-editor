@@ -1,3 +1,22 @@
+[Compare changes](https://github.com/stacksjs/ts-medium-editor/compare/v0.1.6...v0.2.0)
+
+## 🚀 Features
+
+- **article**: publish what the editor writes, the way Medium shows it ([0e80716](https://github.com/stacksjs/ts-medium-editor/commit/0e80716)) _(by Chris <chrisbreuer93@gmail.com>)_
+
+## 🐛 Bug Fixes
+
+- **ci**: setup-php 2.37.1, which closes the open advisory ([fce23fe](https://github.com/stacksjs/ts-medium-editor/commit/fce23fe)) _(by Chris <chrisbreuer93@gmail.com>)_
+- **docs**: use the config keys bunpress actually has ([07bb292](https://github.com/stacksjs/ts-medium-editor/commit/07bb292)) _(by Chris <chrisbreuer93@gmail.com>)_
+
+## 🧹 Chores
+
+- release v0.2.0 ([76ff0c4](https://github.com/stacksjs/ts-medium-editor/commit/76ff0c4)) _(by Chris <chrisbreuer93@gmail.com>)_
+
+## Contributors
+
+- _Chris <chrisbreuer93@gmail.com>_
+
 [Compare changes](https://github.com/stacksjs/ts-medium-editor/compare/v0.1.5...v0.1.6)
 
 ## 🚀 Features
