@@ -308,7 +308,7 @@ export class Events {
 
   updateInput(target: HTMLElement, eventObj: Event): void {
     const index = target.getAttribute('medium-editor-index')
-    if (index && this.contentCache[index] && this.contentCache[index] !== target.innerHTML) {
+    if (index && this.contentCache[index] !== undefined && this.contentCache[index] !== target.innerHTML) {
       this.triggerCustomEvent('editableInput', eventObj, target)
     }
     if (index) {

@@ -115,6 +115,23 @@ describe('Events', () => {
       expect(keyupTriggered).toBe(true)
     })
 
+    it('emits input for the first edit to an empty element', () => {
+      el.innerHTML = ''
+      const editor = helpers.newMediumEditor('.editor')
+      const changes: string[] = []
+      editor.subscribe('editableInput', () => { changes.push(el.innerHTML) })
+
+      el.innerHTML = 'First entry'
+      fireEvent(el, 'input')
+      fireEvent(el, 'input')
+      el.innerHTML = ''
+      fireEvent(el, 'input')
+      el.innerHTML = 'Next entry'
+      fireEvent(el, 'input')
+
+      expect(changes).toEqual(['First entry', '', 'Next entry'])
+    })
+
     it('should handle input events', () => {
       const editor = helpers.newMediumEditor('.editor')
       let inputTriggered = false
