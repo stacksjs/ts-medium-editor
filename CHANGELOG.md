@@ -1,3 +1,23 @@
+[Compare changes](https://github.com/stacksjs/ts-medium-editor/compare/v0.2.0...v0.2.1)
+
+## 🐛 Bug Fixes
+
+- **editor**: emit changes from an empty document ([d7cae8d](https://github.com/stacksjs/ts-medium-editor/commit/d7cae8d)) _(by Chris <chrisbreuer93@gmail.com>)_
+
+## 🤖 Continuous Integration
+
+- name the Pantry publish token PANTRY_TOKEN ([3b69593](https://github.com/stacksjs/ts-medium-editor/commit/3b69593)) _(by Chris <chrisbreuer93@gmail.com>)_
+
+## 🧹 Chores
+
+- release v0.2.1 ([081c82d](https://github.com/stacksjs/ts-medium-editor/commit/081c82d)) _(by Chris <chrisbreuer93@gmail.com>)_
+- run bun-git-hooks and @stacksjs/logsmith, not the unrelated npm 'git-hooks' and 'logsmith' ([de52084](https://github.com/stacksjs/ts-medium-editor/commit/de52084)) _(by Chris <chrisbreuer93@gmail.com>)_
+- release through @stacksjs/bumpx, not the unrelated npm 'bumpx' ([93cd380](https://github.com/stacksjs/ts-medium-editor/commit/93cd380)) _(by Chris <chrisbreuer93@gmail.com>)_
+
+## Contributors
+
+- _Chris <chrisbreuer93@gmail.com>_
+
 [Compare changes](https://github.com/stacksjs/ts-medium-editor/compare/v0.1.6...v0.2.0)
 
 ## 🚀 Features
